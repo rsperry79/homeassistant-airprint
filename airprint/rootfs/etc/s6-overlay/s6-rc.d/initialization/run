@@ -1,0 +1,14 @@
+#!/command/with-contend bashio
+mkdir -p /var/run/dbus
+
+bashio::log.info "Initializing Cups files"
+bashio /etc/s6-overlay/s6-rc.d/initialization/cups-files
+
+bashio::log.info "Initializing Avahi files"
+bashio /etc/s6-overlay/s6-rc.d/initialization/avahi-files
+
+bashio::log.info "Running Additional packages"
+bashio /etc/s6-overlay/s6-rc.d/initialization/packages
+
+bashio::log.info "Updating Users"
+bashio /etc/s6-overlay/s6-rc.d/initialization/users

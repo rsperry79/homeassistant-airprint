@@ -1,0 +1,43 @@
+#!/command/with-contend bashio
+# CUPS paths
+readonly cups_config_path=/config/cups
+readonly src_cups_templates_path=/usr/templates/cups
+readonly cups_log_path=/config/cups/logs
+readonly cups_client_cfg=client.conf.tempio
+readonly cups_daemon_cfg=cupsd.conf.tempio
+readonly cups_files_cfg=cups-files.conf.tempio
+
+readonly cups_templates_path=/config/templates/cups
+
+readonly folder_group=lpadmin
+
+# Cups config folder
+if ! bashio::fs.directory_exists "${cups_config_path}"; then
+  install -d -m 0770 -g "$folder_group" "${cups_config_path}" ||
+    bashio::exit.nok 'Failed to create a persistent cups config folder'
+fi
+
+# Cups log folder
+if ! bashio::fs.directory_exists "${cups_log_path}"; then
+  install -d -m 0770 -g "$folder_group" "${cups_log_path}" ||
+    bashio::exit.nok 'Failed to create a persistent cups logging folder'
+fi
+
+# cups templates folder
+if ! bashio::fs.directory_exists "${cups_templates_path}"; then
+  install -d -m 0770 -g "$folder_group" "${cups_templates_path}" ||
+    bashio::exit.nok 'Failed to create a persistent cups templates folder'
+
+fi
+
+if [ ! -e "$cups_templates_path/$cups_client_cfg".tempio ]; then
+  cp "$src_cups_templates_path/$cups_client_cfg" "$cups_templates_path/$cups_client_cfg"
+fi
+
+if [ ! -e "$cups_templates_path/$cups_daemon_cfg".tempio ]; then
+  cp "$src_cups_templates_path/$cups_daemon_cfg" "$cups_templates_path/$cups_daemon_cfg"
+fi
+
+if [ ! -e "$cups_templates_path/$cups_files_cfg".tempio ]; then
+  cp "$src_cups_templates_path/$cups_files_cfg" "$cups_templates_path/$cups_files_cfg"
+fi

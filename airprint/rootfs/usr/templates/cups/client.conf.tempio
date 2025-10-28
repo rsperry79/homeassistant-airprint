@@ -1,0 +1,10 @@
+###################################
+# FILE IS OVERWRITTEN AT Startup
+###################################
+
+AllowAnyRoot Yes
+AllowExpiredCerts No
+Encryption IfRequested
+SSLOptions None
+TrustOnFirstUse Yes
+ValidateCerts No

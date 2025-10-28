@@ -1,0 +1,67 @@
+name: AirPrint Server
+version: "1.7"
+slug: airprint
+boot: auto
+startup: system
+description: A CUPS print server with working AirPrint
+arch:
+  - amd64
+  - aarch64
+# usb: true
+init: false
+panel_icon: mdi:printer
+hassio_role: default
+hassio_api: true
+homeassistant_api: true
+host_network: true
+ports:
+  22/tcp: 23
+  631/tcp: 631
+  631/udp: 631
+  5353/udp: 5353
+map:
+  - type: ssl
+    read_only: true
+    path: /ssl
+  - type: addon_config
+    read_only: false
+    path: /config
+ingress: true
+ingress_port: 631
+# ingress_stream: true
+watchdog: http://[HOST]:[PORT:631]/printers
+options:
+  logins:
+    - username: print
+      password: "print"
+      user_level: superuser
+  system_settings:
+    use_ipv6: false
+  avahi:
+    avahi_debug: false
+  cups:
+    cups_log_level: debug
+    cups_access_log_level: config
+schema:
+  system_settings:
+    use_ipv6: bool
+    packages:
+      - str?
+  logins:
+    - username: str
+      password: str
+      user_level: list(standard|admin|superuser)
+
+  avahi:
+    avahi_debug: bool
+    avahi_reflector: bool?
+    avahi_reflect_ipv: bool?
+    interfaces:
+      - str?
+
+  cups:
+    cups_remote_admin: bool?
+    cups_log_level: list(debug|info|notice|error|none)
+    cups_access_log_level: list(all|access|config)
+    cups_ssl_cert: str?
+    cups_ssl_key: str?

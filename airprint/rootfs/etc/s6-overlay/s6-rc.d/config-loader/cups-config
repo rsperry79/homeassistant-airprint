@@ -1,0 +1,114 @@
+#!/command/with-contend bashio
+readonly cups_templates_path=/config/templates/cups
+
+# HA File paths
+readonly real_cups_path=/config/cups
+
+# CUPS paths
+readonly cups_client_cfg=client.conf
+readonly cups_daemon_cfg=cupsd.conf
+readonly cups_files_cfg=cups-files.conf
+
+function run() {
+  setup
+
+  if [ ! -e "$real_cups_path/$cups_client_cfg" ]; then
+    autoconf_client
+  else
+    update_client
+  fi
+
+  if [ ! -e "$real_cups_path/$cups_daemon_cfg" ]; then
+    autoconf_daemon
+  else
+    update_daemon
+  fi
+
+  if [ ! -e "$real_cups_path/$cups_files_cfg" ]; then
+    autoconf_files
+  else
+    update_files
+  fi
+
+}
+
+# Gets current settings from HA
+function setup() {
+  hostname=$(bashio::info.hostname)
+  internal=$hostname
+  external=$hostname
+  cups_log_level="error"
+  cups_access_log_level="config"
+
+  if bashio::config.has_value 'cups_log_level'; then
+    cups_log_level=$(bashio::config 'cups_log_level')
+  fi
+
+  if bashio::config.has_value 'cups_access_log_level'; then
+    cups_access_log_level=$(bashio::config 'cups_access_log_level')
+  fi
+
+  setup_ssl
+
+  # Used by autoconf
+  config=$(jq --arg internal "$internal" --arg external "$external" --arg hostname "$hostname" --arg privkey "$privkey" --arg pubkey "$pubkey" --arg cups_log_level "$cups_log_level" --arg cups_access_log_level "$cups_access_log_level" \
+    '{internal: $internal, external: $external, hostname: $hostname, privkey: $privkey, pubkey: $pubkey, cups_log_level: $cups_log_level,  cups_access_log_level: $cups_access_log_level }' \
+    /data/options.json)
+}
+
+function setup_ssl() {
+  privkey="/ssl/privkey.pem"
+  if bashio::config.has_value 'cups_ssl_key'; then
+    privkey=$(bashio::config 'cups_ssl_key')
+  elif [ -e "/ssl/privkey.pem" ]; then
+    privkey="/ssl/privkey.pem"
+  else
+    privkey=""
+  fi
+
+  if bashio::config.has_value 'cups_ssl_cert'; then
+    pubkey=$(bashio::config 'cups_ssl_cert')
+  elif [ -e "/ssl/fullchain.pem" ]; then
+    pubkey="/ssl/fullchain.pem"
+  else
+    pubkey=""
+  fi
+}
+
+function autoconf_client() {
+  echo "$config" | tempio \
+    -template "$cups_templates_path/$cups_client_cfg.tempio" \
+    -out "$real_cups_path/$cups_client_cfg"
+}
+
+function update_client() {
+  echo "No changes needed"
+}
+
+function autoconf_daemon() {
+  # if [ ! -e "$real_cups_path/$cups_daemon_cfg" ]; then
+  echo "$config" | tempio \
+    -template "$cups_templates_path/$cups_daemon_cfg.tempio" \
+    -out "$real_cups_path/$cups_daemon_cfg"
+  # fi
+}
+
+function update_daemon() {
+  sed -i "s/^.*LogLevel .*/LogLevel ${cups_log_level}/" "$real_cups_path/$cups_daemon_cfg"
+  sed -i "s/^.*ServerName .*/ServerName ${hostname}/" "$real_cups_path/$cups_daemon_cfg"
+}
+
+function autoconf_files() {
+
+  echo "$config" | tempio \
+    -template "$cups_templates_path/$cups_files_cfg.tempio" \
+    -out "$real_cups_path/$cups_files_cfg"
+}
+
+function update_files() {
+  sed -i "s/^.*AccessLogLevel .*/AccessLogLevel ${cups_access_log_level}/" "$real_cups_path/$cups_files_cfg"
+  sed -i "s#^.*ServerCertificate .*#ServerCertificate ${pubkey}#" "$real_cups_path/$cups_files_cfg"
+  sed -i "s#^.*ServerKey .*#ServerKey ${cups_access_log_level}#" "$real_cups_path/$cups_files_cfg"
+}
+
+run

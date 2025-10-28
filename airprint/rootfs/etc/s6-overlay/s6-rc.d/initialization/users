@@ -1,0 +1,131 @@
+#!/command/with-contend bashio
+
+function run() {
+  users=()
+  if bashio::config.has_value 'logins'; then
+    additional_logins=$(bashio::jq "$(bashio::addon.config)" ".logins[]")
+    readarray -t additional_logins <<<"${additional_logins}"
+    for login in "${additional_logins[@]}"; do
+
+      username=$(bashio::jq "${login}" ".username")
+      users+=("$username")
+      pw=$(bashio::jq "${login}" ".password")
+      level=$(bashio::jq "${login}" ".user_level")
+
+      bashio::log.info login "$username"
+      if [ "$user" != "root" ]; then
+        add_or_update_user "$login" "$pw" "$level"
+      else
+        bashio::exit.nok 'You cannot add or attempt to change root via logins!'
+      fi
+    done
+
+    user_groups=("sudo" "lpadmin" "lp")
+
+    for grp in "${user_groups[@]}"; do
+      remove_users "$grp" "${users[@]}"
+    done
+
+  fi
+
+}
+
+function add_or_update_user() {
+  user=${1:-"printer-admin"}
+  pw=${2:-"print"}
+  access_level=${3:-"standard"}
+
+  groups=
+  case $access_level in
+  "standard")
+    groups="lp"
+    ;;
+  "admin")
+    groups="lp,lpadmin"
+    ;;
+  "superuser")
+    groups="lp,lpadmin,sudo"
+    ;;
+  *)
+    bashio::exit.nok 'Invalid user level!'
+    ;;
+  esac
+
+  if [ "$(id "$user")" -ne 0 ]; then
+    useradd \
+      --groups="$groups" \
+      --create-home \
+      --home-dir=/home/"$user" \
+      --shell=/bin/bash \
+      --password="$(mkpasswd "$pw")" \
+      "$user"
+  else
+    echo "${user}:${pw}" | chpasswd
+  fi
+
+}
+
+function remove_users() {
+  group_name=${1}
+  active_users=${2:-()}
+
+  group_info=$(getent group "$group_name")
+
+  # Check if group exists
+  if [[ -z "$group_info" ]]; then
+    bashio::exit.nok "User group $group_name: does not exist!"
+  fi
+
+  user_list=$(echo "$group_info" | cut -d: -f4)
+  IFS=',' read -r -a users <<<"$user_list"
+  for user in "${users[@]}"; do
+    if [ "$user" != "root" ]; then
+      # Loop through active users to check for the group member
+      found=false
+      for valid_user in "${active_users[@]}"; do
+        if [[ "$valid_user" == "$user" ]]; then
+          found=true
+          break
+        fi
+      done
+
+      if [ "$found" == "false" ]; then
+        deluser "$user"
+      fi
+    fi
+
+  done
+}
+
+# https://github.com/brenner-tobias/addon-cloudflared/blob/562444db0f3ba187eb1132814416c01f973c2d7e/cloudflared/rootfs/etc/s6-overlay/s6-rc.d/prepare/run.sh#L42
+# function name() {
+#   if bashio::config.has_value 'additional_hosts'; then
+
+#     additional_hosts=$(bashio::jq "$(bashio::addon.config)" ".additional_hosts[]")
+#     readarray -t additional_hosts <<<"${additional_hosts}"
+
+#     local additional_host
+#     local hostname
+#     local service
+#     for additional_host in "${additional_hosts[@]}"; do
+#       bashio::log.debug "Checking host ${additional_host}..."
+#       hostname=$(bashio::jq "${additional_host}" ".hostname")
+#       service=$(bashio::jq "${additional_host}" ".service")
+#       if bashio::var.is_empty "${hostname}" && bashio::var.is_empty "${service}"; then
+#         bashio::exit.nok "'hostname' and 'service' in 'additional_hosts' are empty, please enter a valid String"
+#       fi
+#       if bashio::var.is_empty "${hostname}"; then
+#         bashio::exit.nok "'hostname' in 'additional_hosts' for service ${service} is empty, please enter a valid String"
+#       fi
+#       # Check if hostname of 'additional_host' includes a valid hostname
+#       if ! [[ ${hostname} =~ ${validHostnameRegex} ]]; then
+#         bashio::exit.nok "'${hostname}' in 'additional_hosts' is not a valid hostname. Please make sure not to include the protocol (e.g. 'https://') nor the port (e.g. ':8123') and only use lowercase characters in the 'hostname'."
+#       fi
+#       if bashio::var.is_empty "${service}"; then
+#         bashio::exit.nok "'service' in 'additional_hosts' for hostname ${hostname} is empty, please enter a valid String"
+#       fi
+#     done
+#   else
+#     additional_hosts=()
+#   fi
+# }
