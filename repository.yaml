@@ -1,4 +1,0 @@
-# https://developers.home-assistant.io/docs/add-ons/repository#repository-configuration
-name: AirPrint Server
-url: "https://github.com/rsperry79/homeassistant-addon-cups-airprint"
-maintainer: Richard Sperry <richard@sperryfamily.net>
