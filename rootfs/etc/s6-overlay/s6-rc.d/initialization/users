@@ -13,7 +13,7 @@ function run() {
       level=$(bashio::jq "${login}" ".user_level")
 
       bashio::log.info login "$username"
-      if [ "$user" != "root" ]; then
+      if [ "$username" != "root" ]; then
         add_or_update_user "$login" "$pw" "$level"
       else
         bashio::exit.nok 'You cannot add or attempt to change root via logins!'
