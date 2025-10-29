@@ -33,12 +33,11 @@ RUN apt update \
         libcups2-dev \
         # CUPS printing packages
         cups \
-        #cups-bsd \
+        cups-bsd \
         cups-filters \
         cups-pdf \
         colord \
         python3-cups \
-       # openssh-server \
         # Network
         dbus \
         iproute2 \
@@ -76,13 +75,7 @@ RUN cd /tmp \
   && apt install ./cnijfilter2_6.80-1.deb
 
 COPY rootfs /
-RUN useradd \
-  --groups=sudo,lp,lpadmin \
-  --create-home \
-  --home-dir=/home/print \
-  --shell=/bin/bash \
-  --password=$(mkpasswd print) \
-  print
+
 # disable sudo password checking
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
 

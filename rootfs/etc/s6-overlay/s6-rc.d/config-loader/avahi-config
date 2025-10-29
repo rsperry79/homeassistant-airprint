@@ -7,7 +7,7 @@ readonly avahi_templates_path=/config/templates/avahi
 
 function run() {
   setup
-  #get_interfaces
+  get_interfaces
   bcast_interfaces=""
   if [ ! -e "$real_avahi_path/$avahi_daemon_cfg" ]; then
     autoconf_config
@@ -95,19 +95,24 @@ function get_interfaces() {
     done < <(ip -o addr show | grep ' brd ')
 
     bashio::log.info "Updating interfaces in config"
-    bashio::addon.option 'interfaces' "${interfaces[@]}"
+
+    for item in "${interfaces[@]}"; do
+        bashio::log.info "Found ${item}"
+    done
+
+    for interface in "${interfaces[@]}"; do
+        if [ -n "$bcast_interfaces" ]; then
+            bcast_interfaces+=",$interface"
+        else
+            bcast_interfaces=$interface
+        fi
+    done
+    bashio::addon.option 'interfaces' "$bcast_interfaces"
   else
     # shellcheck disable=SC2178
     interfaces=$(bashio::config 'interfaces')
   fi
 
-  for interface in "${interfaces[@]}"; do
-    if [ -n "$bcast_interfaces" ]; then
-      bcast_interfaces+=",$interface"
-    else
-      bcast_interfaces=$interface
-    fi
-  done
 
 }
 
