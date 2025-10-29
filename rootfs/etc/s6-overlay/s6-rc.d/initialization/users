@@ -97,6 +97,8 @@ function remove_users() {
   done
 }
 
+run
+
 # https://github.com/brenner-tobias/addon-cloudflared/blob/562444db0f3ba187eb1132814416c01f973c2d7e/cloudflared/rootfs/etc/s6-overlay/s6-rc.d/prepare/run.sh#L42
 # function name() {
 #   if bashio::config.has_value 'additional_hosts'; then
