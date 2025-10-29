@@ -37,16 +37,20 @@ options:
           user_level: superuser
     system_settings:
         use_ipv6: false
+
     avahi:
         avahi_debug: false
     cups:
         cups_log_level: debug
         cups_access_log_level: config
+        cups_ssl_cert: /ssl/fullchain.pem
+        cups_ssl_key: /ssl/privkey.pem
 schema:
     system_settings:
         use_ipv6: bool
         packages:
             - str?
+        interfaces: str?
     logins:
         - username: str
           password: str
@@ -56,7 +60,7 @@ schema:
         avahi_debug: bool
         avahi_reflector: bool?
         avahi_reflect_ipv: bool?
-        interfaces: str?
+
     cups:
         cups_remote_admin: bool?
         cups_log_level: list(debug|info|notice|error|none)
