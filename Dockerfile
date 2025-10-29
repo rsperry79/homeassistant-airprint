@@ -75,8 +75,7 @@ RUN cd /tmp \
   && apt install ./cnijfilter2_6.80-1.deb
 
 COPY rootfs /
+RUN chmod +x /opt/airprint/airprint-generate.py
 
 # disable sudo password checking
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
-
-
