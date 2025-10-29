@@ -31,10 +31,7 @@ ingress_port: 631
 # ingress_stream: true
 watchdog: http://[HOST]:[PORT:631]/printers
 options:
-    logins:
-        - username: print
-          password: "print"
-          user_level: superuser
+
     system_settings:
         use_ipv6: false
 
@@ -45,6 +42,10 @@ options:
         cups_access_log_level: config
         cups_ssl_cert: /ssl/fullchain.pem
         cups_ssl_key: /ssl/privkey.pem
+    logins:
+        - username: print
+          password: "print"
+          user_level: superuser
 schema:
     system_settings:
         use_ipv6: bool

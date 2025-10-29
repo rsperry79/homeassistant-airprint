@@ -55,7 +55,7 @@ configuration:
           Do you want to allow remote Administration of Cups?
   logins:
     name: Server Users
-    fields:
+    list:
       username:
         name: User Name
         description: >-
