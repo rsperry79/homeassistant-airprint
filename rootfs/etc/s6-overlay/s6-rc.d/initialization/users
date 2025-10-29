@@ -14,7 +14,8 @@ function run() {
 
             bashio::log.debug login "$username"
             if [ "$username" != "root" ]; then
-                add_or_update_user "$login" "$pw" "$level"
+
+                add_or_update_user "$username" "$pw" "$level"
             else
                 bashio::exit.nok 'You cannot add or attempt to change root via logins!'
             fi
