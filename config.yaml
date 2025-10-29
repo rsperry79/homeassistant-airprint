@@ -22,7 +22,7 @@ ports:
 map:
     - type: ssl
       read_only: true
-      path: /ssl
+      path: /etc/letsencrypt/live
     - type: addon_config
       read_only: false
       path: /config
