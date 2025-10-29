@@ -2,8 +2,6 @@
 configuration:
   system_settings:
     name: System Settings
-    description: >-
-      System Settings
     fields:
       use_ipv6:
         name: IPV6 Support
@@ -17,10 +15,8 @@ configuration:
         name: Additional packages
         description: >-
           A CSV of additional apt packages to be installed at startup.
-    avahi:
+  avahi:
     name: Avahi Config
-    description: >-
-      System Settings
     fields:
       avahi_debug:
         name: Avahi Debug
@@ -36,8 +32,6 @@ configuration:
           Do you want to enable Avahi IPV Reflection?
     cups:
       name: CUPS Settings
-      description: >-
-        Cups Settings
       fields:
         cups_access_log_level:
           name: Cups Access Log Level
@@ -61,8 +55,6 @@ configuration:
             Do you want to allow remote Administration of Cups?
     logins:
       name: Server Users
-      description: >-
-        Users who can access the server.
       fields:
         username:
           name: User Name
