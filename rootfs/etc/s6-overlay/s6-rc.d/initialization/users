@@ -8,9 +8,10 @@ function run() {
         for login in "${additional_logins[@]}"; do
 
             username=$(bashio::jq "${login}" ".username")
-            users+=("$username")
             pw=$(bashio::jq "${login}" ".password")
             level=$(bashio::jq "${login}" ".user_level")
+
+            users+=("$username")
 
             bashio::log.debug login "$username"
             if [ "$username" != "root" ]; then
@@ -19,6 +20,7 @@ function run() {
             else
                 bashio::exit.nok 'You cannot add or attempt to change root via logins!'
             fi
+
         done
 
         user_groups=("sudo" "lpadmin" "lp")
