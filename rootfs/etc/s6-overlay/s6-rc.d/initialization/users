@@ -6,31 +6,24 @@ function run() {
         additional_logins=$(bashio::jq "$(bashio::addon.config)" ".logins[]")
         readarray -t additional_logins <<<"${additional_logins}"
         for login in "${additional_logins[@]}"; do
-
             username=$(bashio::jq "${login}" ".username")
             pw=$(bashio::jq "${login}" ".password")
             level=$(bashio::jq "${login}" ".user_level")
-
             users+=("$username")
 
             bashio::log.debug login "$username"
             if [ "$username" != "root" ]; then
-
                 add_or_update_user "$username" "$pw" "$level"
             else
                 bashio::exit.nok 'You cannot add or attempt to change root via logins!'
             fi
-
         done
 
         user_groups=("sudo" "lpadmin" "lp")
-
         for grp in "${user_groups[@]}"; do
             remove_users "$grp" "${users[@]}"
         done
-
     fi
-
 }
 
 function add_or_update_user() {
@@ -65,7 +58,6 @@ function add_or_update_user() {
     else
         echo "${user}:${pw}" | chpasswd
     fi
-
 }
 
 function remove_users() {
@@ -101,36 +93,3 @@ function remove_users() {
 }
 
 run
-
-# https://github.com/brenner-tobias/addon-cloudflared/blob/562444db0f3ba187eb1132814416c01f973c2d7e/cloudflared/rootfs/etc/s6-overlay/s6-rc.d/prepare/run.sh#L42
-# function name() {
-#   if bashio::config.has_value 'additional_hosts'; then
-
-#     additional_hosts=$(bashio::jq "$(bashio::addon.config)" ".additional_hosts[]")
-#     readarray -t additional_hosts <<<"${additional_hosts}"
-
-#     local additional_host
-#     local hostname
-#     local service
-#     for additional_host in "${additional_hosts[@]}"; do
-#       bashio::log.debug "Checking host ${additional_host}..."
-#       hostname=$(bashio::jq "${additional_host}" ".hostname")
-#       service=$(bashio::jq "${additional_host}" ".service")
-#       if bashio::var.is_empty "${hostname}" && bashio::var.is_empty "${service}"; then
-#         bashio::exit.nok "'hostname' and 'service' in 'additional_hosts' are empty, please enter a valid String"
-#       fi
-#       if bashio::var.is_empty "${hostname}"; then
-#         bashio::exit.nok "'hostname' in 'additional_hosts' for service ${service} is empty, please enter a valid String"
-#       fi
-#       # Check if hostname of 'additional_host' includes a valid hostname
-#       if ! [[ ${hostname} =~ ${validHostnameRegex} ]]; then
-#         bashio::exit.nok "'${hostname}' in 'additional_hosts' is not a valid hostname. Please make sure not to include the protocol (e.g. 'https://') nor the port (e.g. ':8123') and only use lowercase characters in the 'hostname'."
-#       fi
-#       if bashio::var.is_empty "${service}"; then
-#         bashio::exit.nok "'service' in 'additional_hosts' for hostname ${hostname} is empty, please enter a valid String"
-#       fi
-#     done
-#   else
-#     additional_hosts=()
-#   fi
-# }
