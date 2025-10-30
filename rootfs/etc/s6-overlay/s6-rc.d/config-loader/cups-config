@@ -68,12 +68,19 @@ function setup_ssl() {
     if [ ! -d "$ssl_dir" ]; then
         mkdir -p "$ssl_dir"
     fi
-    self_sign=false
+
     if bashio::config.has_value 'cups_self_sign'; then
-        self_sign=$(bashio::config 'cups_self_sign')
+        temp=$(bashio::config 'cups_self_sign')
+        if [ "$temp" == "true" ]; then
+            self_sign=yes
+        else
+            self_sign=no
+        fi
+    else
+        self_sign=no
     fi
 
-    if [ "$self_sign" != "true" ]; then
+    if [ "$self_sign" != "no" ]; then
         setup_ssl_public
         setup_ssl_private
     fi
@@ -166,6 +173,7 @@ function update_files() {
     sed -i "s/^.*AccessLogLevel .*/AccessLogLevel ${cups_access_log_level}/" "$real_cups_path/$cups_files_cfg"
     sed -i "s#^.*ServerCertificate .*#ServerCertificate ${pubkey}#" "$real_cups_path/$cups_files_cfg"
     sed -i "s#^.*ServerKey .*#ServerKey ${cups_access_log_level}#" "$real_cups_path/$cups_files_cfg"
+    sed -i "s#^.*CreateSelfSignedCerts .*#CreateSelfSignedCerts ${self_sign}#" "$real_cups_path/$cups_files_cfg"
 }
 
 run
