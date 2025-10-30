@@ -8,6 +8,9 @@ readonly real_cups_path=/config/cups
 readonly cups_client_cfg=client.conf
 readonly cups_daemon_cfg=cupsd.conf
 readonly cups_files_cfg=cups-files.conf
+readonly ssl_dir="/usr/cups/ssl"
+readonly ssl_owner="root"
+readonly ssl_group="root"
 
 function run() {
     setup
@@ -57,7 +60,11 @@ function setup() {
 }
 
 function setup_ssl() {
-    ssl_dir="/usr/cups/ssl"
+    setup_ssl_private
+    setup_ssl_public
+}
+
+function setup_ssl_private() {
     if [ ! -d "$ssl_dir" ]; then
         mkdir -p "$ssl_dir"
     fi
@@ -75,14 +82,14 @@ function setup_ssl() {
         bashio::log.notice "SSL Private key does not exist at given path"
     else
         cp "$privkey" "$ssl_dir/$hostname.key"
-        chown root:root "$ssl_dir/$hostname.key"
+        chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.key"
         chmod 600 "$ssl_dir/$hostname.key"
 
         bashio::log.info "SSL Private Key exists."
     fi
+}
 
-    mv
-
+function setup_ssl_public() {
     if bashio::config.has_value 'cups_ssl_cert'; then
         pubkey=$(bashio::config 'cups_ssl_cert')
     elif [ -e "/ssl/fullchain.pem" ]; then
@@ -94,11 +101,12 @@ function setup_ssl() {
         bashio::log.notice "SSL Public key does not exist at given path"
     else
         cp "$pubkey" "$ssl_dir/$hostname.crt"
-        chown root:root "$ssl_dir/$hostname.crt"
+        chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.crt"
         chmod 600 "$ssl_dir/$hostname.crt"
 
         bashio::log.info "SSL Public Key exists."
     fi
+
 }
 
 function autoconf_client() {
