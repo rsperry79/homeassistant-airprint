@@ -74,7 +74,7 @@ function setup_ssl() {
     if [ ! -e "$privkey" ]; then
         bashio::log.notice "SSL Private key does not exist at given path"
     else
-        mv "$privkey" "$ssl_dir/$hostname.key"
+        cp "$privkey" "$ssl_dir/$hostname.key"
         chown root:root "$ssl_dir/$hostname.key"
         chmod 600 "$ssl_dir/$hostname.key"
 
@@ -93,7 +93,7 @@ function setup_ssl() {
     if [ ! -e "$pubkey" ]; then
         bashio::log.notice "SSL Public key does not exist at given path"
     else
-        mv "$pubkey" "$ssl_dir/$hostname.crt"
+        cp "$pubkey" "$ssl_dir/$hostname.crt"
         chown root:root "$ssl_dir/$hostname.crt"
         chmod 600 "$ssl_dir/$hostname.crt"
 
