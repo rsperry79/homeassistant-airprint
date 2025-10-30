@@ -45,6 +45,10 @@ configuration:
         name: Allow Remote Administration?
         description: >-
           Do you want to allow remote Administration of Cups?
+      cups_self_sign:
+        name: Self-Signed?
+        description: >-
+          Do you want to use self-signed certificates?
       cups_ssl_cert:
         name: File name in HA /SSL for the SSL Public Cert.
         description: >-

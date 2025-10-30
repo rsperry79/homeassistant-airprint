@@ -2,7 +2,7 @@
 # FILE IS OVERWRITTEN AT Startup
 ###################################
 
-CreateSelfSignedCerts no
+CreateSelfSignedCerts {{.self_sign}}
 
 # Sample file/directory/user/group configuration file for the CUPS scheduler.
 # See "man cups-files.conf" for a complete description of this file.
