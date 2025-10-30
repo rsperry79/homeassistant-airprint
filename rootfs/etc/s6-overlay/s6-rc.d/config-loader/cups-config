@@ -70,7 +70,7 @@ function setup_ssl() {
         bashio::log.notice "SSL Private key does not exist at given path"
     fi
 
-    bashio::log.debug "SSL Private Key: $privkey exists."
+    bashio::log.info "SSL Private Key: $privkey exists."
 
     if bashio::config.has_value 'cups_ssl_cert'; then
         pubkey=$(bashio::config 'cups_ssl_cert')
