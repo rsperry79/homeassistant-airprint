@@ -57,6 +57,11 @@ function setup() {
 }
 
 function setup_ssl() {
+    ssl_dir="/usr/cups/ssl"
+    if [ ! -d "$ssl_dir" ]; then
+        mkdir -p "$ssl_dir"
+    fi
+
     privkey="/ssl/privkey.pem"
     if bashio::config.has_value 'cups_ssl_key'; then
         privkey=$(bashio::config 'cups_ssl_key')
@@ -68,9 +73,15 @@ function setup_ssl() {
 
     if [ ! -e "$privkey" ]; then
         bashio::log.notice "SSL Private key does not exist at given path"
+    else
+        mv "$privkey" "$ssl_dir/$hostname.key"
+        chown root:root "$ssl_dir/$hostname.key"
+        chmod 600 "$ssl_dir/$hostname.key"
+
+        bashio::log.info "SSL Private Key exists."
     fi
 
-    bashio::log.info "SSL Private Key: $privkey exists."
+    mv
 
     if bashio::config.has_value 'cups_ssl_cert'; then
         pubkey=$(bashio::config 'cups_ssl_cert')
@@ -81,9 +92,13 @@ function setup_ssl() {
     fi
     if [ ! -e "$pubkey" ]; then
         bashio::log.notice "SSL Public key does not exist at given path"
-    fi
+    else
+        mv "$pubkey" "$ssl_dir/$hostname.crt"
+        chown root:root "$ssl_dir/$hostname.crt"
+        chmod 600 "$ssl_dir/$hostname.crt"
 
-    bashio::log.info "SSL Public Key: $privkey exists"
+        bashio::log.info "SSL Public Key exists."
+    fi
 }
 
 function autoconf_client() {
