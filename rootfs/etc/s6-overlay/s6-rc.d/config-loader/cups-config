@@ -60,15 +60,17 @@ function setup() {
 }
 
 function setup_ssl() {
-    setup_ssl_private
-    setup_ssl_public
-}
-
-function setup_ssl_private() {
+    # TODO MOVE
     if [ ! -d "$ssl_dir" ]; then
         mkdir -p "$ssl_dir"
     fi
 
+    setup_ssl_public
+    setup_ssl_private
+
+}
+
+function setup_ssl_private() {
     privkey="/ssl/privkey.pem"
     if bashio::config.has_value 'cups_ssl_key'; then
         privkey=$(bashio::config 'cups_ssl_key')
@@ -81,6 +83,7 @@ function setup_ssl_private() {
     if [ ! -e "$privkey" ]; then
         bashio::log.notice "SSL Private key does not exist at given path"
     else
+
         cp "$privkey" "$ssl_dir/$hostname.key"
         chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.key"
         chmod 600 "$ssl_dir/$hostname.key"
@@ -101,11 +104,14 @@ function setup_ssl_public() {
     if [ ! -e "$pubkey" ]; then
         bashio::log.notice "SSL Public key does not exist at given path"
     else
-        cp "$pubkey" "$ssl_dir/$hostname.crt"
+        hostname=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
+        openssl x509 -outform der -in "$pubkey" -out "$ssl_dir/$hostname.crt"
+
         chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.crt"
         chmod 600 "$ssl_dir/$hostname.crt"
         pubkey="$ssl_dir/$hostname.crt"
         bashio::log.info "SSL Public Key exists. $pubkey"
+
     fi
 
 }
