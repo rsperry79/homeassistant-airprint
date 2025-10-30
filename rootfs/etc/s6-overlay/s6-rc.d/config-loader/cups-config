@@ -8,7 +8,7 @@ readonly real_cups_path=/config/cups
 readonly cups_client_cfg=client.conf
 readonly cups_daemon_cfg=cupsd.conf
 readonly cups_files_cfg=cups-files.conf
-readonly ssl_dir="/etc/cups/ssl"
+readonly ssl_dir="/etc/letsencrypt/live"
 readonly ssl_owner="root"
 readonly ssl_group="root"
 
