@@ -83,12 +83,14 @@ function setup_ssl_private() {
     if [ ! -e "$privkey" ]; then
         bashio::log.notice "SSL Private key does not exist at given path"
     else
-        openssl rsa -outform der -in "$privkey" -out "$ssl_dir/$hostname.key"
-        chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.key"
-        chmod 600 "$ssl_dir/$hostname.key"
-
-        privkey="$ssl_dir/$hostname.key"
-        bashio::log.info "SSL Private Key exists. $privkey"
+        if [ "$(openssl rsa -outform der -in "$privkey" -out "$ssl_dir/$hostname.key")" -eq 0 ]; then
+            chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.key"
+            chmod 600 "$ssl_dir/$hostname.key"
+            privkey="$ssl_dir/$hostname.key"
+            bashio::log.info "SSL Private Key exists. $privkey"
+        else
+            bashio::log.error "Private key is not valid."
+        fi
     fi
 }
 
@@ -110,9 +112,7 @@ function setup_ssl_public() {
         chmod 600 "$ssl_dir/$hostname.crt"
         pubkey="$ssl_dir/$hostname.crt"
         bashio::log.info "SSL Public Key exists. $pubkey"
-
     fi
-
 }
 
 function autoconf_client() {
