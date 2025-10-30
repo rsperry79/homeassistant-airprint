@@ -33,7 +33,6 @@ DefaultEncryption IfRequested
 
 # Host header validation
 ServerAlias {{.host_alias}}
-
 ServerName {{.hostname}}
 
 # Web interface setting...
@@ -41,6 +40,9 @@ WebInterface Yes
 
 # Timeout after cupsd exits if idle (applied only if cupsd runs on-demand - with -l)
 IdleExitTimeout 60
+
+DefaultShared Yes
+DefaultPaperSize Auto
 
 # Restrict access to the server...
 <Location />

@@ -87,6 +87,7 @@ function setup_ssl_private() {
     if [ ! -e "$privkey" ]; then
         bashio::log.notice "SSL Private key does not exist at given path"
     else
+        rm -f "$ssl_dir/$hostname.key"
         msg=$(openssl rsa -outform der -in "$privkey" -out "$ssl_dir/$hostname.key")
         if [ $? -eq 0 ]; then
             chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.key"
@@ -111,6 +112,7 @@ function setup_ssl_public() {
         bashio::log.notice "SSL Public key does not exist at given path"
     else
         host_alias=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
+        rm -f "$ssl_dir/$hostname.crt"
         msg=$(openssl x509 -outform der -in "$pubkey" -out "$ssl_dir/$hostname.crt")
         if [ $? -eq 0 ]; then
             chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.crt"

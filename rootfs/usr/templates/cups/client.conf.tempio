@@ -3,7 +3,7 @@
 ###################################
 
 AllowAnyRoot Yes
-AllowExpiredCerts No
+AllowExpiredCerts Yes
 Encryption IfRequested
 SSLOptions None
 TrustOnFirstUse Yes

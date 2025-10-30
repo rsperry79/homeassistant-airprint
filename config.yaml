@@ -26,9 +26,10 @@ map:
   - type: addon_config
     read_only: false
     path: /config
-ingress: true
-ingress_port: 631
+# ingress: true
+# ingress_port: 631
 # ingress_stream: true
+webui: http://[HOST]:[PORT:631]/
 watchdog: http://[HOST]:[PORT:631]/printers
 options:
   system_settings:
