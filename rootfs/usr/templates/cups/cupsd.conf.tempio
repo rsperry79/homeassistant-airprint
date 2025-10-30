@@ -32,7 +32,7 @@ DefaultAuthType Basic
 DefaultEncryption IfRequested
 
 # Host header validation
-#ServerAlias *
+ServerAlias {{.host_alias}}
 
 ServerName {{.hostname}}
 

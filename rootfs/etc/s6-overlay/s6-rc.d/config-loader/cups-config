@@ -8,7 +8,7 @@ readonly real_cups_path=/config/cups
 readonly cups_client_cfg=client.conf
 readonly cups_daemon_cfg=cupsd.conf
 readonly cups_files_cfg=cups-files.conf
-readonly ssl_dir="/usr/cups/ssl"
+readonly ssl_dir="/etc/cups/ssl"
 readonly ssl_owner="root"
 readonly ssl_group="root"
 
@@ -42,6 +42,7 @@ function setup() {
     external=$hostname
     cups_log_level="error"
     cups_access_log_level="config"
+    host_alias="*"
 
     if bashio::config.has_value 'cups_log_level'; then
         cups_log_level=$(bashio::config 'cups_log_level')
@@ -54,7 +55,8 @@ function setup() {
     setup_ssl
 
     # Used by autoconf
-    config=$(jq --arg internal "$internal" --arg external "$external" --arg hostname "$hostname" --arg privkey "$privkey" --arg pubkey "$pubkey" --arg cups_log_level "$cups_log_level" --arg cups_access_log_level "$cups_access_log_level" \
+    config=$(jq --arg internal "$internal" --arg external "$external" --arg hostname "$hostname" --arg privkey "$privkey" --arg pubkey "$pubkey" --arg cups_log_level "$cups_log_level" \
+        --arg cups_access_log_level "$cups_access_log_level" --arg host_alias "$host_alias" \
         '{internal: $internal, external: $external, hostname: $hostname, privkey: $privkey, pubkey: $pubkey, cups_log_level: $cups_log_level,  cups_access_log_level: $cups_access_log_level }' \
         /data/options.json)
 }
@@ -83,14 +85,14 @@ function setup_ssl_private() {
     if [ ! -e "$privkey" ]; then
         bashio::log.notice "SSL Private key does not exist at given path"
     else
-        openssl rsa -outform der -in "$privkey" -out "$ssl_dir/$hostname.key"
+        msg=$(openssl rsa -outform der -in "$privkey" -out "$ssl_dir/$hostname.key")
         if [ $? -eq 0 ]; then
             chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.key"
             chmod 600 "$ssl_dir/$hostname.key"
             privkey="$ssl_dir/$hostname.key"
-            bashio::log.info "SSL Private Key exists. $privkey"
+            bashio::log.debug "SSL Private Key exists. $privkey"
         else
-            bashio::log.error "Private key is not valid."
+            bashio::log.error "Private key is not valid. $msg"
         fi
     fi
 }
@@ -106,13 +108,16 @@ function setup_ssl_public() {
     if [ ! -e "$pubkey" ]; then
         bashio::log.notice "SSL Public key does not exist at given path"
     else
-        hostname=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
-        openssl x509 -outform der -in "$pubkey" -out "$ssl_dir/$hostname.crt"
-
-        chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.crt"
-        chmod 600 "$ssl_dir/$hostname.crt"
-        pubkey="$ssl_dir/$hostname.crt"
-        bashio::log.info "SSL Public Key exists. $pubkey"
+        host_alias=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
+        msg=$(openssl x509 -outform der -in "$pubkey" -out "$ssl_dir/$hostname.crt")
+        if [ $? -eq 0 ]; then
+            chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.crt"
+            chmod 600 "$ssl_dir/$hostname.crt"
+            pubkey="$ssl_dir/$hostname.crt"
+            bashio::log.debug "SSL Public Key exists. $pubkey"
+        else
+            bashio::log.error "Public key is not valid. $msg"
+        fi
     fi
 }
 
