@@ -85,7 +85,8 @@ function setup_ssl_private() {
         chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.key"
         chmod 600 "$ssl_dir/$hostname.key"
 
-        bashio::log.info "SSL Private Key exists."
+        privkey="$ssl_dir/$hostname.key"
+        bashio::log.info "SSL Private Key exists. $privkey"
     fi
 }
 
@@ -103,8 +104,8 @@ function setup_ssl_public() {
         cp "$pubkey" "$ssl_dir/$hostname.crt"
         chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.crt"
         chmod 600 "$ssl_dir/$hostname.crt"
-
-        bashio::log.info "SSL Public Key exists."
+        pubkey="$ssl_dir/$hostname.crt"
+        bashio::log.info "SSL Public Key exists. $pubkey"
     fi
 
 }
