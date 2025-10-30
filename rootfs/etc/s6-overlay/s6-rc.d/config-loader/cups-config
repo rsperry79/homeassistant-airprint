@@ -83,8 +83,7 @@ function setup_ssl_private() {
     if [ ! -e "$privkey" ]; then
         bashio::log.notice "SSL Private key does not exist at given path"
     else
-
-        cp "$privkey" "$ssl_dir/$hostname.key"
+        openssl rsa -outform der -in "$privkey" -out "$ssl_dir/$hostname.key"
         chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.key"
         chmod 600 "$ssl_dir/$hostname.key"
 
