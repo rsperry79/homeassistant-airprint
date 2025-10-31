@@ -11,7 +11,7 @@ function install() {
     cd /config/packages || exit 1
     mkdir -p /var/spool/lpd/
     # check if dl'd to speed up boot
-    if [ ! -e mfc9970cdwlpr-1.1.1-5.i386 ]; then
+    if [ ! -e mfc9970cdwlpr-1.1.1-5.i386.deb ]; then
         wget https://download.brother.com/welcome/dlf006526/mfc9970cdwlpr-1.1.1-5.i386.deb
     fi
     # second check to ensure it was dl'd before install to prevent fatal errors
