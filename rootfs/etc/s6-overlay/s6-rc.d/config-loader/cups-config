@@ -68,11 +68,11 @@ function setup_ssl() {
     if [ ! -d "$ssl_dir" ]; then
         mkdir -p "$ssl_dir"
     fi
-    if bashio::config.has_value 'cups_self_sign'; then
-        temp="$(bashio::config 'cups_self_sign')"
-    fi
+    # if bashio::config.has_value 'cups_self_sign'; then
+    #     temp="$(bashio::config 'cups_self_sign')"
+    # fi
 
-    bashio::log.info "Self sign: $temp"
+    # bashio::log.info "Self sign: $temp"
     if [ "$(bashio::config.true 'cups_self_sign')" ]; then
         bashio:log.info "Self sign is on"
         self_sign=yes
@@ -80,6 +80,7 @@ function setup_ssl() {
         pubkey="$ssl_dir/$hostname.pem"
 
     else
+        bashio:log.info "Self sign is off"
         self_sign=no
         setup_ssl_public
         setup_ssl_private
