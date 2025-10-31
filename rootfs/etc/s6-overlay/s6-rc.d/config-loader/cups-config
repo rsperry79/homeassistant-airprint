@@ -26,7 +26,7 @@ function run() {
 
     if [ ! -e "$real_cups_path/$cups_daemon_cfg" ]; then
         autoconf_daemon
-    else1
+    else
         update_daemon
     fi
 
