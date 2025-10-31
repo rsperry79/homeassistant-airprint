@@ -80,7 +80,7 @@ function setup_ssl() {
         pubkey="$ssl_dir/$hostname.pem"
 
     else
-        bashio:log.info "Self sign is off"
+        bashio::log.info "Self sign is off"
         self_sign=no
         setup_ssl_public
         setup_ssl_private
