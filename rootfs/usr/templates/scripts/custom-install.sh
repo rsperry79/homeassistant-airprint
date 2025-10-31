@@ -15,7 +15,7 @@ function install() {
         wget https://download.brother.com/welcome/dlf006526/mfc9970cdwlpr-1.1.1-5.i386.deb
     fi
     # second check to ensure it was dl'd before install to prevent fatal errors
-    if [ -e mfc9970cdwlpr-1.1.1-5.i386 ]; then
+    if [ -e mfc9970cdwlpr-1.1.1-5.i386.deb ]; then
         dpkg -i --force-all mfc9970cdwlpr-1.1.1-5.i386.deb # force all as brother only supplies a 386 package.
     fi
 
