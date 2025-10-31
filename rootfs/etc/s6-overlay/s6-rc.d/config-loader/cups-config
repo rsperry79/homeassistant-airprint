@@ -68,7 +68,8 @@ function setup_ssl() {
     if [ ! -d "$ssl_dir" ]; then
         mkdir -p "$ssl_dir"
     fi
-
+    temp="$(bashio::config 'cups_self_sign')"
+    bashio:log.info "Self sign: $temp"
     if [ "$(bashio::config 'cups_self_sign')" == "true" ]; then
         bashio:log.info "Self sign is on"
         self_sign=yes
