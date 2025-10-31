@@ -34,16 +34,16 @@ webui: http://[HOST]:[PORT:631]/
 watchdog: http://[HOST]:[PORT:631]/printers
 options:
   system_settings:
-    use_ipv6: false
+    use_ipv6: "false"
 
   avahi:
-    avahi_debug: false
+    avahi_debug: "false"
   cups:
     cups_log_level: debug
     cups_access_log_level: config
     cups_ssl_cert: /ssl/fullchain.pem
     cups_ssl_key: /ssl/privkey.pem
-    cups_self_sign: true
+    cups_self_sign: "true"
   logins:
     - username: print
       password: "print"
