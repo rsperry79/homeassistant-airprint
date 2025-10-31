@@ -14,7 +14,7 @@ function install() {
     if [ ! -e mfc9970cdwlpr-1.1.1-5.i386 ]; then
         wget https://download.brother.com/welcome/dlf006526/mfc9970cdwlpr-1.1.1-5.i386.deb
     fi
-    dpkg -i --force-all mfc9970cdwcupswrapper-1.1.1-5.i386.deb
+    dpkg -i --force-all mfc9970cdwlpr-1.1.1-5.i386.deb
 
     if [ ! -e mfc9970cdwlpr-1.1.1-5.i386.deb ]; then
         wget https://download.brother.com/welcome/dlf006528/mfc9970cdwcupswrapper-1.1.1-5.i386.deb
