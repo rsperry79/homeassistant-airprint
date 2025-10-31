@@ -12,6 +12,9 @@ readonly ssl_dir="/etc/cups/ssl/"
 readonly ssl_owner="root"
 readonly ssl_group="root"
 
+privkey=""
+pubkey=""
+
 function run() {
     setup
 
@@ -23,7 +26,7 @@ function run() {
 
     if [ ! -e "$real_cups_path/$cups_daemon_cfg" ]; then
         autoconf_daemon
-    else
+    else1
         update_daemon
     fi
 
