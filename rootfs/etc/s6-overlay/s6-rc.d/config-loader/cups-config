@@ -149,7 +149,6 @@ function change_hostname() {
     host_alias=${1}
     old_host=$(<"/etc/hostname")
 
-    rm -f /etc/hostname
     $host_alias | tee /etc/hostname
     sed -i.bak "s/\b${old_host}\b/${host_alias}/g" "/etc/hostname"
 }
