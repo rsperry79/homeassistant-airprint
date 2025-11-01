@@ -4,6 +4,8 @@ slug: airprint
 boot: auto
 startup: system
 description: A CUPS print server with working AirPrint
+url: >-
+  https://github.com/rsperry79/homeassistant-addons
 arch:
   - amd64
   - aarch64
@@ -13,6 +15,7 @@ panel_icon: mdi:printer
 hassio_role: default
 hassio_api: true
 homeassistant_api: true
+host_ipc: false
 host_network: false
 host_dbus: true
 apparmor: false
