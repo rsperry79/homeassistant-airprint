@@ -150,7 +150,7 @@ function change_hostname() {
     old_host=$(<"/etc/hostname")
     bashio::log.info "Current host is $old_host"
     #sed -i.bak "s/\b${old_host}\b/${host_alias}/g" "/etc/hostname"
-    127.0.0.1 "$host_alias" >>/etc/hosts
+    echo "127.0.0.1 $host_alias" >>/etc/hosts
     #sed -i.bak "s/\b${old_host}\b/${host_alias}/g" "/etc/hosts"
 }
 
