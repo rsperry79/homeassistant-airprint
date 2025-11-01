@@ -69,10 +69,10 @@ function setup_ssl() {
         mkdir -p "$ssl_dir"
     fi
 
-    sign=$(bashio::config cups_sign_generate)
+    sign=$(bashio::config cups_self_sign)
     bashio::log.info self sign has value: "$sign"
 
-    if bashio::config.has_value cups_sign_generate && bashio::config.true 'cups_sign_generate'; then
+    if bashio::config.has_value cups_self_sign && bashio::config.true 'cups_self_sign'; then
         bashio::log.info "Self sign is on"
         self_sign=yes
         privkey="$ssl_dir/$hostname.crt"

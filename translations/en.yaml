@@ -45,7 +45,7 @@ configuration:
         name: Allow Remote Administration?
         description: >-
           Do you want to allow remote Administration of Cups?
-      cups_sign_generate:
+      cups_self_sign:
         name: Self-Signed?
         description: >-
           Do you want to use self-signed certificates?
