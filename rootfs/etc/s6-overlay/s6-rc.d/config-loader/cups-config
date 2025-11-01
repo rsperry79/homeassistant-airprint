@@ -188,7 +188,7 @@ function autoconf_files() {
 function update_files() {
     sed -i "s/^.*AccessLogLevel .*/AccessLogLevel ${cups_access_log_level}/" "$real_cups_path/$cups_files_cfg"
     sed -i "s#^.*ServerCertificate .*#ServerCertificate ${pubkey}#" "$real_cups_path/$cups_files_cfg"
-    sed -i "s#^.*ServerKey .*#ServerKey ${cups_access_log_level}#" "$real_cups_path/$cups_files_cfg"
+    sed -i "s#^.*ServerKey .*#ServerKey ${privkey}#" "$real_cups_path/$cups_files_cfg"
     sed -i "s#^.*CreateSelfSignedCerts .*#CreateSelfSignedCerts ${self_sign}#" "$real_cups_path/$cups_files_cfg"
 }
 
