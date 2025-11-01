@@ -82,7 +82,10 @@ function setup_ssl() {
 
     else
         bashio::log.info "Self sign is off"
+
         self_sign=no
+
+        rm -f "$ssl_dir/*"
         setup_ssl_public
         setup_ssl_private
     fi
@@ -123,12 +126,13 @@ function setup_ssl_public() {
     else
         pubkey=""
     fi
+
     if [ ! -e "$pubkey" ]; then
         bashio::log.notice "SSL Public key does not exist at given path"
     else
         host_alias=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
-        hostnamectl set-hostname "$host_alias"
-        rm -f "$ssl_dir/$hostname.crt"
+        change_hostname "$host_alias"
+
         msg=$(openssl x509 -outform der -in "$pubkey" -out "$ssl_dir/$host_alias.crt")
         if [ $? -eq 0 ]; then
             chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_alias.crt"
@@ -139,6 +143,15 @@ function setup_ssl_public() {
             bashio::log.error "Public key is not valid. $msg"
         fi
     fi
+}
+
+function change_hostname() {
+    host_alias=${1}
+    old_host=$(<"/etc/hostname")
+
+    rm -f /etc/hostname
+    $host_alias | tee /etc/hostname
+    sed -i.bak "s/\b${old_host}\b/${host_alias}/g" "/etc/hostname"
 }
 
 function autoconf_client() {
