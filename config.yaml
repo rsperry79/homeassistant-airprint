@@ -43,7 +43,7 @@ options:
     cups_access_log_level: config
     cups_ssl_cert: /ssl/fullchain.pem
     cups_ssl_key: /ssl/privkey.pem
-    cups_self_sign: true
+    cups_sign_generate: true
   logins:
     - username: print
       password: "print"
@@ -60,7 +60,7 @@ schema:
     avahi_reflect_ipv: bool?
   cups:
     cups_remote_admin: bool?
-    cups_self_sign: bool?
+    cups_sign_generate: bool?
     cups_log_level: list(debug|info|notice|error|none)
     cups_access_log_level: list(all|access|config)
     cups_ssl_cert: str?
