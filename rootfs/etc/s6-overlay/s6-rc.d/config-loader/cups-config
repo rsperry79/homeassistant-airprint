@@ -150,7 +150,7 @@ function change_hostname() {
     old_host=$(<"/etc/hostname")
 
     echo "$host_alias" | tee /etc/hostname
-    sed -i.bak "s/\b${old_host}\b/${host_alias}/g" "/etc/hostname"
+    sed -i.bak "s/\b${old_host}\b/${host_alias}/g" "/etc/hosts"
 }
 
 function autoconf_client() {
