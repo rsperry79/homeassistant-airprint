@@ -2,12 +2,11 @@
 
 # HA File paths
 readonly real_config_path=/config
-
+readonly folder_group="root"
 # function autoconf_setup() {
 
 #   hostname=$(bashio::info.hostname)
-#primary_interface="$(bashio::api.supervisor 'GET' '/network/info' '' 'first(.interfaces[] | select (.primary == true)) .interface')"
-#bashio::log.info "primary_interface $primary_interface"
+
 #   # # Get all possible hostages from configuration
 #   result=$(bashio::api.supervisor GET /core/api/config true || true)
 #   # api_config_result=$(curl -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/core/api/config)
@@ -24,18 +23,12 @@ readonly real_config_path=/config
 
 # }
 
-# Prepare discovery payload
-ha_config=$(
-    bashio::var.json \
-        host "$(hostname)" \
-        port "^5580"
-)
-
-bashio::log.info "$ha_config"
-
 function run_setup() {
-    if [ ! -d "$real_config_path" ]; then
-        mkdir -p "$real_config_path"
+    # Cups log folder
+
+    if ! bashio::fs.directory_exists "${real_config_path}"; then
+        install -d -m 0770 -g "$folder_group" "${real_config_path}" ||
+            bashio::exit.nok 'Failed to create a persistent cups logging folder'
     fi
 
 }

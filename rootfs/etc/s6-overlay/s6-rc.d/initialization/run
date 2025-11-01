@@ -1,6 +1,9 @@
 #!/command/with-contend bashio
 mkdir -p /var/run/dbus
 
+bashio::log.info "Initializing Common Config"
+bashio /etc/s6-overlay/s6-rc.d/initialization/common
+
 bashio::log.debug "Initializing Cups files"
 bashio /etc/s6-overlay/s6-rc.d/initialization/cups-files
 
