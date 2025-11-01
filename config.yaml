@@ -43,7 +43,7 @@ options:
     cups_access_log_level: config
     cups_ssl_cert: /ssl/fullchain.pem
     cups_ssl_key: /ssl/privkey.pem
-    cups_self_sign: "true"
+    cups_self_sign: true
   logins:
     - username: print
       password: "print"
