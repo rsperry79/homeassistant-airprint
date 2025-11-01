@@ -6,8 +6,8 @@ readonly real_config_path=/config
 # function autoconf_setup() {
 
 #   hostname=$(bashio::info.hostname)
-primary_interface="$(bashio::api.supervisor 'GET' '/network/info' '' 'first(.interfaces[] | select (.primary == true)) .interface')"
-bashio::log.info "primary_interface $primary_interface"
+#primary_interface="$(bashio::api.supervisor 'GET' '/network/info' '' 'first(.interfaces[] | select (.primary == true)) .interface')"
+#bashio::log.info "primary_interface $primary_interface"
 #   # # Get all possible hostages from configuration
 #   result=$(bashio::api.supervisor GET /core/api/config true || true)
 #   # api_config_result=$(curl -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/core/api/config)
@@ -23,6 +23,15 @@ bashio::log.info "primary_interface $primary_interface"
 #   # external=$(bashio::jq "$api_config_result" '.external_url' | cut -d'/' -f3 | cut -d':' -f1)
 
 # }
+
+# Prepare discovery payload
+ha_config=$(
+    bashio::var.json \
+        host "$(hostname)" \
+        port "^5580"
+)
+
+bashio::log.info "$ha_config"
 
 function run_setup() {
     if [ ! -d "$real_config_path" ]; then
