@@ -25,6 +25,7 @@ function install() {
     if [ -e mfc9970cdwlpr-1.1.1-5.i386.deb ]; then
         dpkg -i --force-all mfc9970cdwcupswrapper-1.1.1-5.i386.deb
     fi
+
 }
 
 install
