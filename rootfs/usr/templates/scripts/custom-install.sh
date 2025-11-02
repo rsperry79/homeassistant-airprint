@@ -3,7 +3,7 @@
 
 function run() {
     bashio::log.info "Running Custom install script"
-    apt update && apt upgrade -y
+    # apt update && apt upgrade -y
     install
 }
 
