@@ -163,7 +163,7 @@ function autoconf_client() {
 }
 
 function update_client() {
-    echo "No changes needed"
+    sed -i "s/^.*ServerName .*/ServerName ${host_name}:631/" "$real_cups_path/$cups_daemon_cfg"
 }
 
 function autoconf_daemon() {
