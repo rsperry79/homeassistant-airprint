@@ -39,7 +39,7 @@ function run() {
 
 # Gets current settings from HA
 function setup() {
-    hostname=$HOSTNAME
+    hostname=$(HOSTNAME -f)
     internal=$hostname
     external=$hostname
     cups_log_level="error"
