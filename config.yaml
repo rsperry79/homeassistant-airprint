@@ -30,6 +30,10 @@ map:
   - type: addon_config
     read_only: false
     path: /config
+  - type: homeassistant_config
+    read_only: true
+  - type: share
+    read_only: false
 # ingress: true
 # ingress_port: 631
 # ingress_stream: true
