@@ -33,7 +33,7 @@ DefaultEncryption IfRequested
 
 # Host header validation
 ServerAlias {{.host_alias}}
-ServerName {{.hostname}}
+ServerName {{.host_name}}
 
 # Web interface setting...
 WebInterface Yes

@@ -39,9 +39,9 @@ function run() {
 
 # Gets current settings from HA
 function setup() {
-    hostname=$(HOSTNAME -f)
-    internal=$hostname
-    external=$hostname
+    host_name=$(hostname -f)
+    internal=$host_name
+    external=$host_name
     cups_log_level="error"
     cups_access_log_level="config"
     host_alias="*"
@@ -58,10 +58,10 @@ function setup() {
 
     # Used by autoconf
     config=$(jq --arg internal "$internal" \
-        --arg external "$external" --arg hostname "$hostname" \
+        --arg external "$external" --arg host_name "$host_name" \
         --arg privkey "$privkey" --arg pubkey "$pubkey" --arg cups_log_level "$cups_log_level" \
         --arg cups_access_log_level "$cups_access_log_level" --arg host_alias "$host_alias" --arg self_sign "$self_sign" \
-        '{internal: $internal, external: $external, hostname: $hostname, privkey: $privkey, pubkey: $pubkey, cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, host_alias: $host_alias , self_sign: $self_sign   }' \
+        '{internal: $internal, external: $external, host_name: $host_name, privkey: $privkey, pubkey: $pubkey, cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, host_alias: $host_alias , self_sign: $self_sign   }' \
         /data/options.json)
 }
 
@@ -77,8 +77,8 @@ function setup_ssl() {
     if bashio::config.has_value cups_self_sign && bashio::config.true 'cups_self_sign'; then
         bashio::log.info "Self sign is on"
         self_sign=yes
-        privkey="$ssl_dir/$hostname.crt"
-        pubkey="$ssl_dir/$hostname.pem"
+        privkey="$ssl_dir/$host_name.crt"
+        pubkey="$ssl_dir/$host_name.pem"
 
     else
         bashio::log.info "Self sign is off"
@@ -105,12 +105,12 @@ function setup_ssl_private() {
     if [ ! -e "$privkey" ]; then
         bashio::log.notice "SSL Private key does not exist at given path"
     else
-        rm -f "$ssl_dir/$hostname.key"
-        msg=$(openssl rsa -outform der -in "$privkey" -out "$ssl_dir/$hostname.key")
+        rm -f "$ssl_dir/$host_name.key"
+        msg=$(openssl rsa -outform der -in "$privkey" -out "$ssl_dir/$host_name.key")
         if [ $? -eq 0 ]; then
-            chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.key"
-            chmod 770 "$ssl_dir/$hostname.key"
-            privkey="$ssl_dir/$hostname.key"
+            chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_name.key"
+            chmod 770 "$ssl_dir/$host_name.key"
+            privkey="$ssl_dir/$host_name.key"
             bashio::log.debug "SSL Private Key exists. $privkey"
         else
             bashio::log.error "Private key is not valid. $msg"
@@ -131,13 +131,13 @@ function setup_ssl_public() {
         bashio::log.notice "SSL Public key does not exist at given path"
     else
         host_alias=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
-        change_hostname "$host_alias"
+        change_host_name "$host_alias"
 
-        msg=$(openssl x509 -outform der -in "$pubkey" -out "$ssl_dir/$hostname.crt")
+        msg=$(openssl x509 -outform der -in "$pubkey" -out "$ssl_dir/$host_name.crt")
         if [ $? -eq 0 ]; then
-            chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.crt"
-            chmod 770 "$ssl_dir/$hostname.crt"
-            pubkey="$ssl_dir/$hostname.crt"
+            chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_name.crt"
+            chmod 770 "$ssl_dir/$host_name.crt"
+            pubkey="$ssl_dir/$host_name.crt"
             bashio::log.debug "SSL Public Key exists. $pubkey"
         else
             bashio::log.error "Public key is not valid. $msg"
@@ -145,9 +145,9 @@ function setup_ssl_public() {
     fi
 }
 
-function change_hostname() {
+function change_host_name() {
     host_alias=${1}
-    old_host=$(<"/etc/hostname")
+    old_host=$(<"/etc/host_name")
     bashio::log.info "Current host is $old_host"
     echo "127.0.0.1 $host_alias" >>/etc/hosts
 }
@@ -172,7 +172,7 @@ function autoconf_daemon() {
 
 function update_daemon() {
     sed -i "s/^.*LogLevel .*/LogLevel ${cups_log_level}/" "$real_cups_path/$cups_daemon_cfg"
-    sed -i "s/^.*ServerName .*/ServerName ${hostname}/" "$real_cups_path/$cups_daemon_cfg"
+    sed -i "s/^.*ServerName .*/ServerName ${host_name}/" "$real_cups_path/$cups_daemon_cfg"
     sed -i "s/^.*ServerAlias .*/ServerAlias ${host_alias}/" "$real_cups_path/$cups_daemon_cfg"
 }
 
