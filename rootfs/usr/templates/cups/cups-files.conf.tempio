@@ -75,9 +75,9 @@ Printcap /config/cups/printcap
 #ServerBin /usr/lib/cups
 
 # SSL/TLS certificate for the scheduler...
-ServerCertificate {{.pubkey}}
+# ServerCertificate {{.pubkey}}
 # SSL/TLS private key for the scheduler...
-ServerKey  {{.privkey}}
+# ServerKey  {{.privkey}}
 
 # Location of other configuration files...
 ServerRoot /config/cups
