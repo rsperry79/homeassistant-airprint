@@ -39,7 +39,8 @@ function run() {
 
 # Gets current settings from HA
 function setup() {
-    host_name=$(hostname -f)
+    #host_name=$(hostname -f)
+    host_name=$(bashio::info.hostname)
     bashio::log.debug "System hostname is $host_name"
     internal=$host_name
     external=$host_name
