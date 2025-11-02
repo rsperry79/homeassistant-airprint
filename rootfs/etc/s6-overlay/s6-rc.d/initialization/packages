@@ -42,11 +42,13 @@ function install_config_packages() {
 
 function upgrade() {
     # TODO add if autoupdate
-    bashio::log.info "Running apt upgrade"
-    apt update ||
-        bashio::exit.nok 'Failed updating packages repository indexes'
-    apt upgrade -y --no-install-recommends ||
-        bashio::exit.nok "Failed to upgrade apt packages"
+    if bashio::addon.auto_update; then
+        bashio::log.info "Running apt upgrade"
+        apt update ||
+            bashio::exit.nok 'Failed updating packages repository indexes'
+        apt upgrade -y --no-install-recommends ||
+            bashio::exit.nok "Failed to upgrade apt packages"
+    fi
 }
 
 function run_custom_script() {
