@@ -40,6 +40,7 @@ function run() {
 # Gets current settings from HA
 function setup() {
     host_name=$(hostname -f)
+    bashio::log.debug "System hostname is 
     internal=$host_name
     external=$host_name
     cups_log_level="error"

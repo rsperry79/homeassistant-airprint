@@ -5,7 +5,7 @@ readonly real_config_path=/config
 readonly folder_group="root"
 # function autoconf_setup() {
 
-#   hostname=$(bashio::info.hostname)
+#   host_name=$(bashio::info.hostname)
 
 #   # # Get all possible hostages from configuration
 #   result=$(bashio::api.supervisor GET /core/api/config true || true)

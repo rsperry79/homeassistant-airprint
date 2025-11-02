@@ -18,8 +18,8 @@ function run() {
 }
 
 function setup() {
-    hostname=$(bashio::info.hostname)
-    host="${hostname%%.*}"
+    host_name=$(bashio::info.host_name)
+    host="${host_name%%.*}"
     interfaces="enp2s0"
 
     use_ipv6="no"
@@ -51,8 +51,8 @@ function setup() {
 function autoconf_config() {
     # Fill config file templates with runtime data
 
-    config=$(jq --arg hostname "$host" --arg use_ipv6 "$use_ipv6" --arg avahi_reflector "$avahi_reflector" --arg avahi_reflect_ipv "$avahi_reflect_ipv" --arg bcast_interfaces "$bcast_interfaces" \
-        '{hostname: $hostname, use_ipv6: $use_ipv6, avahi_reflector: $avahi_reflector, avahi_reflect_ipv: $avahi_reflect_ipv,  bcast_interfaces: $bcast_interfaces}' \
+    config=$(jq --arg host_name "$host" --arg use_ipv6 "$use_ipv6" --arg avahi_reflector "$avahi_reflector" --arg avahi_reflect_ipv "$avahi_reflect_ipv" --arg bcast_interfaces "$bcast_interfaces" \
+        '{host_name: $host_name, use_ipv6: $use_ipv6, avahi_reflector: $avahi_reflector, avahi_reflect_ipv: $avahi_reflect_ipv,  bcast_interfaces: $bcast_interfaces}' \
         /data/options.json)
     #if [ ! -e "$real_cups_path/$cups_daemon_cfg" ]; then
 
