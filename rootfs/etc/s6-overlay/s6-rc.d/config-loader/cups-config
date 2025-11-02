@@ -39,7 +39,7 @@ function run() {
 
 # Gets current settings from HA
 function setup() {
-    #host_name=$(hostname -f)
+    host_name=$(hostname -f)
     host_name=$(bashio::info.hostname)
     bashio::log.debug "System hostname is $host_name"
     internal=$host_name
@@ -76,21 +76,20 @@ function setup_ssl() {
     sign=$(bashio::config cups_self_sign)
     bashio::log.info self sign has value: "$sign"
 
-    self_sign=yes
-    privkey="$ssl_dir/$host_name.crt"
-    pubkey="$ssl_dir/$host_name.pem"
-    # if bashio::config.has_value cups_self_sign && bashio::config.true 'cups_self_sign'; then
-    #     bashio::log.info "Self sign is on"
+    if bashio::config.has_value cups_self_sign && bashio::config.true 'cups_self_sign'; then
+        bashio::log.info "Self sign is on"
 
-    # else
-    #     bashio::log.info "Self sign is off"
+        self_sign=yes
+        privkey="$ssl_dir/$host_name.crt"
+        pubkey="$ssl_dir/$host_name.pem"
+    else
+        bashio::log.info "Self sign is off"
 
-    #     self_sign=no
-
-    #     rm -f "$ssl_dir/*"
-    #     setup_ssl_public
-    #     setup_ssl_private
-    # fi
+        self_sign=no
+        rm -f "$ssl_dir/*"
+        setup_ssl_public
+        setup_ssl_private
+    fi
 
 }
 
