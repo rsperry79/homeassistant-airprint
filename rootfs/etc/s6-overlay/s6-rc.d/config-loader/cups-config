@@ -133,11 +133,11 @@ function setup_ssl_public() {
         host_alias=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
         change_hostname "$host_alias"
 
-        msg=$(openssl x509 -outform der -in "$pubkey" -out "$ssl_dir/$host_alias.crt")
+        msg=$(openssl x509 -outform der -in "$pubkey" -out "$ssl_dir/$hostname.crt")
         if [ $? -eq 0 ]; then
-            chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_alias.crt"
-            chmod 770 "$ssl_dir/$host_alias.crt"
-            pubkey="$ssl_dir/$host_alias.crt"
+            chown "$ssl_owner":"$ssl_group" "$ssl_dir/$hostname.crt"
+            chmod 770 "$ssl_dir/$hostname.crt"
+            pubkey="$ssl_dir/$hostname.crt"
             bashio::log.debug "SSL Public Key exists. $pubkey"
         else
             bashio::log.error "Public key is not valid. $msg"
