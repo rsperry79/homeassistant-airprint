@@ -67,8 +67,8 @@ function setup() {
 
 function setup_ssl() {
     # TODO MOVE
-    if [ ! -d "$ssl_dir" ]; then
-        mkdir -p "$ssl_dir"
+    if [ -d "$ssl_dir" ]; then
+        rm "$ssl_dir"/*
     fi
 
     sign=$(bashio::config cups_self_sign)
