@@ -7,7 +7,6 @@ LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ENV \
-    LANG="C.UTF-8" \
     DEBIAN_FRONTEND="noninteractive" \
     S6_CMD_WAIT_FOR_SERVICES=0
 
