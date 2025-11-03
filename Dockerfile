@@ -8,9 +8,6 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ENV \
     DEBIAN_FRONTEND="noninteractive" \
-    S6_CMD_WAIT_FOR_SERVICES=0
-
-
 
 # Optimize APT for faster, smaller builds
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
