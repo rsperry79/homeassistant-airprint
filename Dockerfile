@@ -86,4 +86,5 @@ RUN chmod +x /etc/s6-overlay/s6-rc.d/*/run /opt/airprint/airprint-generate.py /r
 # disable sudo password checking
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
 
-CMD ["/run.sh"]
+ENTRYPOINT ["/run.sh"]
+CMD ["sh", "-c", "tail -f /dev/null"]
