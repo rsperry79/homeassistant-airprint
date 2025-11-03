@@ -8,8 +8,9 @@ function run() {
     update_cups
 }
 
+# The HA API is not available from S6
 function update_cups() {
-    # Get all possible hostnames from configuration
+    # Get all possible host-names from configuration
     result=$(bashio::api.supervisor GET /core/api/config true || true)
     internal=$(bashio::jq "$result" '.internal_url' | cut -d'/' -f3 | cut -d':' -f1)
     external=$(bashio::jq "$result" '.external_url' | cut -d'/' -f3 | cut -d':' -f1)
