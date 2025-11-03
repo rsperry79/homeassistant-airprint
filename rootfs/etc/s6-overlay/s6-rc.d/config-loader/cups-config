@@ -55,10 +55,6 @@ function setup() {
         cups_access_log_level=$(bashio::config 'cups_access_log_level')
     fi
 
-    bashio::log.info "result $result\r\n"
-    bashio::log.info "Int $internal\r\n"
-    bashio::log.info "Ext $external"
-
     setup_ssl
 
     # Used by autoconf
@@ -75,7 +71,7 @@ function setup_ssl() {
     # if [ -d "$ssl_dir" ]; then
     #     rm -f "$ssl_dir"/*
     # fi
-    bash /root/.bashrc
+
     sign=$(bashio::config cups_self_sign)
     bashio::log.info self sign has value: "$sign"
 
