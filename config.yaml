@@ -1,24 +1,19 @@
 name: AirPrint Server
-version: "1.7"
+version: "1.0"
 slug: airprint
-boot: auto
-startup: system
-description: A CUPS print server with working AirPrint
+description: An AirPrint Server
 url: >-
-  https://github.com/rsperry79/homeassistant-addons
+  https://github.com/rsperry79/homeassistant-airprint
+
+# System Settings
 arch:
   - amd64
   - aarch64
-# usb: true
+boot: auto
+startup: system
+usb: true
 init: false
-panel_icon: mdi:printer
-hassio_role: default
-hassio_api: true
-homeassistant_api: true
-host_ipc: false
-host_network: false
 host_dbus: true
-apparmor: false
 ports:
   631/tcp: 631
   631/udp: 631
@@ -30,15 +25,26 @@ map:
   - type: addon_config
     read_only: false
     path: /config
-  - type: homeassistant_config
-    read_only: true
   - type: share
     read_only: false
+    path: /share
+
+# HA API
+hassio_role: default
+hassio_api: true
+homeassistant_api: true
+
+# Sidebar
+panel_icon: mdi:printer
 ingress: true
 ingress_port: 631
 # ingress_stream: true
 #webui: http://[HOST]:[PORT:631]/
+
+# Health
 watchdog: http://[HOST]:[PORT:631]/printers
+
+# Options
 options:
   system_settings:
     use_ipv6: "false"
