@@ -82,6 +82,5 @@ RUN chmod +x /opt/airprint/airprint-generate.py
 # disable sudo password checking
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
 
-RUN chmod a+x /run.sh
 
-CMD ["/run.sh"]
+RUN chmod +x /etc/services.d/*/run /usr/local/bin/*.sh
