@@ -83,4 +83,4 @@ RUN chmod +x /opt/airprint/airprint-generate.py
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
 
 
-RUN chmod +x /etc/services.d/*/run /usr/local/bin/*.sh
+RUN chmod +x /etc/services.d/*/run
