@@ -3,11 +3,11 @@
 ulimit -n 524288
 
 until [ -e /var/run/avahi-daemon/socket ]; do
-  sleep 1s
+    sleep 1s
 done
 
 bashio::log.info "Testing CUPS server config"
 cupsd -t -c /config/cups/cupsd.conf -s /config/cups/cups-files.conf
 
 bashio::log.info "Starting CUPS server from S6"
-cupsd -f -c /config/cups/cupsd.conf -s /config/cups/cups-files.conf
+cupsd -l -c /config/cups/cupsd.conf -s /config/cups/cups-files.conf
