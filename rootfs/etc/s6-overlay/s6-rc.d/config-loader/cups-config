@@ -56,7 +56,7 @@ function setup() {
     setup_ssl
 
     # Used by autoconf
-    config=$(jq s --arg host_name "$host_name" \
+    config=$(jq --arg host_name "$host_name" \
         --arg privkey "$privkey" --arg pubkey "$pubkey" --arg cups_log_level "$cups_log_level" \
         --arg cups_access_log_level "$cups_access_log_level" --arg host_alias "$host_alias" --arg self_sign "$self_sign" \
         '{internal: $internal, external: $external, host_name: $host_name,  host_alias: $host_alias , privkey: $privkey, pubkey: $pubkey, cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign   }' \
