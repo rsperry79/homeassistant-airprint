@@ -14,10 +14,11 @@ function update_cups() {
     # Get all possible host-names from configuration
     result=$(bashio::api.supervisor GET /core/api/config true || true)
     internal=$(bashio::jq "$result" '.internal_url' | cut -d'/' -f3 | cut -d':' -f1)
-    external=$(bashio::jq "$result" '.external_url' | cut -d'/' -f3 | cut -d':' -f1)
 
-    sed -i "s/^.*ServerAlias .*/ServerAlias ${internal}/" "$real_cups_path/$cups_daemon_cfg"
-    sed -i "s/^.*ServerName .*/ServerName ${external}/" "$real_cups_path/$cups_daemon_cfg"
+    if grep "$internal" "$real_cups_path/$cups_daemon_cfg"; then
+        sed -i "s/^.*ServerAlias\a\  ${internal}" "$real_cups_path/$cups_daemon_cfg" # update config
+        s6-svc -r /etc/s6-overlay/s6-rc.d/cups-server                                # restart the service
+    fi
 }
 
 run

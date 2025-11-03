@@ -39,7 +39,7 @@ function run() {
 
 # Gets current settings from HA
 function setup() {
-    host_name=$(bashio::info.hostname)
+    host_name=$(hostname -f)
 
     cups_log_level="error"
     cups_access_log_level="config"
@@ -127,9 +127,7 @@ function setup_ssl_public() {
     if [ ! -e "$pubkey" ]; then
         bashio::log.notice "SSL Public key does not exist at given path"
     else
-        host_alias=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
-        change_host_name "$host_alias"
-
+        update_hosts
         msg=$(openssl x509 -in "$pubkey" -out "$ssl_dir/$host_name.crt")
         if [ $? -eq 0 ]; then
             chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_name.crt"
@@ -142,14 +140,36 @@ function setup_ssl_public() {
     fi
 }
 
-function change_host_name() {
+function update_hosts() {
+    host_alias=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
+    add_host_name_to_hosts "$host_alias"
+    add_sans_to_hosts "$pubkey"
+
+    host_alias+=$(openssl x509 -noout -text -in "$pubkey" | grep DNS: | tail -n1 | sed 's/DNS://g; s/, / /g')
+
+}
+
+function add_host_name_to_hosts() {
     host_alias=${1}
-    old_host=$(<"/etc/hostname")
-    bashio::log.info "Current host is $old_host"
+
     if ! grep "$host_alias" /etc/hosts; then
         bashio::log.info "Adding host is $host_alias to /etc/hosts"
         echo "127.0.0.1 $host_alias" >>/etc/hosts
     fi
+}
+
+function add_sans_to_hosts() {
+    cert=${1}
+    sans=$(openssl x509 -noout -text -in "$cert" | grep DNS: | tail -n1 | sed 's/DNS://g; s/, / /g')
+    trimmed="${sans#"${sans%%[![:space:]]*}"}"
+
+    set -f
+    IFS=' ' read -r -a names <<<"$trimmed"
+    set +f
+
+    for i in "${!names[@]}"; do
+        add_host_name_to_hosts "${names[i]}"
+    done
 }
 
 function autoconf_client() {

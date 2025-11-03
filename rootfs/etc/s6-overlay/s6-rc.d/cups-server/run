@@ -10,4 +10,4 @@ bashio::log.info "Testing CUPS server config"
 cupsd -t -c /config/cups/cupsd.conf -s /config/cups/cups-files.conf
 
 bashio::log.info "Starting CUPS server from S6"
-cupsd -l -c /config/cups/cupsd.conf -s /config/cups/cups-files.conf
+cupsd -f -c /config/cups/cupsd.conf -s /config/cups/cups-files.conf
