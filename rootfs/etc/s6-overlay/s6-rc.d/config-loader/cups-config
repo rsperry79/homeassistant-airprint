@@ -13,6 +13,7 @@ readonly ssl_dir="/config/cups/ssl"
 
 readonly ssl_owner="root"
 readonly ssl_group="root"
+readonly ssl_perms="770"
 
 function run() {
     setup
@@ -102,16 +103,7 @@ function setup_ssl_private() {
     if [ ! -e "$privkey" ]; then
         bashio::log.notice "SSL Private key does not exist at given path"
     else
-        rm -f "$ssl_dir/$host_name.key"
-        msg=$(openssl rsa -in "$privkey" -out "$ssl_dir/$host_name.key")
-        if [ $? -eq 0 ]; then
-            chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_name.key"
-            chmod 770 "$ssl_dir/$host_name.key"
-            privkey="$ssl_dir/$host_name.key"
-            bashio::log.debug "SSL Private Key exists. $privkey"
-        else
-            bashio::log.error "Private key is not valid. $msg"
-        fi
+        convert_private_key
     fi
 }
 
@@ -128,25 +120,41 @@ function setup_ssl_public() {
         bashio::log.notice "SSL Public key does not exist at given path"
     else
         update_hosts
-        msg=$(openssl x509 -in "$pubkey" -out "$ssl_dir/$host_name.crt")
-        if [ $? -eq 0 ]; then
-            chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_name.crt"
-            chmod 770 "$ssl_dir/$host_name.crt"
-            pubkey="$ssl_dir/$host_name.crt"
-            bashio::log.debug "SSL Public Key exists. $pubkey"
-        else
-            bashio::log.error "Public key is not valid. $msg"
-        fi
+        convert_public_key
+    fi
+}
+
+function convert_private_key() {
+    rm -f "$ssl_dir/$host_name.key"
+    msg=$(openssl rsa -in "$privkey" -out "$ssl_dir/$host_name.key")
+    if [ $? -eq 0 ]; then
+        chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_name.key"
+        chmod "$ssl_perms" "$ssl_dir/$host_name.key"
+        privkey="$ssl_dir/$host_name.key"
+        bashio::log.debug "SSL Private Key exists. $privkey"
+    else
+        bashio::log.error "Private key is not valid. $msg"
+    fi
+}
+function convert_public_key() {
+    rm -f "$ssl_dir/$host_name.crt"
+    msg=$(openssl x509 -in "$pubkey" -out "$ssl_dir/$host_name.crt")
+    if [ $? -eq 0 ]; then
+        chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_name.crt"
+        chmod "$ssl_perms" "$ssl_dir/$host_name.crt"
+        pubkey="$ssl_dir/$host_name.crt"
+        bashio::log.debug "SSL Public Key exists. $pubkey"
+    else
+        bashio::log.error "Public key is not valid. $msg"
     fi
 }
 
 function update_hosts() {
-    host_alias=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
+    cn=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
+    host_alias="${cn#"${cn%%[![:space:]]*}"}"
     add_host_name_to_hosts "$host_alias"
-    add_sans_to_hosts "$pubkey"
 
-    host_alias+=$(openssl x509 -noout -text -in "$pubkey" | grep DNS: | tail -n1 | sed 's/DNS://g; s/, / /g')
-
+    add_sans "$pubkey"
 }
 
 function add_host_name_to_hosts() {
@@ -158,7 +166,7 @@ function add_host_name_to_hosts() {
     fi
 }
 
-function add_sans_to_hosts() {
+function add_sans() {
     cert=${1}
     sans=$(openssl x509 -noout -text -in "$cert" | grep DNS: | tail -n1 | sed 's/DNS://g; s/, / /g')
     trimmed="${sans#"${sans%%[![:space:]]*}"}"
@@ -167,8 +175,11 @@ function add_sans_to_hosts() {
     IFS=' ' read -r -a names <<<"$trimmed"
     set +f
 
-    for i in "${!names[@]}"; do
-        add_host_name_to_hosts "${names[i]}"
+    for name in "${!names[@]}"; do
+        add_host_name_to_hosts "${names[name]}"
+        if ! grep "$name" "$host_alias"; then
+            host_alias+=$name
+        fi
     done
 }
 
