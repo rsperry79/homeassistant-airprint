@@ -7,7 +7,7 @@ LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ENV \
-    DEBIAN_FRONTEND="noninteractive" \
+    DEBIAN_FRONTEND="noninteractive"
 
 # Optimize APT for faster, smaller builds
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
