@@ -6,6 +6,13 @@ LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+ENV \
+    LANG="C.UTF-8" \
+    DEBIAN_FRONTEND="noninteractive" \
+    S6_CMD_WAIT_FOR_SERVICES=0
+
+
+
 # Optimize APT for faster, smaller builds
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
     && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recommends \
