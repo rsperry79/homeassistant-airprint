@@ -34,15 +34,14 @@ map:
     read_only: true
   - type: share
     read_only: false
-# ingress: true
-# ingress_port: 631
+ingress: true
+ingress_port: 631
 # ingress_stream: true
-webui: http://[HOST]:[PORT:631]/
+#webui: http://[HOST]:[PORT:631]/
 watchdog: http://[HOST]:[PORT:631]/printers
 options:
   system_settings:
     use_ipv6: "false"
-
   avahi:
     avahi_debug: "false"
   cups:

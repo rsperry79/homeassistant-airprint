@@ -1,7 +1,7 @@
 ###################################
 # FILE IS OVERWRITTEN AT Startup
 ###################################
-ServerName  {{.host_alias}}:631
+ServerName  *:631
 AllowAnyRoot Yes
 AllowExpiredCerts Yes
 Encryption IfRequested
