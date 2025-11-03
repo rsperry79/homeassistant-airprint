@@ -14,7 +14,7 @@ until [ -e /run/dbus/system_bus_socket ]; do
 done
 
 if [ "$debug_flag" == "true" ]; then
-    exec avahi-daemon --debug -f /config/avahi/avahi-daemon.conf
+    avahi-daemon --debug -f /config/avahi/avahi-daemon.conf
 else
-    exec avahi-daemon --file=/config/avahi/avahi-daemon.conf
+    avahi-daemon --file=/config/avahi/avahi-daemon.conf
 fi
