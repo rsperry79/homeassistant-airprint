@@ -16,7 +16,7 @@ function update_cups_conf() {
     internal=$(bashio::jq "$result" '.internal_url' | cut -d'/' -f3 | cut -d':' -f1)
     bashio::log.info "HA Int: $internal"
 
-    if grep "$internal" "$real_cups_path/$cups_daemon_cfg"; then
+    if grep -q "$internal" "$real_cups_path/$cups_daemon_cfg"; then
         sed -i "s/^.*ServerAlias\a\  ${internal}" "$real_cups_path/$cups_daemon_cfg" # update config
         bashio::log.info "Restarting CUPS after adding HA Internal domain"
         s6-svc -r /etc/s6-overlay/s6-rc.d/cups-server # restart the service
