@@ -18,3 +18,5 @@ if [ "$debug_flag" == "true" ]; then
 else
     avahi-daemon --file=/config/avahi/avahi-daemon.conf
 fi
+
+

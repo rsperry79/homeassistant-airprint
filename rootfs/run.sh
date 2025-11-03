@@ -5,6 +5,7 @@ readonly real_cups_path=/config/cups
 readonly cups_daemon_cfg=cupsd.conf
 
 function run() {
+    bashio::log info "Entered Run.sh"
     update_cups
 }
 
@@ -20,3 +21,5 @@ function update_cups() {
 }
 
 run
+# Keep Running
+tail -f /dev/null
