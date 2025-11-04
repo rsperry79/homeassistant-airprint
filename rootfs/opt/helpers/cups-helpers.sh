@@ -36,6 +36,7 @@ function add_sans() {
     set -f
     IFS=' ' read -r -a names <<<"$trimmed"
     set +f
+    bashio::log.info "helpers host_alias: $host_alias"
 
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
@@ -48,11 +49,13 @@ function add_sans() {
 }
 
 function append_host_alias() {
+
     bashio::log.info "checking  $to_check for host aliases :: $host_alias"
     if [ "$(! echo "$host_alias" | grep "$to_check")" ]; then
         host_alias+=" $to_check"
         bashio::log.yellow "added $to_check to host aliases"
         bashio::log.red "helpers append_host_alias host_alias: $host_alias"
+        append_host_existing_alias "$host_alias"
     fi
 }
 
@@ -60,7 +63,9 @@ function append_host_existing_alias() {
     to_add=${1}
 
     temp=$(grep "ServerAlias" /config/cups/cupsd.conf)
-    bashio::log.info "append_host_existing_alias\r\n $temp\r\n$to_add"
+    bashio::log.blue "append_host_existing_alias:"
+    bashio::log.blue "current val: $temp"
+    bashio::log.blue "to add: $to_add"
 
 }
 

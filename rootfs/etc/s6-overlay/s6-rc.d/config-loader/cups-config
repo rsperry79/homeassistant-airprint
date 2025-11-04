@@ -11,7 +11,7 @@ readonly cups_templates_path=/config/templates/cups
 readonly cups_client_cfg=client.conf
 readonly cups_daemon_cfg=cupsd.conf
 readonly cups_files_cfg=cups-files.conf
-
+ 
 function run() {
     setup
 
