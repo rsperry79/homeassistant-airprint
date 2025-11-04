@@ -70,7 +70,7 @@ function setup_ssl() {
     #     rm -f "$ssl_dir"/*
     # fi
 
-    sign=$(bashio::config cups_self_sign)
+    sign=$(bashio::config 'cups_self_sign')
     bashio::log.info self sign has value: "$sign"
 
     if bashio::config.has_value cups_self_sign && bashio::config.true 'cups_self_sign'; then
@@ -162,12 +162,11 @@ function update_hosts() {
 
 function add_host_name_to_hosts() {
     host_alias=${1}
-    bashio::log.info "add_host_name_to_hosts $host_alias"
     if ! grep -q "$host_alias" /etc/hosts; then
-        bashio::log.info "Adding host: $host_alias to /etc/hosts"
+        bashio::log.debug "Adding host: $host_alias to /etc/hosts"
         echo "127.0.0.1 $host_alias" >>/etc/hosts
     else
-        bashio::log.info "Not Adding host: $host_alias to /etc/hosts"
+        bashio::log.debug "Not Adding host: $host_alias to /etc/hosts"
 
     fi
 }
@@ -183,7 +182,7 @@ function add_sans() {
 
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
-        bashio::log.info "checking  $to_check"
+        bashio::log.debug "add_sans checking: $to_check"
         add_host_name_to_hosts "$to_check"
         if [ "$(! echo "$host_alias" | grep "$to_check")" ]; then
             host_alias+=" $to_check"
