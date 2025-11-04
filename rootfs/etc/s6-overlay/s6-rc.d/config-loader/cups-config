@@ -1,8 +1,15 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
 
+
 # shellcheck source="../../../../opt/helpers/cups-helpers.sh"
 source "/opt/helpers/cups-helpers.sh"
+# shellcheck source="../../../../opt/helpers/cups-helpers.sh"
+source "/opt/helpers/cups-helpers.sh"
+
+# shellcheck source="../../../../opt/helpers/cups-ssl-helpers.sh"
+source "/opt/helpers/cups-ssl-helpers.sh"
+
 # HA File paths
 readonly real_cups_path=/config/cups
 
@@ -11,7 +18,7 @@ readonly cups_templates_path=/config/templates/cups
 readonly cups_client_cfg=client.conf
 readonly cups_daemon_cfg=cupsd.conf
 readonly cups_files_cfg=cups-files.conf
- 
+
 function run() {
     setup
 
@@ -41,7 +48,7 @@ function setup() {
 
     cups_log_level="error"
     cups_access_log_level="config"
-    host_alias="*"
+    HOST_ALIAS="*"
     self_sign=false
 
     if bashio::config.has_value 'cups_log_level'; then
@@ -58,11 +65,11 @@ function setup() {
 
     setup_ssl "$host_name" "$self_sign"
 
-    bashio::log.info "host_alias: $host_alias"
+    bashio::log.info "HOST_ALIAS: $HOST_ALIAS"
     # Used by autoconf
     config=$(jq --arg host_name "$host_name" \
         --arg privkey "$privkey" --arg pubkey "$pubkey" --arg cups_log_level "$cups_log_level" \
-        --arg cups_access_log_level "$cups_access_log_level" --arg host_alias "$host_alias" --arg self_sign "$self_sign" \
+        --arg cups_access_log_level "$cups_access_log_level" --arg host_alias "$HOST_ALIAS" --arg self_sign "$self_sign" \
         '{ host_name: $host_name,  host_alias: $host_alias , privkey: $privkey, pubkey: $pubkey, cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign   }' \
         /data/options.json)
 }
@@ -88,7 +95,7 @@ function autoconf_daemon() {
 function update_daemon() {
     sed -i "s/^.*LogLevel .*/LogLevel ${cups_log_level}/" "$real_cups_path/$cups_daemon_cfg"
     sed -i "s/^.*ServerName .*/ServerName ${host_name}/" "$real_cups_path/$cups_daemon_cfg"
-    sed -i "s/^.*ServerAlias .*/ServerAlias ${host_alias}/" "$real_cups_path/$cups_daemon_cfg"
+    sed -i "s/^.*ServerAlias .*/ServerAlias ${HOST_ALIAS}/" "$real_cups_path/$cups_daemon_cfg"
 }
 
 function autoconf_files() {
