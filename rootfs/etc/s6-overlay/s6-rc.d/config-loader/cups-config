@@ -178,7 +178,7 @@ function add_sans() {
     set +f
 
     for name in "${!names[@]}"; do
-        to_check="${!names[name]}"
+        to_check="$name"
 
         bashio::log.info "to_check $to_check"
         add_host_name_to_hosts "$to_check"
