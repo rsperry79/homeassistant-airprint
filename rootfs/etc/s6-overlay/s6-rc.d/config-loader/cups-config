@@ -179,9 +179,11 @@ function add_sans() {
     set +f
 
     for name in "${!names[@]}"; do
-        add_host_name_to_hosts "${!names[name]}"
-        if ! echo "$host_alias" | grep "${!names[name]}"; then
-            host_alias+="${!names[name]}"
+        to_check="${!names[name]}"
+        bashio::log.info "to_check $to_check"
+        add_host_name_to_hosts "$to_check"
+        if ! echo "$host_alias" | grep "$to_check"; then
+            host_alias+="$to_check"
         fi
     done
 }
