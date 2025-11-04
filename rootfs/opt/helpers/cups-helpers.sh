@@ -39,7 +39,7 @@ function add_sans() {
 
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
-        bashio::log.debug "add_sans checking: $to_check"
+        bashio::log.info "add_sans checking: $to_check"
         add_host_name_to_hosts "$to_check"
     done
 }
