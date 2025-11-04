@@ -183,6 +183,8 @@ function add_sans() {
         add_host_name_to_hosts "$to_check"
         if ! echo "$host_alias" | grep -q "$to_check"; then
             host_alias+="$to_check"
+            bashio::log.info "added $to_check"
+            bashio::log.info "host_alias is now $host_alias"
         fi
     done
 }
