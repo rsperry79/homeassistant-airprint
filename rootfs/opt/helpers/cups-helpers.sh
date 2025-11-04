@@ -44,7 +44,7 @@ function add_sans() {
         append_host_alias "$to_check"
     done
 
-    
+    bashio::log.info "helpers host_alias: $host_alias"
 }
 
 function append_host_alias() {
