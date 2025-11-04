@@ -177,8 +177,8 @@ function add_sans() {
     IFS=' ' read -r -a names <<<"$trimmed"
     set +f
 
-    for name in "${!names[@]}"; do
-        to_check="${names[name]}"
+    for index in "${!names[@]}"; do
+        to_check="${names[$index]}"
 
         bashio::log.info "to_check $to_check"
         add_host_name_to_hosts "$to_check"
