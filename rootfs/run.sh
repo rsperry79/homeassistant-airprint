@@ -20,10 +20,9 @@ function update_cups_conf() {
     bashio::log.info "HA Int: $internal"
 
     if ! grep -q "$internal" "$real_cups_path/$cups_daemon_cfg"; then
+        echo
+        #add_host_name_to_hosts "$internal"
 
-        add_host_name_to_hosts "$internal"
-
-        
         # bashio::log.info "Restarting CUPS after adding HA Internal domain"
         #s6-svc -r /var/run/s6/services/cups-server # restart the service
     fi
