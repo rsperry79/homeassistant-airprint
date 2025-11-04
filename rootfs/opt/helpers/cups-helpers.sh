@@ -41,6 +41,7 @@ function add_sans() {
         to_check="${names[index]}"
         bashio::log.info "add_sans checking: $to_check"
         add_host_name_to_hosts "$to_check"
+        append_host_alias "$to_check"
     done
 }
 
