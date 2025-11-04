@@ -58,6 +58,7 @@ function setup() {
 
     setup_ssl "$host_name" "$self_sign"
 
+    bashio::log.info "host_alias: $host_alias"
     # Used by autoconf
     config=$(jq --arg host_name "$host_name" \
         --arg privkey "$privkey" --arg pubkey "$pubkey" --arg cups_log_level "$cups_log_level" \

@@ -43,6 +43,8 @@ function add_sans() {
         add_host_name_to_hosts "$to_check"
         append_host_alias "$to_check"
     done
+
+    
 }
 
 function append_host_alias() {
