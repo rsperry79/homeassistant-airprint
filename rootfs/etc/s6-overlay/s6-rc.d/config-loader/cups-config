@@ -179,7 +179,7 @@ function add_sans() {
 
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
-
+        bashio::log.debug "checking  $to_check"
         add_host_name_to_hosts "$to_check"
         if [ "$(! echo "$host_alias" | grep "$to_check")" ]; then
             host_alias+="$to_check"
