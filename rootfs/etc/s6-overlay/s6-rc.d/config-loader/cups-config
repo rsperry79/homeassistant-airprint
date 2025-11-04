@@ -161,7 +161,7 @@ function update_hosts() {
 }
 
 function add_host_name_to_hosts() {
-    host_alias=${1} 
+    host_alias=${1}
     if ! grep "$host_alias" /etc/hosts; then
         bashio::log.info "Adding host is $host_alias to /etc/hosts"
         echo "127.0.0.1 $host_alias" >>/etc/hosts
@@ -179,6 +179,7 @@ function add_sans() {
 
     for name in "${!names[@]}"; do
         to_check="${!names[name]}"
+
         bashio::log.info "to_check $to_check"
         add_host_name_to_hosts "$to_check"
         if ! echo "$host_alias" | grep -q "$to_check"; then
