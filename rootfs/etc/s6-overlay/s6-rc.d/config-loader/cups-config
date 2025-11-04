@@ -174,10 +174,10 @@ function add_sans() {
     trimmed="${sans#"${sans%%[![:space:]]*}"}"
 
     set -f
-    IFS=' ' read -r -a names <<<"$trimmed"
+    IFS=' ' read -r names <<<"$trimmed"
     set +f
 
-    for name in "${!names[@]}"; do
+    for name in "${names[@]}"; do
         to_check="$name"
 
         bashio::log.info "to_check $to_check"
