@@ -9,7 +9,7 @@ function update_hosts() {
 
     trimmed_cn="${cn#"${cn%%[![:space:]]*}"}"
     add_host_name_to_hosts "$trimmed_cn"
-
+    HOST_ALIAS="$trimmed_cn"
     add_sans "$pubkey"
 }
 
@@ -49,8 +49,8 @@ function add_sans() {
 function append_host_alias() {
     local to_check=${1}
 
-    bashio::log.info "checking  $to_check for host aliases :: $HOST_ALIAS"
-    if [ "$(! echo "$HOST_ALIAS" | grep "$to_check")" ]; then
+    bashio::log.info "checking  $HOST_ALIAS for host aliases :: $to_check"
+    if ! echo "$HOST_ALIAS" | grep "$to_check"; then
         HOST_ALIAS+=" $to_check"
         bashio::log.yellow "added $to_check to host aliases"
         bashio::log.red "helpers append_host_alias HOST_ALIAS: $HOST_ALIAS"
