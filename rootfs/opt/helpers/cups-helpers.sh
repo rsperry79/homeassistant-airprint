@@ -48,7 +48,7 @@ function add_sans() {
 }
 
 function append_host_alias() {
-    bashio::log.info "checking  $to_check for host aliases"
+    bashio::log.info "checking  $to_check for host aliases :: $host_alias"
     if [ "$(! echo "$host_alias" | grep "$to_check")" ]; then
         host_alias+=" $to_check"
         bashio::log.yellow "added $to_check to host aliases"
