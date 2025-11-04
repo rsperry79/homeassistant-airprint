@@ -52,6 +52,7 @@ function append_host_alias() {
     if [ "$(! echo "$host_alias" | grep "$to_check")" ]; then
         host_alias+=" $to_check"
         bashio::log.info "added $to_check to host aliases"
+        bashio::log.info "helpers append_host_alias host_alias: $host_alias"
     fi
 }
 
