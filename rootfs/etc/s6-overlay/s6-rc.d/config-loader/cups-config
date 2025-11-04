@@ -151,7 +151,10 @@ function convert_public_key() {
 
 function update_hosts() {
     cn=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
+    bashio::log.info "CN $cn"
+
     host_alias="${cn#"${cn%%[![:space:]]*}"}"
+
     add_host_name_to_hosts "$host_alias"
 
     add_sans "$pubkey"
@@ -176,9 +179,9 @@ function add_sans() {
     set +f
 
     for name in "${!names[@]}"; do
-        add_host_name_to_hosts "${names[name]}"
-        if ! echo "$host_alias" | grep "$name"; then
-            host_alias+=$name
+        add_host_name_to_hosts "${!names[name]}"
+        if ! echo "$host_alias" | grep "${!names[name]}"; then
+            host_alias+="${!names[name]}"
         fi
     done
 }
