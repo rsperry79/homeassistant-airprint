@@ -177,7 +177,7 @@ function add_sans() {
 
     for name in "${!names[@]}"; do
         add_host_name_to_hosts "${names[name]}"
-        if ! grep "$name" "$host_alias"; then
+        if ! echo "$host_alias" | grep "$name"; then
             host_alias+=$name
         fi
     done
