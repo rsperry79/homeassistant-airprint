@@ -42,6 +42,7 @@ function setup() {
     cups_log_level="error"
     cups_access_log_level="config"
     host_alias="*"
+    self_sign=false
 
     if bashio::config.has_value 'cups_log_level'; then
         cups_log_level=$(bashio::config 'cups_log_level')
@@ -50,9 +51,10 @@ function setup() {
     if bashio::config.has_value 'cups_access_log_level'; then
         cups_access_log_level=$(bashio::config 'cups_access_log_level')
     fi
-
-    self_sign=$(bashio::config 'cups_self_sign')
-    bashio::log.info self sign has value: "$self_sign"
+    if bashio::config.has_value cups_self_sign; then
+        self_sign=$(bashio::config 'cups_self_sign')
+        bashio::log.info "Self sign has value: $self_sign"
+    fi
 
     setup_ssl "$host_name" "$self_sign"
 

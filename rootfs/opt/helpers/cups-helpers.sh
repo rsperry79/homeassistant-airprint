@@ -45,22 +45,27 @@ function add_sans() {
 }
 
 function append_host_alias() {
-    grep "ServerAlias" /config/cups/cupsd.conf
+
     if [ "$(! echo "$host_alias" | grep "$to_check")" ]; then
         host_alias+=" $to_check"
         bashio::log.debug "added $to_check to host aliases"
     fi
 }
 
+function append_host_existing_alias() {
+    to_add=${1}
+
+    temp=$(grep "ServerAlias" /config/cups/cupsd.conf)
+    bashio::log.info "append_host_existing_alias\r\n $temp\r\n$to_add"
+
+}
+
 function setup_ssl() {
     host_name=${1}
     self_sign=${2}
     # TODO MOVE
-    # if [ -d "$ssl_dir" ]; then
-    #     rm -f "$ssl_dir"/*
-    # fi
 
-    if bashio::config.has_value cups_self_sign && bashio::config.true 'cups_self_sign'; then
+    if [ "$self_sign" == true ]; then
         bashio::log.info "Self sign is on"
 
         privkey="$ssl_dir/$host_name.crt"
