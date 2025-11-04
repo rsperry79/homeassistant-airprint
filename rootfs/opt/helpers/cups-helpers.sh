@@ -19,12 +19,12 @@ function update_hosts() {
 }
 
 function add_host_name_to_hosts() {
-    host_alias=${1}
-    if ! grep -q "$host_alias" /etc/hosts; then
+    local to_check=${1}
+    if ! grep -q "$to_check" /etc/hosts; then
         bashio::log.info "Adding host: $host_alias to /etc/hosts"
-        echo "127.0.0.1 $host_alias" >>/etc/hosts
+        echo "127.0.0.1 $to_check" >>/etc/hosts
     else
-        bashio::log.info "Not Adding host: $host_alias to /etc/hosts"
+        bashio::log.info "Not Adding host: $to_check to /etc/hosts"
     fi
 }
 
