@@ -82,8 +82,8 @@ schema:
     cups_access_log_level: list(all|access|config)
   cups_ssl:
     cups_self_sign: bool
-    cups_ssl_cert: str
-    cups_ssl_key: str
+    cups_ssl_cert: str?
+    cups_ssl_key: str?
   logins:
     - username: str
       password: str

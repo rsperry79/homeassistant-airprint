@@ -3,12 +3,12 @@
 
 function get_interfaces() {
     # gets all network interfaces with their broadcast addresses
-    bcast_interfaces=""
-    interfaces=()
+    local bcast_interfaces=""
+    local interfaces=()
     if ! bashio::config.has_value 'interfaces'; then
 
         bashio::log.debug "Config has no network interfaces listed.  Auto-finding interfaces"
-        
+
         # Ensure 'ip' command exists
         if ! command -v ip &>/dev/null; then
             bashio::exit.nok "Error: 'ip' command not found. Please install iproute2."
@@ -37,9 +37,11 @@ function get_interfaces() {
                 bcast_interfaces=$interface
             fi
         done
-        #bashio::addon.option 'interfaces' "$bcast_interfaces"
+
     else
         # shellcheck disable=SC2178
-        interfaces=$(bashio::config 'interfaces')
+        bcast_interfaces=$(bashio::config 'interfaces')
     fi
+
+    echo "$bcast_interfaces"
 }

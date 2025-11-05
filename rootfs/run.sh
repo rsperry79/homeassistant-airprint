@@ -3,6 +3,9 @@
 # shellcheck source="./opt/cups/cups-host-helpers.sh"
 source "/opt/cups/cups-host-helpers.sh"
 
+# shellcheck source="./opt/common/network-common.sh"
+source "/opt/common/network-common.sh"
+
 ulimit -n 1048576
 readonly real_cups_path=/config/cups
 readonly cups_daemon_cfg=cupsd.conf
@@ -21,6 +24,11 @@ function update_cups_conf() {
     add_host_name_to_hosts "$internal"
     # bashio::log.info "Restarting CUPS after adding HA Internal domain"
     #s6-svc -r /var/run/s6/services/cups-server # restart the service
+}
+
+function update_interfaces() {
+    bcast_interfaces=$(get_interfaces)
+    bashio::addon.option 'interfaces' "$bcast_interfaces"
 }
 
 run               # run entrypoint

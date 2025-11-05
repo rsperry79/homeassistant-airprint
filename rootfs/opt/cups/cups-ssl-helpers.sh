@@ -1,13 +1,13 @@
 #!/command/with-contend bashio
 
 # shellcheck source="./cups-host-helpers.sh"
-source "/opt/helpers/cups-host-helpers.sh"
+source "/opt/cups/cups-host-helpers.sh"
 
 # shellcheck source="./cups-host-helpers.sh"
-source "/opt/helpers/cups-host-helpers.sh"
+source "/opt/cups/cups-host-helpers.sh"
 
 # shellcheck source="./cups-common.sh"
-source "/opt/helpers/cups-common.sh"
+source "/opt/cups/cups-common.sh"
 
 privkey="$ssl_dir/$host_name.crt"
 pubkey="$ssl_dir/$host_name.pem"
