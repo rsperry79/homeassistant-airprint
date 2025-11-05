@@ -54,11 +54,12 @@ function append_host_alias() {
 }
 
 function append_host_existing_alias() {
-    to_add=${1}
+    local to_add=${1}
 
     current=$(grep "ServerAlias" /config/cups/cupsd.conf)
 
-    if [ "$(! echo "$current" | grep -q "$to_add")" ]; then
+    if ! echo "$current" | grep -q "$to_add"; then
+        bashio::log.red "append_host_existing_alias needs: $to_add"
         to_save="$current $to_add"
         sed -i "s/^.*ServerAlias .*/${to_save}/" "$real_cups_path/$cups_daemon_cfg"
     fi
