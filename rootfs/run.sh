@@ -7,6 +7,7 @@ source "/opt/cups/cups-host-helpers.sh"
 source "/opt/common/network-common.sh"
 
 ulimit -n 1048576
+
 readonly real_cups_path=/config/cups
 readonly cups_daemon_cfg=cupsd.conf
 
