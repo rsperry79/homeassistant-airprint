@@ -110,12 +110,11 @@ function update_files() {
     bashio::log.red "ServerCertificate"
     sed -i "s#^.*ServerCertificate .*ServerCertificate ${pubkey}#" "$real_cups_path/$cups_files_cfg"
 
-    bashio::log.red "ServerKey"
-    sed -i "s#^.*ServerKey .*ServerKey ${privkey}#" "$real_cups_path/$cups_files_cfg"
-
     bashio::log.red "CreateSelfSignedCerts"
     sed -i "s#^.*CreateSelfSignedCerts .*CreateSelfSignedCerts ${self_sign}#" "$real_cups_path/$cups_files_cfg"
 
+    bashio::log.red "ServerKey"
+    sed -i "s#^.*ServerKey .*ServerKey ${privkey}#" "$real_cups_path/$cups_files_cfg"
     bashio::log.red "update_files"
 }
 
