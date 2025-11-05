@@ -53,6 +53,7 @@ options:
     avahi_reflector: true
     avahi_reflect_ipv: false
   cups:
+    cups_remote_admin: true
     cups_log_level: debug
     cups_access_log_level: config
     cups_ssl:
