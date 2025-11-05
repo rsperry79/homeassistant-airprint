@@ -17,15 +17,10 @@ function update_cups_conf() {
     # Get all possible host-names from configuration
     result=$(bashio::api.supervisor GET /core/api/config true || true)
     internal=$(bashio::jq "$result" '.internal_url' | cut -d'/' -f3 | cut -d':' -f1)
-    bashio::log.info "HA Int: $internal"
-
-    if ! grep -q "$internal" "$real_cups_path/$cups_daemon_cfg"; then
-        append_host_existing_alias "$internal"
-        add_host_name_to_hosts "$internal"
-
-        # bashio::log.info "Restarting CUPS after adding HA Internal domain"
-        #s6-svc -r /var/run/s6/services/cups-server # restart the service
-    fi
+    append_host_existing_alias "$internal"
+    add_host_name_to_hosts "$internal"
+    # bashio::log.info "Restarting CUPS after adding HA Internal domain"
+    #s6-svc -r /var/run/s6/services/cups-server # restart the service
 }
 
 run               # run entrypoint
