@@ -80,8 +80,6 @@ function autoconf_client() {
 }
 
 function update_client() {
-
-    bashio::log.red "update_client"
     sed -i "s/^.*ServerName .*/ServerName ${host_name}:631/" "$real_cups_path/$cups_daemon_cfg"
 }
 
@@ -94,7 +92,6 @@ function autoconf_daemon() {
 }
 
 function update_daemon() {
-    bashio::log.red "update_daemon"
     sed -i "s/^.*LogLevel .*/LogLevel ${cups_log_level}/" "$real_cups_path/$cups_daemon_cfg"
     sed -i "s/^.*ServerName .*/ServerName ${host_name}/" "$real_cups_path/$cups_daemon_cfg"
     sed -i "s/^.*ServerAlias .*/ServerAlias ${HOST_ALIAS}/" "$real_cups_path/$cups_daemon_cfg"
@@ -107,11 +104,19 @@ function autoconf_files() {
 }
 
 function update_files() {
-    bashio::log.red "update_files"
+    bashio::log.red "AccessLogLevel"
     sed -i "s#^.*AccessLogLevel .*#AccessLogLevel ${cups_access_log_level}#" "$real_cups_path/$cups_files_cfg"
+
+    bashio::log.red "ServerCertificate"
     sed -i "s#^.*ServerCertificate .*ServerCertificate ${pubkey}#" "$real_cups_path/$cups_files_cfg"
+
+    bashio::log.red "ServerKey"
     sed -i "s#^.*ServerKey .*ServerKey ${privkey}#" "$real_cups_path/$cups_files_cfg"
+
+    bashio::log.red "CreateSelfSignedCerts"
     sed -i "s#^.*CreateSelfSignedCerts .*CreateSelfSignedCerts ${self_sign}#" "$real_cups_path/$cups_files_cfg"
+
+    bashio::log.red "update_files"
 }
 
 run
