@@ -27,41 +27,45 @@ function setup_ssl() {
 }
 
 function setup_ssl_private() {
+    local _privkey
     if bashio::config.has_value 'cups_ssl_key'; then
-        privkey=$(bashio::config 'cups_ssl_key')
+        _privkey=$(bashio::config 'cups_ssl_key')
     elif [ -e "/ssl/privkey.pem" ]; then
-        privkey="/ssl/privkey.pem"
+        _privkey="/ssl/privkey.pem"
     else
-        privkey=""
+        _privkey=""
     fi
 
-    if [ ! -e "$privkey" ]; then
+    if [ ! -e "$_privkey" ]; then
         bashio::log.notice "SSL Private key does not exist at given path"
     else
-        convert_private_key
+        convert_private_key "$_privkey"
     fi
 }
 
 function setup_ssl_public() {
+    local _pubkey
     if bashio::config.has_value 'cups_ssl_cert'; then
-        pubkey=$(bashio::config 'cups_ssl_cert')
+        _pubkey=$(bashio::config 'cups_ssl_cert')
     elif [ -e "/ssl/fullchain.pem" ]; then
-        pubkey="/ssl/fullchain.pem"
+        _pubkey="/ssl/fullchain.pem"
     else
-        pubkey=""
+        _pubkey=""
     fi
 
-    if [ ! -e "$pubkey" ]; then
+    if [ ! -e "$_pubkey" ]; then
         bashio::log.notice "SSL Public key does not exist at given path"
     else
-        update_hosts "$pubkey"
-        convert_public_key
+        update_hosts "$_pubkey"
+        convert_public_key "$_pubkey"
     fi
 }
 
 function convert_private_key() {
+    local _privkey=${1}
+
     rm -f "$ssl_dir/$host_name.key"
-    msg=$(openssl rsa -in "$privkey" -out "$ssl_dir/$host_name.key")
+    msg=$(openssl rsa -in "$_privkey" -out "$ssl_dir/$host_name.key")
     # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
         privkey="$ssl_dir/$host_name.key"
@@ -74,8 +78,10 @@ function convert_private_key() {
 }
 
 function convert_public_key() {
+    local _pubkey=${1}
+
     rm -f "$ssl_dir/$host_name.crt"
-    msg=$(openssl x509 -in "$pubkey" -out "$ssl_dir/$host_name.crt")
+    msg=$(openssl x509 -in "$_pubkey" -out "$ssl_dir/$host_name.crt")
     # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
         chown "$ssl_owner":"$ssl_group" "$pubkey"
