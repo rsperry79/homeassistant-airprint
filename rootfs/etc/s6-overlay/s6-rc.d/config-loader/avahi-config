@@ -3,6 +3,9 @@
 # shellcheck source="../../../../opt/avahi/avahi-common.sh"
 source "/opt/avahi/avahi-common.sh"
 
+# shellcheck source="../../../../opt/avahi/avahi-config.sh"
+source "/opt/avahi/avahi-config.sh"
+
 # shellcheck source="../../../../opt/common/network-common.sh"
 source "/opt/common/network-common.sh"
 
