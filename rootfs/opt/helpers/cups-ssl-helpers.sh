@@ -5,8 +5,8 @@ readonly ssl_owner="root"
 readonly ssl_group="root"
 readonly ssl_perms="770"
 
-# shellcheck source="./cups-helpers.sh"
-source "/opt/helpers/cups-helpers.sh"
+# shellcheck source="./cups-host-helpers.sh"
+source "/opt/helpers/cups-host-helpers.sh"
 
 function setup_ssl() {
     host_name=${1}
