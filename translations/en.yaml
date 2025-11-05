@@ -32,38 +32,39 @@ configuration:
           Do you want to enable Avahi IPV Reflection?
   cups:
     name: CUPS Settings
+    cups_remote_admin:
+      name: Allow Remote Administration?
+      description: >-
+        Do you want to allow remote Administration of Cups?
     fields:
       cups_logging:
         name: CUPS Log Levels
-        cups_log_level:
-          name: Cups Log Level
-          description: >-
-            Defines the log level for
-          cups_access_log_level:
-            name: Cups Access Log Level
+        fields:
+          cups_log_level:
+            name: Cups Log Level
             description: >-
-              Defines the access log level for
-      cups_remote_admin:
-        name: Allow Remote Administration?
-        description: >-
-          Do you want to allow remote Administration of Cups?
+              Defines the log level for
+            cups_access_log_level:
+              name: Cups Access Log Level
+              description: >-
+                Defines the access log level for
       cups_ssl:
         name: CUPS SSL Settings
         description: >-
           Certificates must be in one of the following dirs: /ssl (HA SSL folder), /share (HA Share folder), or in /config (the addons config directory)
         fields:
-        cups_self_sign:
-          name: Self-Signed?
-          description: >-
-            Do you want to use self-signed certificates?
-        cups_ssl_cert:
-          name: File name in HA /SSL for the SSL Public Cert.
-          description: >-
-            Defines the log level for
-        cups_ssl_key:
-          name: File name in HA /SSL for the SSL Private Key.
-          description: >-
-            Do you want to allow remote Administration of Cups?
+          cups_self_sign:
+            name: Self-Signed?
+            description: >-
+              Do you want to use self-signed certificates?
+          cups_ssl_cert:
+            name: File name in HA /SSL for the SSL Public Cert.
+            description: >-
+              Defines the log level for
+          cups_ssl_key:
+            name: File name in HA /SSL for the SSL Private Key.
+            description: >-
+              Do you want to allow remote Administration of Cups?
   logins:
     name: Server Users
     description: >-

@@ -2,7 +2,7 @@
 # shellcheck disable=SC2181
 
 # shellcheck source="./cups-common.sh"
-source "/opt/helpers/cups-common.sh"
+source "/opt/cups/cups-common.sh"
 
 function update_hosts() {
     local pubkey="${1}"
