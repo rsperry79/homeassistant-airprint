@@ -29,7 +29,6 @@ function setup_ssl() {
 }
 
 function setup_ssl_private() {
-    privkey="/ssl/privkey.pem"
     if bashio::config.has_value 'cups_ssl_key'; then
         privkey=$(bashio::config 'cups_ssl_key')
     elif [ -e "/ssl/privkey.pem" ]; then
