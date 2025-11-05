@@ -57,6 +57,7 @@ function setup() {
     if bashio::config.has_value 'cups_access_log_level'; then
         cups_access_log_level=$(bashio::config 'cups_access_log_level')
     fi
+
     cups_self_sign=no
     if bashio::config.has_value cups_self_sign; then
         self_sign=$(bashio::config 'cups_self_sign')
