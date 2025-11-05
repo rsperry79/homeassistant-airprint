@@ -69,7 +69,6 @@ function setup() {
 
     setup_ssl "$host_name" "$self_sign"
 
-    bashio::log.info "HOST_ALIAS: $HOST_ALIAS"
     # Used by autoconf
     config=$(jq --arg host_name "$host_name" \
         --arg privkey "$privkey" --arg pubkey "$pubkey" --arg cups_log_level "$cups_log_level" \
@@ -111,13 +110,13 @@ function autoconf_files() {
 function update_files() {
     sed -i "s#^.*AccessLogLevel .*#AccessLogLevel ${cups_access_log_level}#" "$real_cups_path/$cups_files_cfg"
     bashio::log.red "ServerCertificate $pubkey"
-    sed -i "s#^.*CreateSelfSignedCerts .*CreateSelfSignedCerts ${self_sign}#" "$real_cups_path/$cups_files_cfg"
+    sed -i "s#^.*CreateSelfSignedCerts .*#CreateSelfSignedCerts ${self_sign}#" "$real_cups_path/$cups_files_cfg"
 
     bashio::log.red "ServerCertificate $pubkey"
-    sed -i "s#^.*ServerCertificate .*ServerCertificate ${pubkey}#" "$real_cups_path/$cups_files_cfg"
+    sed -i "s#^.*ServerCertificate .*#ServerCertificate ${pubkey}#" "$real_cups_path/$cups_files_cfg"
 
     bashio::log.red "ServerKey $privkey"
-    #sed -i "s#^.*ServerKey .*ServerKey ${privkey}#" "$real_cups_path/$cups_files_cfg"
+    sed -i "s#^.*ServerKey .*#ServerKey ${privkey}#" "$real_cups_path/$cups_files_cfg"
     bashio::log.red "update_files"
 }
 
