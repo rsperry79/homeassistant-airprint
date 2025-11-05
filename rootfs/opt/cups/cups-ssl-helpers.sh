@@ -9,12 +9,12 @@ source "/opt/cups/cups-host-helpers.sh"
 # shellcheck source="./cups-common.sh"
 source "/opt/cups/cups-common.sh"
 
-privkey="$ssl_dir/$host_name.crt"
-pubkey="$ssl_dir/$host_name.pem"
-
 function setup_ssl() {
     host_name=${1}
     self_sign=${2}
+
+    privkey="$ssl_dir/$host_name.crt"
+    pubkey="$ssl_dir/$host_name.pem"
 
     if [ "$self_sign" == true ]; then
         bashio::log.info "Self sign is on"
