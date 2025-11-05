@@ -32,11 +32,11 @@ configuration:
           Do you want to enable Avahi IPV Reflection?
   cups:
     name: CUPS Settings
-    cups_remote_admin:
-      name: Allow Remote Administration?
-      description: >-
-        Do you want to allow remote Administration of Cups?
     fields:
+      cups_remote_admin:
+        name: Allow Remote Administration?
+        description: >-
+          Do you want to allow remote Administration of Cups?=
       cups_logging:
         name: CUPS Log Levels
         fields:
@@ -70,19 +70,18 @@ configuration:
     description: >-
       Users that can administer or print. SuperUsers have addon sudo permissions.
     list:
-      fields:
-        username:
-          name: User Name
-          description: >-
-            The username used for login.
-        password:
-          name: Password
-          description: >-
-            The user's password.
-        user_level:
-          name: Access level.
-          description: >-
-            The user's access rights.
+      username:
+        name: User Name
+        description: >-
+          The username used for login.
+      password:
+        name: Password
+        description: >-
+          The user's password.
+      user_level:
+        name: Access level.
+        description: >-
+          The user's access rights.
 network:
   631/tcp: IPP printer port TCP
   631/udp: IPP printer port UDP
