@@ -33,14 +33,16 @@ configuration:
   cups:
     name: CUPS Settings
     fields:
-      cups_access_log_level:
-        name: Cups Access Log Level
-        description: >-
-          Defines the access log level for
-      cups_log_level:
-        name: Cups Log Level
-        description: >-
-          Defines the log level for
+      cups_logging:
+        name: CUPS Log Levels
+        cups_log_level:
+          name: Cups Log Level
+          description: >-
+            Defines the log level for
+          cups_access_log_level:
+            name: Cups Access Log Level
+            description: >-
+              Defines the access log level for
       cups_remote_admin:
         name: Allow Remote Administration?
         description: >-
