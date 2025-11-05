@@ -62,8 +62,8 @@ options:
     cups_ssl_key: /ssl/privkey.pem
     cups_self_sign: false
   logins:
-    user:
-      - username: print
+    - user:
+        username: print
         password: "print"
         user_level: superuser
 schema:
@@ -87,7 +87,7 @@ schema:
     cups_ssl_key: str
   logins:
     - user:
-      fields:
-        username: str
-        password: str
-        user_level: list(standard|admin|superuser)
+        fields:
+          username: str
+          password: str
+          user_level: list(standard|admin|superuser)
