@@ -52,19 +52,20 @@ options:
     avahi_debug: true
     avahi_reflector: true
     avahi_reflect_ipv: false
-  cups:
+  cups_settings:
     cups_remote_admin: true
-    cups_logging:
-      cups_log_level: debug
-      cups_access_log_level: config
-    cups_ssl:
-      cups_ssl_cert: /ssl/fullchain.pem
-      cups_ssl_key: /ssl/privkey.pem
-      cups_self_sign: "true"
+  cups_logging:
+    cups_log_level: debug
+    cups_access_log_level: config
+  cups_ssl:
+    cups_ssl_cert: /ssl/fullchain.pem
+    cups_ssl_key: /ssl/privkey.pem
+    cups_self_sign: false
   logins:
-    - username: print
-      password: "print"
-      user_level: superuser
+    user:
+      - username: print
+        password: "print"
+        user_level: superuser
 schema:
   system_settings:
     use_ipv6: bool
@@ -75,16 +76,18 @@ schema:
     avahi_debug: bool
     avahi_reflector: bool
     avahi_reflect_ipv: bool
-  cups:
+  cups_settings:
     cups_remote_admin: bool
-    cups_logging:
-      cups_log_level: list(debug|info|notice|error|none)
-      cups_access_log_level: list(all|access|config)
-    cups_ssl:
-      cups_self_sign: bool
-      cups_ssl_cert: str
-      cups_ssl_key: str
+  cups_logging:
+    cups_log_level: list(debug|info|notice|error|none)
+    cups_access_log_level: list(all|access|config)
+  cups_ssl:
+    cups_self_sign: bool
+    cups_ssl_cert: str
+    cups_ssl_key: str
   logins:
-    - username: str
-      password: str
-      user_level: list(standard|admin|superuser)
+    - user:
+      fields:
+        username: str
+        password: str
+        user_level: list(standard|admin|superuser)

@@ -37,52 +37,53 @@ configuration:
         name: Allow Remote Administration?
         description: >-
           Do you want to allow remote Administration of Cups?=
-      cups_logging:
-        name: CUPS Log Levels
-        fields:
-          cups_log_level:
-            name: Cups Log Level
-            description: >-
-              Defines the log level for
-          cups_access_log_level:
-            name: Cups Access Log Level
-            description: >-
-              Defines the access log level for
-      cups_ssl:
-        name: CUPS SSL Settings
-        description: >-
-          Certificates must be in one of the following dirs: /ssl (HA SSL folder), /share (HA Share folder), or in /config (the addons config directory)
-        fields:
-          cups_self_sign:
-            name: Self-Signed?
-            description: >-
-              Do you want to use self-signed certificates?
-          cups_ssl_cert:
-            name: File name in HA /SSL for the SSL Public Cert.
-            description: >-
-              Defines the log level for
-          cups_ssl_key:
-            name: File name in HA /SSL for the SSL Private Key.
-            description: >-
-              Do you want to allow remote Administration of Cups?
+    cups_logging:
+      name: CUPS Log Levels
+      fields:
+        cups_log_level:
+          name: Cups Log Level
+          description: >-
+            Defines the log level for
+        cups_access_log_level:
+          name: Cups Access Log Level
+          description: >-
+            Defines the access log level for
+    cups_ssl:
+      name: CUPS SSL Settings
+      description: >-
+        Certificates must be in one of the following dirs: /ssl (HA SSL folder), /share (HA Share folder), or in /config (the addons config directory)
+      fields:
+        cups_self_sign:
+          name: Self-Signed?
+          description: >-
+            Do you want to use self-signed certificates?
+        cups_ssl_cert:
+          name: File name in HA /SSL for the SSL Public Cert.
+          description: >-
+            Defines the log level for
+        cups_ssl_key:
+          name: File name in HA /SSL for the SSL Private Key.
+          description: >-
+            Do you want to allow remote Administration of Cups?
   logins:
     name: Server Users
     description: >-
       Users that can administer or print. SuperUsers have addon sudo permissions.
     list:
-      fields:
-        username:
-          name: User Name
-          description: >-
-            The username used for login.
-        password:
-          name: Password
-          description: >-
-            The user's password.
-        user_level:
-          name: Access level.
-          description: >-
-            The user's access rights.
+      user:
+        fields:
+          username:
+            name: User Name
+            description: >-
+              The username used for login.
+          password:
+            name: Password
+            description: >-
+              The user's password.
+          user_level:
+            name: Access level.
+            description: >-
+              The user's access rights.
 network:
   631/tcp: IPP printer port TCP
   631/udp: IPP printer port UDP
