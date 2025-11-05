@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bashio
 
-# shellcheck source="./opt/helpers/cups-helpers.sh"
-source "/opt/helpers/cups-helpers.sh"
+# shellcheck source="./opt/helpers/cups-host-helpers.sh"
+source "/opt/helpers/cups-host-helpers.sh"
 
 ulimit -n 1048576
 readonly real_cups_path=/config/cups
@@ -21,7 +21,7 @@ function update_cups_conf() {
 
     if ! grep -q "$internal" "$real_cups_path/$cups_daemon_cfg"; then
         append_host_existing_alias "$internal"
-        #add_host_name_to_hosts "$internal"
+        add_host_name_to_hosts "$internal"
 
         # bashio::log.info "Restarting CUPS after adding HA Internal domain"
         #s6-svc -r /var/run/s6/services/cups-server # restart the service

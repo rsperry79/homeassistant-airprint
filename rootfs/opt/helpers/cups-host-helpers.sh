@@ -38,23 +38,17 @@ function add_sans() {
 
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
-        bashio::log.blue "add_sans checking: $to_check"
+        bashio::log.debug "add_sans checking: $to_check"
         add_host_name_to_hosts "$to_check"
         append_host_alias "$to_check"
     done
-
-    bashio::log.info "helpers HOST_ALIAS: $HOST_ALIAS"
 }
 
 function append_host_alias() {
     local to_check=${1}
 
-    bashio::log.info "checking  $HOST_ALIAS for host aliases :: $to_check"
     if ! echo "$HOST_ALIAS" | grep "$to_check"; then
         HOST_ALIAS+=" $to_check"
-        bashio::log.yellow "added $to_check to host aliases"
-        bashio::log.red "helpers append_host_alias HOST_ALIAS: $HOST_ALIAS"
-
     fi
 }
 
