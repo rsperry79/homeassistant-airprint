@@ -1,14 +1,13 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
 
-# shellcheck source="../../../../opt/helpers/cups-host-helpers.sh"
-source "/opt/helpers/cups-host-helpers.sh"
+# shellcheck source="../../../../opt/cups/cups-common.sh"
+source "/opt/cups/cups-common.sh"
+# shellcheck source="../../../../opt/cups/cups-host-helpers.sh"
+source "/opt/cups/cups-host-helpers.sh"
 
-# shellcheck source="../../../../opt/helpers/cups-ssl-helpers.sh"
-source "/opt/helpers/cups-ssl-helpers.sh"
-
-# shellcheck source="../../../../opt/helpers/cups-common.sh"
-source "/opt/helpers/cups-common.sh"
+# shellcheck source="../../../../opt/cups/cups-ssl-helpers.sh"
+source "/opt/cups/cups-ssl-helpers.sh"
 
 # HA File paths
 readonly real_cups_path=/config/cups

@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bashio
 
-# shellcheck source="./opt/helpers/cups-host-helpers.sh"
-source "/opt/helpers/cups-host-helpers.sh"
+# shellcheck source="./opt/cups/cups-host-helpers.sh"
+source "/opt/cups/cups-host-helpers.sh"
 
 ulimit -n 1048576
 readonly real_cups_path=/config/cups

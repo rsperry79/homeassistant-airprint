@@ -1,9 +1,10 @@
 #!/command/with-contend bashio
 
-# Avahi paths
-readonly avahi_daemon_cfg=avahi-daemon.conf
-readonly real_avahi_path=/config/avahi
-readonly avahi_templates_path=/config/templates/avahi
+# shellcheck source="../../../../opt/avahi/avahi-common.sh"
+source "/opt/avahi/avahi-common.sh"
+
+# shellcheck source="../../../../opt/common/network-common.sh"
+source "/opt/common/network-common.sh"
 
 function run() {
     setup
@@ -14,13 +15,11 @@ function run() {
     else
         update_config
     fi
-
 }
 
 function setup() {
     host_name=$(bashio::info.hostname)
     host="${host_name%%.*}"
-    interfaces="enp2s0"
 
     use_ipv6="no"
     if bashio::config.has_value 'use_ipv6'; then
@@ -61,56 +60,15 @@ function autoconf_config() {
         -out "$real_avahi_path/$avahi_daemon_cfg"
 }
 
-function update_config() {
+function update_avahi_config() {
     sed -i "s/^.*host-name=.*/host-name=${host}/" "$real_avahi_path/$avahi_daemon_cfg"
+    
     sed -i "s/^.*use-ipv6=.*/use-ipv6=${use_ipv6}/" "$real_avahi_path/$avahi_daemon_cfg"
+
     sed -i "s/^.*publish-aaaa-on-ipv4=.*/publish-aaaa-on-ipv4=${use_ipv6}/" "$real_avahi_path/$avahi_daemon_cfg"
-    sed -i "s/^.*enable\-reflector=.*/enable\-reflector\=${avahi_reflector}/" "$real_avahi_path/$avahi_daemon_cfg"
-    sed -i "s/^.*reflect\-ipv=.*/reflect\-ipv\=${avahi_reflect_ipv}/" "$real_avahi_path/$avahi_daemon_cfg"
-    sed -i "s/^.*allow-interfaces=.*/allow-interfaces=${bcast_interfaces}/" "$real_avahi_path/$avahi_daemon_cfg"
-}
 
-function get_interfaces() {
-    # gets all network interfaces with their broadcast addresses
-    bcast_interfaces=""
-    interfaces=()
-    if ! bashio::config.has_value 'interfaces'; then
-
-        bashio::log.debug "Config has no network interfaces listed.  Auto-finding interfaces"
-        # Ensure 'ip' command exists
-        if ! command -v ip &>/dev/null; then
-            bashio::exit.nok "Error: 'ip' command not found. Please install iproute2."
-        fi
-
-        # Get interfaces with broadcast addresses
-        while IFS= read -r line; do
-            iface=$(awk '{print $2}' <<<"$line" | cut -d':' -f1)
-            bcast=$(awk '{for(i=1;i<=NF;i++){if($i=="brd"){print $(i+1)}}}' <<<"$line")
-
-            # Only print if broadcast address exists
-            if [[ -n "$bcast" ]]; then
-                interfaces+=("$iface")
-
-            fi
-        done < <(ip -o addr show | grep ' brd ')
-
-        for item in "${interfaces[@]}"; do
-            bashio::log.debug "Found ${item}"
-        done
-
-        for interface in "${interfaces[@]}"; do
-            if [ -n "$bcast_interfaces" ]; then
-                bcast_interfaces+=",$interface"
-            else
-                bcast_interfaces=$interface
-            fi
-        done
-        #bashio::addon.option 'interfaces' "$bcast_interfaces"
-    else
-        # shellcheck disable=SC2178
-        interfaces=$(bashio::config 'interfaces')
-    fi
-
+    update_reflectors "$avahi_reflector" "$avahi_reflect_ipv"
+    update_interfaces "$bcast_interfaces"
 }
 
 run
