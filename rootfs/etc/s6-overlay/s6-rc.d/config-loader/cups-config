@@ -104,16 +104,13 @@ function autoconf_files() {
 }
 
 function update_files() {
-    bashio::log.red "AccessLogLevel"
     sed -i "s#^.*AccessLogLevel .*#AccessLogLevel ${cups_access_log_level}#" "$real_cups_path/$cups_files_cfg"
-
-    bashio::log.red "CreateSelfSignedCerts"
     sed -i "s#^.*CreateSelfSignedCerts .*CreateSelfSignedCerts ${self_sign}#" "$real_cups_path/$cups_files_cfg"
 
-    bashio::log.red "ServerCertificate"
-    # sed -i "s#^.*ServerCertificate .*ServerCertificate ${pubkey}#" "$real_cups_path/$cups_files_cfg"
+    bashio::log.red "ServerCertificate $pubkey"
+    sed -i "s#^.*ServerCertificate .*ServerCertificate ${pubkey}#" "$real_cups_path/$cups_files_cfg"
 
-    bashio::log.red "ServerKey"
+    bashio::log.red "ServerKey $privkey"
     #sed -i "s#^.*ServerKey .*ServerKey ${privkey}#" "$real_cups_path/$cups_files_cfg"
     bashio::log.red "update_files"
 }
