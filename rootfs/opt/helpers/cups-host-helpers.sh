@@ -26,7 +26,7 @@ function add_host_name_to_hosts() {
         bashio::log.debug "Not Adding host: $to_check to /etc/hosts"
     fi
 }
-S
+
 function add_sans() {
     local cert=${1}
 
