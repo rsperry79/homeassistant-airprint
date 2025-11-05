@@ -34,8 +34,6 @@ function add_sans() {
     IFS=' ' read -r -a names <<<"$trimmed"
     set +f
 
-    bashio::log.info "helpers HOST_ALIAS: $HOST_ALIAS"
-
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
         bashio::log.debug "add_sans checking: $to_check"

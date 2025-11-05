@@ -57,9 +57,13 @@ function setup() {
     if bashio::config.has_value 'cups_access_log_level'; then
         cups_access_log_level=$(bashio::config 'cups_access_log_level')
     fi
+    cups_self_sign=no
     if bashio::config.has_value cups_self_sign; then
         self_sign=$(bashio::config 'cups_self_sign')
         bashio::log.info "Self sign has value: $self_sign"
+        if [ "$self_sign" == true ]; then
+            cups_self_sign=yes
+        fi
     fi
 
     setup_ssl "$host_name" "$self_sign"
@@ -68,7 +72,7 @@ function setup() {
     # Used by autoconf
     config=$(jq --arg host_name "$host_name" \
         --arg privkey "$privkey" --arg pubkey "$pubkey" --arg cups_log_level "$cups_log_level" \
-        --arg cups_access_log_level "$cups_access_log_level" --arg host_alias "$HOST_ALIAS" --arg self_sign "$self_sign" \
+        --arg cups_access_log_level "$cups_access_log_level" --arg host_alias "$HOST_ALIAS" --arg self_sign "$cups_self_sign" \
         '{ host_name: $host_name,  host_alias: $host_alias , privkey: $privkey, pubkey: $pubkey, cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign   }' \
         /data/options.json)
 }
@@ -105,6 +109,7 @@ function autoconf_files() {
 
 function update_files() {
     sed -i "s#^.*AccessLogLevel .*#AccessLogLevel ${cups_access_log_level}#" "$real_cups_path/$cups_files_cfg"
+    bashio::log.red "ServerCertificate $pubkey"
     sed -i "s#^.*CreateSelfSignedCerts .*CreateSelfSignedCerts ${self_sign}#" "$real_cups_path/$cups_files_cfg"
 
     bashio::log.red "ServerCertificate $pubkey"
