@@ -1,6 +1,9 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
 
+# shellcheck source="./cups-common.sh"
+source "/opt/helpers/cups-common.sh"
+
 function update_hosts() {
     local pubkey="${1}"
 
@@ -53,9 +56,12 @@ function append_host_alias() {
 function append_host_existing_alias() {
     to_add=${1}
 
-    temp=$(grep "ServerAlias" /config/cups/cupsd.conf)
-    bashio::log.blue "append_host_existing_alias:"
-    bashio::log.blue "current val: $temp"
-    bashio::log.blue "to add: $to_add"
+    current=$(grep "ServerAlias" /config/cups/cupsd.conf)
+    to_save="$current $to_add"
+    bashio::log.red "append_host_existing_alias $to_save"
+    sed -i "s/^.*ServerAlias .*/ServerAlias ${HOST_ALIAS}/" "$real_cups_path/$cups_daemon_cfg"
 
+    current=$(grep "ServerAlias" /config/cups/cupsd.conf)
+
+    bashio::log.red "append_host_existing_alias $current"
 }

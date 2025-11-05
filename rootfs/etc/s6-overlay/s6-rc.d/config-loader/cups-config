@@ -3,11 +3,12 @@
 
 # shellcheck source="../../../../opt/helpers/cups-host-helpers.sh"
 source "/opt/helpers/cups-host-helpers.sh"
-# shellcheck source="../../../../opt/helpers/cups-ssl-helpers.sh"
-source "/opt/helpers/cups-ssl-helpers.sh"
 
 # shellcheck source="../../../../opt/helpers/cups-ssl-helpers.sh"
 source "/opt/helpers/cups-ssl-helpers.sh"
+
+# shellcheck source="../../../../opt/helpers/cups-common.sh"
+source "/opt/helpers/cups-common.sh"
 
 # HA File paths
 readonly real_cups_path=/config/cups
@@ -109,15 +110,9 @@ function autoconf_files() {
 
 function update_files() {
     sed -i "s#^.*AccessLogLevel .*#AccessLogLevel ${cups_access_log_level}#" "$real_cups_path/$cups_files_cfg"
-    bashio::log.red "ServerCertificate $pubkey"
     sed -i "s#^.*CreateSelfSignedCerts .*#CreateSelfSignedCerts ${self_sign}#" "$real_cups_path/$cups_files_cfg"
-
-    bashio::log.red "ServerCertificate $pubkey"
     sed -i "s#^.*ServerCertificate .*#ServerCertificate ${pubkey}#" "$real_cups_path/$cups_files_cfg"
-
-    bashio::log.red "ServerKey $privkey"
     sed -i "s#^.*ServerKey .*#ServerKey ${privkey}#" "$real_cups_path/$cups_files_cfg"
-    bashio::log.red "update_files"
 }
 
 run

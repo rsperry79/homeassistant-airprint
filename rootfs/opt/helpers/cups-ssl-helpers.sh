@@ -1,12 +1,13 @@
 #!/command/with-contend bashio
 
-ssl_dir=/config/cups/ssl
-ssl_owner="root"
-ssl_group="root"
-ssl_perms="770"
+# shellcheck source="./cups-host-helpers.sh"
+source "/opt/helpers/cups-host-helpers.sh"
 
 # shellcheck source="./cups-host-helpers.sh"
 source "/opt/helpers/cups-host-helpers.sh"
+
+# shellcheck source="./cups-common.sh"
+source "/opt/helpers/cups-common.sh"
 
 function setup_ssl() {
     host_name=${1}
@@ -65,6 +66,7 @@ function setup_ssl_public() {
 function convert_private_key() {
     rm -f "$ssl_dir/$host_name.key"
     msg=$(openssl rsa -in "$privkey" -out "$ssl_dir/$host_name.key")
+    # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
         chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_name.key"
         chmod "$ssl_perms" "$ssl_dir/$host_name.key"
@@ -78,6 +80,7 @@ function convert_private_key() {
 function convert_public_key() {
     rm -f "$ssl_dir/$host_name.crt"
     msg=$(openssl x509 -in "$pubkey" -out "$ssl_dir/$host_name.crt")
+    # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
         chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_name.crt"
         chmod "$ssl_perms" "$ssl_dir/$host_name.crt"
