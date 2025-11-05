@@ -1,9 +1,9 @@
 #!/command/with-contend bashio
 
-readonly ssl_dir=/config/cups/ssl
-readonly ssl_owner="root"
-readonly ssl_group="root"
-readonly ssl_perms="770"
+ssl_dir=/config/cups/ssl
+ssl_owner="root"
+ssl_group="root"
+ssl_perms="770"
 
 # shellcheck source="./cups-host-helpers.sh"
 source "/opt/helpers/cups-host-helpers.sh"
