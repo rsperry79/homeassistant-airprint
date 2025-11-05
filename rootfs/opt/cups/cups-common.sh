@@ -12,6 +12,7 @@ export cups_files_cfg=cups-files.conf
 
 # SSL
 export ssl_dir=/config/cups/ssl
+
 export ssl_owner="root"
 export ssl_group="root"
 export ssl_perms="770"

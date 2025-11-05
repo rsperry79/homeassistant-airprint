@@ -9,28 +9,24 @@ source "/opt/helpers/cups-host-helpers.sh"
 # shellcheck source="./cups-common.sh"
 source "/opt/helpers/cups-common.sh"
 
+privkey="$ssl_dir/$host_name.crt"
+pubkey="$ssl_dir/$host_name.pem"
+
 function setup_ssl() {
     host_name=${1}
     self_sign=${2}
-    # TODO MOVE
 
     if [ "$self_sign" == true ]; then
         bashio::log.info "Self sign is on"
-
-        privkey="$ssl_dir/$host_name.crt"
-        pubkey="$ssl_dir/$host_name.pem"
     else
         bashio::log.info "Self sign is off"
-
         rm -f "$ssl_dir/*"
         setup_ssl_public
         setup_ssl_private
     fi
-
 }
 
 function setup_ssl_private() {
-
     if bashio::config.has_value 'cups_ssl_key'; then
         privkey=$(bashio::config 'cups_ssl_key')
     elif [ -e "/ssl/privkey.pem" ]; then
@@ -68,9 +64,9 @@ function convert_private_key() {
     msg=$(openssl rsa -in "$privkey" -out "$ssl_dir/$host_name.key")
     # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
-        chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_name.key"
-        chmod "$ssl_perms" "$ssl_dir/$host_name.key"
         privkey="$ssl_dir/$host_name.key"
+        chown "$ssl_owner":"$ssl_group" "$privkey"
+        chmod "$ssl_perms" "$privkey"
         bashio::log.debug "SSL Private Key exists. $privkey"
     else
         bashio::log.error "Private key is not valid. $msg"
@@ -82,9 +78,8 @@ function convert_public_key() {
     msg=$(openssl x509 -in "$pubkey" -out "$ssl_dir/$host_name.crt")
     # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
-        chown "$ssl_owner":"$ssl_group" "$ssl_dir/$host_name.crt"
-        chmod "$ssl_perms" "$ssl_dir/$host_name.crt"
-        pubkey="$ssl_dir/$host_name.crt"
+        chown "$ssl_owner":"$ssl_group" "$pubkey"
+        chmod "$ssl_perms" "$pubkey"
         bashio::log.debug "SSL Public Key exists. $pubkey"
     else
         bashio::log.error "Public key is not valid. $msg"

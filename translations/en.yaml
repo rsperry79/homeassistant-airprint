@@ -58,11 +58,11 @@ configuration:
         description: >-
           Do you want to use self-signed certificates?
       cups_ssl_cert:
-        name: File name in HA /SSL for the SSL Public Cert.
+        name: File path for the Certificate public key.
         description: >-
           Defines the log level for
       cups_ssl_key:
-        name: File name in HA /SSL for the SSL Private Key.
+        name: File path for the Certificate private key.
         description: >-
           Do you want to allow remote Administration of Cups?
   logins:
@@ -70,18 +70,18 @@ configuration:
     description: >-
       Users that can administer or print. SuperUsers have addon sudo permissions.
     list:
-        username:
-          name: User Name
-          description: >-
-            The username used for login.
-        password:
-          name: Password
-          description: >-
-            The user's password.
-        user_level:
-          name: Access level.
-          description: >-
-            The user's access rights.
+      username:
+        name: User Name
+        description: >-
+          The username used for login.
+      password:
+        name: Password
+        description: >-
+          The user's password.
+      user_level:
+        name: Access level.
+        description: >-
+          The user's access rights.
 network:
   631/tcp: IPP printer port TCP
   631/udp: IPP printer port UDP
