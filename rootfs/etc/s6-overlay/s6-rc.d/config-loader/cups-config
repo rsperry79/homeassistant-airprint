@@ -62,7 +62,7 @@ function setup() {
     cups_self_sign=no
     if bashio::config.has_value cups_self_sign; then
         self_sign=$(bashio::config 'cups_self_sign')
-        bashio::log.info "Self sign has value: $self_sign"
+        bashio::log.debug "Self sign has value: $self_sign"
         if [ "$self_sign" == true ]; then
             cups_self_sign=yes
         fi
