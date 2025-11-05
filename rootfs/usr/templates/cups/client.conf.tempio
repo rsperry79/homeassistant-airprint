@@ -5,6 +5,8 @@ ServerName  *:631
 AllowAnyRoot Yes
 AllowExpiredCerts Yes
 Encryption IfRequested
-SSLOptions AllowRC4
+SSLOptions AllowRC4 AllowSSL3
 TrustOnFirstUse Yes
 ValidateCerts No
+DigestOptions None
+UserAgentTokens None
