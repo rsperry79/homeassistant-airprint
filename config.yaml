@@ -87,7 +87,6 @@ schema:
     cups_ssl_key: str
   logins:
     - user:
-        fields:
-          username: str
-          password: str
-          user_level: list(standard|admin|superuser)
+        username: str
+        password: str
+        user_level: list(standard|admin|superuser)
