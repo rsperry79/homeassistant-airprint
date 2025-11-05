@@ -1,6 +1,6 @@
 #!/command/with-contend bashio
 
-readonly ssl_dir="/config/cups/ssl"
+readonly ssl_dir=/config/cups/ssl
 readonly ssl_owner="root"
 readonly ssl_group="root"
 readonly ssl_perms="770"
