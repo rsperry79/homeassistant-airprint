@@ -93,11 +93,7 @@ RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
 # # Add svc acct, remroot acct
 # RUN useradd -r -g lp lp && useradd -r -g lpadmin lpadmin
 
-# Change to svc acct
-USER lp
 
-# Set the working directory
-WORKDIR /home/lp
 
 CMD ["/opt/entry.sh"]
 
