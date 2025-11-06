@@ -60,9 +60,7 @@ function append_existing_hostname() {
     local to_add=${1}
 
     current=$(grep "ServerName" /config/cups/cupsd.conf)
-
     if ! echo "$current" | grep -q "$to_add"; then
-        to_save="$current $to_add"
-        update_server_name "$to_save"
+        update_server_name "$to_add"
     fi
 }

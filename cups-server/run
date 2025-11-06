@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv bashio
+
+ulimit -n 524288
