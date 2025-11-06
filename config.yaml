@@ -56,7 +56,7 @@ options:
     cups_remote_admin: true
   cups_logging:
     cups_log_level: debug
-    cups_access_log_level: config
+    cups_access_log_level: access
   cups_ssl:
     cups_ssl_cert: /ssl/fullchain.pem
     cups_ssl_key: /ssl/privkey.pem
