@@ -9,6 +9,9 @@ source "/opt/cups/cups-host-helpers.sh"
 # shellcheck source="../../../../opt/cups/cups-ssl-helpers.sh"
 source "/opt/cups/cups-ssl-helpers.sh"
 
+# shellcheck source="../../../../opt/cups/cups-config-helpers.sh"
+source "/opt/cups/cups-config-helpers.sh"
+
 # HA File paths
 readonly real_cups_path=/config/cups
 
@@ -71,7 +74,7 @@ function setup() {
 
     # Used by autoconf
     config=$(jq --arg host_name "$host_name" \
-        --arg privkey "$privkey" --arg pubkey "$pubkey" --arg cups_log_level "$cups_log_level" \
+        --arg privkey "$CUPS_PRIVATE_KEY" --arg pubkey "$CUPS_PUBLIC_KEY" --arg cups_log_level "$cups_log_level" \
         --arg cups_access_log_level "$cups_access_log_level" --arg host_alias "$HOST_ALIAS" --arg self_sign "$cups_self_sign" \
         '{ host_name: $host_name,  host_alias: $host_alias , privkey: $privkey, pubkey: $pubkey, cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign   }' \
         /data/options.json)
@@ -84,7 +87,7 @@ function autoconf_client() {
 }
 
 function update_client() {
-    sed -i "s/^.*ServerName .*/ServerName ${host_name}:631/" "$real_cups_path/$cups_daemon_cfg"
+    update_server_name "$host_name"
 }
 
 function autoconf_daemon() {
@@ -96,9 +99,9 @@ function autoconf_daemon() {
 }
 
 function update_daemon() {
-    sed -i "s/^.*LogLevel .*/LogLevel ${cups_log_level}/" "$real_cups_path/$cups_daemon_cfg"
-    sed -i "s/^.*ServerName .*/ServerName ${host_name}/" "$real_cups_path/$cups_daemon_cfg"
-    sed -i "s/^.*ServerAlias .*/ServerAlias ${HOST_ALIAS}/" "$real_cups_path/$cups_daemon_cfg"
+    update_log_level "$cups_log_level"
+    update_server_alias "$HOST_ALIAS"
+    update_server_name "$host_name"
 }
 
 function autoconf_files() {
@@ -108,10 +111,10 @@ function autoconf_files() {
 }
 
 function update_files() {
-    sed -i "s#^.*AccessLogLevel .*#AccessLogLevel ${cups_access_log_level}#" "$real_cups_path/$cups_files_cfg"
-    sed -i "s#^.*CreateSelfSignedCerts .*#CreateSelfSignedCerts ${self_sign}#" "$real_cups_path/$cups_files_cfg"
-    sed -i "s#^.*ServerCertificate .*#ServerCertificate ${pubkey}#" "$real_cups_path/$cups_files_cfg"
-    sed -i "s#^.*ServerKey .*#ServerKey ${privkey}#" "$real_cups_path/$cups_files_cfg"
+    update_access_log_level "$cups_access_log_level"
+    update_self_sign "$self_sign"
+    update_public_key "$CUPS_PUBLIC_KEY"
+    update_private_key "$CUPS_PRIVATE_KEY"
 }
 
 run
