@@ -1,11 +1,11 @@
 #!/command/with-contend bashio
-# shellcheck source="../../../../opt/common/paths.sh"
+# shellcheck source="../common/paths.sh"
 source "/opt/common/paths.sh"
 
-# shellcheck source="../../../../opt/avahi/avahi-config.sh"
-source "/opt/avahi/avahi-config.sh"
+# shellcheck source="./avahi-config-helpers.sh"
+source "/opt/avahi/avahi-config-helpers.sh"
 
-# shellcheck source="../../../../opt/common/network-common.sh"
+# shellcheck source="../common/network-common.sh"
 source "/opt/common/network-common.sh"
 
 function run() {

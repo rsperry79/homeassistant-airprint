@@ -1,6 +1,6 @@
 #!/command/with-contend bashio
 
-# shellcheck source="../../../../opt/common/paths.sh"
+# shellcheck source="./paths.sh"
 source "/opt/common/paths.sh"
 
 function run() {

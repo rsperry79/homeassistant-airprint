@@ -1,5 +1,5 @@
 #!/command/with-contend bashio
-# shellcheck source="../../../../opt/common/paths.sh"
+# shellcheck source="../common/paths.sh"
 source "/opt/common/paths.sh"
 
 # Cups config folder

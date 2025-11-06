@@ -1,0 +1,23 @@
+#!/command/with-contend bashio
+mkdir -p /var/run/dbus
+
+bashio::log.info "Initializing Common Config"
+bashio /opt/common/common.sh
+
+bashio::log.debug "Initializing Cups files"
+bashio /opt/cups/cups-files.sh
+
+bashio::log.debug "Initializing Avahi files"
+bashio /opt/avahi/avahi-files.sh
+
+bashio::log.debug "Running Additional packages"
+bashio /opt/common/packages.sh
+
+bashio::log.debug "Updating Users"
+bashio /opt/common/users.sh
+
+bashio::log.info "Initializing Avahi config"
+bashio /opt/avahi/avahi-config.sh
+
+bashio::log.info "Initializing Cups config"
+bashio /opt/cups/cups-config.sh

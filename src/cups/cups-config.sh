@@ -1,16 +1,16 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
 
-# shellcheck source="../../../../opt/common/paths.sh"
+# shellcheck source="../common/paths.sh"
 source "/opt/common/paths.sh"
 
-# shellcheck source="../../../../opt/cups/cups-host-helpers.sh"
+# shellcheck source="./cups-host-helpers.sh"
 source "/opt/cups/cups-host-helpers.sh"
 
-# shellcheck source="../../../../opt/cups/cups-ssl-helpers.sh"
+# shellcheck source="./cups-ssl-helpers.sh"
 source "/opt/cups/cups-ssl-helpers.sh"
 
-# shellcheck source="../../../../opt/cups/cups-config-helpers.sh"
+# shellcheck source="./cups-config-helpers.sh"
 source "/opt/cups/cups-config-helpers.sh"
 
 function run() {

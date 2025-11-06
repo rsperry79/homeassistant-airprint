@@ -1,6 +1,0 @@
-#!/usr/bin/with-contenv bashio
-
-ulimit -n 524288
-bashio::log.info "Starting cups-browsed daemon from S6"
-
-/usr/sbin/cups-browsed

@@ -62,7 +62,6 @@ RUN apt update \
         avahi-utils \
         # Printer Drivers
         foomatic-db-compressed-ppds \
-        hpijs-ppds \
         hp-ppd  \
         openprinting-ppds \
         printer-driver-hpcups \
@@ -81,8 +80,16 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 
-COPY rootfs /
-RUN chmod +x /etc/s6-overlay/s6-rc.d/*/run  /run.sh #/opt/airprint/airprint-generate.py
+COPY services /etc/s6-overlay/s6-rc.d
+RUN chmod +x /etc/s6-overlay/s6-rc.d/*/run
+
+COPY src /opt
+RUN chmod +x /opt/*/*.sh
+
+
+COPY templates /usr
+RUN chmod +x /opt/*/*.sh
+
 
 RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf \
  && sed -i "s/^.*LLMNR .*/LLMNR=yes ${setting}/" /etc/systemd/resolved.conf
@@ -91,5 +98,5 @@ RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf \
 # disable sudo password checking
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
 
-CMD ["/run.sh"]
+CMD ["/opt/entry.sh"]
 

@@ -1,17 +1,17 @@
 #!/usr/bin/with-contenv bashio
-# shellcheck source="./opt/common/paths.sh"
+# shellcheck source="./common/paths.sh"
 source "/opt/common/paths.sh"
 
-# shellcheck source="./opt/cups/cups-host-helpers.sh"
+# shellcheck source="./cups/cups-host-helpers.sh"
 source "/opt/cups/cups-host-helpers.sh"
 
-# shellcheck source="./opt/common/network-common.sh"
+# shellcheck source="./common/network-common.sh"
 source "/opt/common/network-common.sh"
 
-# shellcheck source="./opt/common/ha-helpers.sh"
+# shellcheck source="./common/ha-helpers.sh"
 source "/opt/common/ha-helpers.sh"
 
-# shellcheck source="./opt/cups/cups-ssl-helpers.sh"
+# shellcheck source="./cups/cups-ssl-helpers.sh"
 source "/opt/cups/cups-ssl-helpers.sh"
 
 ulimit -n 1048576
@@ -47,6 +47,7 @@ function update_ha_config() {
 
 # not a service as HA health check should restart on failure
 function start_cups() {
+    /usr/sbin/cups-browsed &
 
     bashio::log.info "Testing CUPS server config"
     cupsd -t -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"

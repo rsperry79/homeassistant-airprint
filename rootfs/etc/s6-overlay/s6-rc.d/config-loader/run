@@ -1,8 +1,0 @@
-#!/command/with-contend bashio
-mkdir -p /var/run/dbus
-
-bashio::log.info "Initializing Avahi config"
-bashio /etc/s6-overlay/s6-rc.d/config-loader/avahi-config
-
-bashio::log.info "Initializing Cups config"
-bashio /etc/s6-overlay/s6-rc.d/config-loader/cups-config
