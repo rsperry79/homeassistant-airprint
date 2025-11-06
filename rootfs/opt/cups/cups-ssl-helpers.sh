@@ -21,8 +21,9 @@ function setup_ssl() {
     else
         bashio::log.info "Self sign is off"
         rm -f "$ssl_dir/*"
-        setup_ssl_public "$cups_public_key"
-        setup_ssl_private "$cups_private_key"
+
+        setup_ssl_private "$CUPS_PRIVATE_KEY"
+        setup_ssl_public "$CUPS_PUBLIC_KEY"
     fi
 
     export cups_public_key
