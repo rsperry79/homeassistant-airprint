@@ -80,7 +80,7 @@ RUN cd /tmp \
   && apt install ./cnijfilter2_6.80-1.deb
 
 COPY rootfs /
-# RUN chmod +x /etc/s6-overlay/s6-rc.d/*/run /opt/airprint/airprint-generate.py /run.sh
+RUN chmod +x /etc/s6-overlay/s6-rc.d/*/run  /run.sh #/opt/airprint/airprint-generate.py
 
 RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf \
  && sed -i "s/^.*LLMNR .*/LLMNR=yes ${setting}/" /etc/systemd/resolved.conf
