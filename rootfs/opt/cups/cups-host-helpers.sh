@@ -59,7 +59,7 @@ function append_host_alias() {
 function append_existing_host_alias() {
     local to_add=${1}
 
-    current=$(grep -q "ServerAlias" /config/cups/cupsd.conf)
+    current=$(grep "ServerAlias" /config/cups/cupsd.conf)
     if ! echo "$current" | grep "$to_add"; then
         sed -i "s/^.*ServerAlias .*/$current $to_add/" "$real_cups_path/$cups_daemon_cfg"
     fi

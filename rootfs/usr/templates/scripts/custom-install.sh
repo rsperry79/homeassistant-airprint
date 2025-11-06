@@ -9,7 +9,7 @@ function run() {
 }
 
 function install() {
-    cd /config/packages || exit 1
+    cd "$package_dir" || exit 1
     mkdir -p /var/spool/lpd/
     # check if dl'd to speed up boot
     if [ ! -e mfc9970cdwlpr-1.1.1-5.i386.deb ]; then
