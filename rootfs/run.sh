@@ -9,6 +9,9 @@ source "/opt/common/network-common.sh"
 # shellcheck source="./opt/common/ha-helpers.sh"
 source "/opt/common/ha-helpers.sh"
 
+# shellcheck source="./opt/cups/cups-ssl-helpers.sh"
+source "/opt/cups/cups-ssl-helpers.sh"
+
 ulimit -n 1048576
 
 function run() {
