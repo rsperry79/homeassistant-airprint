@@ -1,6 +1,7 @@
-###################################
-# FILE IS OVERWRITTEN AT Startup
-###################################
+###########################################
+# FILE IS PARTIALLY OVERWRITTEN AT Startup
+###########################################
+
 ServerName  *:631
 AllowAnyRoot Yes
 AllowExpiredCerts Yes

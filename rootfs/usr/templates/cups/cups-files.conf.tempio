@@ -1,6 +1,6 @@
-###################################
-# FILE IS OVERWRITTEN AT Startup
-###################################
+###########################################
+# FILE IS PARTIALLY OVERWRITTEN AT Startup
+###########################################
 
 CreateSelfSignedCerts {{.self_sign}}
 

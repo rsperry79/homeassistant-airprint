@@ -1,11 +1,11 @@
-###################################
-# FILE IS OVERWRITTEN AT Startup
-###################################
+###########################################
+# FILE IS PARTIALLY OVERWRITTEN AT Startup
+###########################################
 
-#
+
+
 # Configuration file for the CUPS scheduler.  See "man cupsd.conf" for a
 # complete description of this file.
-#
 
 # Log general information in error_log - change "warn" to "debug"
 # for troubleshooting...
