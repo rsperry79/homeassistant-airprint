@@ -40,4 +40,4 @@ function install_cannon() {
     apt install ./cnijfilter2_6.80-1.deb
 }
 
-install
+run
