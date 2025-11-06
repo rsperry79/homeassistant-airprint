@@ -12,6 +12,7 @@ source "/opt/common/network-common.sh"
 function run() {
     setup
     bcast_interfaces=$(get_interfaces)
+    enable_resolved "$bcast_interfaces"
 
     if [ ! -e "$real_avahi_path/$avahi_daemon_cfg" ]; then
         autoconf_config

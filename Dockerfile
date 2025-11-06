@@ -51,6 +51,7 @@ RUN apt update \
         samba-client \
         wget \
         curl \
+        systemd-resolved \
         # Avahi
         avahi-daemon \
         avahi-utils \
@@ -81,6 +82,8 @@ RUN cd /tmp \
 COPY rootfs /
 RUN chmod +x /etc/s6-overlay/s6-rc.d/*/run /opt/airprint/airprint-generate.py /run.sh
 
+RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf \
+ && sed -i "s/^.*LLMNR .*/LLMNR=yes ${setting}/" /etc/systemd/resolved.conf
 
 
 # disable sudo password checking

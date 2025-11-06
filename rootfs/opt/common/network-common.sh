@@ -18,11 +18,8 @@ function get_interfaces() {
         while IFS= read -r line; do
             iface=$(awk '{print $2}' <<<"$line" | cut -d':' -f1)
             bcast=$(awk '{for(i=1;i<=NF;i++){if($i=="brd"){print $(i+1)}}}' <<<"$line")
-
-            # Only print if broadcast address exists
             if [[ -n "$bcast" ]]; then
                 interfaces+=("$iface")
-
             fi
         done < <(ip -o addr show | grep ' brd ')
 
@@ -33,15 +30,23 @@ function get_interfaces() {
         for interface in "${interfaces[@]}"; do
             if [ -n "$bcast_interfaces" ]; then
                 bcast_interfaces+=",$interface"
+                resolvectl mdns "$interface" >yes # enable resolved
             else
                 bcast_interfaces=$interface
             fi
         done
-
     else
         # shellcheck disable=SC2178
         bcast_interfaces=$(bashio::config 'interfaces')
     fi
 
     echo "$bcast_interfaces"
+}
+
+function enable_resolved() {
+    local interfaces_arr[]=${1}
+    IFS=',' read -ra interfaces <<<"${interfaces_arr[@]}"
+    for interface in "${interfaces[@]}"; do
+        resolvectl mdns "$interface" yes
+    done
 }
