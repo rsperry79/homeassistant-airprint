@@ -59,7 +59,7 @@ function autoconf_config() {
     #if [ ! -e "$real_cups_path/$cups_daemon_cfg" ]; then
 
     echo "$config" | tempio \
-        -template "$avahi_templates_path/$avahi_daemon_cfg".tempio \
+        -template "$avahi_templates_path/$avahi_daemon_cfg" \
         -out "$real_avahi_path/$avahi_daemon"
 }
 
