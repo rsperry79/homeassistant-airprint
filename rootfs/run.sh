@@ -50,10 +50,10 @@ function update_ha_config() {
 function start_cups() {
 
     bashio::log.info "Testing CUPS server config"
-    cupsd -t -c "$real_cups_path"/"$cups_daemon_cfg" f -s "$real_cups_path"/"$cups_files"
+    cupsd -t -c "$real_cups_path"/"$cups_daemon" f -s "$real_cups_path"/"$cups_files"
 
     bashio::log.info "Starting CUPS server from S6"
-    cupsd -f -c "$real_cups_path"/"$cups_daemon_cfg" f -s "$real_cups_path"/"$cups_files"
+    cupsd -f -c "$real_cups_path"/"$cups_daemon" f -s "$real_cups_path"/"$cups_files"
 }
 
 run               # run entrypoint
