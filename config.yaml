@@ -14,6 +14,7 @@ startup: system
 usb: true
 init: false
 host_dbus: true
+host_network: true
 ports:
   631/tcp: 631
   631/udp: 631
