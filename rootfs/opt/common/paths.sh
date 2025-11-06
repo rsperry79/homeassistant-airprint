@@ -36,4 +36,4 @@ export avahi_daemon=avahi-daemon.conf
 
 export packages_path=/config/packages
 export install_script=custom-install.sh
-export src_custom_script_template_path=/usr/templates/scripts
+export src_custom_script_template_path=$templates_path/scripts
