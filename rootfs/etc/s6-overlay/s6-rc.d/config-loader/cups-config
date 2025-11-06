@@ -79,7 +79,8 @@ function autoconf_client() {
 }
 
 function update_client() {
-    update_server_name "$host_name"
+    echo
+    # update_server_name "$host_name"
 }
 
 function autoconf_daemon() {
@@ -91,9 +92,10 @@ function autoconf_daemon() {
 }
 
 function update_daemon() {
-    update_log_level "$cups_log_level"
-    update_server_alias "$HOST_ALIAS"
-    update_server_name "$host_name"
+    echo
+    # update_log_level "$cups_log_level"
+    # update_server_alias "$HOST_ALIAS"
+    # update_server_name "$host_name"
 }
 
 function autoconf_files() {
@@ -103,10 +105,11 @@ function autoconf_files() {
 }
 
 function update_files() {
-    update_access_log_level "$cups_access_log_level"
-    update_self_sign "$self_sign"
-    update_public_key "$CUPS_PUBLIC_KEY"
-    update_private_key "$CUPS_PRIVATE_KEY"
+    echo
+    # update_access_log_level "$cups_access_log_level"
+    # update_self_sign "$self_sign"
+    # update_public_key "$CUPS_PUBLIC_KEY"
+    # update_private_key "$CUPS_PRIVATE_KEY"
 }
 
 run
