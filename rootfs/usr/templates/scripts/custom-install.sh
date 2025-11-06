@@ -24,6 +24,8 @@ function install() {
     fi
     if [ -e /config/packages/mfc9970cdwcupswrapper-1.1.1-5.i386.deb ]; then
         dpkg -i --force-all /config/packages/mfc9970cdwcupswrapper-1.1.1-5.i386.deb
+    else
+        bashio::log.notice "Cups wrapper was not present"
     fi
 
 }
