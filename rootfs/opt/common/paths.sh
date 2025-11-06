@@ -2,7 +2,7 @@
 # shellcheck disable=SC2181
 export file_owner="root"
 export file_group="root"
-export file_perms="770"
+export file_perms="0770"
 
 export real_config_path=/config
 export templates_path=/usr/templates
