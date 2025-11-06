@@ -16,18 +16,18 @@ CreateSelfSignedCerts {{.self_sign}}
 
 # Default user and group for filters/backends/helper programs; this cannot be
 # any user or group that resolves to ID 0 for security reasons...
-#User lp
-#Group lp
+User lp
+Group lp
 
 # Administrator user group, used to match @SYSTEM in cupsd.conf policy rules...
-#SystemGroup sys root
+SystemGroup sys lpadmin
 
 
 # User that is substituted for unauthenticated (remote) root accesses...
-#RemoteRoot remroot
+RemoteRoot lpadmin
 
-#ConfigFilePerm 0640
-#LogFilePerm 0644
+ConfigFilePerm 0640
+LogFilePerm 0644
 
 # Location of the file logging all access to the scheduler; may be the name
 # "syslog". If not an absolute path, the value of ServerRoot is used as the

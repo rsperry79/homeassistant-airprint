@@ -47,7 +47,7 @@ function setup_ssl_private() {
     else
         echo
         # convert_private_key "$_privkey" "$output_file"
-        # cp "$_privkey" "$CUPS_PRIVATE_KEY"
+        #cp "$_privkey" "$CUPS_PRIVATE_KEY"
     fi
 }
 

@@ -15,6 +15,7 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
     && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
+# Install packages
 RUN apt update \
     && apt upgrade -y --no-install-recommends \
     && apt install -y --no-install-recommends \
@@ -74,22 +75,29 @@ RUN apt update \
     && apt clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-
+# Copy files, set perms
 COPY services /etc/s6-overlay/s6-rc.d
-RUN chmod +x /etc/s6-overlay/s6-rc.d/*/run
-
 COPY src /opt
-RUN chmod +x /opt/*/*.sh /opt/entry.sh
-
 COPY templates /usr/templates
+RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
+# Set MDNS
+RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf
 
-RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf \
- && sed -i "s/^.*LLMNR .*/LLMNR=yes ${setting}/" /etc/systemd/resolved.conf
-
-
-# disable sudo password checking
+# Disable sudo password checking
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
+
+# Add groups
+RUN groupadd -r lpadmin && groupadd -r lp
+
+# Add svc acct, remroot acct
+RUN useradd -r -g lp lp && useradd -r -g lpadmin lpadmin
+
+# Change to svc acct
+USER lp
+
+# Set the working directory
+WORKDIR /home/lp
 
 CMD ["/opt/entry.sh"]
 
