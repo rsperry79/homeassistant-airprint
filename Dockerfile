@@ -36,12 +36,17 @@ RUN apt update \
         libcups2-dev \
         # CUPS printing packages
         cups \
+        cups-backend-bjnp \
+        bluez-cups \
         cups-bsd \
         cups-browsed \
         cups-filters \
+        cups-pk-helper\
         cups-pdf \
         colord \
         python3-cups \
+        pyppd \
+        rasterview \
         # Network
         dbus \
         iproute2 \
@@ -68,16 +73,13 @@ RUN apt update \
         printer-driver-foo2zjs \
         printer-driver-gutenprint \
         printer-driver-splix \
+        # Sane
+        sane \
+        sane-airscan \
+        sane-utils \
     && apt clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Add Canon cnijfilter2 driver
-RUN cd /tmp \
-  && if [ "$(arch)" = 'x86_64' ]; then ARCH="amd64"; else ARCH="arm64"; fi \
-  && curl https://gdlp01.c-wss.com/gds/0/0100012300/02/cnijfilter2-6.80-1-deb.tar.gz -o cnijfilter2.tar.gz \
-  && tar -xvf ./cnijfilter2.tar.gz cnijfilter2-6.80-1-deb/packages/cnijfilter2_6.80-1_${ARCH}.deb \
-  && mv cnijfilter2-6.80-1-deb/packages/cnijfilter2_6.80-1_${ARCH}.deb cnijfilter2_6.80-1.deb \
-  && apt install ./cnijfilter2_6.80-1.deb
 
 COPY rootfs /
 RUN chmod +x /etc/s6-overlay/s6-rc.d/*/run  /run.sh #/opt/airprint/airprint-generate.py
