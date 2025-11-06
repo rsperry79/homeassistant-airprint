@@ -42,7 +42,7 @@ DefaultShared Yes
 DefaultPaperSize Auto
 
 # Default settings
-DefaultAuthType None
+DefaultAuthType Basic
 PreserveJobHistory No
 
 # Allow access from local network
