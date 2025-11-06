@@ -79,7 +79,7 @@ COPY services /etc/s6-overlay/s6-rc.d
 RUN chmod +x /etc/s6-overlay/s6-rc.d/*/run
 
 COPY src /opt
-RUN chmod +x /opt/*/*.sh
+RUN chmod +x /opt/*/*.sh /opt/entry.sh
 
 COPY templates /usr/templates
 
