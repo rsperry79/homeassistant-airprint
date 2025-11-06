@@ -2,7 +2,7 @@
 # FILE IS PARTIALLY OVERWRITTEN AT Startup
 ###########################################
 
-ServerName {{.host_name}}
+ServerName {{.host_name}}:631
 AllowAnyRoot Yes
 AllowExpiredCerts Yes
 Encryption IfRequested
