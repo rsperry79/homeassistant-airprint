@@ -29,6 +29,7 @@ RUN apt update \
         nano \
         gnupg2 \
         inotify-tools \
+        addgroup \
         # Avahi
         avahi-daemon \
         avahi-utils \
