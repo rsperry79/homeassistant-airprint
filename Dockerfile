@@ -29,7 +29,6 @@ RUN apt update \
         nano \
         gnupg2 \
         inotify-tools \
-        addgroup \
         # Avahi
         avahi-daemon \
         avahi-utils \
@@ -88,11 +87,11 @@ RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf
 # Disable sudo password checking
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
 
-# Add groups
-RUN groupadd -r lpadmin && groupadd -r lp
+# # Add groups
+# RUN groupadd -r lpadmin
 
-# Add svc acct, remroot acct
-RUN useradd -r -g lp lp && useradd -r -g lpadmin lpadmin
+# # Add svc acct, remroot acct
+# RUN useradd -r -g lp lp && useradd -r -g lpadmin lpadmin
 
 # Change to svc acct
 USER lp
