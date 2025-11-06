@@ -22,8 +22,8 @@ function update_cups_conf() {
     # Get all possible host-names from configuration
     result=$(bashio::api.supervisor GET /core/api/config true || true)
     internal=$(bashio::jq "$result" '.internal_url' | cut -d'/' -f3 | cut -d':' -f1)
-    append_existing_hostname "$internal"
-    add_host_name_to_hosts "$internal"
+    # append_existing_hostname "$internal"
+    # add_host_name_to_hosts "$internal"
 
     # bashio::log.info "Restarting CUPS after adding HA Internal domain"
     #s6-svc -r /var/run/s6/services/cups-server # restart the service
