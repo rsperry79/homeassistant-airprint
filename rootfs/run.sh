@@ -16,6 +16,11 @@ ulimit -n 1048576
 
 function run() {
     bashio::log info "Entered Run.sh"
+
+    until [ -e /var/run/avahi-daemon/socket ]; do
+        sleep 1s
+    done
+
     update_cups_conf
     update_ha_config
 
@@ -32,7 +37,7 @@ function update_cups_conf() {
     # update files
     add_host_name_to_hosts "$internal"
     append_existing_hostname "$internal"
-    update_cert_file_names "$internal"
+    # update_cert_file_names "$internal"
 }
 
 function update_ha_config() {
@@ -41,9 +46,6 @@ function update_ha_config() {
 
 # not a service as HA health check should restart on failure
 function start_cups() {
-    until [ -e /var/run/avahi-daemon/socket ]; do
-        sleep 1s
-    done
 
     bashio::log.info "Testing CUPS server config"
     cupsd -t -c /config/cups/cupsd.conf -s /config/cups/cups-files.conf
