@@ -22,7 +22,7 @@ function update_hosts() {
 function add_host_name_to_hosts() {
     local to_check=${1}
 
-    if ! grep -q "$to_check" /etc/hosts; then
+    if ! grep -q "$to_check 127.0.0.1" /etc/hosts; then
         bashio::log.debug "Adding host: $to_check to /etc/hosts"
         echo "127.0.0.1 $to_check" >>/etc/hosts
     else

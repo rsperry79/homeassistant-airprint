@@ -39,7 +39,7 @@ function run() {
 # Gets current settings from HA
 function setup() {
     host_name=$(hostname -f)
-
+    add_host_name_to_hosts "$host_name"
     cups_log_level="error"
     cups_access_log_level="config"
     HOST_ALIAS="*"
