@@ -51,7 +51,7 @@ function add_sans() {
 function append_host_alias() {
     local to_check=${1}
 
-    if ! echo "$HOST_ALIAS" | grep "$to_check"; then
+    if ! echo "$HOST_ALIAS" | grep -q "$to_check"; then
         HOST_ALIAS+=" $to_check"
     fi
 }
@@ -59,8 +59,8 @@ function append_host_alias() {
 function append_existing_host_alias() {
     local to_add=${1}
 
-    current=$(grep "ServerAlias" /config/cups/cupsd.conf)
-    if ! echo "$current" | grep -q "$to_add"; then
+    current=$(grep -q "ServerAlias" /config/cups/cupsd.conf)
+    if ! echo "$current" | grep "$to_add"; then
         sed -i "s/^.*ServerAlias .*/$current $to_add/" "$real_cups_path/$cups_daemon_cfg"
     fi
 }

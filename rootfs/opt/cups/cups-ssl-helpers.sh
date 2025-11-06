@@ -101,24 +101,24 @@ function convert_public_key() {
     fi
 }
 
-function update_cert_file_names() {
-    local new_name=${1}
+# function update_cert_file_names() {
+#     local new_name=${1}
 
-    # new names
-    CUPS_PRIVATE_KEY="$ssl_dir/$new_name.crt"
-    CUPS_PUBLIC_KEY="$ssl_dir/$new_name.pem"
+#     # new names
+#     CUPS_PRIVATE_KEY="$ssl_dir/$new_name.crt"
+#     CUPS_PUBLIC_KEY="$ssl_dir/$new_name.pem"
 
-    # get existing names
-    # TODO READ FROM FILE
-    host_name=$(hostname -f)
-    old_private="$ssl_dir/$host_name.crt"
-    old_public="$ssl_dir/$host_name.pem"
+#     # get existing names
+#     # TODO READ FROM FILE
+#     host_name=$(hostname -f)
+#     old_private="$ssl_dir/$host_name.crt"
+#     old_public="$ssl_dir/$host_name.pem"
 
-    # Rename files
-    mv "$old_private" "$CUPS_PRIVATE_KEY"
-    mv "$old_public" "$CUPS_PUBLIC_KEY"
+#     # Rename files
+#     mv "$old_private" "$CUPS_PRIVATE_KEY"
+#     mv "$old_public" "$CUPS_PUBLIC_KEY"
 
-    # updates the config
-    update_private_key "$CUPS_PRIVATE_KEY"
-    update_public_key "$CUPS_PUBLIC_KEY"
-}
+#     # updates the config
+#     update_private_key "$CUPS_PRIVATE_KEY"
+#     update_public_key "$CUPS_PUBLIC_KEY"
+# }

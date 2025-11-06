@@ -19,7 +19,7 @@ function install() {
         dpkg -i --force-all /config/packages/mfc9970cdwlpr-1.1.1-5.i386.deb # force all as brother only supplies a 386 package.
     fi
 
-    if [ ! -e mfc9970cdwlpr-1.1.1-5.i386.deb ]; then
+    if [ ! -e mfc9970cdwcupswrapper-1.1.1-5.i386.deb ]; then
         wget https://download.brother.com/welcome/dlf006528/mfc9970cdwcupswrapper-1.1.1-5.i386.deb -O /config/packages/mfc9970cdwcupswrapper-1.1.1-5.i386.deb
     fi
     if [ -e /config/packages/mfc9970cdwcupswrapper-1.1.1-5.i386.deb ]; then
