@@ -32,7 +32,7 @@ export avahi_templates_path=$avahi_config_path/avahi
 export src_avahi_templates_path=$avahi_templates_path/avahi
 
 export avahi_daemon_cfg=avahi-daemon.conf.tempio
-export avahi_daemon_cfg=avahi-daemon.conf
+export avahi_daemon=avahi-daemon.conf
 
 export packages_path=/config/packages
 export install_script=custom-install.sh
