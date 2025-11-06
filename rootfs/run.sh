@@ -36,7 +36,7 @@ function update_cups_conf() {
 
     # update files
     add_host_name_to_hosts "$internal"
-    append_host_alias "$internal"
+    append_existing_host_alias "$internal"
     # update_cert_file_names "$internal"
 }
 
