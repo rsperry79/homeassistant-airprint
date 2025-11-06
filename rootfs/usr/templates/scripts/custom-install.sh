@@ -16,7 +16,8 @@ function install() {
     fi
     # second check to ensure it was dl'd before install to prevent fatal errors
     if [ -e /config/packages/mfc9970cdwlpr-1.1.1-5.i386.deb ]; then
-        dpkg -i --force-all /config/packages/mfc9970cdwlpr-1.1.1-5.i386.deb # force all as brother only supplies a 386 package.
+        # force all as brother only supplies a 386 package.
+        dpkg -i --force-all /config/packages/mfc9970cdwlpr-1.1.1-5.i386.deb
     fi
 
     if [ ! -e mfc9970cdwcupswrapper-1.1.1-5.i386.deb ]; then
