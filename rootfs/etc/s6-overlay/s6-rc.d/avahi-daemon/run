@@ -1,4 +1,6 @@
 #!/usr/bin/with-contenv bashio
+# shellcheck source="../../../../opt/common/paths.sh"
+source "/opt/common/paths.sh"
 
 ulimit -n 524288
 bashio::log.info "Starting Avahi daemon from S6"
@@ -14,9 +16,7 @@ until [ -e /run/dbus/system_bus_socket ]; do
 done
 
 if [ "$debug_flag" == "true" ]; then
-    avahi-daemon --debug -f /config/avahi/avahi-daemon.conf
+    avahi-daemon --debug --file="$avahi_config_path"/"$avahi_daemon_cfg"
 else
-    avahi-daemon --file=/config/avahi/avahi-daemon.conf
+    avahi-daemon --file="$avahi_config_path"/"$avahi_daemon_cfg"
 fi
-
-

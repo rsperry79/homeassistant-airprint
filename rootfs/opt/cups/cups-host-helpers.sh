@@ -1,8 +1,8 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
 
-# shellcheck source="./cups-common.sh"
-source "/opt/cups/cups-common.sh"
+# shellcheck source="../common/paths.sh"
+source "/opt/common/paths.sh"
 
 # shellcheck source="./cups-config-helpers.sh"
 source "/opt/cups/cups-config-helpers.sh"

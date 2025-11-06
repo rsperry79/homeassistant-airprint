@@ -1,4 +1,6 @@
 #!/usr/bin/with-contenv bashio
+# shellcheck source="./opt/common/paths.sh"
+source "/opt/common/paths.sh"
 
 # shellcheck source="./opt/cups/cups-host-helpers.sh"
 source "/opt/cups/cups-host-helpers.sh"
@@ -48,11 +50,10 @@ function update_ha_config() {
 function start_cups() {
 
     bashio::log.info "Testing CUPS server config"
-    cupsd -t -c /config/cups/cupsd.conf -s /config/cups/cups-files.conf
+    cupsd -t -c "$real_cups_path"/"$cups_daemon_cfg" f -s "$real_cups_path"/"$cups_files_cfg"
 
     bashio::log.info "Starting CUPS server from S6"
-    cupsd -f -c /config/cups/cupsd.conf -s /config/cups/cups-files.conf
-
+    cupsd -f -c "$real_cups_path"/"$cups_daemon_cfg" f -s "$real_cups_path"/"$cups_files_cfg"
 }
 
 run               # run entrypoint

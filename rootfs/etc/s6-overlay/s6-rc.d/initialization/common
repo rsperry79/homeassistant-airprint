@@ -5,7 +5,7 @@ source "/opt/common/paths.sh"
 
 function run_setup() {
     if ! bashio::fs.directory_exists "${real_config_path}"; then
-        install -d -m 770 -g "$folder_group" "${real_config_path}" ||
+        install -d -m "$file_perms" -g "$file_group" "${real_config_path}" ||
             bashio::exit.nok 'Failed to create a persistent cups logging folder'
     fi
 

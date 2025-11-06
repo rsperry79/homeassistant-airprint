@@ -1,8 +1,7 @@
 #!/command/with-contend bashio
 
-readonly packages_path=/config/packages
-readonly install_script=custom-install.sh
-readonly src_custom_script_template_path=/usr/templates/scripts
+# shellcheck source="../../../../opt/common/paths.sh"
+source "/opt/common/paths.sh"
 
 function run() {
     ensure_package_paths
