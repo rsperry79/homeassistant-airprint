@@ -21,9 +21,9 @@ export cups_client_cfg=client.conf.tempio
 export cups_daemon_cfg=cupsd.conf.tempio
 export cups_files_cfg=cups-files.conf.tempio
 
-export cups_client_cfg=client.conf
-export cups_daemon_cfg=cupsd.conf
-export cups_files_cfg=cups-files.conf
+export cups_client=client.conf
+export cups_daemon=cupsd.conf
+export cups_files=cups-files.conf
 
 # Avahi
 export avahi_config_path=$real_config_path/avahi

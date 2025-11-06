@@ -84,7 +84,7 @@ function setup() {
 function autoconf_client() {
     echo "$config" | tempio \
         -template "$cups_templates_path/$cups_client_cfg.tempio" \
-        -out "$real_cups_path/$cups_client_cfg"
+        -out "$real_cups_path/$cups_client"
 }
 
 function update_client() {
@@ -95,7 +95,7 @@ function autoconf_daemon() {
     # if [ ! -e "$real_cups_path/$cups_daemon_cfg" ]; then
     echo "$config" | tempio \
         -template "$cups_templates_path/$cups_daemon_cfg.tempio" \
-        -out "$real_cups_path/$cups_daemon_cfg"
+        -out "$real_cups_path/$cups_daemon"
     # fi
 }
 
@@ -108,7 +108,7 @@ function update_daemon() {
 function autoconf_files() {
     echo "$config" | tempio \
         -template "$cups_templates_path/$cups_files_cfg.tempio" \
-        -out "$real_cups_path/$cups_files_cfg"
+        -out "$real_cups_path/$cups_files"
 }
 
 function update_files() {
