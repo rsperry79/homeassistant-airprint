@@ -28,12 +28,9 @@ RUN apt update \
         nano \
         gnupg2 \
         inotify-tools \
-        # airprint generate requirements
-        python3 \
-        python3-pip \
-        python3-venv \
-        python3-libxml2 \
-        libcups2-dev \
+        # Avahi
+        avahi-daemon \
+        avahi-utils \
         # CUPS printing packages
         cups \
         cups-backend-bjnp \
@@ -57,9 +54,7 @@ RUN apt update \
         wget \
         curl \
         systemd-resolved \
-        # Avahi
-        avahi-daemon \
-        avahi-utils \
+
         # Printer Drivers
         foomatic-db-compressed-ppds \
         hp-ppd  \
@@ -86,9 +81,7 @@ RUN chmod +x /etc/s6-overlay/s6-rc.d/*/run
 COPY src /opt
 RUN chmod +x /opt/*/*.sh
 
-
-COPY templates /usr
-RUN chmod +x /opt/*/*.sh
+COPY templates /usr/templates
 
 
 RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf \
