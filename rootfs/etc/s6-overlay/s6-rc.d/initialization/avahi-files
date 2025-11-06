@@ -1,34 +1,28 @@
 #!/command/with-contend bashio
+# shellcheck source="../../../../opt/common/paths.sh"
+source "/opt/common/paths.sh"
 
-# Avahi paths
-readonly avahi_config_path=/config/avahi
-readonly avahi_services_path=/config/avahi/services
-readonly avahi_templates_path=/config/templates/avahi
-
-readonly src_avahi_templates_path=/usr/templates/avahi
-readonly avahi_daemon_cfg=avahi-daemon.conf.tempio
-readonly folder_group=avahi
 
 # Avahi config folder
 if ! bashio::fs.directory_exists "${avahi_config_path}"; then
-  install -d -m 0770 -g "$folder_group" "${avahi_config_path}" ||
-    bashio::exit.nok 'Failed to create a persistent Avahi config folder'
+    install -d -m "$file_perms" -g "$folder_group" "${avahi_config_path}" ||
+        bashio::exit.nok 'Failed to create a persistent Avahi config folder'
 fi
 
 # Avahi services  folder
 if ! bashio::fs.directory_exists "${avahi_services_path}"; then
-  install -d -m 0770 -g "$folder_group" "${avahi_services_path}" ||
-    bashio::exit.nok 'Failed to create a persistent Avahi services folder'
+    install -d -m "$file_perms" -g "$folder_group" "${avahi_services_path}" ||
+        bashio::exit.nok 'Failed to create a persistent Avahi services folder'
 
-  ln -sn "$avahi_services_path" /etc/avahi/services
+    ln -sn "$avahi_services_path" /etc/avahi/services
 fi
 
 # avahi templates folder
 if ! bashio::fs.directory_exists "${avahi_templates_path}"; then
-  install -d -m 0770 -g "$folder_group" "${avahi_templates_path}" ||
-    bashio::exit.nok 'Failed to create a persistent avahi templates folder'
+    install -d -m "$file_perms" -g "$folder_group" "${avahi_templates_path}" ||
+        bashio::exit.nok 'Failed to create a persistent avahi templates folder'
 fi
 
 if [ ! -e "$avahi_templates_path/$avahi_daemon_cfg".tempio ]; then
-  cp "$src_avahi_templates_path/$avahi_daemon_cfg" "$avahi_templates_path/$avahi_daemon_cfg"
+    cp "$src_avahi_templates_path/$avahi_daemon_cfg" "$avahi_templates_path/$avahi_daemon_cfg"
 fi

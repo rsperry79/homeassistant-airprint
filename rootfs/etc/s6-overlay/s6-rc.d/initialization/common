@@ -1,33 +1,11 @@
 #!/command/with-contend bashio
 
-# HA File paths
-readonly real_config_path=/config
-readonly folder_group="root"
-# function autoconf_setup() {
-
-#   host_name=$(bashio::info.hostname)
-
-#   # # Get all possible hostages from configuration
-#   result=$(bashio::api.supervisor GET /core/api/config true || true)
-#   # api_config_result=$(curl -X GET -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" -H "Content-Type: application/json" http://supervisor/core/api/config)
-#   # echo "$api_config_result" >>/config/api.results
-#   echo "result" "$result" >/config/api.results
-
-#   interfaces=$(bashio::network.interfaces)
-#   echo "interfaces" "$interfaces" >>/config/api.results
-
-#   # # bashio::log.info "__BASHIO_SUPERVISOR_TOKEN $__BASHIO_SUPERVISOR_TOKEN"
-
-#   # internal=$(bashio::jq "$api_config_result" '.internal_url' | cut -d'/' -f3 | cut -d':' -f1)
-#   # external=$(bashio::jq "$api_config_result" '.external_url' | cut -d'/' -f3 | cut -d':' -f1)
-
-# }
+# shellcheck source="../../../../opt/common/paths.sh"
+source "/opt/common/paths.sh"
 
 function run_setup() {
-    # Cups log folder
-
     if ! bashio::fs.directory_exists "${real_config_path}"; then
-        install -d -m 0770 -g "$folder_group" "${real_config_path}" ||
+        install -d -m 770 -g "$folder_group" "${real_config_path}" ||
             bashio::exit.nok 'Failed to create a persistent cups logging folder'
     fi
 

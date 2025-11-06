@@ -77,8 +77,8 @@ function convert_private_key() {
     msg=$(openssl rsa -in "$to_convert" -out "$output_file")
     # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
-        chown "$ssl_owner":"$ssl_group" "$output_file"
-        chmod "$ssl_perms" "$output_file"
+        chown "$file_owner":"$file_group" "$output_file"
+        chmod "$file_perms" "$output_file"
         bashio::log.debug "SSL Private Key exists. $output_file"
     else
         bashio::log.error "Private key is not valid. $msg"
@@ -93,8 +93,8 @@ function convert_public_key() {
     msg=$(openssl x509 -in "$to_convert" -out "$output_file")
     # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
-        chown "$ssl_owner":"$ssl_group" "$output_file"
-        chmod "$ssl_perms" "$output_file"
+        chown "$file_owner":"$file_group" "$output_file"
+        chmod "$file_perms" "$output_file"
         bashio::log.debug "SSL Public Key exists. $output_file"
     else
         bashio::log.error "Public key is not valid. $msg"
