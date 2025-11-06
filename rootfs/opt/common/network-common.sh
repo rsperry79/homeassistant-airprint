@@ -44,7 +44,7 @@ function get_interfaces() {
 }
 
 function enable_resolved() {
-    local interfaces_arr[]=${1}
+    local interfaces_arr=${1}
     IFS=',' read -ra interfaces <<<"${interfaces_arr[@]}"
     for interface in "${interfaces[@]}"; do
         resolvectl mdns "$interface" yes
