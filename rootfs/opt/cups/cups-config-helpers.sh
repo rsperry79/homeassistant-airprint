@@ -15,13 +15,6 @@ function update_public_key() {
     sed -i "s#^.*ServerCertificate .*#ServerCertificate ${public_key}#" "$real_cups_path/$cups_files_cfg"
 }
 
-function update_server_name() {
-    local server_name=${1}
-    sed -i "s/^.*ServerName .*/ServerName ${server_name}/" "$real_cups_path/$cups_daemon_cfg"
-
-    sed -i "s/^.*ServerName .*/ServerName ${server_name}:631/" "$real_cups_path/$cups_daemon_cfg"
-}
-
 function update_self_sign() {
     local self_sign_setting=${1}
     sed -i "s#^.*CreateSelfSignedCerts .*#CreateSelfSignedCerts ${self_sign_setting}#" "$real_cups_path/$cups_files_cfg"
@@ -41,4 +34,10 @@ function update_log_level() {
 function update_server_alias() {
     local setting=${1}
     sed -i "s/^.*ServerAlias .*/ServerAlias ${setting}/" "$real_cups_path/$cups_daemon_cfg"
+}
+
+function update_server_name() {
+    local server_name=${1}
+    sed -i "s/^.*ServerName .*/ServerName ${server_name}/" "$real_cups_path/$cups_daemon_cfg"
+    sed -i "s/^.*ServerName .*/ServerName ${server_name}:631/" "$real_cups_path/$cups_daemon_cfg"
 }

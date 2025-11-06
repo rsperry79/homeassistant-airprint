@@ -4,6 +4,9 @@
 # shellcheck source="./cups-common.sh"
 source "/opt/cups/cups-common.sh"
 
+# shellcheck source="./cups-config-helpers.sh"
+source "/opt/cups/cups-config-helpers.sh"
+
 function update_hosts() {
     local pubkey="${1}"
 
@@ -53,13 +56,13 @@ function append_host_alias() {
     fi
 }
 
-function append_host_existing_alias() {
+function append_host_existing() {
     local to_add=${1}
 
-    current=$(grep "ServerAlias" /config/cups/cupsd.conf)
+    current=$(grep "ServerName" /config/cups/cupsd.conf)
 
     if ! echo "$current" | grep -q "$to_add"; then
         to_save="$current $to_add"
-        sed -i "s/^.*ServerAlias .*/${to_save}/" "$real_cups_path/$cups_daemon_cfg"
+        update_server_name "$to_save"
     fi
 }
