@@ -81,8 +81,8 @@ RUN cd /tmp \
 COPY rootfs /
 RUN chmod +x /etc/s6-overlay/s6-rc.d/*/run /opt/airprint/airprint-generate.py /run.sh
 
-RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes ${setting}/" /etc/systemd/resolved.conf \
- && sed -i "s/^.*LLMNR .*/LLMNR=yes ${setting}/" /etc/systemd/resolved.conf
+RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf \
+ && sed -i "s/^.*LLMNR .*/LLMNR=yes/" /etc/systemd/resolved.conf
 
 # disable sudo password checking
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
