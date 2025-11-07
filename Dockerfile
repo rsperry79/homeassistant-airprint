@@ -2,12 +2,12 @@ ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base:8.1.4
 FROM $BUILD_FROM AS builder
 
 # Update package list and upgrade existing packages
-RUN apt-get update -y && apt-get upgrade --fix-missing -y
+RUN apt update -y && apt upgrade --fix-missing -y
 
 # Install required dependencies for CUPS
-RUN apt-get install -y autoconf build-essential \
-    avahi-daemon git libavahi-client-dev \
-    libssl-dev libkrb5-dev libnss-mdns libpam-dev libpaper libwrap0-dev \
+RUN apt install -y autoconf build-essential \
+    avahi-daemon  libavahi-client-dev \
+    libssl-dev libkrb5-dev libnss-mdns libpam-dev \
     libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
     openssl sudo
 
