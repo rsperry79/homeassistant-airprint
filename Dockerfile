@@ -19,6 +19,8 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
 RUN apt update \
     && apt upgrade -y --no-install-recommends \
     && apt install -y --no-install-recommends \
+        # dev
+        htop \
         # System packages
         sudo \
         locales \

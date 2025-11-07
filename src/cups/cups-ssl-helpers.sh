@@ -13,8 +13,8 @@ function setup_ssl() {
     host_name=${1}
     self_sign=${2}
 
-    CUPS_PRIVATE_KEY="$cups_ssl_path/$host_name.crt"
-    CUPS_PUBLIC_KEY="$cups_ssl_path/$host_name.pem"
+    CUPS_PRIVATE_KEY="$cups_ssl_path/$host_name.key"
+    CUPS_PUBLIC_KEY="$cups_ssl_path/$host_name.crt"
 
     if [ "$self_sign" == true ]; then
         bashio::log.info "Self sign is on"
