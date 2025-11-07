@@ -1,4 +1,23 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base:8.1.4
+FROM $BUILD_FROM AS builder
+
+# Update package list and upgrade existing packages
+RUN apt-get update -y && apt-get upgrade --fix-missing -y
+
+# Install required dependencies for CUPS
+RUN apt-get install -y autoconf build-essential \
+    avahi-daemon git libavahi-client-dev \
+    libssl-dev libkrb5-dev libnss-mdns libpam-dev libpaper libwrap0-dev \
+    libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
+    openssl sudo
+
+# Build latest cups as debian is out of date
+RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
+WORKDIR /root/cups
+RUN ./configure --prefix=/root/usr --sysconfdir=/root/etc --localstatedir=/var  --enable-static=yes --enable-libpaper=yes \
+ --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all \
+ && make clean && make && make install
+
 FROM $BUILD_FROM
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
@@ -35,7 +54,6 @@ RUN apt update \
         avahi-daemon \
         avahi-utils \
         # CUPS printing packages
-        cups \
         cups-backend-bjnp \
         bluez-cups \
         cups-bsd \
@@ -78,6 +96,8 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy files, set perms
+COPY --from=builder /root/cups/etc /etc
+COPY --from=builder /root/cups/usr /usr
 COPY services /etc/s6-overlay/s6-rc.d
 COPY src /opt
 COPY templates /usr/templates
@@ -88,6 +108,7 @@ RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf
 
 # Disable sudo password checking
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
-    && usermod -a -G lp root
+    && usermod -a -G lp root \
+    && groupadd lpadmin
 
 CMD ["/opt/entry.sh"]
