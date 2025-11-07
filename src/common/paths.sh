@@ -25,10 +25,16 @@ export src_cups_templates_path=$templates_path/cups
 export cups_client_cfg=client.conf.tempio
 export cups_daemon_cfg=cupsd.conf.tempio
 export cups_files_cfg=cups-files.conf.tempio
+export cups_browsed_cfg=cups-browsed.conf.tempio
+export cups_pdf_cfg=cups-pdf.conf.tempio
+export cups_snmp_cfg=snmp.conf.tempio
 # Config files
 export cups_client=client.conf
 export cups_daemon=cupsd.conf
 export cups_files=cups-files.conf
+export cups_browsed=cups-browsed.conf
+export cups_pdf=cups-pdf.conf
+export cups_snmp=cups-pdf.conf.tempio
 
 #### Avahi
 # Folder paths

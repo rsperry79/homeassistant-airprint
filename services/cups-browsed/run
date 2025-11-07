@@ -1,0 +1,23 @@
+#!/usr/bin/with-contenv bashio
+# shellcheck source="../../src/common/paths.sh"
+source "/opt/common/paths.sh"
+
+ulimit -n 524288
+bashio::log.info "Starting Cups-Browsed daemon from S6"
+
+debug_flag="false"
+if bashio::config.has_value 'avahi_debug'; then
+    debug_flag=$(bashio::config 'avahi_debug')
+fi
+
+until [ -e /run/avahi-daemon/socket ]; do
+    bashio::log.info "Waiting for avahi daemon."
+    sleep 2s
+done
+
+if [ "$debug_flag" == "true" ]; then
+    sudo lp /usr/sbin/cups-browsed --debug -c /config/cups/cups-browsed.conf
+
+else
+    sudo lp /usr/sbin/cups-browsed -c /config/cups/cups-browsed.conf
+fi

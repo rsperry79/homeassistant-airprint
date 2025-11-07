@@ -26,14 +26,32 @@ if ! bashio::fs.directory_exists "${cups_ssl_path}"; then
         bashio::exit.nok 'Failed to create a persistent cups templates folder'
 fi
 
-if [ ! -e "$cups_templates_path/$cups_client_cfg".tempio ]; then
+# cups-browsed.conf
+if [ ! -e "$cups_templates_path/$cups_browsed_cfg" ]; then
+    cp "$src_cups_templates_path/$cups_browsed_cfg" "$cups_templates_path/$cups_browsed_cfg"
+fi
+
+# client.conf
+if [ ! -e "$cups_templates_path/$cups_client_cfg" ]; then
     cp "$src_cups_templates_path/$cups_client_cfg" "$cups_templates_path/$cups_client_cfg"
 fi
 
-if [ ! -e "$cups_templates_path/$cups_daemon_cfg".tempio ]; then
+# cupsd.conf
+if [ ! -e "$cups_templates_path/$cups_daemon_cfg" ]; then
     cp "$src_cups_templates_path/$cups_daemon_cfg" "$cups_templates_path/$cups_daemon_cfg"
 fi
 
-if [ ! -e "$cups_templates_path/$cups_files_cfg".tempio ]; then
+# cups-files.conf
+if [ ! -e "$cups_templates_path/$cups_files_cfg" ]; then
     cp "$src_cups_templates_path/$cups_files_cfg" "$cups_templates_path/$cups_files_cfg"
+fi
+
+# cups-pdf.conf
+if [ ! -e "$cups_templates_path/$cups_pdf_cfg" ]; then
+    cp "$src_cups_templates_path/$cups_pdf_cfg" "$cups_templates_path/$cups_pdf_cfg"
+fi
+
+# snmp.conf
+if [ ! -e "$cups_templates_path/$cups_snmp_cfg" ]; then
+    cp "$src_cups_templates_path/$cups_snmp_cfg" "$cups_templates_path/$cups_snmp_cfg"
 fi

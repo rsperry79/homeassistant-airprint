@@ -16,22 +16,40 @@ source "/opt/cups/cups-config-helpers.sh"
 function run() {
     setup
 
-    if [ ! -e "$real_cups_path/$cups_client_cfg" ]; then
+    if [ ! -e "$real_cups_path/$cups_browsed" ]; then
+        autoconf_browsed
+    else
+        update_browsed
+    fi
+
+    if [ ! -e "$real_cups_path/$cups_client" ]; then
         autoconf_client
     else
         update_client
     fi
 
-    if [ ! -e "$real_cups_path/$cups_daemon_cfg" ]; then
+    if [ ! -e "$real_cups_path/$cups_daemon" ]; then
         autoconf_daemon
     else
         update_daemon
     fi
 
-    if [ ! -e "$real_cups_path/$cups_files_cfg" ]; then
+    if [ ! -e "$real_cups_path/$cups_files" ]; then
         autoconf_files
     else
         update_files
+    fi
+
+    if [ ! -e "$real_cups_path/$cups_pdf" ]; then
+        autoconf_pdf
+    else
+        update_pdf
+    fi
+
+    if [ ! -e "$real_cups_path/$cups_snmp" ]; then
+        autoconf_snmp
+    else
+        update_snmp
     fi
 
 }
@@ -89,7 +107,16 @@ function autoconf_daemon() {
     echo "$config" | tempio \
         -template "$cups_templates_path/$cups_daemon_cfg" \
         -out "$real_cups_path/$cups_daemon"
+}
 
+function autoconf_browsed() {
+    echo "$config" | tempio \
+        -template "$cups_templates_path/$cups_browsed_cfg" \
+        -out "$real_cups_path/$cups_browsed"
+}
+
+function update_browsed() {
+    true
 }
 
 function update_daemon() {
@@ -109,6 +136,28 @@ function update_files() {
     update_self_sign "$self_sign"
     update_public_key "$CUPS_PUBLIC_KEY"
     update_private_key "$CUPS_PRIVATE_KEY"
+}
+
+function autoconf_pdf() {
+    echo "$config" | tempio \
+        -template "$cups_templates_path/$cups_pdf_cfg" \
+        -out "$real_cups_path/$cups_pdf"
+
+}
+
+function update_pdf() {
+    true
+}
+
+function autoconf_snmp() {
+    echo "$config" | tempio \
+        -template "$cups_templates_path/$cups_snmp_cfg" \
+        -out "$real_cups_path/$cups_snmp"
+
+}
+
+function update_snmp() {
+    true
 }
 
 run

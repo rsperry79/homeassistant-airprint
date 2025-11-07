@@ -47,7 +47,6 @@ function update_ha_config() {
 
 # not a service as HA health check should restart on failure
 function start_cups() {
-    sudo lp /usr/sbin/cups-browsed &
 
     bashio::log.info "Testing CUPS server config"
     cupsd -t -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
