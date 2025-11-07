@@ -85,15 +85,9 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf
 
 # Disable sudo password checking
-RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
-
-# # Add groups
-# RUN groupadd -r lpadmin
-
-# # Add svc acct, remroot acct
-# RUN useradd -r -g lp lp && useradd -r -g lpadmin lpadmin
-
-
+RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
+    && usermod -aG sudo lp \
+    && usermod -a -G cups lp \
+    && usermod -a -G lp root
 
 CMD ["/opt/entry.sh"]
-
