@@ -49,7 +49,7 @@ DocumentRoot /usr/share/doc/cups
 ErrorLog stderr
 
 # Location of fonts used by older print filters...
-FontPath /usr/share/cups/fonts
+#FontPath /usr/share/cups/fonts
 
 # Location of LPD configuration
 #LPDConfigFile
