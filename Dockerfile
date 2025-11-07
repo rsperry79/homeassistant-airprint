@@ -12,8 +12,9 @@ RUN apt install -y autoconf build-essential \
     openssl sudo
 
 # Build latest cups as debian is out of date
-RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
 WORKDIR /root/cups
+RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
+
 RUN ./configure --prefix=/root/usr --sysconfdir=/root/etc --localstatedir=/var  --enable-static=yes --enable-libpaper=yes \
  --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all \
  && make clean && make && make install
