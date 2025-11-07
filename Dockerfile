@@ -6,10 +6,10 @@ RUN apt update -y && apt upgrade --fix-missing -y
 
 # Install required dependencies for CUPS
 RUN apt install -y autoconf build-essential \
-    avahi-daemon  libavahi-client-dev \
+    avahi-daemon  git  libavahi-client-dev \
     libssl-dev libkrb5-dev libnss-mdns libpam-dev \
     libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
-    openssl sudo
+    openssl  systemd-resolved sudo
 
 # Build latest cups as debian is out of date
 WORKDIR /root/cups
