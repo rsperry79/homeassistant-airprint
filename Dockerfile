@@ -98,7 +98,7 @@ RUN apt update \
 
 # Copy files, set perms
 COPY --from=builder /root/etc /etc
-COPY --from=builder /root/usr /
+COPY --from=builder /root/usr /usr
 COPY services /etc/s6-overlay/s6-rc.d
 COPY src /opt
 COPY templates /usr/templates
