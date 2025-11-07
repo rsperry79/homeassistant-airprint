@@ -50,10 +50,10 @@ function start_cups() {
     sudo lp /usr/sbin/cups-browsed &
 
     bashio::log.info "Testing CUPS server config"
-    sudo lp cupsd -t -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
+    cupsd -t -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
 
     bashio::log.info "Starting CUPS server from S6"
-    sudo lp cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
+    cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
 }
 
 run               # run entrypoint

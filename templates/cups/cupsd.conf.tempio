@@ -20,15 +20,16 @@ ErrorPolicy retry-job
 AccessLogLevel {{.cups_access_log_level}}
 
 # Only listen for connections from the local machine.
-Port 631
-Listen /run/cups/cups.sock
+Listen 0.0.0.0:631
+
+SSLOptions AllowRC4 AllowSSL3
 
 # Show shared printers on the local network.
 Browsing Yes
 BrowseLocalProtocols all
 
 # Default authentication type, when authentication is required...
-DefaultAuthType Basic
+DefaultAuthType Negotiate
 DefaultEncryption IfRequested
 
 # Host header validation
