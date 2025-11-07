@@ -58,7 +58,6 @@ RUN apt update \
         # CUPS printing packages
         cups-backend-bjnp \
         bluez-cups \
-        cups-bsd \
         cups-browsed \
         cups-filters \
         cups-pk-helper\
@@ -99,8 +98,16 @@ RUN apt update \
 
 # Copy files, set perms
 COPY --from=builder /build /build
-COPY --from=builder /build/etc /etc
-COPY --from=builder /build/usr /usr
+
+COPY --from=builder /build/usr/include /usr/include
+COPY --from=builder /build/usr/share /usr/share
+
+COPY --from=builder /build/usr/bin /bin
+COPY --from=builder /build/usr/sbin /sbin
+
+COPY --from=builder /build/usr/lib /lib
+COPY --from=builder /build/usr/lib64 /lib64
+
 COPY services /etc/s6-overlay/s6-rc.d
 COPY src /opt
 COPY templates /usr/templates
@@ -113,5 +120,9 @@ RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
   #  && usermod -a -G lp root \
  #   && groupadd lpadmin
+
+
+
+ # TODO add lpadmin user.
 
 CMD ["/opt/entry.sh"]
