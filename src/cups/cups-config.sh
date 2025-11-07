@@ -65,7 +65,7 @@ function setup() {
         fi
     fi
 
-    # setup_ssl "$host_name" "$self_sign"
+    setup_ssl "$host_name" "$self_sign"
 
     # Used by autoconf
     config=$(jq --arg host_name "$host_name" \
@@ -82,23 +82,20 @@ function autoconf_client() {
 }
 
 function update_client() {
-    echo
-    # update_server_name "$host_name"
+    update_server_name "$host_name"
 }
 
 function autoconf_daemon() {
-    # if [ ! -e "$real_cups_path/$cups_daemon_cfg" ]; then
     echo "$config" | tempio \
         -template "$cups_templates_path/$cups_daemon_cfg" \
         -out "$real_cups_path/$cups_daemon"
-    # fi
+
 }
 
 function update_daemon() {
-    echo
-    # update_log_level "$cups_log_level"
-    # update_server_alias "$HOST_ALIAS"
-    # update_server_name "$host_name"
+    update_log_level "$cups_log_level"
+    update_server_alias "$HOST_ALIAS"
+    update_server_name "$host_name"
 }
 
 function autoconf_files() {
@@ -108,11 +105,10 @@ function autoconf_files() {
 }
 
 function update_files() {
-    echo
-    # update_access_log_level "$cups_access_log_level"
-    # update_self_sign "$self_sign"
-    # update_public_key "$CUPS_PUBLIC_KEY"
-    # update_private_key "$CUPS_PRIVATE_KEY"
+    update_access_log_level "$cups_access_log_level"
+    update_self_sign "$self_sign"
+    update_public_key "$CUPS_PUBLIC_KEY"
+    update_private_key "$CUPS_PRIVATE_KEY"
 }
 
 run
