@@ -17,7 +17,7 @@ WORKDIR /root/cups
 RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
 
 RUN ./configure --prefix=/build/usr --sysconfdir=/build/etc --localstatedir=/var  --enable-libpaper=yes --with-components=all --with-tls=openssl \
- --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all \
+ --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   --with-rcdir=/build/rc \
  && make clean && make && make install
 
 FROM $BUILD_FROM
