@@ -1,9 +1,9 @@
 #!/command/with-contend bashio
 
 ### Svc Acct Settings
-export svc_acct="lp"
-export svc_group="lp"
-export svc_file_perms="0640"
+export svc_acct="root"
+export svc_group="root"
+export svc_file_perms="777"
 
 # Base Folders
 export real_config_path=/config
