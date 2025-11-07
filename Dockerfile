@@ -12,10 +12,11 @@ RUN apt install -y autoconf build-essential \
     openssl  systemd-resolved sudo
 
 # Build latest cups as debian is out of date
+WORKDIR /build
 WORKDIR /root/cups
 RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
 
-RUN ./configure --prefix=/root/usr --sysconfdir=/root/etc --localstatedir=/var  --enable-static=yes --enable-libpaper=yes \
+RUN ./configure --prefix=/build/usr --sysconfdir=/build/etc --localstatedir=/var  --enable-libpaper=yes --with-components=all --with-tls=openssl \
  --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all \
  && make clean && make && make install
 
@@ -97,9 +98,9 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy files, set perms
-COPY --from=builder /root/cups /root/cups
-COPY --from=builder /root/etc /etc
-COPY --from=builder /root/usr /usr
+COPY --from=builder /build /build
+COPY --from=builder /build/etc /etc
+COPY --from=builder /build/usr /usr
 COPY services /etc/s6-overlay/s6-rc.d
 COPY src /opt
 COPY templates /usr/templates
