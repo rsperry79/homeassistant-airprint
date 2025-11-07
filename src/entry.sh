@@ -27,7 +27,7 @@ function run() {
     update_ha_config
 
     bashio::log.info "Starting CUPS from run.sh"
-    start_cups
+    #  start_cups
 }
 
 # The HA API is not available from S6
