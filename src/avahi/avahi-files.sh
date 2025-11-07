@@ -4,13 +4,13 @@ source "/opt/common/paths.sh"
 
 # Avahi config folder
 if ! bashio::fs.directory_exists "${avahi_config_path}"; then
-    install -d -m "$file_perms" -g "$file_group" "${avahi_config_path}" ||
+    install -d -m "$svc_file_perms" -g "$svc_group" "${avahi_config_path}" ||
         bashio::exit.nok 'Failed to create a persistent Avahi config folder'
 fi
 
 # Avahi services  folder
 if ! bashio::fs.directory_exists "${avahi_services_path}"; then
-    install -d -m "$file_perms" -g "$file_group" "${avahi_services_path}" ||
+    install -d -m "$svc_file_perms" -g "$svc_group" "${avahi_services_path}" ||
         bashio::exit.nok 'Failed to create a persistent Avahi services folder'
 
     ln -sn "$avahi_services_path" /etc/avahi/services
@@ -18,7 +18,7 @@ fi
 
 # avahi templates folder
 if ! bashio::fs.directory_exists "${avahi_templates_path}"; then
-    install -d -m "$file_perms" -g "$file_group" "${avahi_templates_path}" ||
+    install -d -m "$svc_file_perms" -g "$svc_group" "${avahi_templates_path}" ||
         bashio::exit.nok 'Failed to create a persistent avahi templates folder'
 fi
 
