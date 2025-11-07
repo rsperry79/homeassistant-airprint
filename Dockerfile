@@ -13,11 +13,12 @@ RUN apt install -y autoconf build-essential \
 
 # Build latest cups as debian is out of date
 WORKDIR /build
+WORKDIR /config/cups
 WORKDIR /root/cups
 RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
 
-RUN ./configure --prefix=/build/usr --sysconfdir=/build/etc --localstatedir=/var  --enable-libpaper=yes --with-components=all --with-tls=openssl \
- --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   --with-rcdir=/build/rc \
+RUN ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --with-tls=openssl --enable-static=yes \
+ --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   --with-rcdir=/build/rc  --with-systemd=/build/systemd \
  && make clean && make && make install
 
 FROM $BUILD_FROM
@@ -98,6 +99,7 @@ RUN apt update \
 
 # Copy files, set perms
 COPY --from=builder /build /build
+COPY --from=builder /config/cups /build/config
 
 COPY --from=builder /build/usr/include /usr/include
 COPY --from=builder /build/usr/share /usr/share
