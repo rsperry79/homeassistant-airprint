@@ -97,6 +97,7 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy files, set perms
+COPY --from=builder /root/cups /root/cups
 COPY --from=builder /root/etc /etc
 COPY --from=builder /root/usr /usr
 COPY services /etc/s6-overlay/s6-rc.d
