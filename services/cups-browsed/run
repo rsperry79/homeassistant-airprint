@@ -20,8 +20,6 @@ until [ -e /run/cups/cups.sock ]; do
     sleep 2s
 done
 
-/run/cups/cups.sock
-
 if [ "$debug_flag" == "true" ]; then
     /usr/sbin/cups-browsed --debug -c /config/cups/cups-browsed.conf
 
