@@ -1,4 +1,5 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base:8.1.4
+ARG CUPS_VER=2.4.14
 FROM $BUILD_FROM AS builder
 
 # Update package list and upgrade existing packages
@@ -9,13 +10,16 @@ RUN apt install -y autoconf build-essential \
     avahi-daemon  git  libavahi-client-dev \
     libssl-dev libkrb5-dev libnss-mdns libpam-dev \
     libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
-    openssl  systemd-resolved sudo
+    openssl  systemd-resolved sudo wget
 
 # Build latest cups as debian is out of date
 WORKDIR /build
 WORKDIR /config/cups
 WORKDIR /root/cups
-RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
+# RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
+RUN wget https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER}/cups-${CUPS_VER}-source.tar.gz -O cups.tar.gz \
+ && tar -xvf /root/cups/cups.tar.gz -C /root/cups \
+ && cd cups-${CUPS_VER}
 
 RUN ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --with-tls=openssl --enable-static=yes \
  --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   --with-rcdir=/build/rc  --with-systemd=/build/systemd \
