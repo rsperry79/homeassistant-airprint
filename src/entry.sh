@@ -27,7 +27,7 @@ function run() {
     update_ha_config
 
     bashio::log.info "Starting CUPS from run.sh"
-    start_cups
+    # start_cups
 }
 
 # The HA API is not available from S6
@@ -46,14 +46,14 @@ function update_ha_config() {
 }
 
 # not a service as HA health check should restart on failure
-function start_cups() {
+# function start_cups() {
 
-    bashio::log.info "Testing CUPS server config"
-    cupsd -t -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
+#     bashio::log.info "Testing CUPS server config"
+#     cupsd -t -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
 
-    bashio::log.info "Starting CUPS server from Run"
-    cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
-}
+#     bashio::log.info "Starting CUPS server from Run"
+#     cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
+# }
 
 run               # run entrypoint
 tail -f /dev/null # Keep Running

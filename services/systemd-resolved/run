@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv bashio
-
-ulimit -n 524288
-bashio::log.info "Starting systemd-resolved daemon from S6"
-
-# Start systemd-resolved in the foreground
-/usr/lib/systemd/systemd-resolved
