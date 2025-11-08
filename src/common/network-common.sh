@@ -28,9 +28,10 @@ function get_interfaces() {
         done
 
         for interface in "${interfaces[@]}"; do
-            if [ "$interface" != "hassio" ] && [ "$interface" != "docker" ]; then
+            if [ "$interface" != "hassio" ] && [ "$interface" != "docker0" ]; then
                 if [ -n "$bcast_interfaces" ]; then
                     bcast_interfaces+=",$interface"
+                    bashio::log.info "Adding interface $interface"
                     #resolvectl mdns "$interface" >yes # enable resolved
                 else
                     bcast_interfaces=$interface
