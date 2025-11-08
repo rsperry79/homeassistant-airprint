@@ -72,7 +72,7 @@ Printcap /config/cups/printcap
 #RequestRoot /var/spool/cups
 
 # Location of helper programs...
-#ServerBin /usr/lib/cups
+ServerBin /lib/cups
 
 ServerKeychain {{.cups_ssl_path}}
 
@@ -83,10 +83,9 @@ ServerRoot /config/cups
 #SMBConfigFile
 
 # Location of scheduler state files...
-#StateDir /var/run/cups
+StateDir /run/cups
 
 # Location of scheduler/helper temporary files. This directory is emptied on
 # scheduler startup and cannot be one of the standard (public) temporary
 # directory locations for security reasons...
-# # image uses tempfs
 # TempDir /tmp
