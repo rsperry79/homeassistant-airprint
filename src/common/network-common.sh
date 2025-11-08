@@ -31,7 +31,7 @@ function get_interfaces() {
             if [ "$interface" != "hassio" ] && [ "$interface" != "docker" ]; then
                 if [ -n "$bcast_interfaces" ]; then
                     bcast_interfaces+=",$interface"
-                    resolvectl mdns "$interface" >yes # enable resolved
+                    #resolvectl mdns "$interface" >yes # enable resolved
                 else
                     bcast_interfaces=$interface
                 fi
