@@ -13,7 +13,7 @@ function run() {
     bcast_interfaces=$(get_interfaces)
     #enable_resolved "$bcast_interfaces"
 
-    if [ ! -e "$avahi_config_path/$avahi_daemon_cfg" ]; then
+    if [ ! -e "$avahi_config_path/$avahi_daemon" ]; then
         autoconf_config
     else
         update_avahi_config
