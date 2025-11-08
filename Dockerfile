@@ -1,5 +1,5 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base:8.1.4
-ARG CUPS_VER=2.4.14
+ARG CUPS_VER="2.4.14"
 FROM $BUILD_FROM AS builder
 
 # Update package list and upgrade existing packages
