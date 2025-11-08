@@ -10,7 +10,7 @@ RUN apt install -y autoconf build-essential \
     avahi-daemon  git  libavahi-client-dev \
     libssl-dev libkrb5-dev libnss-mdns libpam-dev \
     libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
-    openssl  systemd-resolved sudo wget
+    openssl  systemd-resolved sudo tar wget
 
 # Build latest cups as debian is out of date
 WORKDIR /build
