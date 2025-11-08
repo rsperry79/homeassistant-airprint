@@ -38,7 +38,7 @@ DebugLogging stderr
 # Which protocols will we use to discover printers on the network?
 # Can use DNSSD and/or CUPS and/or LDAP, or 'none' for neither.
 
-BrowseRemoteProtocols dnssd
+BrowseRemoteProtocols DNSSD
 
 
 # Which protocols will we use to broadcast shared local printers to the network?
@@ -46,14 +46,14 @@ BrowseRemoteProtocols dnssd
 # Only CUPS is actually supported, as DNSSD is done by CUPS itself (we ignore
 # DNSSD in this directive).
 
-BrowseLocalProtocols cups
+BrowseLocalProtocols CUPS
 
 
 # Settings of this directive apply to both BrowseRemoteProtocols and
 # BrowseLocalProtocols.
 # Can use DNSSD and/or CUPS and/or LDAP, or 'none' for neither.
 
-# BrowseProtocols none
+BrowseProtocols DNSSD
 
 
 # Only browse remote printers (via DNS-SD or CUPS browsing) from
@@ -95,7 +95,7 @@ BrowseLocalProtocols cups
 
 # If there are no "Browse..." lines at all, all servers are accepted.
 
-# BrowseAllow All
+BrowseAllow All
 # BrowseAllow cups.example.com
 # BrowseAllow 192.168.1.12
 # BrowseAllow 192.168.1.0/24
@@ -301,7 +301,7 @@ BrowseLocalProtocols cups
 # default domain socket. "None" or "Off" lets cups-browsed not use CUPS'
 # domain socket.
 
-# DomainSocket /var/run/cups/cups.sock
+DomainSocket /run/cups/cups.sock
 # DomainSocket None
 # DomainSocket Off
 

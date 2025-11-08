@@ -29,7 +29,7 @@ Browsing Yes
 BrowseLocalProtocols all
 
 # Default authentication type, when authentication is required...
-DefaultAuthType Negotiate
+DefaultAuthType basic
 DefaultEncryption IfRequested
 
 # Host header validation
