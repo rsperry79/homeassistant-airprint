@@ -18,7 +18,7 @@ WORKDIR /config/cups
 WORKDIR /root/cups
 # RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
 RUN wget https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER}/cups-${CUPS_VER}-source.tar.gz -O cups.tar.gz \
- && tar -xvf /root/cups/cups.tar.gz -C /root/cups \
+ && tar -xvf /root/cups/cups.tar.gz \
  && cd cups-${CUPS_VER}
 
 RUN ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --with-tls=openssl --enable-static=yes \
