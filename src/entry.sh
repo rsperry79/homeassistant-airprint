@@ -52,7 +52,7 @@ function start_cups() {
     cupsd -t -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
 
     bashio::log.info "Starting CUPS server from S6"
-    #cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
+    cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
 }
 
 run               # run entrypoint
