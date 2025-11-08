@@ -51,7 +51,7 @@ function start_cups() {
     bashio::log.info "Testing CUPS server config"
     cupsd -t -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
 
-    bashio::log.info "Starting CUPS server from S6"
+    bashio::log.info "Starting CUPS server from Run"
     cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
 }
 

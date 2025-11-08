@@ -16,8 +16,8 @@ until [ -e /run/avahi-daemon/socket ]; do
 done
 
 if [ "$debug_flag" == "true" ]; then
-    sudo lp /usr/sbin/cups-browsed --debug -c /config/cups/cups-browsed.conf
+    /usr/sbin/cups-browsed --debug -c /config/cups/cups-browsed.conf
 
 else
-    sudo lp /usr/sbin/cups-browsed -c /config/cups/cups-browsed.conf
+    /usr/sbin/cups-browsed -c /config/cups/cups-browsed.conf
 fi
