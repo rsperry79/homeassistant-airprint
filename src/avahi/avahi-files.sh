@@ -22,6 +22,6 @@ if ! bashio::fs.directory_exists "${avahi_templates_path}"; then
         bashio::exit.nok 'Failed to create a persistent avahi templates folder'
 fi
 
-if [ ! -e "$avahi_templates_path/$avahi_daemon_cfg".tempio ]; then
+if [ ! -e "$avahi_templates_path/$avahi_daemon_cfg" ]; then
     cp "$src_avahi_templates_path/$avahi_daemon_cfg" "$avahi_templates_path/$avahi_daemon_cfg"
 fi
