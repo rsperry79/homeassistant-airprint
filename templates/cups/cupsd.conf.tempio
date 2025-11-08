@@ -48,23 +48,23 @@ DefaultPaperSize Auto
 # Default error policy for printers
 ErrorPolicy stop-printer
 
-# Restrict access to the server...
+# Allow shared printing...
 <Location />
-  Order allow,deny
+    Order allow,deny
+    Allow all
 </Location>
-
 # Restrict access to the admin pages...
 <Location /admin>
-  AuthType Default
-  Require user @SYSTEM
-  Order allow,deny
+    AuthType Default
+    Order allow,deny
+    Allow all
 </Location>
 
 # Restrict access to configuration files...
 <Location /admin/conf>
-  AuthType Default
-  Require user @SYSTEM
-  Order allow,deny
+    AuthType Default
+    Order allow,deny
+    Allow all
 </Location>
 
 # Restrict access to log files...
@@ -72,6 +72,7 @@ ErrorPolicy stop-printer
   AuthType Default
   Require user @SYSTEM
   Order allow,deny
+  Allow all
 </Location>
 
 # Set the default printer/job policies...
