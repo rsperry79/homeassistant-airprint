@@ -10,15 +10,15 @@ if bashio::config.has_value 'avahi_debug'; then
     debug_flag=$(bashio::config 'avahi_debug')
 fi
 
-until [ -e /run/avahi-daemon/socket ]; do
-    bashio::log.info "Waiting for avahi daemon."
-    sleep 2s
-done
+# until [ -e /run/avahi-daemon/socket ]; do
+#     bashio::log.info "Waiting for avahi daemon."
+#     sleep 2s
+# done
 
-until [ -e /run/cups/cups.sock ]; do
-    bashio::log.info "Waiting for cups daemon."
-    sleep 2s
-done
+# until [ -e /run/cups/cups.sock ]; do
+#     bashio::log.info "Waiting for cups daemon."
+#     sleep 2s
+# done
 
 if [ "$debug_flag" == "true" ]; then
     /usr/sbin/cups-browsed --debug -c /config/cups/cups-browsed.conf
