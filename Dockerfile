@@ -76,7 +76,7 @@ RUN apt update \
         samba-client \
         wget \
         curl \
-        systemd-resolved \
+        # systemd-resolved \
 
         # Printer Drivers
         foomatic-db-compressed-ppds \
@@ -90,8 +90,7 @@ RUN apt update \
         printer-driver-foo2zjs \
         printer-driver-gutenprint \
         printer-driver-splix \
-        hpcups \
-        # Sane
+         # Sane
         sane \
         sane-airscan \
         sane-utils \
