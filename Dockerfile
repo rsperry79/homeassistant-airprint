@@ -17,14 +17,14 @@ WORKDIR /build
 WORKDIR /config/cups
 WORKDIR /root/cups
 #RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
-#ARG cups_url=https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER}/cups-${CUPS_VER}-source.tar.gz
-ARG cups_url=https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz
-RUN curl -fsSL ${cups_url} | tar xzf - || { echo "Download or extraction failed"; exit 1; }
+#ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER}/cups-${CUPS_VER}-source.tar.gz"
+ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
+RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
 
 
 # RUN wget ${cups_url} -O cups.tar.gz
 # RUN tar -xvf cups.tar.gz
-RUN cd cups-$CUPS_VER
+RUN cd "cups-$CUPS_VER"
 
 RUN ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --with-tls=openssl --enable-static=yes \
  --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   --with-rcdir=/build/rc  --with-systemd=/build/systemd \
