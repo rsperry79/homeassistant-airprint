@@ -16,12 +16,12 @@ RUN apt install -y autoconf build-essential \
 WORKDIR /build
 WORKDIR /config/cups
 WORKDIR /root/cups
-# RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
+RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
 
-RUN cups_url=https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER}/cups-${CUPS_VER}-source.tar.gz
-RUN wget ${cups_url} -O cups.tar.gz
-RUN tar -xvf /root/cups/cups.tar.gz
-RUN cd cups-$CUPS_VER
+# RUN cups_url=https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER}/cups-${CUPS_VER}-source.tar.gz
+# RUN wget ${cups_url} -O cups.tar.gz
+# RUN tar -xvf /root/cups/cups.tar.gz
+# RUN cd cups-$CUPS_VER
 
 RUN ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --with-tls=openssl --enable-static=yes \
  --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   --with-rcdir=/build/rc  --with-systemd=/build/systemd \
