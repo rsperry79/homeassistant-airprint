@@ -26,14 +26,14 @@ function run() {
     update_cups_conf
     update_ha_config
 
-    bashio::log.info "Starting CUPS from run.sh"
+    #bashio::log.info "Starting CUPS from run.sh"
     # start_cups
 }
 
 # The HA API is not available from S6
 function update_cups_conf() {
     # Get internal hostname from config
-    result=$(bashio::api.supervisor GET /core/api/config true || true)
+    result=$(bashio::api.supervisor GET /core/api/config true || true)s
     internal=$(bashio::jq "$result" '.internal_url' | cut -d'/' -f3 | cut -d':' -f1)
 
     # update files

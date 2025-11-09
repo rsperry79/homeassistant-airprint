@@ -7,10 +7,10 @@ RUN apt update -y && apt upgrade --fix-missing -y
 
 # Install required dependencies for CUPS
 RUN apt install -y autoconf build-essential \
-    avahi-daemon  git  libavahi-client-dev \
-    libssl-dev libkrb5-dev libnss-mdns libpam-dev  libssl-dev \
+    avahi-daemon libavahi-client-dev \
+    libkrb5-dev libnss-mdns libpam-dev libssl-dev \
     libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
-    openssl  systemd-resolved sudo tar curl
+    openssl sudo tar curl
 
 # Build latest cups as debian is out of date
 WORKDIR /build
@@ -44,6 +44,18 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
 RUN apt update \
     && apt upgrade -y --no-install-recommends \
     && apt install -y --no-install-recommends \
+
+
+        avahi-daemon \
+        libavahi-client-dev \
+        libkrb5-dev \
+        libnss-mdns \
+        libpam-dev \
+        libssl-dev \
+        libsystemd-dev \
+        libusb-1.0-0-dev \
+        zlib1g-dev \
+
         # dev
         htop \
         # System packages
@@ -56,8 +68,8 @@ RUN apt update \
         nano \
         gnupg2 \
         inotify-tools \
-         libssl-dev \
-         openssl \
+        libssl-dev \
+        openssl \
         # Avahi
         avahi-daemon \
         avahi-utils \
