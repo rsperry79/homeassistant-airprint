@@ -56,6 +56,8 @@ RUN apt update \
         nano \
         gnupg2 \
         inotify-tools \
+         libssl-dev \
+         openssl \
         # Avahi
         avahi-daemon \
         avahi-utils \
