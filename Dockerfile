@@ -10,14 +10,15 @@ RUN apt install -y autoconf build-essential \
     avahi-daemon  git  libavahi-client-dev \
     libssl-dev libkrb5-dev libnss-mdns libpam-dev \
     libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
-    openssl  systemd-resolved sudo tar wget
+    openssl  systemd-resolved sudo tar curl
 
 # Build latest cups as debian is out of date
 WORKDIR /build
 WORKDIR /config/cups
 WORKDIR /root/cups
 #RUN git clone https://github.com/OpenPrinting/cups.git /root/cups
-ARG cups_url=https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER}/cups-${CUPS_VER}-source.tar.gz
+#ARG cups_url=https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER}/cups-${CUPS_VER}-source.tar.gz
+ARG cups_url=https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz
 RUN curl -fsSL ${cups_url} | tar xzf - || { echo "Download or extraction failed"; exit 1; }
 
 
