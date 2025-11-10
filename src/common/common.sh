@@ -8,7 +8,6 @@ function run_setup() {
         install -d -m "$svc_file_perms" -g "$svc_group" "${real_config_path}" ||
             bashio::exit.nok 'Failed to create a persistent cups logging folder'
     fi
-
 }
 
 run_setup

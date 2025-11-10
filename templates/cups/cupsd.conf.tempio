@@ -2,8 +2,6 @@
 # FILE IS PARTIALLY OVERWRITTEN AT Startup
 ###########################################
 
-
-
 # Configuration file for the CUPS scheduler.  See "man cupsd.conf" for a
 # complete description of this file.
 

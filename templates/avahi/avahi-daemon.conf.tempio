@@ -24,8 +24,8 @@
 
 [server]
 # hostname overwritten at boot
-host-name={{.host_name}}
-domain-name=local
+#host-name={{.host_name}}
+#domain-name=local
 #browse-domains=0pointer.de, zeroconf.org
 use-ipv4=yes
 # use-ipv6 overwritten at boot
