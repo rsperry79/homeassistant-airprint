@@ -23,8 +23,8 @@ WORKDIR /root/cups
 ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
 RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
     && cd "cups-2.4.14" \
-    && ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --enable-static=yes \
-    --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all --with-rcdir=/build/rc  --with-systemd=/build/systemd \
+    && ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --enable-static=yes   --enable-debug-printfs=yes \
+    --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   --with-pkgconfpath=/build  \
     && make clean && make && make install
 
 FROM $BUILD_FROM
