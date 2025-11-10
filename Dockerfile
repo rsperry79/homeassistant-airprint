@@ -77,7 +77,7 @@ RUN apt update \
         cups-filters \
         cups-ipp-utils \
         cups-pk-helper\
-        cups-pdf \
+        # cups-pdf \
         colord \
         python3-cups \
         pyppd \
