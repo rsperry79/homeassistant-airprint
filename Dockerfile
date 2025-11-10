@@ -107,9 +107,9 @@ RUN apt update \
         printer-driver-splix \
 
          # Sane
-        sane \
-        sane-airscan \
-        sane-utils \
+        # sane \
+        # sane-airscan \
+        # sane-utils \
     && apt clean -y \
     && rm -rf /var/lib/apt/lists/*
 
