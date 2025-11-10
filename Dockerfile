@@ -129,7 +129,6 @@ COPY --from=builder /build/usr/lib64 /lib64
 COPY services /etc/s6-overlay/s6-rc.d
 COPY src /opt
 
-..
 
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
