@@ -3,29 +3,29 @@ ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:8.1.4
 FROM ${BUILD_FROM}
 
 #ARG CUPS_VER="2.4.14"
-#FROM $BUILD_FROM AS builder
+FROM $BUILD_FROM AS builder
 
-# # Update package list and upgrade existing packages
-# RUN apt update -y && apt upgrade --fix-missing -y
+# Update package list and upgrade existing packages
+RUN apt update -y && apt upgrade --fix-missing -y
 
-# # Install required dependencies for CUPS
-# RUN apt install -y autoconf build-essential \
-#     avahi-daemon libavahi-client-dev \
-#     libkrb5-dev libnss-mdns libpam-dev libssl-dev \
-#     libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
-#     openssl sudo tar curl
+# Install required dependencies for CUPS
+RUN apt install -y autoconf build-essential \
+    avahi-daemon libavahi-client-dev \
+    libkrb5-dev libnss-mdns libpam-dev libssl-dev \
+    libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
+    openssl sudo tar curl
 
-# # Build latest cups as debian is out of date
-# WORKDIR /build
-# WORKDIR /config/cups
-# WORKDIR /root/cups
+# Build latest cups as debian is out of date
+WORKDIR /build
+WORKDIR /config/cups
+WORKDIR /root/cups
 
-# ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
-# RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
-#     && cd "cups-2.4.14" \
-#     && ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --with-tls=openssl  --enable-static=yes \
-#     --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all --with-rcdir=/build/rc  --with-systemd=/build/systemd \
-#     && make clean && make && make install
+ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
+RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
+    && cd "cups-2.4.14" \
+    && ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --with-tls=openssl  --enable-static=yes \
+    --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all --with-rcdir=/build/rc  --with-systemd=/build/systemd \
+    && make clean && make && make install
 
 FROM $BUILD_FROM
 
@@ -113,18 +113,18 @@ RUN apt update \
     && apt clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy files, set perms
-# COPY --from=builder /build /build
-# COPY --from=builder /config/cups /build/config
+Copy files, set perms
+COPY --from=builder /build /build
+COPY --from=builder /config/cups /build/config
 
-# COPY --from=builder /build/usr/include /usr/include
-# COPY --from=builder /build/usr/share /usr/share
+COPY --from=builder /build/usr/include /usr/include
+COPY --from=builder /build/usr/share /usr/share
 
-# COPY --from=builder /build/usr/bin /bin
-# COPY --from=builder /build/usr/sbin /sbin
+COPY --from=builder /build/usr/bin /bin
+COPY --from=builder /build/usr/sbin /sbin
 
-# COPY --from=builder /build/usr/lib /lib
-# COPY --from=builder /build/usr/lib64 /lib64
+COPY --from=builder /build/usr/lib /lib
+COPY --from=builder /build/usr/lib64 /lib64
 
 COPY services /etc/s6-overlay/s6-rc.d
 COPY src /opt
