@@ -1,6 +1,6 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/ubuntu-base:10.0.10
-ARG CUPS_VER="2.4.14"
-FROM $BUILD_FROM AS builder
+#ARG CUPS_VER="2.4.14"
+#FROM $BUILD_FROM AS builder
 
 # # Update package list and upgrade existing packages
 # RUN apt update -y && apt upgrade --fix-missing -y
