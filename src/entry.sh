@@ -17,11 +17,7 @@ source "/opt/cups/cups-ssl-helpers.sh"
 ulimit -n 1048576
 
 function run() {
-    bashio::log info "Entered Run.sh"
-
-    until [ -e /var/run/avahi-daemon/socket ]; do
-        sleep 1s
-    done
+    bashio::log info "Entered Entry.sh"
 
     update_cups_conf
     # update_ha_config
@@ -30,7 +26,7 @@ function run() {
 # The HA API is not available from S6
 function update_cups_conf() {
     # Get internal hostname from config
-    result=$(bashio::api.supervisor GET /core/api/config true || true)s
+    result=$(bashio::api.supervisor GET /core/api/config true || true)
     internal=$(bashio::jq "$result" '.internal_url' | cut -d'/' -f3 | cut -d':' -f1)
 
     # update files
@@ -38,9 +34,9 @@ function update_cups_conf() {
     append_existing_host_alias "$internal"
 }
 
-function update_ha_config() {
-    update_interfaces
-}
+# function update_ha_config() {
+#     update_interfaces
+# }
 
 # not a service as HA health check should restart on failure
 # function start_cups() {

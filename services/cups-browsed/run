@@ -3,23 +3,29 @@
 source "/opt/common/paths.sh"
 
 ulimit -n 524288
-bashio::log.info "Starting Cups-Browsed daemon from S6"
+bashio::log.info "Entering Cups-Browsed Service in S6"
 
 debug_flag="false"
 if bashio::config.has_value 'avahi_debug'; then
     debug_flag=$(bashio::config 'avahi_debug')
 fi
 
-# until [ -e /run/avahi-daemon/socket ]; do
-#     bashio::log.info "Waiting for avahi daemon."
-#     sleep 2s
-# done
+until [ -e /run/dbus/system_bus_socket ]; do
+    bashio::log.info "Waiting for dbus daemon."
+    sleep 2s
+done
 
-# until [ -e /run/cups/cups.sock ]; do
-#     bashio::log.info "Waiting for cups daemon."
-#     sleep 2s
-# done
+until [ -e /run/avahi-daemon/socket ]; do
+    bashio::log.info "Waiting for avahi daemon."
+    sleep 2s
+done
 
+until [ -e /run/cups/cups.sock ]; do
+    bashio::log.info "Waiting for cups daemon."
+    sleep 2s
+done
+
+bashio::log.info "Starting Cups-Browsed Service in S6"
 if [ "$debug_flag" == "true" ]; then
     /usr/sbin/cups-browsed --debug -c /config/cups/cups-browsed.conf
 
