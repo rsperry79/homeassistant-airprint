@@ -7,7 +7,6 @@ function run() {
     ensure_package_paths
     install_config_packages
     upgrade
-    run_custom_script
 }
 
 # Packages folder
@@ -50,14 +49,5 @@ function upgrade() {
     fi
 }
 
-function run_custom_script() {
-
-    until [ -e /run/cups/cups.sock ]; do
-        bashio::log.info "Waiting for cups daemon before installin custom script"
-        sleep 2s
-    done
-
-    bashio "$packages_path/$install_script"
-}
 
 run

@@ -32,6 +32,7 @@ function update_cups_conf() {
     # update files
     add_host_name_to_hosts "$internal"
     append_existing_host_alias "$internal"
+    run_custom_script
 }
 
 # function update_ha_config() {
@@ -47,6 +48,16 @@ function update_cups_conf() {
 #     bashio::log.info "Starting CUPS server from Run"
 #     cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
 # }
+
+function run_custom_script() {
+
+    until [ -e /run/cups/cups.sock ]; do
+        bashio::log.info "Waiting for cups daemon before installin custom script"
+        sleep 2s
+    done
+
+    bashio "$packages_path/$install_script"
+}
 
 run               # run entrypoint
 tail -f /dev/null # Keep Running
