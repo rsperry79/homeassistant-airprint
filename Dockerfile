@@ -1,4 +1,7 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/ubuntu-base:10.0.10
+ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:8.1.4
+# hadolint ignore=DL3006
+FROM ${BUILD_FROM}
+
 #ARG CUPS_VER="2.4.14"
 #FROM $BUILD_FROM AS builder
 
