@@ -21,6 +21,7 @@ function run() {
 
     update_cups_conf
     # update_ha_config
+    #run_custom_script
 }
 
 # The HA API is not available from S6
@@ -32,7 +33,6 @@ function update_cups_conf() {
     # update files
     add_host_name_to_hosts "$internal"
     append_existing_host_alias "$internal"
-    # run_custom_script
 }
 
 # function update_ha_config() {
