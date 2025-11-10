@@ -75,7 +75,9 @@ Printcap /config/cups/printcap
 ServerBin /lib/cups
 
 ServerKeychain {{.cups_ssl_path}}
-
+ServerCertificate /config/cups/ssl/c5c6382a-airprint.local.hass.io.pem
+# SSL/TLS private key for the scheduler...
+ServerKey  /config/cups/ssl/c5c6382a-airprint.local.hass.io.crt
 # Location of other configuration files...
 ServerRoot /config/cups
 
