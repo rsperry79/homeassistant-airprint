@@ -23,7 +23,7 @@ WORKDIR /root/cups
 ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
 RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
     && cd "cups-2.4.14" \
-    && ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --with-tls=openssl  --enable-static=yes \
+    && ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --enable-static=yes \
     --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all --with-rcdir=/build/rc  --with-systemd=/build/systemd \
     && make clean && make && make install
 
@@ -128,7 +128,9 @@ COPY --from=builder /build/usr/lib64 /lib64
 
 COPY services /etc/s6-overlay/s6-rc.d
 COPY src /opt
-COPY templates /usr/templates
+
+..
+
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
 # Set MDNS
