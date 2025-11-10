@@ -28,11 +28,6 @@ if ! bashio::fs.directory_exists "${cups_ssl_path}"; then
         bashio::exit.nok 'Failed to create a persistent cups templates folder'
 fi
 
-# cups-browsed.conf
-if [ ! -e "$cups_templates_path/$cups_browsed_cfg" ]; then
-    cp "$src_cups_templates_path/$cups_browsed_cfg" "$cups_templates_path/$cups_browsed_cfg"
-fi
-
 # client.conf
 if [ ! -e "$cups_templates_path/$cups_client_cfg" ]; then
     cp "$src_cups_templates_path/$cups_client_cfg" "$cups_templates_path/$cups_client_cfg"
@@ -56,4 +51,9 @@ fi
 # snmp.conf
 if [ ! -e "$cups_templates_path/$cups_snmp_cfg" ]; then
     cp "$src_cups_templates_path/$cups_snmp_cfg" "$cups_templates_path/$cups_snmp_cfg"
+fi
+
+# cups-browsed.conf
+if [ ! -e "$cups_templates_path/$cups_browsed_cfg" ]; then
+    cp "$src_cups_templates_path/$cups_browsed_cfg" "$cups_templates_path/$cups_browsed_cfg"
 fi
