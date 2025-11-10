@@ -47,11 +47,11 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
 RUN apt update \
     && apt upgrade -y --no-install-recommends \
     && apt install -y --no-install-recommends \
-        libavahi-client-dev \
-        libkrb5-dev \
-        libpam-dev \
-        libusb-1.0-0-dev \
-        zlib1g-dev \
+        # libavahi-client-dev \
+        # libkrb5-dev \
+        # libpam-dev \
+        # libusb-1.0-0-dev \
+        # zlib1g-dev \
         # dev
         htop \
         # System packages
