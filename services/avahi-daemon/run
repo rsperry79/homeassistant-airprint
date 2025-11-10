@@ -3,18 +3,13 @@
 source "/opt/common/paths.sh"
 
 ulimit -n 524288
-bashio::log.info "Starting Avahi daemon from S6"
 
 debug_flag="false"
 if bashio::config.has_value 'avahi_debug'; then
     debug_flag=$(bashio::config 'avahi_debug')
 fi
 
-until [ -e /run/dbus/system_bus_socket ]; do
-    bashio::log.info "Waiting for dbus daemon."
-    sleep 2s
-done
-
+bashio::log.info "Starting Avahi daemon from S6"
 if [ "$debug_flag" == "true" ]; then
     avahi-daemon --debug --file="$avahi_config_path"/"$avahi_daemon"
 else
