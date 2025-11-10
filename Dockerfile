@@ -113,7 +113,7 @@ RUN apt update \
     && apt clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-Copy files, set perms
+# Copy files, set perms
 COPY --from=builder /build /build
 COPY --from=builder /config/cups /build/config
 
