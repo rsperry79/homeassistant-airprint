@@ -58,7 +58,8 @@ RUN apt update \
         bluez-cups \
         cups-browsed \
         cups-filters \
-        cups-ipp-utils \
+        \
+        ipp-usb \
         cups-pk-helper\
         # cups-pdf \
         colord \
@@ -97,20 +98,6 @@ RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction faile
     && ./configure --sysconfdir=/config/cups --localstatedir=/run --enable-libpaper=yes --with-components=all --enable-static=yes --enable-debug-printfs=yes \
     --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all  --with-tls=openssl  \
     && make clean && make && make install
-
-# Copy files, set perms
-# COPY --from=builder /build /build
-# COPY --from=builder /config/cups /build/config
-
-# COPY --from=builder /build/usr/include /usr/include
-# COPY --from=builder /build/usr/share /usr/share
-
-# COPY --from=builder /build/usr/bin /bin
-# COPY --from=builder /build/usr/sbin /sbin
-
-# COPY --from=builder /build/usr/lib /lib
-# COPY --from=builder /build/usr/lib64 /lib64
-
 
 COPY services /etc/s6-overlay/s6-rc.d
 COPY src /opt
