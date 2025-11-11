@@ -1,5 +1,4 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:8.1.4
-LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -133,5 +132,6 @@ RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
 
 
  # TODO add lpadmin user.
+LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
 CMD ["/opt/entry.sh"]
