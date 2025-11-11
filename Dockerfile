@@ -10,7 +10,7 @@ RUN apt update -y && apt upgrade --fix-missing -y
 
 # Install required dependencies for CUPS
 RUN apt install -y autoconf build-essential \
-    avahi-daemon libavahi-client-dev \
+    avahi-daemon  libavahi-client-dev \
     libkrb5-dev libnss-mdns libpam-dev libssl-dev \
     libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
     openssl sudo tar curl
@@ -25,7 +25,7 @@ RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction faile
     && cd "cups-2.4.14" \
     && ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --enable-static=yes   --enable-debug-printfs=yes \
     --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   --with-pkgconfpath=/build  \
-    && make clean && make && make install
+    && make distclean && make   && make all
 
 FROM $BUILD_FROM
 
@@ -51,7 +51,7 @@ RUN apt update \
         # libkrb5-dev \
         # libpam-dev \
         # libusb-1.0-0-dev \
-        # zlib1g-dev \
+        zlib1g-dev \
         # dev
         htop \
         # System packages
@@ -67,6 +67,7 @@ RUN apt update \
         libssl-dev \
         openssl \
         # Avahi
+
         avahi-daemon \
         avahi-utils \
         # CUPS printing packages
