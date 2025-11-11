@@ -10,7 +10,7 @@ RUN apt update -y && apt upgrade --fix-missing -y
 
 # Install required dependencies for CUPS
 RUN apt install -y autoconf build-essential \
-    avahi-daemon  libavahi-client-dev \
+    avahi-daemon epm libavahi-client-dev \
     libkrb5-dev libnss-mdns libpam-dev libssl-dev \
     libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
     openssl sudo tar curl
@@ -35,7 +35,8 @@ LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ENV \
-    DEBIAN_FRONTEND="noninteractive"
+    DEBIAN_FRONTEND="noninteractive" \
+    PATH="/lib64:${PATH}"
 
 # Optimize APT for faster, smaller builds
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
@@ -134,7 +135,6 @@ COPY templates /usr/templates
 
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
-RUN export PATH="$PATH:/lib64"
 # Set MDNS
 #RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf
 
