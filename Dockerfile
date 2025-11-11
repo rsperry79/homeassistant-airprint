@@ -18,17 +18,9 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
 # Update package list and upgrade existing packages
 RUN apt update -y && apt upgrade --fix-missing -y
 
-
 ENV \
     DEBIAN_FRONTEND="noninteractive" \
     PATH="/lib64:${PATH}"
-
-# Optimize APT for faster, smaller builds
-RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
-    && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recomberends \
-    && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
-    && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
-
 
 # Install packages
 RUN apt update \
