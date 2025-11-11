@@ -1,4 +1,5 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:8.1.4
+LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -14,30 +15,6 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
 # Update package list and upgrade existing packages
 RUN apt update -y && apt upgrade --fix-missing -y
 
-# Install required dependencies for CUPS
-RUN apt install -y autoconf build-essential \
-    avahi-daemon epm libavahi-client-dev \
-    libkrb5-dev libnss-mdns libpam-dev libssl-dev \
-    libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
-    openssl sudo tar curl
-
-# Build latest cups as debian is out of date
-WORKDIR /build
-WORKDIR /config/cups
-WORKDIR /root/cups
-
-ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
-
-RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
-    && cd "cups-2.4.14" \
-    && ./configure --sysconfdir=/config/cups --localstatedir=/var --enable-libpaper=yes --with-components=all --enable-static=yes --enable-debug-printfs=yes \
-    --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   \
-    && make clean && make && make install
-
-#FROM $BUILD_FROM
-
-LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
-
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -51,16 +28,22 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
     && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
+
 # Install packages
 RUN apt update \
     && apt upgrade -y --no-install-recommends \
     && apt install -y --no-install-recommends \
-        # libavahi-client-dev \
-        # libkrb5-dev \
-        # libpam-dev \
-        # libusb-1.0-0-dev \
-        zlib1g-dev \
         # dev
+        autoconf \
+        build-essential \
+        libnss-mdns
+        libavahi-client-dev \
+        libkrb5-dev \
+        libpam-dev \
+        libssl-dev
+        libusb-1.0-0-dev \
+        zlib1g-dev \
+        # debug
         htop \
         # System packages
         sudo \
@@ -75,7 +58,6 @@ RUN apt update \
         libssl-dev \
         openssl \
         # Avahi
-
         avahi-daemon \
         avahi-utils \
         # CUPS printing packages
@@ -113,17 +95,16 @@ RUN apt update \
         printer-driver-foo2zjs \
         printer-driver-gutenprint \
         printer-driver-splix \
-
-         # Sane
-        # sane \
-        # sane-airscan \
-        # sane-utils \
     && apt clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# WORKDIR /tmp
-# RUN  curl http://ftp.de.debian.org/debian/pool/main/c/cups/cups_2.4.14-1_amd64.deb --output cups_2.4.14-1_amd64.deb \
-#     && dpkg -i cups_2.4.14-1_amd64.deb
+ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
+
+RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
+    && cd "cups-2.4.14" \
+    && ./configure --sysconfdir=/config/cups --localstatedir=/var --enable-libpaper=yes --with-components=all --enable-static=yes --enable-debug-printfs=yes \
+    --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   \
+    && make clean && make && make install
 
 # Copy files, set perms
 # COPY --from=builder /build /build
@@ -144,9 +125,6 @@ COPY src /opt
 COPY templates /usr/templates
 
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
-
-# Set MDNS
-#RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf
 
 # Disable sudo password checking
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
