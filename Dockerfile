@@ -5,6 +5,12 @@ FROM ${BUILD_FROM}
 # #ARG CUPS_VER="2.4.14"
 # FROM $BUILD_FROM AS builder
 
+# Optimize APT for faster, smaller builds
+RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
+    && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recomberends \
+    && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
+    && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
+
 # Update package list and upgrade existing packages
 RUN apt update -y && apt upgrade --fix-missing -y
 
@@ -21,11 +27,12 @@ WORKDIR /config/cups
 WORKDIR /root/cups
 
 ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
+
 RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
     && cd "cups-2.4.14" \
-    && ./configure   --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --enable-static=yes   --enable-debug-printfs=yes \
+    && ./configure --sysconfdir=/config/cups --localstatedir=/var --enable-libpaper=yes --with-components=all --enable-static=yes --enable-debug-printfs=yes \
     --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   \
-    && make clean && make install
+    && make clean && make && make install
 
 #FROM $BUILD_FROM
 
