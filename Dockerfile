@@ -37,7 +37,7 @@ RUN apt update \
         # dev
         autoconf \
         build-essential \
-        libnss-mdns
+        libnss-mdns \
         libavahi-client-dev \
         libkrb5-dev \
         libpam-dev \
