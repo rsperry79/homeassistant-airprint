@@ -120,8 +120,7 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
 # Disable sudo password checking add root
 
- # TODO add lpadmin user.
-RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
+ RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
     && usermod -a -G lp root \
     && usermod -a -G lpadmin root \
     && useradd -g lpadmin lpadmin
