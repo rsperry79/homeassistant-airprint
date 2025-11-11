@@ -33,6 +33,12 @@ function update_cups_conf() {
     # update files
     add_host_name_to_hosts "$internal"
     append_existing_host_alias "$internal"
+    dev_copy
+}
+
+function dev_copy() {
+    mkdir -p /config/build
+    cp -rf /build/ /config/build
 }
 
 # function update_ha_config() {
