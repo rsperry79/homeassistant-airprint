@@ -20,8 +20,7 @@ function run() {
     bashio::log info "Entered Entry.sh"
 
     update_cups_conf
-    # update_ha_config
-    #run_custom_script
+    run_custom_script
 }
 
 # The HA API is not available from S6
@@ -34,22 +33,6 @@ function update_cups_conf() {
     add_host_name_to_hosts "$internal"
     append_existing_host_alias "$internal"
 }
-
-
-
-# function update_ha_config() {
-#     update_interfaces
-# }
-
-# not a service as HA health check should restart on failure
-# function start_cups() {
-
-#     bashio::log.info "Testing CUPS server config"
-#     cupsd -t -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
-
-#     bashio::log.info "Starting CUPS server from Run"
-#     cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
-# }
 
 function run_custom_script() {
 
