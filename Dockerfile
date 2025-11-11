@@ -2,30 +2,30 @@ ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:8.1.4
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
-#ARG CUPS_VER="2.4.14"
-FROM $BUILD_FROM AS builder
+# #ARG CUPS_VER="2.4.14"
+# FROM $BUILD_FROM AS builder
 
-# Update package list and upgrade existing packages
-RUN apt update -y && apt upgrade --fix-missing -y
+# # Update package list and upgrade existing packages
+# RUN apt update -y && apt upgrade --fix-missing -y
 
-# Install required dependencies for CUPS
-RUN apt install -y autoconf build-essential \
-    avahi-daemon epm libavahi-client-dev \
-    libkrb5-dev libnss-mdns libpam-dev libssl-dev \
-    libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
-    openssl sudo tar curl
+# # Install required dependencies for CUPS
+# RUN apt install -y autoconf build-essential \
+#     avahi-daemon epm libavahi-client-dev \
+#     libkrb5-dev libnss-mdns libpam-dev libssl-dev \
+#     libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
+#     openssl sudo tar curl
 
-# Build latest cups as debian is out of date
-WORKDIR /build
-WORKDIR /config/cups
-WORKDIR /root/cups
+# # Build latest cups as debian is out of date
+# WORKDIR /build
+# WORKDIR /config/cups
+# WORKDIR /root/cups
 
-ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
-RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
-    && cd "cups-2.4.14" \
-    && ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --enable-static=yes   --enable-debug-printfs=yes \
-    --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   --with-pkgconfpath=/build  \
-    && make clean && make all && make install
+# ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
+# RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
+#     && cd "cups-2.4.14" \
+#     && ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --enable-static=yes   --enable-debug-printfs=yes \
+#     --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   --with-pkgconfpath=/build  \
+#     && make clean && make all && make install
 
 FROM $BUILD_FROM
 
@@ -40,7 +40,7 @@ ENV \
 
 # Optimize APT for faster, smaller builds
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
-    && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recommends \
+    && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recomberends \
     && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
@@ -115,18 +115,22 @@ RUN apt update \
     && apt clean -y \
     && rm -rf /var/lib/apt/lists/*
 
+# WORKDIR /tmp
+# RUN  curl http://ftp.de.debian.org/debian/pool/main/c/cups/cups_2.4.14-1_amd64.deb --output cups_2.4.14-1_amd64.deb \
+#     && dpkg -i cups_2.4.14-1_amd64.deb
+
 # Copy files, set perms
-COPY --from=builder /build /build
-COPY --from=builder /config/cups /build/config
+# COPY --from=builder /build /build
+# COPY --from=builder /config/cups /build/config
 
-COPY --from=builder /build/usr/include /usr/include
-COPY --from=builder /build/usr/share /usr/share
+# COPY --from=builder /build/usr/include /usr/include
+# COPY --from=builder /build/usr/share /usr/share
 
-COPY --from=builder /build/usr/bin /bin
-COPY --from=builder /build/usr/sbin /sbin
+# COPY --from=builder /build/usr/bin /bin
+# COPY --from=builder /build/usr/sbin /sbin
 
-COPY --from=builder /build/usr/lib /lib
-COPY --from=builder /build/usr/lib64 /lib64
+# COPY --from=builder /build/usr/lib /lib
+# COPY --from=builder /build/usr/lib64 /lib64
 
 
 COPY services /etc/s6-overlay/s6-rc.d
