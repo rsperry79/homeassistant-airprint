@@ -41,7 +41,7 @@ RUN apt update \
         libavahi-client-dev \
         libkrb5-dev \
         libpam-dev \
-        libssl-dev
+        libssl-dev \
         libusb-1.0-0-dev \
         zlib1g-dev \
         # debug
