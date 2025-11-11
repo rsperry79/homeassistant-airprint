@@ -20,7 +20,7 @@ User lp
 Group lp
 
 # Administrator user group, used to match @SYSTEM in cupsd.conf policy rules...
-SystemGroup lpadmin
+SystemGroup sys lpadmin
 
 
 # User that is substituted for unauthenticated (remote) root accesses...
