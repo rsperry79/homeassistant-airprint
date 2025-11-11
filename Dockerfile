@@ -82,7 +82,6 @@ RUN apt update \
         openprinting-ppds \
         printer-driver-hpcups \
         printer-driver-all \
-        printer-driver-all-enforce \
         printer-driver-brlaser \
         printer-driver-escpr \
         printer-driver-foo2zjs \
@@ -95,8 +94,8 @@ ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cup
 
 RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
     && cd "cups-2.4.14" \
-    && ./configure --sysconfdir=/config/cups --localstatedir=/var --enable-libpaper=yes --with-components=all --enable-static=yes --enable-debug-printfs=yes \
-    --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   \
+    && ./configure --sysconfdir=/config/cups --localstatedir=/run --enable-libpaper=yes --with-components=all --enable-static=yes --enable-debug-printfs=yes \
+    --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all  --with-tls=openssl  \
     && make clean && make && make install
 
 # Copy files, set perms
