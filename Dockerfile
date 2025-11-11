@@ -1,9 +1,13 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:8.1.4
 # hadolint ignore=DL3006
-FROM ${BUILD_FROM}
+
+FROM $BUILD_FROM AS builder
+
+# Set shell
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # #ARG CUPS_VER="2.4.14"
-# FROM $BUILD_FROM AS builder
+
 
 # Optimize APT for faster, smaller builds
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
@@ -14,8 +18,6 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
 # Update package list and upgrade existing packages
 RUN apt update -y && apt upgrade --fix-missing -y
 
-# Set shell
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ENV \
     DEBIAN_FRONTEND="noninteractive" \
