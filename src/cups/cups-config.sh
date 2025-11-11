@@ -59,6 +59,7 @@ function setup() {
     host_name=$(hostname -f)
     add_host_name_to_hosts "$host_name"
     cups_log_level="error"
+    cups_encryption="IfRequested"
     cups_access_log_level="config"
     HOST_ALIAS="*"
     self_sign=false
@@ -68,6 +69,9 @@ function setup() {
 
     if bashio::config.has_value 'cups_log_level'; then
         cups_log_level=$(bashio::config 'cups_log_level')
+    fi
+    if bashio::config.has_value 'cups_encryption'; then
+        cups_log_level=$(bashio::config 'cups_encryption')
     fi
 
     if bashio::config.has_value 'cups_access_log_level'; then
@@ -88,8 +92,8 @@ function setup() {
     # Used by autoconf
     config=$(jq --arg host_name "$host_name" --arg cups_ssl_path "$cups_ssl_path" \
         --arg privkey "$CUPS_PRIVATE_KEY" --arg pubkey "$CUPS_PUBLIC_KEY" --arg cups_log_level "$cups_log_level" \
-        --arg cups_access_log_level "$cups_access_log_level" --arg host_alias "$HOST_ALIAS" --arg self_sign "$cups_self_sign" \
-        '{ host_name: $host_name, cups_ssl_path: $cups_ssl_path,  host_alias: $host_alias , privkey: $privkey, pubkey: $pubkey, cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign   }' \
+        --arg cups_access_log_level "$cups_access_log_level" --arg host_alias "$HOST_ALIAS" --arg self_sign "$cups_self_sign" --arg cups_encryption "$cups_encryption" \
+        '{ host_name: $host_name, cups_ssl_path: $cups_ssl_path,  host_alias: $host_alias , privkey: $privkey, pubkey: $pubkey, cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign,  cups_encryption: $cups_encryption }' \
         /data/options.json)
 }
 

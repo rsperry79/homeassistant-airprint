@@ -1,11 +1,11 @@
 ###########################################
 # FILE IS PARTIALLY OVERWRITTEN AT Startup
 ###########################################
-#{{.host_name}}
-ServerName *:631
+
+ServerName {{.host_name}}:631
 AllowAnyRoot Yes
 AllowExpiredCerts Yes
-Encryption IfRequested
+Encryption {{.cups_encryption}}
 SSLOptions AllowRC4 AllowSSL3
 TrustOnFirstUse Yes
 ValidateCerts No

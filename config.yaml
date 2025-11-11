@@ -53,12 +53,14 @@ options:
     avahi_debug: true
     avahi_reflector: false
     avahi_reflect_ipv: false
-  cups_settings:
-    cups_remote_admin: false
+  # cups_settings:
+  #   cups_remote_admin: false
+
   cups_logging:
     cups_log_level: debug
     cups_access_log_level: all
   cups_ssl:
+    cups_encryption: IfRequested
     cups_ssl_cert: /ssl/fullchain.pem
     cups_ssl_key: /ssl/privkey.pem
     cups_self_sign: false
@@ -76,12 +78,14 @@ schema:
     avahi_debug: bool
     avahi_reflector: bool
     avahi_reflect_ipv: bool
-  cups_settings:
-    cups_remote_admin: bool
+  # cups_settings:
+  #   cups_remote_admin: bool
+
   cups_logging:
     cups_log_level: list(debug|info|notice|error|none)
     cups_access_log_level: list(all|access|config)
   cups_ssl:
+    cups_encryption: list(IfRequested|Required|Never)
     cups_self_sign: bool
     cups_ssl_cert: str?
     cups_ssl_key: str?

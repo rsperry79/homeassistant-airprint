@@ -30,13 +30,13 @@ configuration:
         name: Avahi IPV Reflection
         description: >-
           Do you want to enable Avahi IPV Reflection?
-  cups_settings:
-    name: CUPS Settings
-    fields:
-      cups_remote_admin:
-        name: Allow Remote Administration?
-        description: >-
-          Do you want to allow remote Administration of Cups?=
+  # cups_settings:
+  #   name: CUPS Settings
+  #   fields:
+  #     encryption:
+  #       name: Use encryption?
+  #       description: >-
+  #         When do you want ssl used?
   cups_logging:
     name: CUPS Log Levels
     fields:
@@ -53,6 +53,10 @@ configuration:
     description: >-
       Certificates must be in one of the following dirs: /ssl (HA SSL folder), /share (HA Share folder), or in /config (the addons config directory)
     fields:
+      cups_encryption:
+        name: Use encryption?
+        description: >-
+          When do you want ssl used?
       cups_self_sign:
         name: Self-Signed?
         description: >-
