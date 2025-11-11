@@ -5,29 +5,29 @@ FROM ${BUILD_FROM}
 # #ARG CUPS_VER="2.4.14"
 # FROM $BUILD_FROM AS builder
 
-# # Update package list and upgrade existing packages
-# RUN apt update -y && apt upgrade --fix-missing -y
+# Update package list and upgrade existing packages
+RUN apt update -y && apt upgrade --fix-missing -y
 
-# # Install required dependencies for CUPS
-# RUN apt install -y autoconf build-essential \
-#     avahi-daemon epm libavahi-client-dev \
-#     libkrb5-dev libnss-mdns libpam-dev libssl-dev \
-#     libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
-#     openssl sudo tar curl
+# Install required dependencies for CUPS
+RUN apt install -y autoconf build-essential \
+    avahi-daemon epm libavahi-client-dev \
+    libkrb5-dev libnss-mdns libpam-dev libssl-dev \
+    libsystemd-dev libusb-1.0-0-dev zlib1g-dev \
+    openssl sudo tar curl
 
-# # Build latest cups as debian is out of date
-# WORKDIR /build
-# WORKDIR /config/cups
-# WORKDIR /root/cups
+# Build latest cups as debian is out of date
+WORKDIR /build
+WORKDIR /config/cups
+WORKDIR /root/cups
 
-# ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
-# RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
-#     && cd "cups-2.4.14" \
-#     && ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --enable-static=yes   --enable-debug-printfs=yes \
-#     --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   --with-pkgconfpath=/build  \
-#     && make clean && make all && make install
+ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
+RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
+    && cd "cups-2.4.14" \
+    && ./configure   --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --enable-static=yes   --enable-debug-printfs=yes \
+    --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   \
+    && make clean && make install
 
-FROM $BUILD_FROM
+#FROM $BUILD_FROM
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
@@ -72,7 +72,6 @@ RUN apt update \
         avahi-daemon \
         avahi-utils \
         # CUPS printing packages
-        cups \
         cups-backend-bjnp \
         bluez-cups \
         cups-browsed \
