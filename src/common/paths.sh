@@ -34,7 +34,7 @@ export cups_daemon=cupsd.conf
 export cups_files=cups-files.conf
 export cups_browsed=cups-browsed.conf
 export cups_pdf=cups-pdf.conf
-export cups_snmp=cups-pdf.conf.tempio
+export cups_snmp=snmp.conf
 
 #### Avahi
 # Folder paths
