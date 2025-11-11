@@ -28,7 +28,7 @@ BrowseLocalProtocols all
 
 # Default authentication type, when authentication is required...
 DefaultAuthType basic
-DefaultEncryption IfRequested
+DefaultEncryption Never
 
 # Host header validation
 ServerAlias {{.host_alias}}
