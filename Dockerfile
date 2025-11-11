@@ -25,7 +25,7 @@ RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction faile
     && cd "cups-2.4.14" \
     && ./configure --prefix=/build/usr --sysconfdir=/config/cups --localstatedir=/var  --enable-libpaper=yes --with-components=all --enable-static=yes   --enable-debug-printfs=yes \
     --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=yes  --with-local-protocols=all   --with-pkgconfpath=/build  \
-    && make clean && make all
+    && make clean && make all && make install
 
 FROM $BUILD_FROM
 
@@ -134,7 +134,7 @@ COPY templates /usr/templates
 
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
-RUN export PATH="$PATH:/lib64"; echo $PATH
+RUN export PATH="$PATH:/lib64"
 # Set MDNS
 #RUN sed -i "s/^.*MulticastDNS .*/MulticastDNS=yes/" /etc/systemd/resolved.conf
 
