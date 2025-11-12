@@ -8,6 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # #ARG CUPS_VER="2.4.14"
 
+WORKDIR /build
 
 # Optimize APT for faster, smaller builds
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
