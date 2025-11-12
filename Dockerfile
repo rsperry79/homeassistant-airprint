@@ -36,11 +36,26 @@ RUN apt update \
 ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
 
 RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
-    && cd "cups-2.4.14" \
-    && ./configure --sysconfdir=/config/cups --localstatedir=/run --enable-libpaper=yes --with-components=all  --enable-debug-printfs=yes \
-    --enable-libpaper=yes --enable-tcp-wrappers=yes --enable-webif=yes --with-dnssd=avahi  --with-local-protocols=all  --with-tls=openssl \
-    --with-log-level=debug --with-access-log-level=all  --with-cups-user=lp  --with-cups-group=lp --with-system-groups=lpadmin \
-    && make clean && make && make deb
+    && cd "cups-2.4.14" #\
+#     && make distclean \
+#     && ./configure --sysconfdir=/config/cups \
+#     --localstatedir=/run \
+#     --with-components=all \
+#     --enable-libpaper=yes \
+#     --enable-debug-printfs=yes \
+#     --enable-libpaper=yes \
+#     --enable-tcp-wrappers=yes \
+#     --enable-webif=yes \
+#     --with-dnssd=avahi  \
+#     --with-local-protocols=all
+#     --with-tls=openssl \
+#     --with-log-level=debug \
+#     --with-access-log-level=all  \
+#     --with-cups-user=lp  \
+#     --with-cups-group=lp \
+#     --with-system-groups=lpadmin \
+#    && make all \
+#    && make deb
 
 # FROM $BUILD_FROM AS prod
 
