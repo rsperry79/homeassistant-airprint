@@ -51,17 +51,20 @@ WORKDIR /cups/cups-${CUPS_VER}
 RUN ./configure \
             --sysconfdir=/config/cups \
             --localstatedir=/run \
+            --enable-static=yes \
             --with-components=all \
             --enable-libpaper=yes \
+            --enable-debug=yes \
             --enable-debug-printfs=yes \
             --enable-libpaper=yes \
             --enable-tcp-wrappers=yes \
             --enable-webif=yes \
             --with-dnssd=avahi  \
+            --with-optim=yes \
             --with-local-protocols=all \
             --with-tls=openssl \
-            --with-log-level=debug \
-            --with-access-log-level=all  \
+            --with-rundir=/run/cups \
+            --with-logdir=stderr \
             --with-cups-user=lp  \
             --with-cups-group=lp \
             --with-system-groups=lpadmin \
