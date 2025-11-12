@@ -47,7 +47,7 @@ WORKDIR /cups
 # Get latest stable Cups
 ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v$CUPS_VER/cups-$CUPS_VER-source.tar.gz"
 RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
-WORKDIR /cups/cups-"$CUPS_VER"
+RUN cd /cups/cups-${CUPS_VER}
 # Configure Cups for build
 RUN ./configure \
         --sysconfdir=/config/cups \
@@ -163,8 +163,8 @@ ARG KERNEL_MINOR=
 RUN $(if [[ $BUILD_ARCH == "amd64" ]]; then export ARCH=64_64 fi) \
     && export KERNEL_VER=$(uname -r | cut -d'-' -f1) && \
     export KERNEL_MAJOR=$(echo "$KERNEL_VER" | cut -d'.' -f1) && \
-    export KERNKERNEL_MAJOREL_MINOR=$(echo "$KERNEL_VER" | cut -d'.' -f2)
-RUN echo $KERNEL_VER  $KERNEL_MAJOR $KERNEL_MAJOR $ARCH
+    export KERNEL_MINOR=$(echo "$KERNEL_VER" | cut -d'.' -f2)
+RUN echo $KERNEL_VER  $KERNEL_MAJOR $KERNEL_MINOR $ARCH
 
 # COPY /build/cups-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
 # COPY /build/cups-libs-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
