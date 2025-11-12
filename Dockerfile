@@ -123,7 +123,6 @@ RUN apt-get update \
         cups-browsed \
         cups-filters \
         ipp-usb \
-        cups-pk-helper\
         colord \
         rasterview \
         # Network
