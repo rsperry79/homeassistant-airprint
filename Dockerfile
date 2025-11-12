@@ -119,7 +119,6 @@ RUN apt update \
         cups-filters \
         ipp-usb \
         cups-pk-helper\
-        cups-pdf \
         colord \
         python3-cups \
         pyppd \
