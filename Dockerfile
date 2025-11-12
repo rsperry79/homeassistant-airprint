@@ -38,7 +38,7 @@ ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cup
 RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
     && cd "cups-2.4.14"
 
-COPY /src/dev.sh dev.sh
+COPY /dev.sh /
 RUN chmod +x /dev.sh
 
 #\
