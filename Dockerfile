@@ -51,7 +51,7 @@ WORKDIR /cups/cups-${CUPS_VER}
 RUN ./configure \
             --prefix=/ \
             --exec-prefix=/ \
-            --sysconfdir=config \
+            --sysconfdir=/config \
             --with-rundir=/run/cups \
             --enable-static=yes \
             --with-components=all \
