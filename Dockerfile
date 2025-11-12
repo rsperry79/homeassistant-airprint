@@ -71,7 +71,7 @@ RUN make clean \
    && make all \
    && make deb
 
-COPY /cups/cups-"$CUPS_VER"/dist /build
+COPY  dist/ /build
 
 #######################
 ##      PROD        ###
@@ -85,8 +85,6 @@ ENV \
     CUPS_DEBUG_LOG=- \
     CUPS_DEBUG_LEVEL=0 \
     CUPS_VER="2.4.14"
-
-
 
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
     && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recomberends \
@@ -163,8 +161,8 @@ ARG KERNEL_MINOR=
 RUN $(if [[ $BUILD_ARCH == "amd64" ]]; then export ARCH=64_64 fi) \
     && export KERNEL_VER=$(uname -r | cut -d'-' -f1) && \
     export KERNEL_MAJOR=$(echo "${KERNEL_VER}" | cut -d'.' -f1) && \
-    export KERNEL_MINOR=$(echo "${KERNEL_VER}" | cut -d'.' -f2)
-RUN echo ${KERNEL_VER}  ${KERNEL_MAJOR} ${KERNEL_MINOR} ${ARCH}
+    export KERNEL_MINOR=$(echo "${KERNEL_VER}" | cut -d'.' -f2) \
+    && echo ${KERNEL_VER}  ${KERNEL_MAJOR} ${KERNEL_MINOR} ${ARCH}
 
 # COPY /build/cups-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
 # COPY /build/cups-libs-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
