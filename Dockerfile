@@ -122,7 +122,7 @@ RUN apt update \
         cups-filters \
         ipp-usb \
         cups-pk-helper\
-        # cups-pdf \
+        cups-pdf \
         colord \
         python3-cups \
         pyppd \
@@ -137,8 +137,6 @@ RUN apt update \
         wget \
         curl \
         whois \
-        # systemd-resolved \
-
         # Printer Drivers
         foomatic-db-compressed-ppds \
         hp-ppd  \
