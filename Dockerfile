@@ -138,10 +138,11 @@ RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction faile
 # COPY services /etc/s6-overlay/s6-rc.d
 # COPY src /opt
 # COPY templates /usr/templates
+
 COPY src/dev.sh /opt/dev.sh
 RUN chmod +x /opt/dev.sh
-# RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
+# RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 # # Disable sudo password checking add root
 
 #  RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
