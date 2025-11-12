@@ -155,7 +155,11 @@ RUN apt update \
 COPY --from=builder /build /build
 
 # get file path args
-ARG ARCH KERNEL_MAJOR KERNEL_MINOR
+ARG ARCH
+ARG KERNEL_VER
+ARG KERNEL_MAJOR
+ARG KERNEL_MINOR
+
 RUN if [[ $BUILD_ARCH == amd64 ]]; then export ARCH=64_64 fi \
     && export KERNEL_VER=$(uname -r | cut -d'-' -f1) && \
     export KERNEL_MAJOR=$(echo "$KERNEL_VER" | cut -d'.' -f1) && \
