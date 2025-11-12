@@ -139,7 +139,7 @@ RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction faile
 COPY src/entry.sh /opt
 # COPY templates /usr/templates
 
-RUN  /opt/entry.sh
+RUN  chmod +x /opt/entry.sh
 #chmod +x /opt/*/*.sh
  #/etc/s6-overlay/s6-rc.d/*/run
 
