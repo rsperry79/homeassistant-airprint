@@ -60,6 +60,7 @@ RUN ./configure \
             --enable-tcp-wrappers=yes \
             --enable-webif=yes \
             --with-dnssd=avahi  \
+            --with-optim=yes \
             --with-local-protocols=all \
             --with-tls=openssl \
             --with-rundir=/run/cups \
@@ -93,11 +94,6 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
     && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
-# Copy and install build files
-WORKDIR /installers
-COPY --from=builder /build /installers
-
-RUN find /installers -type f -name "*.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008
 RUN apt-get update \
@@ -150,6 +146,11 @@ RUN apt-get update \
         printer-driver-splix \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy and install build files
+WORKDIR /installers
+COPY --from=builder /build /installers
+
+RUN find /installers -type f -name "*.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
