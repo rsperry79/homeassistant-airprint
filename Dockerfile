@@ -1,12 +1,5 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:8.1.4
 # hadolint ignore=DL3006
-ENV \
-    DEBIAN_FRONTEND="noninteractive" \
-    PATH="/lib64:${PATH}" \
-    CUPS_DEBUG_LOG=- \
-    CUPS_DEBUG_LEVEL=0 \
-    CUPS_VER="2.4.14"
-
 
 #######################
 ##      BUILD       ###
@@ -15,6 +8,13 @@ FROM $BUILD_FROM AS builder
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+ENV \
+    DEBIAN_FRONTEND="noninteractive" \
+    PATH="/lib64:${PATH}" \
+    CUPS_DEBUG_LOG=- \
+    CUPS_DEBUG_LEVEL=0 \
+    CUPS_VER="2.4.14"
 
 
 # Optimize APT for faster, smaller builds
@@ -78,6 +78,15 @@ COPY ./dist /build
 #######################
 FROM $BUILD_FROM AS prod
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+ENV \
+    DEBIAN_FRONTEND="noninteractive" \
+    PATH="/lib64:${PATH}" \
+    CUPS_DEBUG_LOG=- \
+    CUPS_DEBUG_LEVEL=0 \
+    CUPS_VER="2.4.14"
+
+
 
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
     && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recomberends \
