@@ -160,7 +160,7 @@ ARG KERNEL_VER=
 ARG KERNEL_MAJOR=
 ARG KERNEL_MINOR=
 
-RUN if [[ $BUILD_ARCH == amd64 ]]; then export ARCH=64_64 fi \
+RUN $(if [[ $BUILD_ARCH == "amd64" ]]; then export ARCH=64_64 fi) \
     && export KERNEL_VER=$(uname -r | cut -d'-' -f1) && \
     export KERNEL_MAJOR=$(echo "$KERNEL_VER" | cut -d'.' -f1) && \
     export KERNKERNEL_MAJOREL_MINOR=$(echo "$KERNEL_VER" | cut -d'.' -f2)
