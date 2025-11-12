@@ -42,7 +42,11 @@ RUN apt-get update \
         pkg-config \
         zlib1g-dev
 
+# files to copy in prod
+WORKDIR /build
+# the build src folder
 WORKDIR /cups
+
 # Get latest stable Cups
 ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER}/cups-${CUPS_VER}-source.tar.gz"
 RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
