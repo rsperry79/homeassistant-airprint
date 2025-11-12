@@ -151,12 +151,11 @@ RUN apt update \
     && apt clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy build files
+# Copy and install build files
 COPY --from=builder /build /build
-RUN read major minor patch < <(echo $(uname -r) | ( IFS=".$IFS" ; read a b c && echo $a $b $c ))
-
-# Install build files
-RUN if [ $BUILD_ARCH == amd64]; then export arch=x64_64; fi
+RUN read major minor patch < <(echo $(uname -r) | ( IFS=".$IFS" ; read a b c && echo $a $b $c )) \
+    && export major minor \
+    && if [ $BUILD_ARCH == amd64]; then export arch=x64_64 fi
 COPY /build/cups-$CUPS_VER-linux-$major.$minor-$arch/ /
 COPY /build/cups-libs-$CUPS_VER-linux-$major.$minor-$arch/ /
 COPY /build/cups-lpd-$CUPS_VER-linux-$major.$minor-$arch/ /
