@@ -154,11 +154,12 @@ RUN apt update \
 # Copy and install build files
 COPY --from=builder /build /build
 
-RUN if [[ $BUILD_ARCH == amd64 ]]; then export ARCH=64_64 fi
-
-RUN KERNEL_VER=$(uname -r | cut -d'-' -f1) && \
+# get file path args
+ARG ARCH KERNEL_MAJOR KERNEL_MINOR
+RUN if [[ $BUILD_ARCH == amd64 ]]; then export ARCH=64_64 fi \
+    && export KERNEL_VER=$(uname -r | cut -d'-' -f1) && \
     export KERNEL_MAJOR=$(echo "$KERNEL_VER" | cut -d'.' -f1) && \
-    export KERNEL_MINOR=$(echo "$KERNEL_VER" | cut -d'.' -f2) && \
+    export KERNEL_MINOR=$(echo "$KERNEL_VER" | cut -d'.' -f2)
 
 COPY /build/cups-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
 COPY /build/cups-libs-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
