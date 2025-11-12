@@ -39,5 +39,5 @@ function update_server_alias() {
 function update_server_name() {
     local setting=${1}
     sed -i "s/^.*ServerName .*/ServerName ${setting}/" "$real_cups_path/$cups_daemon"
-    sed -i "s/^.*ServerName .*/ServerName ${setting}:631/" "$real_cups_path/$cups_client"
+    #sed -i "s/^.*ServerName .*/ServerName ${setting}:631/" "$real_cups_path/$cups_client"
 }

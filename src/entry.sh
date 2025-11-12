@@ -14,11 +14,14 @@ source "/opt/common/ha-helpers.sh"
 # shellcheck source="./cups/cups-ssl-helpers.sh"
 source "/opt/cups/cups-ssl-helpers.sh"
 
+# shellcheck source="./cups/cups-config-helpers.sh"
+source "/opt/cups/cups-config-helpers.sh"
+
 ulimit -n 1048576
 
 function run() {
     bashio::log info "Entered Entry.sh"
-
+    self_sign
     update_cups_conf
     #run_custom_script
 }
@@ -37,11 +40,26 @@ function update_cups_conf() {
 function run_custom_script() {
 
     until [ -e /run/cups/cups.sock ]; do
-        bashio::log.info "Waiting for cups daemon before installin custom script"
+        bashio::log.info "Waiting for cups daemon before installing custom script"
         sleep 2s
     done
 
     bashio "$packages_path/$install_script"
+}
+
+function self_sign() {
+    if bashio::config.has_value cups_self_sign; then
+        self_sign=$(bashio::config 'cups_self_sign')
+        bashio::log.debug "Self sign has value: $self_sign"
+        if [ "$self_sign" == true ]; then
+            cups_self_sign=yes
+        else
+            cups_self_sign=no
+        fi
+
+        update_self_sign "$cups_self_sign"
+    fi
+
 }
 
 run               # run entrypoint

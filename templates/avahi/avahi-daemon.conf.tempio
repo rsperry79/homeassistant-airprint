@@ -31,7 +31,7 @@ use-ipv4=yes
 # use-ipv6 overwritten at boot
 use-ipv6={{.use_ipv6}}
 allow-interfaces={{.bcast_interfaces}}
-#deny-interfaces=veth*
+#deny-interfaces=geth*
 #check-response-ttl=no
 #use-iff-running=no
 enable-dbus=yes
