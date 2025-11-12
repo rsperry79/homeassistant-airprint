@@ -120,7 +120,6 @@ RUN apt update \
         bluez-cups \
         cups-browsed \
         cups-filters \
-        \
         ipp-usb \
         cups-pk-helper\
         # cups-pdf \
