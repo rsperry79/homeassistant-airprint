@@ -153,12 +153,12 @@ RUN apt update \
 
 # Copy and install build files
 COPY --from=builder /build /build
-ARG major
-ARG minor
-ARG arch
+ARG major=6
+ARG minor=12
+ARG arch=x64_64
 
 RUN read major minor patch < <(echo $(uname -r) | ( IFS=".$IFS" ; read a b c && echo $a $b $c )) \
-    && if [ $BUILD_ARCH == amd64]; then export arch=x64_64 fi
+    && if [[ $BUILD_ARCH == amd64 ]]; then export arch=x64_64 fi
 COPY /build/cups-$CUPS_VER-linux-$major.$minor-$arch/ /
 COPY /build/cups-libs-$CUPS_VER-linux-$major.$minor-$arch/ /
 COPY /build/cups-lpd-$CUPS_VER-linux-$major.$minor-$arch/ /
