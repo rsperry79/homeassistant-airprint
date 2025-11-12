@@ -67,7 +67,7 @@ RUN ./configure \
         && make clean \
         && make all \
         && make deb \
-        &&  find ./dist -type f -name "*.tgz" -exec bash -c 'for file; do mv "$file" " /build/cups.tgz"; done' _ {} +
+        &&  tar -xzf ./*.tgz  --directory /build # undo tar and move to build
 
 
 
@@ -145,8 +145,7 @@ RUN apt-get update \
 # Copy and install build files
 WORKDIR /build
 COPY --from=builder /build /build
-RUN tar xzf cups.deb.tgz \
-    && dpkg -i ./*.dpkg
+RUN dpkg -i  /build/*.dpkg
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
@@ -163,4 +162,3 @@ RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
 CMD ["/opt/entry.sh"]
-#CMD ["tail", "-f", "/dev/null"]
