@@ -53,22 +53,20 @@ RUN ./configure \
             --exec-prefix=/ \
             --sysconfdir=/config \
             --runstatedir=/run \
-            --enable-static=yes \
+            --enable-static \
             --with-components=all \
-            --enable-libpaper=yes \
-            --enable-debug=yes \
-            --enable-debug-printfs=yes \
-            --enable-libpaper=yes \
-            --enable-webif=yes \
+            --enable-debug \
+            --enable-debug-printfs \
+            --enable-libpaper \
             --with-dbusdir=/etc/dbus-1/system.d \
             --with-dnssd=avahi  \
             --with-local-protocols=all \
-            --with-ondemand=systemd \
             --with-tls=openssl \
             --with-logdir=stderr \
             --with-cups-user=lp  \
             --with-cups-group=lp \
             --with-system-groups=lpadmin \
+            --enable-webif \
             --with-ipp-port=631 \
         && make clean \
         && make all \
@@ -76,7 +74,7 @@ RUN ./configure \
         &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build \
         && rm -f /build/cups-lpd-*
 
-
+          # --with-ondemand=systemd \
 #######################
 ##      PROD        ###
 #######################
