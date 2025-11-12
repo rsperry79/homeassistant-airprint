@@ -3,12 +3,11 @@ ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:8.1.4
 #######################
 ##      BUILD       ###
 #######################
-# hadolint ignore=DL3006
+
 FROM $BUILD_FROM AS builder
+# hadolint ignore=DL3006
 
-# Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
 ENV \
     DEBIAN_FRONTEND="noninteractive" \
     PATH="/lib64:${PATH}" \
@@ -16,14 +15,12 @@ ENV \
     CUPS_DEBUG_LEVEL=0 \
     CUPS_VER="2.4.14"
 
-
 # Optimize APT for faster, smaller builds
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
     && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recommends \
     && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
-# Update package list and upgrade existing packages
 # hadolint ignore=DL3008
 RUN apt-get update \
     &&  apt-get  upgrade --fix-missing -y --no-install-recommends \
@@ -77,10 +74,10 @@ RUN ./configure \
 #######################
 ##      PROD        ###
 #######################
-# hadolint ignore=DL3006
 FROM $BUILD_FROM AS prod
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# hadolint ignore=DL3006
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV \
     DEBIAN_FRONTEND="noninteractive" \
     PATH="/lib64:${PATH}" \
@@ -148,7 +145,8 @@ RUN apt-get update \
 # Copy and install build files
 WORKDIR /build
 COPY --from=builder /build /build
-RUN dpkg -i  /build/*.dpkg
+
+RUN find /build -type f -name "*.deb" -exec bash -c 'for pkg; do dpkg -i "$pkg"; done' _ {} +
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
