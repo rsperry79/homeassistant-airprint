@@ -155,7 +155,7 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy build files
-COPY --from=build /build /build
+COPY --from=builder /build /build
 RUN read major minor patch < <(echo $(uname -r) | ( IFS=".$IFS" ; read a b c && echo $a $b $c ))
 
 # Install build files
