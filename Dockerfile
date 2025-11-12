@@ -136,12 +136,10 @@ RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction faile
 
 
 # COPY services /etc/s6-overlay/s6-rc.d
-COPY src/entry.sh /opt
+# COPY src /opt
 # COPY templates /usr/templates
 
-RUN  chmod +x /opt/entry.sh
-#chmod +x /opt/*/*.sh
- #/etc/s6-overlay/s6-rc.d/*/run
+# RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
 # # Disable sudo password checking add root
 
@@ -152,4 +150,4 @@ RUN  chmod +x /opt/entry.sh
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
-CMD ["/opt/entry.sh"]
+CMD ["tail -f /dev/null"]
