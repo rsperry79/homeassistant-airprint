@@ -57,7 +57,6 @@ RUN ./configure \
             --enable-debug=yes \
             --enable-debug-printfs=yes \
             --enable-libpaper=yes \
-            --enable-tcp-wrappers=yes \
             --enable-webif=yes \
             --with-dnssd=avahi  \
             --with-local-protocols=all \
@@ -67,6 +66,7 @@ RUN ./configure \
             --with-cups-user=lp  \
             --with-cups-group=lp \
             --with-system-groups=lpadmin \
+            --with-ipp-port=631 \
         && make clean \
         && make all \
         && make deb \
