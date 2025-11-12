@@ -36,7 +36,12 @@ RUN apt update \
 ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v2.4.14/cups-2.4.14-source.tar.gz"
 
 RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; } \
-    && cd "cups-2.4.14" #\
+    && cd "cups-2.4.14"
+
+COPY /src/dev.sh /opt/dev.sh
+RUN chmod +x /opt/dev.sh
+
+#\
 #     && make distclean \
 #     && ./configure --sysconfdir=/config/cups \
 #     --localstatedir=/run \
@@ -139,8 +144,6 @@ RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction faile
 # COPY src /opt
 # COPY templates /usr/templates
 
-COPY /src/dev.sh /opt
-RUN chmod +x /opt/dev.sh
 
 # RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 # # Disable sudo password checking add root
