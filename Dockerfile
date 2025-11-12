@@ -49,7 +49,10 @@ ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER
 RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
 WORKDIR /cups/cups-${CUPS_VER}
 RUN ./configure \
-            --localstatedir=/run \
+            --prefix=/ \
+            --exec-prefix=/ \
+            --sysconfdir=config \
+            --with-rundir=/run/cups \
             --enable-static=yes \
             --with-components=all \
             --enable-libpaper=yes \
@@ -62,7 +65,6 @@ RUN ./configure \
             --with-local-protocols=all \
             --with-ondemand=systemd \
             --with-tls=openssl \
-            --with-rundir=/run/cups \
             --with-logdir=stderr \
             --with-cups-user=lp  \
             --with-cups-group=lp \
@@ -111,6 +113,7 @@ RUN apt-get update \
         gnupg2 \
         inotify-tools \
         openssl \
+        cron \
         # Avahi
         avahi-daemon \
         avahi-utils \
