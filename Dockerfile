@@ -68,7 +68,8 @@ RUN ./configure \
         && make clean \
         && make all \
         && make deb \
-        &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build
+        &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build \
+        && rm -f /build/cups-lpd-*
 
 
 #######################
