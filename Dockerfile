@@ -72,7 +72,7 @@ RUN make clean \
    && make all \
    && make deb
 
-COPY  ./dist /build
+COPY  dist /build
 
 #######################
 ##      PROD        ###
