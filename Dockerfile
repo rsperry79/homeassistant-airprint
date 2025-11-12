@@ -65,14 +65,12 @@ RUN ./configure \
         --with-access-log-level=all  \
         --with-cups-user=lp  \
         --with-cups-group=lp \
-        --with-system-groups=lpadmin
+        --with-system-groups=lpadmin \
+    && make clean \
+    && make all \
+    && make deb
 
-# Build Cups
-RUN make clean \
-   && make all \
-   && make deb
-
-COPY  dist /build
+COPY  dist/* /build
 
 #######################
 ##      PROD        ###
