@@ -60,7 +60,6 @@ RUN ./configure \
             --enable-tcp-wrappers=yes \
             --enable-webif=yes \
             --with-dnssd=avahi  \
-            --with-optim=yes \
             --with-local-protocols=all \
             --with-tls=openssl \
             --with-rundir=/run/cups \
