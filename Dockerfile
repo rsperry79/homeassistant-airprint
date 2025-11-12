@@ -150,5 +150,6 @@ RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction faile
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
-CMD ["/bin/bash"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+
 # CMD ["/opt/entry.sh"]
