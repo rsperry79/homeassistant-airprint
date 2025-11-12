@@ -66,12 +66,11 @@ RUN ./configure \
             --with-system-groups=lpadmin \
         && make clean \
         && make all \
-        && make deb
+        && make deb \
+        &&  find . -type f -name "*.tgz" -exec bash -c 'for file; do mv "$file" "cups.tgz"; done' _ {} +
 
-RUN find . -type f -name "*.tgz" -exec bash -c 'for file; do mv "$file" "cups.tgz"; done' _ {} +
 
-
-COPY  /cups/cups-${CUPS_VER}/dist/cups.deb.tgz /build
+COPY  /cups/cups-${CUPS_VER}/dist/cups.tgz /build
 
 #######################
 ##      PROD        ###
