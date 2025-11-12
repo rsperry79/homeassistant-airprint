@@ -157,4 +157,4 @@ LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
 
 # CMD ["/opt/entry.sh"]
-CMD ["/dev.sh"]
+ENTRYPOINT ["/dev.sh"]
