@@ -147,10 +147,10 @@ RUN apt-get update \
 WORKDIR /installers
 COPY --from=builder /build /installers
 
-#RUN find /installers -type f -name "*.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
+RUN find /installers -type f -name "*.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
 # Copy services code
-#COPY services /etc/s6-overlay/s6-rc.d
+COPY services /etc/s6-overlay/s6-rc.d
 COPY src /opt
 COPY templates /usr/templates
 #RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
@@ -163,5 +163,5 @@ RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
-# CMD ["/opt/entry.sh"]
-CMD ["tail", "-f", "/dev/null"]
+CMD ["/opt/entry.sh"]
+#CMD ["tail", "-f", "/dev/null"]
