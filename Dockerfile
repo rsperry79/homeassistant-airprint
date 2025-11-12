@@ -152,6 +152,6 @@ RUN chmod +x /opt/dev.sh
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
-#ENTRYPOINT ["tail", "-f", "/dev/null"]
+
 # CMD ["/opt/entry.sh"]
 CMD ["/opt/dev.sh"]
