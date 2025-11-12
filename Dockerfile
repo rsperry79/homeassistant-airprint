@@ -166,9 +166,9 @@ RUN $(if [[ $BUILD_ARCH == "amd64" ]]; then export ARCH=64_64 fi) \
     export KERNKERNEL_MAJOREL_MINOR=$(echo "$KERNEL_VER" | cut -d'.' -f2)
 RUN echo $KERNEL_VER  $KERNEL_MAJOR $KERNEL_MAJOR $ARCH
 
-COPY /build/cups-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
-COPY /build/cups-libs-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
-COPY /build/cups-lpd-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
+# COPY /build/cups-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
+# COPY /build/cups-libs-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
+# COPY /build/cups-lpd-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
