@@ -67,7 +67,7 @@ RUN ./configure \
         && make clean \
         && make all \
         && make deb \
-        &&  find . -type f -name "*.tgz" -exec bash -c 'for file; do mv "$file" "cups.tgz"; done' _ {} +
+        &&  find ./dist -type f -name "*.tgz" -exec bash -c 'for file; do mv "$file" "cups.tgz"; done' _ {} +
 
 
 COPY  /cups/cups-${CUPS_VER}/dist/cups.tgz /build
