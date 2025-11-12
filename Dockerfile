@@ -153,15 +153,16 @@ RUN apt update \
 
 # Copy and install build files
 COPY --from=builder /build /build
-ARG major=6
-ARG minor=12
-ARG arch=x64_64
 
-RUN read major minor patch < <(echo $(uname -r) | ( IFS=".$IFS" ; read a b c && echo $a $b $c )) \
-    && if [[ $BUILD_ARCH == amd64 ]]; then export arch=x64_64 fi
-COPY /build/cups-$CUPS_VER-linux-$major.$minor-$arch/ /
-COPY /build/cups-libs-$CUPS_VER-linux-$major.$minor-$arch/ /
-COPY /build/cups-lpd-$CUPS_VER-linux-$major.$minor-$arch/ /
+RUN if [[ $BUILD_ARCH == amd64 ]]; then export ARCH=64_64 fi
+
+RUN KERNEL_VER=$(uname -r | cut -d'-' -f1) && \
+    export KERNEL_MAJOR=$(echo "$KERNEL_VER" | cut -d'.' -f1) && \
+    export KERNEL_MINOR=$(echo "$KERNEL_VER" | cut -d'.' -f2) && \
+
+COPY /build/cups-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
+COPY /build/cups-libs-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
+COPY /build/cups-lpd-$CUPS_VER-linux-$KERNEL_MAJOR.$KERNEL_MINOR-$ARCH/ /
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
