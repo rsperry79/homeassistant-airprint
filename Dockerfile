@@ -143,10 +143,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy and install build files
-WORKDIR /build
-COPY --from=builder /build /build
+WORKDIR /packages
+COPY --from=builder /build /packages
 
-RUN find /build -type f -name "*.deb" -exec bash -c 'for pkg; do dpkg -i "$pkg"; done' _ {} +
+RUN find /packages -type f -name "*.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
