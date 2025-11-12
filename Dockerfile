@@ -52,7 +52,7 @@ RUN ./configure \
             --prefix=/ \
             --exec-prefix=/ \
             --sysconfdir=/config \
-            --with-rundir=/run/cups \
+            --runstatedir=/run \
             --enable-static=yes \
             --with-components=all \
             --enable-libpaper=yes \
