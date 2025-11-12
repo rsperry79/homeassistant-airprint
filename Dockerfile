@@ -67,8 +67,7 @@ RUN ./configure \
         && make clean \
         && make all \
         && make deb \
-        &&  tar -xzf ./*.tgz  --directory /build # undo tar and move to build
-
+        &&  tar -xzf ./dist/*.tgz  --directory /build
 
 
 #######################
