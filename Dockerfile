@@ -152,7 +152,7 @@ RUN find /installers -type f -name "*.deb" -exec bash -c 'for pkg; do dpkg -i "$
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
 # Misc configs
-COPY system_configs /etc
+COPY system-files /etc
 # the core scripts to run the server
 COPY src /opt
 # The config templates
