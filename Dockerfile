@@ -49,11 +49,8 @@ ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER
 RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
 WORKDIR /cups/cups-${CUPS_VER}
 RUN ./configure \
-            --prefix=/ \
-            --exec-prefix=/ \
             --sysconfdir=/config \
             --runstatedir=/run \
-            --enable-static \
             --with-components=all \
             --enable-debug \
             --enable-debug-printfs \
