@@ -144,9 +144,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy and install build files
+# workdir name is to distinguish from the packages folder used to install user-runtime packages/configs
 WORKDIR /installers
 COPY --from=builder /build /installers
-
 RUN find /installers -type f -name "*.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
 # Copy services code
@@ -170,3 +170,4 @@ LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
 CMD ["/opt/entry.sh"]
 #CMD ["tail", "-f", "/dev/null"]
+
