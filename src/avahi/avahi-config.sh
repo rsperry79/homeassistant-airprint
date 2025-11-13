@@ -64,10 +64,8 @@ function autoconf_config() {
 }
 
 function update_avahi_config() {
-    sed -i "s/^.*host-name=.*/host-name=${host}/" "$avahi_config_path/$avahi_daemon"
-
+    #sed -i "s/^.*host-name=.*/host-name=${host}/" "$avahi_config_path/$avahi_daemon"
     sed -i "s/^.*use-ipv6=.*/use-ipv6=${use_ipv6}/" "$avahi_config_path/$avahi_daemon"
-
     sed -i "s/^.*publish-aaaa-on-ipv4=.*/publish-aaaa-on-ipv4=${use_ipv6}/" "$avahi_config_path/$avahi_daemon"
 
     update_reflectors "$avahi_reflector" "$avahi_reflect_ipv"
