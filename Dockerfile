@@ -152,7 +152,7 @@ RUN find /installers -type f -name "*.deb" -exec bash -c 'for pkg; do dpkg -i "$
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
 # Misc configs
-COPY system-files /etc
+COPY system-files /
 # the core scripts to run the server
 COPY src /opt
 # The config templates
@@ -160,8 +160,6 @@ COPY templates /usr/templates
 # Enable scripts to run
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
-WORKDIR /var/lib/avahi
-WORKDIR /var/lib/avahi/services
 
 # Disable sudo password checking add root
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
