@@ -63,13 +63,12 @@ RUN ./configure \
             --with-cups-user=lp  \
             --with-cups-group=lp \
             --with-system-groups=lpadmin \
-            --enable-webif \
-            --with-ipp-port=631 \
         && make clean \
         && make all \
         && make deb \
-        &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build \
-        && rm -f /build/cups-lpd-*
+        &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build/all \
+        && cp /build/all/cups-${CUPS_VER}* /build
+
 
           # --with-ondemand=systemd \
 #######################
