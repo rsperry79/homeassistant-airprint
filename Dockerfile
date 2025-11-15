@@ -136,19 +136,19 @@ RUN apt-get update \
 # workdir name is to distinguish from the packages folder used to install user-runtime packages/configs
 WORKDIR /installers
 COPY --from=builder /build /installers
-RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
+# RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
-# hadolint ignore=DL3059
-# hadolint ignore=DL3008
-RUN apt-get install -y  --no-install-recommends \
- # CUPS printing packages
-        cups-backend-bjnp \
-        bluez-cups \
-        cups-browsed \
-        cups-filters \
-        ipp-usb \
-        colord \
-        rasterview
+# # hadolint ignore=DL3059
+# # hadolint ignore=DL3008
+# RUN apt-get install -y  --no-install-recommends \
+#  # CUPS printing packages
+#         cups-backend-bjnp \
+#         bluez-cups \
+#         cups-browsed \
+#         cups-filters \
+#         ipp-usb \
+#         colord \
+#         rasterview
 
 # # Copy services code
 # COPY services /etc/s6-overlay/s6-rc.d
