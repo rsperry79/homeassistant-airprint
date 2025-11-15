@@ -55,6 +55,7 @@ RUN ./configure \
             --enable-debug \
             --enable-debug-printfs \
             --enable-libpaper \
+            --enable-static=yes \
             --with-dbusdir=/etc/dbus-1/system.d \
             --with-dnssd=avahi  \
             --with-local-protocols=all \
