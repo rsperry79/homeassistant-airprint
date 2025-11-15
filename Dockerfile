@@ -88,6 +88,14 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
     && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
+    # Copy and install build files
+# workdir name is to distinguish from the packages folder used to install user-runtime packages/configs
+WORKDIR /installers
+COPY --from=builder /build /installers
+
+RUN apt-get install /installers/cups-libs-2.4.14-linux-6.12-x86_64.deb -y --no-install-recommends \
+    && apt-get install /installers/cups-2.4.14-linux-6.12-x86_64.deb -y --no-install-recommends
+
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008
 RUN apt-get update \
@@ -132,14 +140,6 @@ RUN apt-get update \
         printer-driver-splix \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy and install build files
-# workdir name is to distinguish from the packages folder used to install user-runtime packages/configs
-WORKDIR /installers
-COPY --from=builder /build /installers
-
-
-RUN apt-get install /installers/cups-libs-2.4.14-linux-6.12-x86_64.deb -y --no-install-recommends \
-    && apt-get install /installers/cups-2.4.14-linux-6.12-x86_64.deb -y --no-install-recommends
 
 # RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
