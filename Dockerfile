@@ -181,17 +181,19 @@ RUN apt-get update \
         libsm6 \
         libx11-data \
         libxdmcp6 \
+        cups \
+        cups-common \
+        cups-ipp-utils \
+        cups-client \
+        cups-filters \
+        cups-filters-core-drivers \
+        cups-core-drivers \
+        cups-ppdc \
+        cups-daemon \
+        cups-server-common \
     && rm -rf /var/lib/apt/lists/*
 
-# cups-common \
-# cups-ipp-utils \
-# cups-client \
-# cups-filters \
-# cups-filters-core-drivers \
-# cups-core-drivers \
-# cups-ppdc \
-# cups-daemon \
-# cups-server-common \
+
 
 # RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
