@@ -117,7 +117,6 @@ RUN apt-get update \
         # Avahi
         avahi-daemon \
         avahi-utils \
-
         # Network
         dbus \
         iproute2 \
