@@ -94,14 +94,10 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
 WORKDIR /installers
 COPY --from=builder /build /installers
 
-# hadolint ignore=DL3008, DL3009, DL3015
-
-
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008
-#RUN   apt-get instal -y /installers/cups-libs-2.4.14-linux-6.12-x86_64.deb  /installers/cups-2.4.14-linux-6.12-x86_64.deb \
-
-RUN apt-get update && apt-get upgrade --fix-missing -y --no-install-recommends \
+RUN apt-get update \
+    && apt-get upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
         # debug
         htop \
@@ -114,6 +110,19 @@ RUN apt-get update && apt-get upgrade --fix-missing -y --no-install-recommends \
         nano \
         gnupg2 \
         inotify-tools \
+        openssl \
+        cron \
+        # Avahi
+        avahi-daemon \
+        avahi-utils \
+        # CUPS printing packages
+        cups-backend-bjnp \
+        bluez-cups \
+        cups-browsed \
+        cups-filters \
+        ipp-usb \
+        colord \
+        rasterview \
         # Network
         dbus \
         iproute2 \
@@ -124,37 +133,21 @@ RUN apt-get update && apt-get upgrade --fix-missing -y --no-install-recommends \
         wget \
         curl \
         whois \
-        openssl \
-        cron \
-        # Avahi
-        avahi-daemon \
-        avahi-utils
+        # Printer Drivers
+        foomatic-db-compressed-ppds \
+        hp-ppd  \
+        openprinting-ppds \
+        printer-driver-hpcups \
+        printer-driver-all \
+        printer-driver-brlaser \
+        printer-driver-escpr \
+        printer-driver-foo2zjs \
+        printer-driver-gutenprint \
+        printer-driver-splix \
+    && rm -rf /var/lib/apt/lists/*
+
 
 # RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
-
-    # # hadolint ignore=DL3059
-    # # hadolint ignore=DL3008
-    # RUN apt-get install -y  --no-install-recommends \
-    #  # CUPS printing packages
-    #         cups-backend-bjnp \
-    #         bluez-cups \
-    #         cups-browsed \
-    #         cups-filters \
-    #         ipp-usb \
-    #         colord \
-    #         rasterview \
-    # Printer Drivers
-    #     foomatic-db-compressed-ppds \
-    #     hp-ppd  \
-    #     openprinting-ppds \
-    #     printer-driver-hpcups \
-    #     printer-driver-all \
-    #     printer-driver-brlaser \
-    #     printer-driver-escpr \
-    #     printer-driver-foo2zjs \
-    #     printer-driver-gutenprint \
-    #     printer-driver-splix \
-    # && rm -rf /var/lib/apt/lists/*
 
 # # Copy services code
 # COPY services /etc/s6-overlay/s6-rc.d
