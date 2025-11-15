@@ -93,7 +93,7 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
 WORKDIR /installers
 COPY --from=builder /build /installers
 
-# hadolint ignore=DL3008
+# hadolint ignore=DL3008, DL3009, DL3015
 RUN  apt-get update \
     &&  apt-get install -y --no-install-recommends \
         openssl \
@@ -101,8 +101,7 @@ RUN  apt-get update \
         # Avahi
         avahi-daemon \
         avahi-utils \
-    && apt-get install /installers/cups-libs-2.4.14-linux-6.12-x86_64.deb -y  \
-    && apt-get install /installers/cups-2.4.14-linux-6.12-x86_64.deb -y
+    && apt-get instal -y /installers/cups-libs-2.*.deb  /installers/cups-2.*.deb
 
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008
@@ -128,34 +127,33 @@ RUN apt-get upgrade --fix-missing -y --no-install-recommends \
         samba-client \
         wget \
         curl \
-        whois \
-        # Printer Drivers
-        foomatic-db-compressed-ppds \
-        hp-ppd  \
-        openprinting-ppds \
-        printer-driver-hpcups \
-        printer-driver-all \
-        printer-driver-brlaser \
-        printer-driver-escpr \
-        printer-driver-foo2zjs \
-        printer-driver-gutenprint \
-        printer-driver-splix \
-    && rm -rf /var/lib/apt/lists/*
-
+        whois
 
 # RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
-# # hadolint ignore=DL3059
-# # hadolint ignore=DL3008
-# RUN apt-get install -y  --no-install-recommends \
-#  # CUPS printing packages
-#         cups-backend-bjnp \
-#         bluez-cups \
-#         cups-browsed \
-#         cups-filters \
-#         ipp-usb \
-#         colord \
-#         rasterview
+    # # hadolint ignore=DL3059
+    # # hadolint ignore=DL3008
+    # RUN apt-get install -y  --no-install-recommends \
+    #  # CUPS printing packages
+    #         cups-backend-bjnp \
+    #         bluez-cups \
+    #         cups-browsed \
+    #         cups-filters \
+    #         ipp-usb \
+    #         colord \
+    #         rasterview \
+    # Printer Drivers
+    #     foomatic-db-compressed-ppds \
+    #     hp-ppd  \
+    #     openprinting-ppds \
+    #     printer-driver-hpcups \
+    #     printer-driver-all \
+    #     printer-driver-brlaser \
+    #     printer-driver-escpr \
+    #     printer-driver-foo2zjs \
+    #     printer-driver-gutenprint \
+    #     printer-driver-splix \
+    # && rm -rf /var/lib/apt/lists/*
 
 # # Copy services code
 # COPY services /etc/s6-overlay/s6-rc.d
