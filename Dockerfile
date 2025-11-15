@@ -128,8 +128,7 @@ RUN apt-get update && apt-get upgrade --fix-missing -y --no-install-recommends \
         cron \
         # Avahi
         avahi-daemon \
-        avahi-utils \
-    &&
+        avahi-utils
 
 # RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
