@@ -68,7 +68,7 @@ RUN ./configure \
         && make all \
         && make deb \
         &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build/all \
-        && cp /build/all/cups-2.* /build/main
+        && cp /build/all/cups-2.*.deb /build/main
 
 
           # --with-ondemand=systemd \
