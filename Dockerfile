@@ -100,9 +100,7 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
 RUN apt-get update \
     && apt-get upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
-        # debug
         htop \
-        # System packages
         sudo \
         locales \
         bash-completion \
@@ -113,20 +111,17 @@ RUN apt-get update \
         inotify-tools \
         openssl \
         cron \
-        # Avahi
         avahi-daemon \
         avahi-utils \
-        # Network
         dbus \
         iproute2 \
         libnss-mdns \
         net-tools \
         samba \
-        samba-client \
+        smbclient \
         wget \
         curl \
         whois \
-        # cups depends
         bc \
         fontconfig-config \
         libcairo2 \
@@ -186,7 +181,6 @@ RUN apt-get update \
         libsm6 \
         libx11-data \
         libxdmcp6 \
-        poppler-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # cups-common \
