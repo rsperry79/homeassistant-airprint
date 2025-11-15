@@ -68,7 +68,7 @@ RUN ./configure \
         && make all \
         && make deb \
         &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build/all \
-        && find /build/a -type f -name "cups-2*.deb" -exec bash -c 'for pkg; do cp $pkg /build; done' _ {} +
+        && find /build/a -type f -name "cups-2*.deb" -exec bash -c 'for pkg; do cp $pkg /build/main; done' _ {} +
 #######################
 ##      PROD        ###
 #######################
