@@ -66,8 +66,7 @@ RUN ./configure \
         && make clean \
         && make all \
         && make deb \
-        &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build \
-        && cp /build /share
+        &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build
 
 
 #######################
@@ -145,7 +144,7 @@ RUN apt-get update \
 # workdir name is to distinguish from the packages folder used to install user-runtime packages/configs
 WORKDIR /installers
 COPY --from=builder /build /installers
-RUN find /installers -type f -name "cups-2*.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
+RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
