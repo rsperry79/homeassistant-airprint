@@ -126,11 +126,80 @@ RUN apt-get update \
         wget \
         curl \
         whois \
+        # cups depends
+        bc \
+        fontconfig-config \
+        libcairo2 \
+        libfontconfig1 \
+        libgpgmepp6t64 \
+        libidn12 \
+        liblcms2-2 \
+        libnss3 \
+        libpoppler-cpp2 \
+        libtiff6 \
+        libxau6 \
+        libxext6 \
+        ssl-cert \
+        fonts-dejavu-core \
+        libcupsfilters1t64 \
+        libfontembed1t64 \
+        libgs-common \
+        libijs-0.35 \
+        liblerc4 \
+        libopenjp2-7 \
+        libpoppler147 \
+        libusb-1.0-0 \
+        libxcb-render0 \
+        libxrender1 \
+        x11-common \
+        fonts-dejavu-mono  \
+        libcurl3t64-gnutls  \
+        libfontenc1 \
+        libgs10 \
+        libjbig0 \
+        libngtcp2-16 \
+        libpaper2 \
+        libqpdf30 \
+        libwebp7 \
+        libxcb-shm0 \
+        libxt6t64 \
+        xfonts-encodings \
+        fonts-urw-base35 \
+        libdeflate0 \
+        libfreetype6 \
+        libgs10-common \
+        libjbig2dec0 \
+        libngtcp2-crypto-gnutls8  \
+        libpixman-1-0 \
+        libsharpyuv0 \
+        libx11-6 \
+        libxcb1 \
+        poppler-data \
+        xfonts-utils \
+        ghostscript \
+        libexif12 \
+        libgpgme11t64 \
+        libice6 \
+        libjpeg62-turbo\
+        libnspr4 \
+        libpng16-16t64 \
+        libsm6 \
+        libx11-data \
+        libxdmcp6 \
+        poppler-utils \
     && rm -rf /var/lib/apt/lists/*
 
+# cups-common \
+# cups-ipp-utils \
+# cups-client \
+# cups-filters \
+# cups-filters-core-drivers \
+# cups-core-drivers \
+# cups-ppdc \
+# cups-daemon \
+# cups-server-common \
 
 # RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
-
 
         # # Printer Drivers
         # foomatic-db-compressed-ppds \
