@@ -84,15 +84,17 @@ ENV \
     CUPS_DEBUG_LEVEL=0 \
     CUPS_VER="2.4.14"
 
+# Copy and install build files
+# workdir name is to distinguish from the packages folder used to install user-runtime packages/configs
+WORKDIR /installers
+COPY --from=builder /build /installers
+
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
     && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recommends \
     && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
-    # Copy and install build files
-# workdir name is to distinguish from the packages folder used to install user-runtime packages/configs
-WORKDIR /installers
-COPY --from=builder /build /installers
+
 
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008
@@ -115,14 +117,7 @@ RUN apt-get update \
         # Avahi
         avahi-daemon \
         avahi-utils \
-        # CUPS printing packages
-        cups-backend-bjnp \
-        bluez-cups \
-        cups-browsed \
-        cups-filters \
-        ipp-usb \
-        colord \
-        rasterview \
+
         # Network
         dbus \
         iproute2 \
@@ -133,21 +128,31 @@ RUN apt-get update \
         wget \
         curl \
         whois \
-        # Printer Drivers
-        foomatic-db-compressed-ppds \
-        hp-ppd  \
-        openprinting-ppds \
-        printer-driver-hpcups \
-        printer-driver-all \
-        printer-driver-brlaser \
-        printer-driver-escpr \
-        printer-driver-foo2zjs \
-        printer-driver-gutenprint \
-        printer-driver-splix \
     && rm -rf /var/lib/apt/lists/*
 
 
 # RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
+
+
+        # # Printer Drivers
+        # foomatic-db-compressed-ppds \
+        # hp-ppd  \
+        # openprinting-ppds \
+        # printer-driver-hpcups \
+        # printer-driver-all \
+        # printer-driver-brlaser \
+        # printer-driver-escpr \
+        # printer-driver-foo2zjs \
+        # printer-driver-gutenprint \
+        # printer-driver-splix \
+        # # CUPS printing packages
+        # cups-backend-bjnp \
+        # bluez-cups \
+        # cups-browsed \
+        # cups-filters \
+        # ipp-usb \
+        # colord \
+        # rasterview \
 
 # # Copy services code
 # COPY services /etc/s6-overlay/s6-rc.d
