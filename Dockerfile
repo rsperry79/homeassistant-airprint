@@ -136,6 +136,11 @@ RUN apt-get update \
 # workdir name is to distinguish from the packages folder used to install user-runtime packages/configs
 WORKDIR /installers
 COPY --from=builder /build /installers
+
+
+RUN apt-get install /installers/cups-libs-2.4.14-linux-6.12-x86_64.deb -y --no-install-recommends \
+    && apt-get install /installers/cups-2.4.14-linux-6.12-x86_64.deb -y --no-install-recommends
+
 # RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
 # # hadolint ignore=DL3059
