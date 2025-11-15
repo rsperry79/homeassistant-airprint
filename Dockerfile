@@ -40,7 +40,7 @@ RUN apt-get update \
         zlib1g-dev
 
 # files to copy in prod
-WORKDIR /build
+WORKDIR /build/all
 # the build src folder
 WORKDIR /cups
 
