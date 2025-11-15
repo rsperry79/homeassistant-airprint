@@ -40,8 +40,7 @@ RUN apt-get update \
         zlib1g-dev
 
 # files to copy in prod
-WORKDIR /build/all
-WORKDIR /build/main
+WORKDIR /build
 # the build src folder
 WORKDIR /cups
 
@@ -67,7 +66,9 @@ RUN ./configure \
         && make clean \
         && make all \
         && make deb \
-        &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build
+        &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build \
+        && cp /build /share
+
 
 #######################
 ##      PROD        ###
