@@ -146,7 +146,7 @@ RUN apt-get update \
 # workdir name is to distinguish from the packages folder used to install user-runtime packages/configs
 WORKDIR /installers
 COPY --from=builder /build /installers
-RUN find /installers -type f -name "*.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
+RUN find /installers -type f -name "*.deb" -not -path /installer/all -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
