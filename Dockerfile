@@ -182,6 +182,18 @@ RUN apt-get update \
         libsm6 \
         libx11-data \
         libxdmcp6 \
+        udev \
+        docx2txt \
+        colord \
+        fonts-freefont-otf \
+        fonts-texgyre \
+        liblcms2-utils \
+        antiword \
+        imagemagick \
+         fonts-freefont-ttf  \
+         gpg-wks-client \
+         fonts-droid-fallback \
+         libpaper-utils\
         # cups-filters \
         # cups-filters-core-drivers \
         # cups-daemon \
@@ -197,13 +209,12 @@ RUN apt-get update \
 
 
 # RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
-        # colord \
-        # liblcms2-utils
+
         # cups-browsed \
         # ipp-usb \
 
         # # Printer Drivers
-        # foomatic-db-compressed-ppds \
+        # foomatic-db
         # hp-ppd  \
         # openprinting-ppds \
         # printer-driver-hpcups \
