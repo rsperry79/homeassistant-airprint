@@ -55,7 +55,6 @@ RUN ./configure \
             --enable-debug \
             --enable-debug-printfs \
             --enable-libpaper \
-            --enable-static=yes \
             --with-dbusdir=/etc/dbus-1/system.d \
             --with-dnssd=avahi  \
             --with-local-protocols=all \
@@ -64,6 +63,8 @@ RUN ./configure \
             --with-cups-user=lp  \
             --with-cups-group=lp \
             --with-system-groups=lpadmin \
+            --enable-webif \
+            --with-ipp-port=631 \
         && make clean \
         && make all \
         && make deb \
@@ -93,8 +94,6 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
     && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recommends \
     && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
-
-
 
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008
