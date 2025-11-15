@@ -95,18 +95,12 @@ WORKDIR /installers
 COPY --from=builder /build /installers
 
 # hadolint ignore=DL3008, DL3009, DL3015
-RUN  apt-get update \
-    &&  apt-get install -y --no-install-recommends \
-        openssl \
-        cron \
-        # Avahi
-        avahi-daemon \
-        avahi-utils \
-    && apt-get instal -y /installers/cups-libs-2.4.14-linux-6.12-x86_64.deb  /installers/cups-2.4.14-linux-6.12-x86_64.deb
+
 
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008
-RUN apt-get upgrade --fix-missing -y --no-install-recommends \
+RUN   apt-get instal -y /installers/cups-libs-2.4.14-linux-6.12-x86_64.deb  /installers/cups-2.4.14-linux-6.12-x86_64.deb \
+    && apt-get upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
         # debug
         htop \
@@ -128,7 +122,13 @@ RUN apt-get upgrade --fix-missing -y --no-install-recommends \
         samba-client \
         wget \
         curl \
-        whois
+        whois \
+        openssl \
+        cron \
+        # Avahi
+        avahi-daemon \
+        avahi-utils \
+    &&
 
 # RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
