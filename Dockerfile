@@ -182,9 +182,8 @@ RUN apt-get update \
         libsm6 \
         libx11-data \
         libxdmcp6 \
-        cups-filters \
-        cups-filters-core-drivers \
-#
+        # cups-filters \
+        # cups-filters-core-drivers \
         # cups-daemon \
         # cups-ipp-utils \
         # cups-core-drivers \
@@ -198,6 +197,10 @@ RUN apt-get update \
 
 
 # RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
+        # colord \
+        # liblcms2-utils
+        # cups-browsed \
+        # ipp-usb \
 
         # # Printer Drivers
         # foomatic-db-compressed-ppds \
@@ -213,10 +216,10 @@ RUN apt-get update \
         # # CUPS printing packages
         # cups-backend-bjnp \
         # bluez-cups \
-        # cups-browsed \
+
         # cups-filters \
-        # ipp-usb \
-        # colord \
+
+
         # rasterview \
 
 # # Copy services code
