@@ -93,8 +93,15 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
 WORKDIR /installers
 COPY --from=builder /build /installers
 
-RUN apt-get install /installers/cups-libs-2.4.14-linux-6.12-x86_64.deb -y --no-install-recommends \
-    && apt-get install /installers/cups-2.4.14-linux-6.12-x86_64.deb -y --no-install-recommends
+# hadolint ignore=DL3008
+RUN apt-get install -y --no-install-recommends \
+        openssl \
+        cron \
+        # Avahi
+        avahi-daemon \
+        avahi-utils \
+    && apt-get install /installers/cups-libs-2.4.14-linux-6.12-x86_64.deb -y  \
+    && apt-get install /installers/cups-2.4.14-linux-6.12-x86_64.deb -y
 
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008
@@ -112,11 +119,7 @@ RUN apt-get update \
         nano \
         gnupg2 \
         inotify-tools \
-        openssl \
-        cron \
-        # Avahi
-        avahi-daemon \
-        avahi-utils \
+
         # Network
         dbus \
         iproute2 \
