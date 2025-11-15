@@ -170,6 +170,7 @@ RUN apt-get update \
         libx11-6 \
         libxcb1 \
         poppler-data \
+        poppler-utils \
         xfonts-utils \
         ghostscript \
         libexif12 \
@@ -181,16 +182,17 @@ RUN apt-get update \
         libsm6 \
         libx11-data \
         libxdmcp6 \
-        cups \
-        cups-common \
-        cups-ipp-utils \
-        cups-client \
         cups-filters \
         cups-filters-core-drivers \
-        cups-core-drivers \
-        cups-ppdc \
-        cups-daemon \
-        cups-server-common \
+#
+        # cups-daemon \
+        # cups-ipp-utils \
+        # cups-core-drivers \
+        # cups-client \
+        # cups-common \
+        # cups-ppdc \
+        # cups-server-common \
+        # cups \
     && rm -rf /var/lib/apt/lists/*
 
 
