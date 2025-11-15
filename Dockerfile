@@ -94,7 +94,8 @@ WORKDIR /installers
 COPY --from=builder /build /installers
 
 # hadolint ignore=DL3008
-RUN apt-get install -y --no-install-recommends \
+RUN  apt-get update \
+    &&  apt-get install -y --no-install-recommends \
         openssl \
         cron \
         # Avahi
@@ -105,8 +106,7 @@ RUN apt-get install -y --no-install-recommends \
 
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008
-RUN apt-get update \
-    && apt-get upgrade --fix-missing -y --no-install-recommends \
+RUN apt-get upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
         # debug
         htop \
@@ -119,7 +119,6 @@ RUN apt-get update \
         nano \
         gnupg2 \
         inotify-tools \
-
         # Network
         dbus \
         iproute2 \
