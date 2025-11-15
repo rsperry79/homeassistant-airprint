@@ -68,10 +68,7 @@ RUN ./configure \
         && make all \
         && make deb \
         &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build/all \
-        && cp /build/all/cups-2.*.deb /build/main
-
-
-          # --with-ondemand=systemd \
+        && find /build/a -type f -name "cups-2*.deb" -exec bash -c 'for pkg; do cp $pkg /build; done' _ {} +
 #######################
 ##      PROD        ###
 #######################
