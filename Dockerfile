@@ -68,6 +68,8 @@ ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:8.1.4
 #         && make clean \
 #         && make all \
 #         && make deb \
+
+
 #         &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build
 
 
@@ -227,31 +229,30 @@ RUN apt-get update \
         # # CUPS printing packages
         # cups-backend-bjnp \
         # bluez-cups \
-
         # cups-filters \
 
 
         # rasterview \
 
-# # Copy services code
-# COPY services /etc/s6-overlay/s6-rc.d
-# # Misc configs
-# COPY system-files /
-# # the core scripts to run the server
-# COPY src /opt
-# # The config templates
-# COPY templates /usr/templates
-# # Enable scripts to run
-# RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
+# Copy services code
+COPY services /etc/s6-overlay/s6-rc.d
+# Misc configs
+COPY system-files /
+# the core scripts to run the server
+COPY src /opt
+# The config templates
+COPY templates /usr/templates
+# Enable scripts to run
+RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
-# # Disable sudo password checking add root
-# RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
-#     && usermod -a -G lp root \
-#     && usermod -a -G lpadmin root \
-#     && useradd -g lpadmin lpadmin
+# Disable sudo password checking add root
+RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
+    && usermod -a -G lp root \
+    && usermod -a -G lpadmin root \
+    && useradd -g lpadmin lpadmin
 
-# LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
+LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
-# CMD ["/opt/entry.sh"]
-CMD ["tail", "-f", "/dev/null"]
+CMD ["/opt/entry.sh"]
+#CMD ["tail", "-f", "/dev/null"]
 
