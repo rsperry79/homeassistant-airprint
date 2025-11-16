@@ -165,10 +165,8 @@ RUN apt-get update \
     &&  apt-get  upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
         autoconf \
-        avahi-daemon \
         build-essential \
         epm \
-        libnss-mdns \
         libavahi-client-dev \
         libkrb5-dev \
         libpam-dev \
@@ -244,10 +242,23 @@ COPY templates /usr/templates
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
 # Disable sudo password checking add root
-RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
-    && usermod -a -G lp root \
-    && usermod -a -G lpadmin root \
-    && useradd -g lpadmin lpadmin
+# RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
+#     && usermod -a -G lp root \
+#     && usermod -a -G lpadmin root \
+#     && useradd -g lpadmin lpadmin
+
+RUN apt-get remove -y   \
+        autoconf \
+        build-essential \
+        epm \
+        libavahi-client-dev \
+        libkrb5-dev \
+        libpam-dev \
+        libssl-dev \
+        libsystemd-dev \
+        libusb-1.0-0-dev \
+        pkg-config \
+        zlib1g-dev
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
