@@ -30,30 +30,43 @@ fi
 
 # client.conf
 if [ ! -e "$cups_templates_path/$cups_client_cfg" ]; then
-    cp "$src_cups_templates_path/$cups_client_cfg" "$cups_templates_path/$cups_client_cfg"
+    install -T -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_client_cfg" "$cups_templates_path" ||
+        bashio::exit.nok "Failed to create $cups_client_cfg"
+    #cp "$src_cups_templates_path/$cups_client_cfg" "$cups_templates_path/$cups_client_cfg"
 fi
 
 # cupsd.conf
 if [ ! -e "$cups_templates_path/$cups_daemon_cfg" ]; then
-    cp "$src_cups_templates_path/$cups_daemon_cfg" "$cups_templates_path/$cups_daemon_cfg"
+    install -T -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_daemon_cfg" "$cups_templates_path" ||
+        bashio::exit.nok "Failed to create $cups_daemon_cfg"
+
+    #cp "$src_cups_templates_path/$cups_daemon_cfg" "$cups_templates_path/$cups_daemon_cfg"
 fi
 
 # cups-files.conf
 if [ ! -e "$cups_templates_path/$cups_files_cfg" ]; then
-    cp "$src_cups_templates_path/$cups_files_cfg" "$cups_templates_path/$cups_files_cfg"
+    install -T -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_files_cfg" "$cups_templates_path" ||
+        bashio::exit.nok "Failed to create $cups_files_cfg"
+    #cp "$src_cups_templates_path/$cups_files_cfg" "$cups_templates_path/$cups_files_cfg"
 fi
 
 # cups-pdf.conf
 if [ ! -e "$cups_templates_path/$cups_pdf_cfg" ]; then
-    cp "$src_cups_templates_path/$cups_pdf_cfg" "$cups_templates_path/$cups_pdf_cfg"
+    install -T -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_pdf_cfg" "$cups_templates_path" ||
+        bashio::exit.nok "Failed to create $cups_pdf_cfg"
+    # cp "$src_cups_templates_path/$cups_pdf_cfg" "$cups_templates_path/$cups_pdf_cfg"
 fi
 
 # snmp.conf
 if [ ! -e "$cups_templates_path/$cups_snmp_cfg" ]; then
-    cp "$src_cups_templates_path/$cups_snmp_cfg" "$cups_templates_path/$cups_snmp_cfg"
+    install -T -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_snmp_cfg" "$cups_templates_path" ||
+        bashio::exit.nok "Failed to create $cups_snmp_cfg"
+    # cp "$src_cups_templates_path/$cups_snmp_cfg" "$cups_templates_path/$cups_snmp_cfg"
 fi
 
 # cups-browsed.conf
 if [ ! -e "$cups_templates_path/$cups_browsed_cfg" ]; then
-    cp "$src_cups_templates_path/$cups_browsed_cfg" "$cups_templates_path/$cups_browsed_cfg"
+    install -T -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_browsed_cfg" "$cups_templates_path" ||
+        bashio::exit.nok "Failed to create $cups_browsed_cfg"
+    # cp "$src_cups_templates_path/$cups_browsed_cfg" "$cups_templates_path/$cups_browsed_cfg"
 fi
