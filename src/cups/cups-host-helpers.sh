@@ -44,7 +44,7 @@ function add_sans() {
         to_check="${names[index]}"
         bashio::log.info "add_sans checking: $to_check"
 
-        append_host_alias "$to_check"
+        append_existing_host_alias "$to_check"
         add_host_name_to_hosts "$to_check"
     done
 }
@@ -61,7 +61,8 @@ function append_existing_host_alias() {
     local to_add=${1}
     bashio::log.info "append_existing_host_alias $to_add"
 
-    current=$(grep "ServerAlias" /config/cups/cupsd.conf)
+    current=$(grep "ServerAlias" "$real_cups_path/$cups_daemon")
+    bashio::log.info "append_existing_host_alias current: $current"
     if ! echo "$current" | grep "$to_add"; then
         bashio::log.info append_existing_host_alias
         sed -i "s/^.*ServerAlias .*/$current $to_add/" "$real_cups_path/$cups_daemon"

@@ -60,7 +60,6 @@ function run() {
     fi
 
     add_host_name_to_hosts "$host_name"
-    setup_ssl "$host_name" "$self_sign"
 
 }
 
@@ -89,6 +88,8 @@ function setup() {
             cups_self_sign=yes
         fi
     fi
+
+    setup_ssl "$host_name" "$self_sign"
 
     # Used by autoconf
     config=$(jq --arg host_name "$host_name" --arg cups_ssl_path "$cups_ssl_path" \
