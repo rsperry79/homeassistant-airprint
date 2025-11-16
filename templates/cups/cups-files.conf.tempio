@@ -34,13 +34,13 @@ LogFilePerm 0644
 # root directory.  Also see the "AccessLogLevel" directive in cupsd.conf.
 AccessLog stderr
 # Location of cache files used by the scheduler...
-CacheDir /var/cache/cups
+# CacheDir /var/cache/cups
 
 # Location of data files used by the scheduler...
-DataDir /usr/share/cups
+#DataDir /usr/share/cups
 
 # Location of the static web content served by the scheduler...
-DocumentRoot /usr/share/doc/cups
+#DocumentRoot /usr/share/doc/cups
 
 # Location of the file logging all messages produced by the scheduler and any
 # helper programs; may be the name "syslog". If not an absolute path, the value
