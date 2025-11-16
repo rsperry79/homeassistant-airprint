@@ -102,7 +102,6 @@ function autoconf_client() {
         -template "$cups_templates_path/$cups_client_cfg" \
         -out "$real_cups_path/$cups_client"
 
-    ln -s "$real_cups_path/$cups_client" "/etc/cups/$cups_client"
 }
 
 function update_client() {

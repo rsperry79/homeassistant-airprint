@@ -6,8 +6,12 @@ source "/opt/common/paths.sh"
 if ! bashio::fs.directory_exists "${real_cups_path}"; then
     install -d -m "$svc_file_perms" -g "$svc_group" "${real_cups_path}" ||
         bashio::exit.nok 'Failed to create a persistent cups config folder'
+    if [ -d /etc/cups ]; then
+        rm -f /etc/cups
+    fi
 
     ln -sn "$real_cups_path" /etc/cups
+
 fi
 
 # Cups log folder
