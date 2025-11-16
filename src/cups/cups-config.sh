@@ -14,6 +14,13 @@ source "/opt/cups/cups-ssl-helpers.sh"
 source "/opt/cups/cups-config-helpers.sh"
 
 function run() {
+    host_name=$(hostname -f)
+
+    cups_log_level="error"
+    cups_encryption="IfRequested"
+    cups_access_log_level="config"
+    HOST_ALIAS="*"
+    self_sign=false
 
     if [ ! -e "$real_cups_path/$cups_browsed" ]; then
         autoconf_browsed
@@ -54,18 +61,11 @@ function run() {
     fi
 
     setup
-
+    add_host_name_to_hosts "$host_name"
 }
 
 # Gets current settings from HA
 function setup() {
-    host_name=$(hostname -f)
-    add_host_name_to_hosts "$host_name"
-    cups_log_level="error"
-    cups_encryption="IfRequested"
-    cups_access_log_level="config"
-    HOST_ALIAS="*"
-    self_sign=false
 
     CUPS_PRIVATE_KEY="$cups_ssl_path/$host_name.crt"
     CUPS_PUBLIC_KEY="$cups_ssl_path/$host_name.pem"
@@ -108,7 +108,8 @@ function autoconf_client() {
 }
 
 function update_client() {
-    update_server_name "$host_name"
+    local h_name=${1}
+    update_server_name "$h_name"
 }
 
 function autoconf_daemon() {
