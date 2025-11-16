@@ -42,7 +42,7 @@ function add_sans() {
 
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
-        bashio::log.debug "add_sans checking: $to_check"
+        bashio::log.info "add_sans checking: $to_check"
         add_host_name_to_hosts "$to_check"
         append_host_alias "$to_check"
     done
@@ -58,6 +58,7 @@ function append_host_alias() {
 
 function append_existing_host_alias() {
     local to_add=${1}
+    bashio::log.info "append_existing_host_alias $to_add"
 
     current=$(grep "ServerAlias" /config/cups/cupsd.conf)
     if ! echo "$current" | grep "$to_add"; then
