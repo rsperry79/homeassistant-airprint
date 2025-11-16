@@ -21,6 +21,7 @@ function run() {
     cups_access_log_level="config"
     HOST_ALIAS="*"
     self_sign=false
+    setup
 
     if [ ! -e "$real_cups_path/$cups_browsed" ]; then
         autoconf_browsed
@@ -60,8 +61,9 @@ function run() {
         update_snmp
     fi
 
-    setup
     add_host_name_to_hosts "$host_name"
+
+    setup_ssl "$host_name" "$self_sign"
 }
 
 # Gets current settings from HA
@@ -89,8 +91,6 @@ function setup() {
             cups_self_sign=yes
         fi
     fi
-
-    setup_ssl "$host_name" "$self_sign"
 
     # Used by autoconf
     config=$(jq --arg host_name "$host_name" --arg cups_ssl_path "$cups_ssl_path" \
