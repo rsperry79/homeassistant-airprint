@@ -36,10 +36,8 @@ function run() {
     fi
 
     if [ ! -e "$real_cups_path/$cups_daemon" ]; then
-        bashio::log.info "no cups.conf"
         autoconf_daemon
     else
-        bashio::log.info "has cups.conf"
         update_daemon
     fi
 
@@ -62,8 +60,8 @@ function run() {
     fi
 
     add_host_name_to_hosts "$host_name"
-
     setup_ssl "$host_name" "$self_sign"
+
 }
 
 # Gets current settings from HA
