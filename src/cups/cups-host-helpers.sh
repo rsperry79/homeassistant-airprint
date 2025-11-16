@@ -11,7 +11,7 @@ function update_hosts() {
     local pubkey="${1}"
 
     cn=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
-    bashio::log.debug "CN $cn"
+    bashio::log.info "CN $cn"
 
     trimmed_cn="${cn#"${cn%%[![:space:]]*}"}"
     add_host_name_to_hosts "$trimmed_cn"
