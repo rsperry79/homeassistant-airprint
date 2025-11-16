@@ -56,7 +56,6 @@ function autoconf_config() {
     config=$(jq --arg host_name "$host" --arg use_ipv6 "$use_ipv6" --arg avahi_reflector "$avahi_reflector" --arg avahi_reflect_ipv "$avahi_reflect_ipv" --arg bcast_interfaces "$bcast_interfaces" \
         '{host_name: $host_name, use_ipv6: $use_ipv6, avahi_reflector: $avahi_reflector, avahi_reflect_ipv: $avahi_reflect_ipv,  bcast_interfaces: $bcast_interfaces}' \
         /data/options.json)
-    #if [ ! -e "$real_cups_path/$cups_daemon_cfg" ]; then
 
     echo "$config" | tempio \
         -template "$avahi_templates_path/$avahi_daemon_cfg" \
