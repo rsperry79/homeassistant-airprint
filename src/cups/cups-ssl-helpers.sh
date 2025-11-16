@@ -18,6 +18,7 @@ function setup_ssl() {
 
     if [ "$self_sign" == true ]; then
         bashio::log.info "Self sign is on"
+        HOST_ALIAS="*"
     else
         bashio::log.info "Self sign is off"
         rm -f "$cups_ssl_path/*"

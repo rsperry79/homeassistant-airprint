@@ -90,7 +90,7 @@ function setup() {
     fi
 
     setup_ssl "$host_name" "$self_sign"
-
+    
     # Used by autoconf
     config=$(jq --arg host_name "$host_name" --arg cups_ssl_path "$cups_ssl_path" \
         --arg privkey "$CUPS_PRIVATE_KEY" --arg pubkey "$CUPS_PUBLIC_KEY" --arg cups_log_level "$cups_log_level" \
