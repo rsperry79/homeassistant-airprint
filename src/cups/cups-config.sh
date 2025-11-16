@@ -31,7 +31,7 @@ function run() {
     if [ ! -e "$real_cups_path/$cups_client" ]; then
         autoconf_client
     else
-        update_client
+        update_client "$host_name"
     fi
 
     if [ ! -e "$real_cups_path/$cups_daemon" ]; then
