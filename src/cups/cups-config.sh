@@ -14,7 +14,6 @@ source "/opt/cups/cups-ssl-helpers.sh"
 source "/opt/cups/cups-config-helpers.sh"
 
 function run() {
-    setup
 
     if [ ! -e "$real_cups_path/$cups_browsed" ]; then
         autoconf_browsed
@@ -53,6 +52,8 @@ function run() {
     else
         update_snmp
     fi
+
+    setup
 
 }
 
