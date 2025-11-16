@@ -243,9 +243,9 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
 # Disable sudo password checking add root
 RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
-    && useradd  lpadmin
-    #&& usermod -a -G lpadmin root
-    # && usermod -a -G lp root \
+    && useradd  lpadmin \
+    && usermod -a -G lpadmin root \
+    && usermod -a -G lp root
 
 RUN apt-get remove -y   \
         autoconf \

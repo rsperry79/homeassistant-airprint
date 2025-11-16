@@ -8,7 +8,6 @@ function update_private_key() {
     local private_key=${1}
     #  sed -i "s#^.*ServerKey .*#ServerKey ${private_key}#" "$real_cups_path/$cups_files"
     true
-
 }
 
 function update_public_key() {
