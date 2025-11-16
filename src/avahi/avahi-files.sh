@@ -23,7 +23,6 @@ if ! bashio::fs.directory_exists "${avahi_templates_path}"; then
 fi
 
 if [ ! -e "$avahi_templates_path/$avahi_daemon_cfg" ]; then
-    install -T -m "$svc_file_perms" -g "$svc_group" "$src_avahi_templates_path/$avahi_daemon_cfg" "$avahi_templates_path" ||
+    install -m "$svc_file_perms" -g "$svc_group" "$src_avahi_templates_path/$avahi_daemon_cfg" "$avahi_templates_path" ||
         bashio::exit.nok "Failed to create $avahi_daemon_cfg"
-    # cp "$src_avahi_templates_path/$avahi_daemon_cfg" "$avahi_templates_path/$avahi_daemon_cfg"
 fi
