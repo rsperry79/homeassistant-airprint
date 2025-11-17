@@ -64,7 +64,7 @@ function setup_ssl_public() {
         _pubkey=""
     fi
 
-    HOST_ALIAS=$(get_cn_name "$CUPS_PRIVATE_KEY")
+    HOST_ALIAS=$(get_cn_name "$_pubkey")
     CUPS_PUBLIC_KEY="$cups_ssl_path/$HOST_ALIAS.crt"
     CUPS_PRIVATE_KEY="$cups_ssl_path/$HOST_ALIAS.key"
 
