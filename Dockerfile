@@ -206,8 +206,8 @@ RUN apt-get remove -y   \
         libusb-1.0-0-dev \
         pkg-config \
         zlib1g-dev \
-    && apt-get autoremove \
-    && apt-get autoclean \
+    && apt-get autoremove -y \
+    && apt-get autoclean -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
