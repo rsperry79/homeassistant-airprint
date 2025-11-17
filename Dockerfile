@@ -9,7 +9,9 @@ ENV \
     PATH="/lib64:${PATH}" \
     CUPS_DEBUG_LOG=- \
     CUPS_DEBUG_LEVEL=0 \
-    CUPS_VER="2.4.14"
+    CUPS_VER="2.4.14" \
+    CUPS_FILTER_VER="2.0.1" \
+    PKG_CONFIG_PATH="/cups"
 
 # Optimize APT for faster, smaller builds
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
@@ -125,7 +127,15 @@ RUN apt-get update \
         printer-driver-foo2zjs \
         printer-driver-gutenprint \
         printer-driver-splix \
+        automake \
+        autopoint \
         autoconf \
+        gettext \
+        libtool\
+        libasprintf-dev \
+        libgettextpo-dev \
+        pkg-config \
+        gnulib-l10n \
         build-essential \
         epm \
         libavahi-client-dev \
@@ -138,8 +148,6 @@ RUN apt-get update \
         zlib1g-dev
 
 # files to copy in prod
-WORKDIR /build
-# the build src folder
 WORKDIR /cups
 
 # Get latest stable Cups
@@ -165,17 +173,23 @@ RUN ./configure \
             --with-system-groups=lpadmin \
             --enable-webif \
             --with-ipp-port=631 \
+            --with-pkgconfpath=${PKG_CONFIG_PATH} \
         && make clean \
         && make all \
         && make install
+
+# Get latest stable Cups Filteres
+ARG cups_filters_url="https://github.com/OpenPrinting/cups-filters/releases/download/${CUPS_FILTER_VER}/cups-filters-${CUPS_FILTER_VER}.tar.gz"
+RUN curl -fsSL "${cups_filters_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
+WORKDIR /cups/cups-filters-${CUPS_FILTER_VER}
+RUN ./configure --prefix=/
+
+
 
 # hadolint ignore=DL3008
 RUN apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" upgrade --fix-missing -y --no-install-recommends   \
     && apt-get install -y  --no-install-recommends \
         cups-backend-bjnp \
-        cups-filters \
-        cups-filters \
-        cups-filters-core-drivers \
         rasterview \
         cups-browsed \
         ipp-usb
@@ -195,7 +209,15 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
     # && useradd  lpadmin
 
 RUN apt-get remove -y   \
+        automake \
         autoconf \
+        autopoint \
+        gettext \
+        libtool\
+        pkg-config \
+        libasprintf-dev \
+        libgettextpo-dev \
+        gnulib-l10n \
         build-essential \
         epm \
         libavahi-client-dev \
