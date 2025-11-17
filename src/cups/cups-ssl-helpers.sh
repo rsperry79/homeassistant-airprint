@@ -9,8 +9,8 @@ source "/opt/cups/cups-config-helpers.sh"
 # shellcheck source="./cups-host-helpers.sh"
 source "/opt/cups/cups-host-helpers.sh"
 
-CUPS_PRIVATE_KEY="$cups_ssl_path/$HOST_ALIAS.key"
-CUPS_PUBLIC_KEY="$cups_ssl_path/$HOST_ALIAS.crt"
+CUPS_PRIVATE_KEY=
+CUPS_PUBLIC_KEY=
 
 function setup_ssl() {
     self_sign=${1}
