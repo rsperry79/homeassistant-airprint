@@ -148,6 +148,7 @@ RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction faile
 WORKDIR /cups/cups-${CUPS_VER}
 RUN ./configure \
             --prefix=/ \
+            --exec-prefix=/ \
             --sysconfdir=/config \
             --runstatedir=/run \
             --with-components=all \
@@ -169,7 +170,7 @@ RUN ./configure \
         && make install
 
 # hadolint ignore=DL3008
-RUN apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" upgrade --fix-missing -y --no-install-recommends \
+RUN apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" upgrade --fix-missing -y --no-install-recommends --force-depends \
     && apt-get install -y  --no-install-recommends \
         cups-backend-bjnp \
         cups-filters \
