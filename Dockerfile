@@ -127,6 +127,10 @@ RUN apt-get update \
         printer-driver-foo2zjs \
         printer-driver-gutenprint \
         printer-driver-splix \
+        cups-backend-bjnp \
+        rasterview \
+        cups-browsed \
+        ipp-usb \
         automake \
         autopoint \
         autoconf \
@@ -146,7 +150,6 @@ RUN apt-get update \
         libusb-1.0-0-dev \
         pkg-config \
         zlib1g-dev
-
 # files to copy in prod
 WORKDIR /cups
 
@@ -186,12 +189,9 @@ RUN ./configure --prefix=/
 
 # Install final packages
 # hadolint ignore=DL3008
-RUN apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" upgrade --fix-missing -y --no-install-recommends   \
-    && apt-get install -y  --no-install-recommends \
-        cups-backend-bjnp \
-        rasterview \
-        cups-browsed \
-        ipp-usb
+# RUN apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" upgrade --fix-missing -y --no-install-recommends   \
+#     && apt-get install -y  --no-install-recommends \
+
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
