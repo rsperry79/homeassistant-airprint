@@ -143,48 +143,46 @@ WORKDIR /build
 # the build src folder
 WORKDIR /cups
 
-# # Get latest stable Cups
-# ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER}/cups-${CUPS_VER}-source.tar.gz"
-# RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
-# WORKDIR /cups/cups-${CUPS_VER}
-# RUN ./configure \
-#             --sysconfdir=/config \
-#             --runstatedir=/run \
-#             --with-components=all \
-#             --enable-debug \
-#             --enable-debug-printfs \
-#             --enable-libpaper \
-#             --with-dbusdir=/etc/dbus-1/system.d \
-#             --with-dnssd=avahi  \
-#             --with-local-protocols=all \
-#             --with-tls=openssl \
-#             --with-logdir=stderr \
-#             --with-cups-user=lp  \
-#             --with-cups-group=lp \
-#             --with-system-groups=lpadmin \
-#             --enable-webif \
-#             --with-ipp-port=631 \
-#         && make clean \
-#         && make all \
-#         && make install
+# Get latest stable Cups
+ARG cups_url="https://github.com/OpenPrinting/cups/releases/download/v${CUPS_VER}/cups-${CUPS_VER}-source.tar.gz"
+RUN curl -fsSL "${cups_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
+WORKDIR /cups/cups-${CUPS_VER}
+RUN ./configure \
+            --sysconfdir=/config \
+            --runstatedir=/run \
+            --with-components=all \
+            --enable-debug \
+            --enable-debug-printfs \
+            --enable-libpaper \
+            --with-dbusdir=/etc/dbus-1/system.d \
+            --with-dnssd=avahi  \
+            --with-local-protocols=all \
+            --with-tls=openssl \
+            --with-logdir=stderr \
+            --with-cups-user=lp  \
+            --with-cups-group=lp \
+            --with-system-groups=lpadmin \
+            --enable-webif \
+            --with-ipp-port=631 \
+        && make clean \
+        && make all \
+        && make install
 
-# RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 # hadolint ignore=DL3008
 RUN apt-get update \
     && apt-get upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
         # CUPS printing packages
-        cups \
-        cups-backend-bjnp \
-        bluez-cups \
-        cups-filters \
-        cups-filters \
-        cups-filters-core-drivers \
-        cups-ppdc \
-        rasterview \
-        cups-browsed \
-        cups-daemon \
-        ipp-usb \
+        # cups-backend-bjnp \
+        # bluez-cups \
+        # cups-filters \
+        # cups-filters \
+        # cups-filters-core-drivers \
+        # cups-ppdc \
+        # rasterview \
+        # cups-browsed \
+        # cups-daemon \
+        # ipp-usb \
         # Printer Drivers
         foomatic-db \
         hp-ppd  \
@@ -209,8 +207,8 @@ COPY templates /usr/templates
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
 # Disable sudo password checking add root
-RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
-    # && useradd  lpadmin
+RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
+    && useradd  lpadmin
 
 RUN apt-get remove -y   \
         autoconf \
