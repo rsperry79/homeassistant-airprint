@@ -23,7 +23,7 @@ function run() {
     bashio::log info "Entered Entry.sh"
     self_sign
     update_cups_conf
-    #run_custom_script
+    run_custom_script
 }
 
 # The HA API is not available from S6

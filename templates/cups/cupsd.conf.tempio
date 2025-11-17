@@ -25,6 +25,7 @@ SSLProtocol all -SSLv2 -SSLv3
 
 # Show shared printers on the local network.
 Browsing Yes
+BrowseWebIF Yes
 BrowseLocalProtocols all
 
 # Default authentication type, when authentication is required...

@@ -7,10 +7,6 @@ configuration:
         name: IPV6 Support
         description: >-
           Do you want to enable IPV6?
-      interfaces:
-        name: Network interfaces
-        description: >-
-          Network interfaces to listen on.
       packages:
         name: Additional packages
         description: >-
