@@ -182,6 +182,7 @@ RUN apt-get update \
         cups-ppdc \
         rasterview \
         cups-browsed \
+        cups-daemon \
         ipp-usb \
         # Printer Drivers
         foomatic-db \
