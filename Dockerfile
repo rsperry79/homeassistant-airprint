@@ -129,8 +129,7 @@ RUN apt-get update \
         printer-driver-escpr \
         printer-driver-foo2zjs \
         printer-driver-gutenprint \
-        printer-driver-splix
-
+        printer-driver-splix \
     && rm -rf /var/lib/apt/lists/*
 
 # hadolint ignore=DL3008
