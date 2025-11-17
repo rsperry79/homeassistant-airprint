@@ -39,7 +39,6 @@ function add_sans() {
 
     sans=$(openssl x509 -noout -text -in "$cert" | grep DNS: | tail -n1 | sed 's/DNS://g; s/, / /g')
     trimmed="${sans#"${sans%%[![:space:]]*}"}"
-
     set -f
     IFS=' ' read -r -a names <<<"$trimmed"
     set +f
@@ -47,7 +46,6 @@ function add_sans() {
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
         bashio::log.info "add_sans checking: $to_check"
-
         append_host_alias "$to_check"
         add_host_name_to_hosts "$to_check"
     done
@@ -63,12 +61,9 @@ function append_host_alias() {
 
 function append_existing_host_alias() {
     local to_add=${1}
-    bashio::log.info "append_existing_host_alias $to_add"
 
     current=$(grep "ServerAlias" "$real_cups_path/$cups_daemon")
-    bashio::log.info "append_existing_host_alias current: $current"
     if ! echo "$current" | grep "$to_add"; then
-        bashio::log.info append_existing_host_alias
         sed -i "s/^.*ServerAlias .*/$current $to_add/" "$real_cups_path/$cups_daemon"
     fi
 }

@@ -1,13 +1,9 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base/amd64:8.1.4
 
-#######################
-##      BUILD       ###
-#######################
-
 FROM $BUILD_FROM AS builder
-# hadolint ignore=DL3006
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 ENV \
     DEBIAN_FRONTEND="noninteractive" \
     PATH="/lib64:${PATH}" \
@@ -22,7 +18,7 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
 # Update package list and upgrade existing packages
-# hadolint ignore=DL3008
+# hadolint ignore=DL3008, DL3009
 RUN apt-get update \
     && apt-get upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
@@ -130,12 +126,6 @@ RUN apt-get update \
         printer-driver-foo2zjs \
         printer-driver-gutenprint \
         printer-driver-splix \
-    && rm -rf /var/lib/apt/lists/*
-
-# hadolint ignore=DL3008
-RUN apt-get update \
-    &&  apt-get  upgrade --fix-missing -y --no-install-recommends \
-    && apt-get install -y  --no-install-recommends \
         autoconf \
         build-essential \
         epm \
@@ -178,22 +168,17 @@ RUN ./configure \
         && make all \
         && make install
 
-# # hadolint ignore=DL3008
-# RUN apt-get update \
-#     && apt-get upgrade --fix-missing -y --no-install-recommends \
-#     && apt-get install -y  --no-install-recommends \
-#         # CUPS printing packages
-#         # cups-backend-bjnp \
-        # bluez-cups \
-        # cups-filters \
-        # cups-filters \
-        # cups-filters-core-drivers \
-        # cups-ppdc \
-        # rasterview \
-        # cups-browsed \
-        # cups-daemon \
-        # ipp-usb \
-        # Printer Drivers
+# hadolint ignore=DL3008
+RUN apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" upgrade --fix-missing -y --no-install-recommends \
+    && apt-get install -y  --no-install-recommends \
+        cups-backend-bjnp \
+        cups-filters \
+        cups-filters \
+        cups-filters-core-drivers \
+        cups-ppdc \
+        rasterview \
+        cups-browsed \
+        ipp-usb
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
@@ -203,11 +188,10 @@ COPY system-files /
 COPY src /opt
 # The config templates
 COPY templates /usr/templates
-# Enable scripts to run
-RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run
 
-# Disable sudo password checking add root
-RUN sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
+# Enable scripts to run & Disable sudo password checking add root
+RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
+    && sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
     # && useradd  lpadmin
 
 RUN apt-get remove -y   \
@@ -221,7 +205,11 @@ RUN apt-get remove -y   \
         libsystemd-dev \
         libusb-1.0-0-dev \
         pkg-config \
-        zlib1g-dev
+        zlib1g-dev \
+    && apt-get autoremove \
+    && apt-get autoclean \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
