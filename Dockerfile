@@ -178,12 +178,12 @@ RUN ./configure \
         && make all \
         && make install
 
-# hadolint ignore=DL3008
-RUN apt-get update \
-    && apt-get upgrade --fix-missing -y --no-install-recommends \
-    && apt-get install -y  --no-install-recommends \
-        # CUPS printing packages
-        # cups-backend-bjnp \
+# # hadolint ignore=DL3008
+# RUN apt-get update \
+#     && apt-get upgrade --fix-missing -y --no-install-recommends \
+#     && apt-get install -y  --no-install-recommends \
+#         # CUPS printing packages
+#         # cups-backend-bjnp \
         # bluez-cups \
         # cups-filters \
         # cups-filters \
