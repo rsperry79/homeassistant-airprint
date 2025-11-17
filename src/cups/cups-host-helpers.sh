@@ -9,7 +9,8 @@ source "/opt/cups/cups-config-helpers.sh"
 
 function update_hosts() {
     local pubkey="${1}"
-
+    HOST_ALIAS=$(get_cn_name "$pubkey")
+    add_sans "$pubkey"
 }
 
 function get_cn_name() {
