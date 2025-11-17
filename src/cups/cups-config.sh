@@ -130,7 +130,7 @@ function update_browsed() {
 function update_daemon() {
     update_log_level "$cups_log_level"
     update_server_alias "$HOST_ALIAS"
-    update_server_name "$host_name"
+    update_server_name "$HOSTNAME"
 }
 
 function autoconf_files() {
