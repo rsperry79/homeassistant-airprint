@@ -6,13 +6,13 @@ source "/opt/common/paths.sh"
 
 function update_private_key() {
     local private_key=${1}
-    #  sed -i "s#^.*ServerKey .*#ServerKey ${private_key}#" "$real_cups_path/$cups_files"
+    sed -i "s#^.*ServerKey .*#ServerKey ${private_key}#" "$real_cups_path/$cups_files"
     true
 }
 
 function update_public_key() {
     local public_key=${1}
-    # sed -i "s#^.*ServerCertificate .*#ServerCertificate ${public_key}#" "$real_cups_path/$cups_files"
+    sed -i "s#^.*ServerCertificate .*#ServerCertificate ${public_key}#" "$real_cups_path/$cups_files"
     true
 }
 
