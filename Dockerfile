@@ -21,34 +21,6 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
     && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
-
-#         &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build
-
-
-# #######################
-##      PROD        ###
-#######################
-# FROM $BUILD_FROM AS prod
-# # hadolint ignore=DL3006
-
-# SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-# ENV \
-#     DEBIAN_FRONTEND="noninteractive" \
-#     PATH="/lib64:${PATH}" \
-#     CUPS_DEBUG_LOG=- \
-#     CUPS_DEBUG_LEVEL=0 \
-#     CUPS_VER="2.4.14"
-
-# Copy and install build files
-# workdir name is to distinguish from the packages folder used to install user-runtime packages/configs
-# WORKDIR /installers
-# COPY --from=builder /build /installers
-
-RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
-    && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recommends \
-    && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
-    && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
-
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008
 RUN apt-get update \
@@ -148,19 +120,9 @@ RUN apt-get update \
         gpg-wks-client \
         fonts-droid-fallback \
         libpaper-utils\
-        # cups-filters \
-        # cups-filters-core-drivers \
-        # cups-daemon \
-        # cups-ipp-utils \
-        # cups-core-drivers \
-        # cups-client \
-        # cups-common \
-        # cups-ppdc \
-        # cups-server-common \
-        # cups \
     && rm -rf /var/lib/apt/lists/*
 
-# hadolint ignore=DL3008, DL3009
+# hadolint ignore=DL3008
 RUN apt-get update \
     &&  apt-get  upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
@@ -207,28 +169,31 @@ RUN ./configure \
         && make install
 
 # RUN find /installers -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
-
-        # cups-browsed \
-        # ipp-usb \
-
-        # # Printer Drivers
-        # foomatic-db
-        # hp-ppd  \
-        # openprinting-ppds \
-        # printer-driver-hpcups \
-        # printer-driver-all \
-        # printer-driver-brlaser \
-        # printer-driver-escpr \
-        # printer-driver-foo2zjs \
-        # printer-driver-gutenprint \
-        # printer-driver-splix \
-        # # CUPS printing packages
-        # cups-backend-bjnp \
-        # bluez-cups \
-        # cups-filters \
-
-
-        # rasterview \
+# hadolint ignore=DL3008
+RUN apt-get update \
+    && apt-get upgrade --fix-missing -y --no-install-recommends \
+    && apt-get install -y  --no-install-recommends \
+        # CUPS printing packages
+        cups-backend-bjnp \
+        bluez-cups \
+        cups-filters \
+        cups-filters \
+        cups-filters-core-drivers \
+        cups-ppdc \
+        rasterview \
+        cups-browsed \
+        ipp-usb \
+        # Printer Drivers
+        foomatic-db \
+        hp-ppd  \
+        openprinting-ppds \
+        printer-driver-hpcups \
+        printer-driver-all \
+        printer-driver-brlaser \
+        printer-driver-escpr \
+        printer-driver-foo2zjs \
+        printer-driver-gutenprint \
+        printer-driver-splix
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
