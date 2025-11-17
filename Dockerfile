@@ -170,13 +170,12 @@ RUN ./configure \
         && make install
 
 # hadolint ignore=DL3008
-RUN apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" upgrade --fix-missing -y --no-install-recommends --force-depends \
+RUN apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" upgrade --fix-missing -y --no-install-recommends   \
     && apt-get install -y  --no-install-recommends \
         cups-backend-bjnp \
         cups-filters \
         cups-filters \
         cups-filters-core-drivers \
-        cups-ppdc \
         rasterview \
         cups-browsed \
         ipp-usb

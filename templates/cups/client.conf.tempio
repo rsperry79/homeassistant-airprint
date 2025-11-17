@@ -2,7 +2,7 @@
 # FILE IS PARTIALLY OVERWRITTEN AT Startup
 ###########################################
 
-ServerName *:631
+ServerName localhost:631
 AllowAnyRoot Yes
 AllowExpiredCerts Yes
 Encryption {{.cups_encryption}}
@@ -10,4 +10,4 @@ SSLOptions AllowRC4 AllowSSL3
 TrustOnFirstUse Yes
 ValidateCerts No
 DigestOptions None
-UserAgentTokens None
+UserAgentTokens Minimal
