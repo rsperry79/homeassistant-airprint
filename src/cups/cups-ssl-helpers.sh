@@ -47,7 +47,7 @@ function setup_ssl_private() {
         bashio::log.notice "SSL Private key does not exist at given path"
     else
 
-        convert_private_key "$_privkey" "$output_file"
+        convert_private_key "$_privkey" "$CUPS_PRIVATE_KEY"
         # cp "$_privkey" "$CUPS_PRIVATE_KEY"
     fi
 }
