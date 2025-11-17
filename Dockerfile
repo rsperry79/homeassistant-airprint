@@ -120,6 +120,17 @@ RUN apt-get update \
         gpg-wks-client \
         fonts-droid-fallback \
         libpaper-utils\
+        foomatic-db \
+        hp-ppd  \
+        openprinting-ppds \
+        printer-driver-hpcups \
+        printer-driver-all \
+        printer-driver-brlaser \
+        printer-driver-escpr \
+        printer-driver-foo2zjs \
+        printer-driver-gutenprint \
+        printer-driver-splix
+
     && rm -rf /var/lib/apt/lists/*
 
 # hadolint ignore=DL3008
@@ -184,16 +195,6 @@ RUN apt-get update \
         # cups-daemon \
         # ipp-usb \
         # Printer Drivers
-        foomatic-db \
-        hp-ppd  \
-        openprinting-ppds \
-        printer-driver-hpcups \
-        printer-driver-all \
-        printer-driver-brlaser \
-        printer-driver-escpr \
-        printer-driver-foo2zjs \
-        printer-driver-gutenprint \
-        printer-driver-splix
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
