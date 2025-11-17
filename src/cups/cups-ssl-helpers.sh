@@ -23,6 +23,9 @@ function setup_ssl() {
         bashio::log.info "Self sign is off"
         rm -f "$cups_ssl_path/*"
 
+        HOST_ALIAS=$(get_cn_name "$CUPS_PRIVATE_KEY")
+        add_sans "$CUPS_PRIVATE_KEY"
+
         setup_ssl_private "$CUPS_PRIVATE_KEY"
         setup_ssl_public "$CUPS_PUBLIC_KEY"
     fi

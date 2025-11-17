@@ -10,13 +10,16 @@ source "/opt/cups/cups-config-helpers.sh"
 function update_hosts() {
     local pubkey="${1}"
 
+}
+
+function get_cn_name() {
+    local pubkey="${1}"
     cn=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
     bashio::log.info "CN $cn"
 
     trimmed_cn="${cn#"${cn%%[![:space:]]*}"}"
     add_host_name_to_hosts "$trimmed_cn"
-    HOST_ALIAS="$trimmed_cn"
-    add_sans "$pubkey"
+    echo "$trimmed_cn"
 }
 
 function add_host_name_to_hosts() {
