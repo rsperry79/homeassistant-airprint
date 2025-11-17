@@ -16,7 +16,6 @@ function update_hosts() {
 function get_cn_name() {
     local pubkey="${1}"
     cn=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
-    bashio::log.info "CN $cn"
 
     trimmed_cn="${cn#"${cn%%[![:space:]]*}"}"
     add_host_name_to_hosts "$trimmed_cn"
@@ -45,7 +44,6 @@ function add_sans() {
 
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
-        bashio::log.info "add_sans checking: $to_check"
         append_host_alias "$to_check"
         add_host_name_to_hosts "$to_check"
     done
