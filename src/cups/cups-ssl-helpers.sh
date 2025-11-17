@@ -10,13 +10,13 @@ source "/opt/cups/cups-config-helpers.sh"
 source "/opt/cups/cups-host-helpers.sh"
 
 function setup_ssl() {
-    host_name=${1}
-    self_sign=${2}
-
-    CUPS_PRIVATE_KEY="$cups_ssl_path/$host_name.key"
-    CUPS_PUBLIC_KEY="$cups_ssl_path/$host_name.crt"
+    self_sign=${1}
 
     if [ "$self_sign" == true ]; then
+
+        CUPS_PRIVATE_KEY="$cups_ssl_path/$HOSTNAME.key"
+        CUPS_PUBLIC_KEY="$cups_ssl_path/$HOSTNAME.crt"
+
         bashio::log.info "Self sign is on"
         HOST_ALIAS="*"
     else
