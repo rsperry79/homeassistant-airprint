@@ -9,6 +9,9 @@ source "/opt/cups/cups-config-helpers.sh"
 # shellcheck source="./cups-host-helpers.sh"
 source "/opt/cups/cups-host-helpers.sh"
 
+CUPS_PRIVATE_KEY="$cups_ssl_path/$HOST_ALIAS.key"
+CUPS_PUBLIC_KEY="$cups_ssl_path/$HOST_ALIAS.crt"
+
 function setup_ssl() {
     self_sign=${1}
 
@@ -22,11 +25,6 @@ function setup_ssl() {
     else
         bashio::log.info "Self sign is off"
         rm -f "$cups_ssl_path/*"
-
-        HOST_ALIAS=$(get_cn_name "$CUPS_PRIVATE_KEY")
-
-        CUPS_PRIVATE_KEY="$cups_ssl_path/$HOST_ALIAS.key"
-        CUPS_PUBLIC_KEY="$cups_ssl_path/$HOST_ALIAS.crt"
 
         setup_ssl_private "$CUPS_PRIVATE_KEY"
         setup_ssl_public "$CUPS_PUBLIC_KEY"
@@ -68,6 +66,8 @@ function setup_ssl_public() {
     else
         _pubkey=""
     fi
+
+    HOST_ALIAS=$(get_cn_name "$CUPS_PRIVATE_KEY")
 
     if [ ! -e "$_pubkey" ]; then
         bashio::log.notice "SSL Public key does not exist at given path"
