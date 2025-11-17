@@ -118,7 +118,6 @@ RUN apt-get update \
         libpaper-utils\
         foomatic-db \
         hp-ppd  \
-        openprinting-ppds \
         printer-driver-hpcups \
         printer-driver-all \
         printer-driver-brlaser \
