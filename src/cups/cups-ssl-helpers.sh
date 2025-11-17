@@ -9,9 +9,6 @@ source "/opt/cups/cups-config-helpers.sh"
 # shellcheck source="./cups-host-helpers.sh"
 source "/opt/cups/cups-host-helpers.sh"
 
-CUPS_PRIVATE_KEY=
-CUPS_PUBLIC_KEY=
-
 function setup_ssl() {
     self_sign=${1}
 
@@ -25,9 +22,9 @@ function setup_ssl() {
     else
         bashio::log.info "Self sign is off"
         rm -f "$cups_ssl_path/*"
+        setup_ssl_public
+        setup_ssl_private
 
-        setup_ssl_private "$CUPS_PRIVATE_KEY"
-        setup_ssl_public "$CUPS_PUBLIC_KEY"
     fi
 
     export cups_public_key
@@ -35,7 +32,7 @@ function setup_ssl() {
 }
 
 function setup_ssl_private() {
-    local output_file=${1}
+
     local _privkey
 
     if bashio::config.has_value 'cups_ssl_key'; then
@@ -56,7 +53,7 @@ function setup_ssl_private() {
 }
 
 function setup_ssl_public() {
-    local output_file=${1}
+
     local _pubkey
 
     if bashio::config.has_value 'cups_ssl_cert'; then
@@ -68,6 +65,8 @@ function setup_ssl_public() {
     fi
 
     HOST_ALIAS=$(get_cn_name "$CUPS_PRIVATE_KEY")
+    CUPS_PUBLIC_KEY="$cups_ssl_path/$HOST_ALIAS.crt"
+    CUPS_PRIVATE_KEY="$cups_ssl_path/$HOST_ALIAS.key"
 
     if [ ! -e "$_pubkey" ]; then
         bashio::log.notice "SSL Public key does not exist at given path"
@@ -75,7 +74,7 @@ function setup_ssl_public() {
         update_hosts "$_pubkey"
 
         #cp "$_pubkey" "$CUPS_PUBLIC_KEY"
-        convert_public_key "$_pubkey" "$output_file"
+        convert_public_key "$_pubkey" "$CUPS_PUBLIC_KEY"
     fi
 }
 
@@ -83,13 +82,13 @@ function convert_private_key() {
     local to_convert=${1}
     local output_file=${2}
 
-    rm -f "$output_file"
-    msg=$(openssl rsa -in "$to_convert" -out "$output_file")
+    rm -f "$CUPS_PRIVATE_KEY"
+    msg=$(openssl rsa -in "$to_convert" -out "$CUPS_PRIVATE_KEY")
     # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
-        chown "$svc_acct":"$svc_group" "$output_file"
-        chmod "$svc_file_perms" "$output_file"
-        bashio::log.debug "SSL Private Key exists. $output_file"
+        chown "$svc_acct":"$svc_group" "$CUPS_PRIVATE_KEY"
+        chmod "$svc_file_perms" "$CUPS_PRIVATE_KEY"
+        bashio::log.debug "SSL Private Key exists. $CUPS_PRIVATE_KEY"
     else
         bashio::log.error "Private key is not valid. $msg"
     fi
