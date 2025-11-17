@@ -173,7 +173,7 @@ RUN ./configure \
             --with-system-groups=lpadmin \
             --enable-webif \
             --with-ipp-port=631 \
-            --with-pkgconfpath=${PKG_CONFIG_PATH} \
+            --with-pkgconfpath="$PKG_CONFIG_PATH" \
         && make clean \
         && make all \
         && make install
@@ -184,8 +184,7 @@ RUN curl -fsSL "${cups_filters_url}" | tar xzf - || { echo "Download or extracti
 WORKDIR /cups/cups-filters-${CUPS_FILTER_VER}
 RUN ./configure --prefix=/
 
-
-
+# Install final packages
 # hadolint ignore=DL3008
 RUN apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" upgrade --fix-missing -y --no-install-recommends   \
     && apt-get install -y  --no-install-recommends \
