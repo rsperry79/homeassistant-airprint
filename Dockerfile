@@ -178,9 +178,9 @@ RUN ./configure \
         && make deb \
         &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build
 
-RUN find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} + \
-&& find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} + \
-&& find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
+# RUN find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} + \
+# && find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} + \
+# && find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
 ## Get latest stable cups-browsed
 # ARG cups_browsed_url="https://github.com/OpenPrinting/cups-browsed/releases/download/${CUPS_BROWSED_VER}/cups-browsed-${CUPS_BROWSED_VER}.tar.gz"
@@ -231,6 +231,6 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
-CMD ["/opt/entry.sh"]
-#CMD ["tail", "-f", "/dev/null"]
+#CMD ["/opt/entry.sh"]
+CMD ["tail", "-f", "/dev/null"]
 
