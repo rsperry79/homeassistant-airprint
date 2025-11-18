@@ -126,7 +126,7 @@ RUN apt-get update \
        # cups-backend-bjnp \
         rasterview \
       #  cups-browsed \
-        ipp-usb \
+       # ipp-usb \
         automake \
         autopoint \
         autoconf \
@@ -187,8 +187,6 @@ ARG cups_browsed_url="https://github.com/OpenPrinting/cups-browsed/releases/down
 RUN curl -fsSL "${cups_browsed_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
 WORKDIR /cups/cups-browsed-${CUPS_BROWSED_VER}
 RUN ./autogen.sh && ./configure && make && make install
-
-
 
 
 # Copy services code
