@@ -184,7 +184,7 @@ WORKDIR /cups
 ARG cups_filters_url="https://github.com/OpenPrinting/cups-filters/releases/download/${CUPS_FILTER_VER}/cups-filters-${CUPS_FILTER_VER}.tar.gz"
 RUN curl -fsSL "${cups_filters_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
 WORKDIR /cups/cups-filters-${CUPS_FILTER_VER}
-RUN ./configure --prefix=/
+RUN ./autogen.sh
 
 # Install final packages
 # hadolint ignore=DL3008
