@@ -39,7 +39,6 @@ function install_config_packages() {
 }
 
 function upgrade() {
-    # TODO add if autoupdate
     if [ "$(bashio::addon.auto_update)" == "true" ]; then
         bashio::log.info "Running apt upgrade"
         apt update ||
@@ -48,6 +47,5 @@ function upgrade() {
             bashio::exit.nok "Failed to upgrade apt packages"
     fi
 }
-
 
 run
