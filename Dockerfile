@@ -24,6 +24,7 @@ RUN apt-get update \
     && apt-get upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
         htop \
+        aptitude \
         sudo \
         locales \
         bash-completion \
@@ -178,15 +179,19 @@ RUN ./configure \
         && make deb \
         &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build
 
-RUN find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
-# && find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} + \
-# && find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
+RUN find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} + \
+    && find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} + \
+    && find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} +
 
-## Get latest stable cups-browsed
+
+# ## Get latest stable cups-browsed
 # ARG cups_browsed_url="https://github.com/OpenPrinting/cups-browsed/releases/download/${CUPS_BROWSED_VER}/cups-browsed-${CUPS_BROWSED_VER}.tar.gz"
 # RUN curl -fsSL "${cups_browsed_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
 # WORKDIR /cups/cups-browsed-${CUPS_BROWSED_VER}
-# RUN ./autogen.sh && ./configure && make && make install
+# RUN apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install libcupsfilters2 \
+#     && echo "deb http://ftp.de.debian.org/debian bookworm main" > /etc/apt/sources.list \
+#     && apt-get install -fix-missing -y --no-install-recommends libppd-dev \
+#     && ./autogen.sh && ./configure && make && make install
 
 
 # Copy services code
@@ -231,6 +236,6 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
-#CMD ["/opt/entry.sh"]
-CMD ["tail", "-f", "/dev/null"]
+CMD ["/opt/entry.sh"]
+#CMD ["tail", "-f", "/dev/null"]
 
