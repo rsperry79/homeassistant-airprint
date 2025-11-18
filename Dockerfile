@@ -176,17 +176,17 @@ RUN ./configure \
         && make clean \
         && make all \
         && make deb \
-        && make install \
         &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build
 
-RUN find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
+RUN find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} + \
+&& find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} + \
+&& find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
-
-# Get latest stable cups-browsed
-# ARG cups_browsed_url="https://github.com/OpenPrinting/cups-browsed/releases/download/${CUPS_BROWSED_VER}/cups-browsed-${CUPS_BROWSED_VER}.tar.gz"
-# RUN curl -fsSL "${cups_browsed_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
-# WORKDIR /cups/cups-browsed-${CUPS_BROWSED_VER}
-# RUN ./autogen.sh && ./configure && make && make install
+## Get latest stable cups-browsed
+ARG cups_browsed_url="https://github.com/OpenPrinting/cups-browsed/releases/download/${CUPS_BROWSED_VER}/cups-browsed-${CUPS_BROWSED_VER}.tar.gz"
+RUN curl -fsSL "${cups_browsed_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
+WORKDIR /cups/cups-browsed-${CUPS_BROWSED_VER}
+RUN ./autogen.sh && ./configure && make && make install
 
 
 
@@ -202,34 +202,34 @@ COPY templates /usr/templates
 
 # Enable scripts to run & Disable sudo password checking add root
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
-    && sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
-    # && useradd  lpadmin -g lpadmin
+    && sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
+    && useradd  lpadmin
 
-RUN apt-get remove -y   \
-        automake \
-        autoconf \
-        autopoint \
-        clang \
-        gettext \
-        libtool\
-        pkg-config \
-        libasprintf-dev \
-        libgettextpo-dev \
-        gnulib-l10n \
-        build-essential \
-        epm \
-        libavahi-client-dev \
-        libkrb5-dev \
-        libpam-dev \
-        libssl-dev \
-        libsystemd-dev \
-        libusb-1.0-0-dev \
-        pkg-config \
-        zlib1g-dev \
-    && apt-get autoremove -y \
-    && apt-get autoclean -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# RUN apt-get remove -y   \
+#         automake \
+#         autoconf \
+#         autopoint \
+#         clang \
+#         gettext \
+#         libtool\
+#         pkg-config \
+#         libasprintf-dev \
+#         libgettextpo-dev \
+#         gnulib-l10n \
+#         build-essential \
+#         epm \
+#         libavahi-client-dev \
+#         libkrb5-dev \
+#         libpam-dev \
+#         libssl-dev \
+#         libsystemd-dev \
+#         libusb-1.0-0-dev \
+#         pkg-config \
+#         zlib1g-dev \
+#     && apt-get autoremove -y \
+#     && apt-get autoclean -y \
+#     && apt-get clean \
+#     && rm -rf /var/lib/apt/lists/*
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
