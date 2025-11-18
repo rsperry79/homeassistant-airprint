@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ENV \
     DEBIAN_FRONTEND="noninteractive" \
-    PATH="/lib64:${PATH}" \
+    PATH="/lib64:/usr/lib64:${PATH}" \
     CUPS_DEBUG_LOG=- \
     CUPS_DEBUG_LEVEL=0 \
     CUPS_VER="2.4.14" \
@@ -134,6 +134,7 @@ RUN apt-get update \
         automake \
         autopoint \
         autoconf \
+        clang \
         gettext \
         libtool\
         libasprintf-dev \
@@ -177,6 +178,7 @@ RUN ./configure \
             --with-pkgconfpath="$PKG_CONFIG_PATH" \
         && make clean \
         && make all \
+        && make deb \
         && make install
 
 # Get latest stable Cups Filteres
@@ -210,6 +212,7 @@ RUN apt-get remove -y   \
         automake \
         autoconf \
         autopoint \
+        clang \
         gettext \
         libtool\
         pkg-config \
