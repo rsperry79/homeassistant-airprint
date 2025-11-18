@@ -183,10 +183,10 @@ RUN find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c '
 && find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
 ## Get latest stable cups-browsed
-ARG cups_browsed_url="https://github.com/OpenPrinting/cups-browsed/releases/download/${CUPS_BROWSED_VER}/cups-browsed-${CUPS_BROWSED_VER}.tar.gz"
-RUN curl -fsSL "${cups_browsed_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
-WORKDIR /cups/cups-browsed-${CUPS_BROWSED_VER}
-RUN ./autogen.sh && ./configure && make && make install
+# ARG cups_browsed_url="https://github.com/OpenPrinting/cups-browsed/releases/download/${CUPS_BROWSED_VER}/cups-browsed-${CUPS_BROWSED_VER}.tar.gz"
+# RUN curl -fsSL "${cups_browsed_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
+# WORKDIR /cups/cups-browsed-${CUPS_BROWSED_VER}
+# RUN ./autogen.sh && ./configure && make && make install
 
 
 # Copy services code
