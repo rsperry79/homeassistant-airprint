@@ -9,7 +9,8 @@ ENV \
     PATH="/lib64:/usr/lib64:${PATH}" \
     CUPS_DEBUG_LOG=- \
     CUPS_DEBUG_LEVEL=0 \
-    CUPS_VER="2.4.14"
+    CUPS_VER="2.4.14"\
+    CUPS_BROWSED_VER="2.1.1"
 
 # Optimize APT for faster, smaller builds
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
@@ -180,17 +181,14 @@ RUN ./configure \
 
 RUN find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "${pkg}"; done' _ {} +
 
-# Get latest stable Cups Filteres
-# WORKDIR /cups
-# ARG cups_filters_url="https://github.com/OpenPrinting/cups-filters/releases/download/${CUPS_FILTER_VER}/cups-filters-${CUPS_FILTER_VER}.tar.gz"
-# RUN curl -fsSL "${cups_filters_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
-# WORKDIR /cups/cups-filters-${CUPS_FILTER_VER}
-# RUN ./autogen.sh
 
-# Install final packages
-# hadolint ignore=DL3008
-# RUN apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" upgrade --fix-missing -y --no-install-recommends   \
-#     && apt-get install -y  --no-install-recommends \
+# Get latest stable cups-browsed
+ARG cups_browsed_url="https://github.com/OpenPrinting/cups-browsed/releases/download/${CUPS_BROWSED_VER}/cups-browsed-${CUPS_BROWSED_VER}.tar.gz"
+RUN curl -fsSL "${cups_browsed_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
+WORKDIR /cups/cups-browsed-${CUPS_BROWSED_VER}
+RUN ./autogen.sh && ./configure && make && make install
+
+
 
 
 # Copy services code
@@ -204,8 +202,8 @@ COPY templates /usr/templates
 
 # Enable scripts to run & Disable sudo password checking add root
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
-    && sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
-    && useradd  lpadmin -g lpadmin
+    && sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers
+    # && useradd  lpadmin -g lpadmin
 
 RUN apt-get remove -y   \
         automake \
