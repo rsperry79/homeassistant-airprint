@@ -237,8 +237,6 @@ RUN apt-get update \
         libxext6 \
         ssl-cert \
         fonts-dejavu-core \
-       # libcupsfilters2 \
-        # libfontembed2 \
         libgs-common \
         libijs-0.35 \
         liblerc4 \
@@ -295,13 +293,6 @@ RUN apt-get update \
         gpg-wks-client \
         fonts-droid-fallback \
         libpaper-utils\
-        # foomatic-db \
-        # hp-ppd  \
-        # printer-driver-all \
-        # printer-driver-brlaser \
-        # printer-driver-escpr \
-        # printer-driver-foo2zjs \
-        # cups-backend-bjnp \
         rasterview
         # cups-browsed \
         # ipp-usb
