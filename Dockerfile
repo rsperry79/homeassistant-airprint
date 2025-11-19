@@ -182,6 +182,8 @@ RUN find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c '
     && find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install --no-install-recommends $pkg ; done' _ {} +
    # && find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install --no-install-recommends $pkg ; done' _ {} +
 
+RUN find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install --no-install-recommends $pkg ; done' _ {} +
+
 
 # ## Get latest stable cups-browsed
 # ARG cups_browsed_url="https://github.com/OpenPrinting/cups-browsed/releases/download/${CUPS_BROWSED_VER}/cups-browsed-${CUPS_BROWSED_VER}.tar.gz"
