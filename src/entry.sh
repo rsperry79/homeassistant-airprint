@@ -36,7 +36,7 @@ function check_install() {
         find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install --no-install-recommends $pkg ; done' _ {} + &&
             find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install --no-install-recommends $pkg ; done' _ {} +
 
-        apt-get update && apt-get install --no-recommends -y \
+        apt-get update && apt-get install --no-install-recommends -y \
             libcupsfilters2
     fi
 }
