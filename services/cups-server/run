@@ -37,7 +37,8 @@ function run() {
 
 function install_pkg() {
     pkg=${1}
-    apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install --no-install-recommends "$pkg"
+    dpkg -i "$pkg"
+    #apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install --no-install-recommends "$pkg"
 
 }
 
