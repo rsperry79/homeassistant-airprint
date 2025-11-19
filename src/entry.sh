@@ -21,9 +21,24 @@ ulimit -n 1048576
 
 function run() {
     bashio::log info "Entered Entry.sh"
+    check_install
     self_sign
     update_cups_conf
     run_custom_script
+}
+
+function check_install() {
+
+    if command -v cupsd &>/dev/null; then
+        bashio::log.debug "Cupsd is installed"
+    else
+
+        find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install --no-install-recommends $pkg ; done' _ {} + &&
+            find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install --no-install-recommends $pkg ; done' _ {} +
+
+        apt-get update && apt-get install --no-recommends -y \
+            libcupsfilters2
+    fi
 }
 
 # The HA API is not available from S6

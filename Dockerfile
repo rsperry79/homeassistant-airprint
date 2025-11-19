@@ -178,24 +178,139 @@ RUN ./configure \
         && make deb \
         &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build
 
-RUN echo "disable *" > /usr/lib/systemd/system-preset/99-default.preset \
-    && find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install --no-install-recommends $pkg ; done' _ {} + \
-    && find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -y -o Dpkg::Options::="--force-confdef" install --no-install-recommends $pkg ; done' _ {} +
-    #     && find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install --no-install-recommends $pkg ; done' _ {} +
+FROM $BUILD_FROM AS prod
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+ENV \
+    DEBIAN_FRONTEND="noninteractive" \
+    PATH="/lib64:/usr/lib64:${PATH}" \
+    CUPS_DEBUG_LOG=- \
+    CUPS_DEBUG_LEVEL=0 \
+    CUPS_VER="2.4.14"
+
+# Optimize APT for faster, smaller builds
+RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
+    && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recommends \
+    && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
+    && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
 
-# ## Get latest stable cups-browsed
-# ARG cups_browsed_url="https://github.com/OpenPrinting/cups-browsed/releases/download/${CUPS_BROWSED_VER}/cups-browsed-${CUPS_BROWSED_VER}.tar.gz"
-# RUN curl -fsSL "${cups_browsed_url}" | tar xzf - || { echo "Download or extraction failed"; exit 1; }
-# WORKDIR /cups/cups-browsed-${CUPS_BROWSED_VER}
-# RUN apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install libcupsfilters2 \
-#     && echo "deb http://ftp.de.debian.org/debian bookworm main" > /etc/apt/sources.list \
-#     && apt-get install -fix-missing -y --no-install-recommends libppd-dev \
-#     && ./autogen.sh && ./configure && make && make install
+# Update package list and upgrade existing packages
+# hadolint ignore=DL3008, DL3009
+RUN apt-get update \
+    && apt-get upgrade --fix-missing -y --no-install-recommends \
+    && apt-get install -y  --no-install-recommends \
+        htop \
+        sudo \
+        locales \
+        bash-completion \
+        procps \
+        lsb-release \
+        nano \
+        gnupg2 \
+        inotify-tools \
+        openssl \
+        cron \
+        avahi-daemon \
+        avahi-utils \
+        dbus \
+        iproute2 \
+        libnss-mdns \
+        net-tools \
+        samba \
+        smbclient \
+        wget \
+        curl \
+        whois \
+        bc \
+        fontconfig-config \
+        libcairo2 \
+        libfontconfig1 \
+        libgpgmepp6t64 \
+        libidn12 \
+        liblcms2-2 \
+        libnss3 \
+        libpoppler-cpp2 \
+        libtiff6 \
+        libxau6 \
+        libxext6 \
+        ssl-cert \
+        fonts-dejavu-core \
+       # libcupsfilters2 \
+        libfontembed2 \
+        libgs-common \
+        libijs-0.35 \
+        liblerc4 \
+        libopenjp2-7 \
+        libpoppler147 \
+        libusb-1.0-0 \
+        libxcb-render0 \
+        libxrender1 \
+        x11-common \
+        fonts-dejavu-mono  \
+        libcurl3t64-gnutls  \
+        libfontenc1 \
+        libgs10 \
+        libjbig0 \
+        libngtcp2-16 \
+        libpaper2 \
+        libqpdf30 \
+        libwebp7 \
+        libxcb-shm0 \
+        libxt6t64 \
+        xfonts-encodings \
+        fonts-urw-base35 \
+        libdeflate0 \
+        libfreetype6 \
+        libgs10-common \
+        libjbig2dec0 \
+        libngtcp2-crypto-gnutls8  \
+        libpixman-1-0 \
+        libsharpyuv0 \
+        libx11-6 \
+        libxcb1 \
+        poppler-data \
+        poppler-utils \
+        xfonts-utils \
+        ghostscript \
+        libexif12 \
+        libgpgme11t64 \
+        libice6 \
+        libjpeg62-turbo\
+        libnspr4 \
+        libpng16-16t64 \
+        libsm6 \
+        libx11-data \
+        libxdmcp6 \
+        udev \
+        docx2txt \
+        colord \
+        fonts-freefont-otf \
+        fonts-texgyre \
+        liblcms2-utils \
+        antiword \
+        imagemagick \
+        fonts-freefont-ttf  \
+        gpg-wks-client \
+        fonts-droid-fallback \
+        libpaper-utils\
+        # foomatic-db \
+        # hp-ppd  \
+        # printer-driver-all \
+        # printer-driver-brlaser \
+        # printer-driver-escpr \
+        # printer-driver-foo2zjs \
+        # cups-backend-bjnp \
+        rasterview
+        # cups-browsed \
+        # ipp-usb
 
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
+
+COPY --from=builder /build /build
 # Misc configs
 COPY system-files /
 # the core scripts to run the server
@@ -236,5 +351,6 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
-#CMD ["/opt/entry.sh"]
-CMD ["tail", "-f", "/dev/null"]
+CMD ["/opt/entry.sh"]
+#CMD ["tail", "-f", "/dev/null"]
+#CMD ["tail", "-f", "/dev/null"]
