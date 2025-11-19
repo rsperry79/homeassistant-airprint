@@ -11,7 +11,7 @@ function check_install() {
         bashio::log.debug "Cupsd is installed"
     else
         bashio::log.debug "Installing Cups Libs"
-        find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "$pkg" ; done' _ {} +
+        find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "$pkg" ; done' _ {} +
 
         bashio::log.debug "Installing Cups"
         find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i "$pkg"; done' _ {} +
