@@ -17,7 +17,7 @@ function check_install() {
         find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i --force-confold --force-confdef "$pkg"; done' _ {} +
 
         bashio::log.debug "Installing lib cups filters"
-        apt-get update && apt-get install "libcupsfilters2"
+        apt-get update && apt-get install libcupsfilters2
     fi
 }
 
@@ -33,13 +33,6 @@ function run() {
                 cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
             fi
         done
-}
-
-function install_pkg() {
-    pkg=${1}
-    dpkg -i "$pkg"
-    #apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install --no-install-recommends "$pkg"
-
 }
 
 check_install
