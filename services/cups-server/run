@@ -7,7 +7,6 @@ source "/opt/common/paths.sh"
 ulimit -n 524288
 
 function check_install() {
-
     if command -v cupsd &>/dev/null; then
         bashio::log.debug "Cupsd is installed"
     else
@@ -21,7 +20,6 @@ function check_install() {
 }
 
 function run() {
-
     /usr/bin/inotifywait -m -e close_write,moved_to,create "$real_cups_path" |
         while read -r directory events filename; do
             if [ "$filename" = "$cups_daemon" ] || [ "$filename" = "$cups_files" ] || [ "$filename" = "$cups_client" ]; then
@@ -33,7 +31,6 @@ function run() {
                 cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
             fi
         done
-
 }
 
 check_install
