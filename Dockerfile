@@ -179,8 +179,8 @@ RUN ./configure \
         &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build
 
 RUN find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} + \
-    && find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} +
-    #&& find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} +
+    && find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} + \
+    && find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -y -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} +
 
 
 # ## Get latest stable cups-browsed
@@ -235,5 +235,5 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 
-#MD ["/opt/entry.sh"]
-CMD ["tail", "-f", "/dev/null"]
+CMD ["/opt/entry.sh"]
+#CMD ["tail", "-f", "/dev/null"]
