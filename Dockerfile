@@ -238,7 +238,7 @@ RUN apt-get update \
         ssl-cert \
         fonts-dejavu-core \
        # libcupsfilters2 \
-        libfontembed2 \
+        # libfontembed2 \
         libgs-common \
         libijs-0.35 \
         liblerc4 \
