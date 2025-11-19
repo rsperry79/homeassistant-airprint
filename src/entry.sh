@@ -41,7 +41,7 @@ function run_custom_script() {
 
     until [ -e /run/cups/cups.sock ]; do
         bashio::log.info "Waiting for cups daemon before installing custom script"
-        sleep 2s
+        sleep 10s
     done
 
     bashio "$packages_path/$install_script"
