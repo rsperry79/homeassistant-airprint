@@ -302,6 +302,11 @@ RUN apt-get update \
 COPY services /etc/s6-overlay/s6-rc.d
 
 COPY --from=builder /build /build
+
+COPY --from=builder /cups /cups
+WORKDIR /cups/cups-${CUPS_VER}
+
+
 # Misc configs
 COPY system-files /
 # the core scripts to run the server
