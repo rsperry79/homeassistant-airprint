@@ -76,7 +76,7 @@ function check_install() {
         bashio::log.debug "Installing lib cups filters"
         apt-get update && apt-get install \
             libcupsfilters2 \
-            libfontembed2 \
+            \
             foomatic-db \
             hp-ppd \
             printer-driver-all \
@@ -84,7 +84,7 @@ function check_install() {
             printer-driver-escpr \
             printer-driver-foo2zjs \
             cups-backend-bjnp \
-            -y --no-install-recommends
+            -y --no-install-recommends # libfontembed2 \
     fi
 }
 
