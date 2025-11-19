@@ -24,7 +24,6 @@ RUN apt-get update \
     && apt-get upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
         htop \
-        aptitude \
         sudo \
         locales \
         bash-completion \
@@ -180,8 +179,8 @@ RUN ./configure \
         &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build
 
 RUN find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} + \
-    && find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} + \
-    && find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} +
+    && find /build -type f -name "cups-devel-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} +
+    #&& find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do apt-get -o Dpkg::Options::="--force-confold" -o Dpkg::Options::="--force-confdef" install $pkg ; done' _ {} +
 
 
 # ## Get latest stable cups-browsed
