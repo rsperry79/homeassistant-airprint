@@ -312,6 +312,7 @@ COPY templates /usr/templates
 # Enable scripts to run & Disable sudo password checking add root
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
     && sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
+    && usermod -aG lpadmin root \
     && useradd  lpadmin
 
 # RUN apt-get remove -y   \
