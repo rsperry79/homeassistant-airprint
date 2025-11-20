@@ -5,7 +5,6 @@ source "/opt/common/paths.sh"
 
 function run() {
     ensure_package_paths
-    install_config_packages
     upgrade
 }
 
@@ -30,11 +29,13 @@ function install_config_packages() {
     if bashio::config.has_value 'packages'; then
         apt update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
-
+        to_inst=""
         for package in $(bashio::config 'packages'); do
-            apt-get install "$package" -y --no-install-recommends ||
-                bashio::exit.nok "Failed installing package ${package}"
+            to_inst+=" $package"
         done
+
+        apt-get install "$to_inst" -y ||
+            bashio::exit.nok "Failed installing package ${package}"
     fi
 }
 

@@ -12,6 +12,9 @@ source "/opt/common/network-common.sh"
 # shellcheck source="./common/ha-helpers.sh"
 source "/opt/common/ha-helpers.sh"
 
+# shellcheck source="./common/packages.sh"
+source "/opt/common/packages.sh"
+
 # shellcheck source="./cups/cups-ssl-helpers.sh"
 source "/opt/cups/cups-ssl-helpers.sh"
 
@@ -23,6 +26,9 @@ function run() {
     #check_install
     self_sign
     update_cups_conf
+
+    install_config_packages
+
     run_custom_script
 }
 

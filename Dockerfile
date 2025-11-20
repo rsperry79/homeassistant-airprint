@@ -48,7 +48,6 @@ RUN apt-get update \
         libusb-1.0-0-dev \
         pkg-config \
         zlib1g-dev
-# files to copy in prod
 
 WORKDIR /build
 WORKDIR /cups
@@ -95,7 +94,6 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
     && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recommends \
     && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
-
 
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008, DL3009
