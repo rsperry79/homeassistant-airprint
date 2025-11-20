@@ -95,6 +95,8 @@ function install_config_packages() {
         bashio::log.info "Installing additional packages: $to_inst"
         apt-get install "$to_inst" -y ||
             bashio::exit.nok "Failed installing package ${package}"
+    else
+        bashio::log.info "Packages is empty"
     fi
 }
 
