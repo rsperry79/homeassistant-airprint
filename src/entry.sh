@@ -1,5 +1,4 @@
 #!/usr/bin/with-contenv bashio
-ulimit -n 1048576
 
 # shellcheck source="./common/paths.sh"
 source "/opt/common/paths.sh"
