@@ -23,110 +23,11 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
 RUN apt-get update \
     && apt-get upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
-        htop \
-        sudo \
-        locales \
-        bash-completion \
-        procps \
-        lsb-release \
-        nano \
-        gnupg2 \
-        inotify-tools \
         openssl \
         cron \
         avahi-daemon \
         avahi-utils \
-        dbus \
-        iproute2 \
-        libnss-mdns \
-        net-tools \
-        samba \
-        smbclient \
-        wget \
-        curl \
-        whois \
-        bc \
-        fontconfig-config \
-        libcairo2 \
         libfontconfig1 \
-        libgpgmepp6t64 \
-        libidn12 \
-        liblcms2-2 \
-        libnss3 \
-        libpoppler-cpp2 \
-        libtiff6 \
-        libxau6 \
-        libxext6 \
-        ssl-cert \
-        fonts-dejavu-core \
-       # libcupsfilters1t64 \
-        libfontembed1t64 \
-        libgs-common \
-        libijs-0.35 \
-        liblerc4 \
-        libopenjp2-7 \
-        libpoppler147 \
-        libusb-1.0-0 \
-        libxcb-render0 \
-        libxrender1 \
-        x11-common \
-        fonts-dejavu-mono  \
-        libcurl3t64-gnutls  \
-        libfontenc1 \
-        libgs10 \
-        libjbig0 \
-        libngtcp2-16 \
-        libpaper2 \
-        libqpdf30 \
-        libwebp7 \
-        libxcb-shm0 \
-        libxt6t64 \
-        xfonts-encodings \
-        fonts-urw-base35 \
-        libdeflate0 \
-        libfreetype6 \
-        libgs10-common \
-        libjbig2dec0 \
-        libngtcp2-crypto-gnutls8  \
-        libpixman-1-0 \
-        libsharpyuv0 \
-        libx11-6 \
-        libxcb1 \
-        poppler-data \
-        poppler-utils \
-        xfonts-utils \
-        ghostscript \
-        libexif12 \
-        libgpgme11t64 \
-        libice6 \
-        libjpeg62-turbo\
-        libnspr4 \
-        libpng16-16t64 \
-        libsm6 \
-        libx11-data \
-        libxdmcp6 \
-        udev \
-        docx2txt \
-        colord \
-        fonts-freefont-otf \
-        fonts-texgyre \
-        liblcms2-utils \
-        antiword \
-        imagemagick \
-        fonts-freefont-ttf  \
-        gpg-wks-client \
-        fonts-droid-fallback \
-        libpaper-utils\
-        # foomatic-db \
-        # hp-ppd  \
-        # printer-driver-all \
-        # printer-driver-brlaser \
-        # printer-driver-escpr \
-        # printer-driver-foo2zjs \
-        # cups-backend-bjnp \
-        rasterview \
-        # cups-browsed \
-        # ipp-usb \
         automake \
         autopoint \
         autoconf \
@@ -241,7 +142,6 @@ RUN apt-get update \
         libijs-0.35 \
         liblerc4 \
         libopenjp2-7 \
-        libpoppler147 \
         libusb-1.0-0 \
         libxcb-render0 \
         libxrender1 \
@@ -295,8 +195,6 @@ RUN apt-get update \
         libpaper-utils\
         rasterview \
         build-essential
-        # cups-browsed \
-        # ipp-usb
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
@@ -327,41 +225,16 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
 # hadolint ignore=DL3008, DL3009
 RUN apt-get update && apt-get install \
             libcupsfilters2 \
-            \
             foomatic-db \
-            hp-ppd \
-            printer-driver-all \
-            printer-driver-brlaser \
-            printer-driver-escpr \
-            printer-driver-foo2zjs \
-            cups-backend-bjnp \
+            foomatic-filters \
             -y --no-install-recommends # libfontembed2
 
-# RUN apt-get remove -y   \
-#         automake \
-#         autoconf \
-#         autopoint \
-#         clang \
-#         gettext \
-#         libtool\
-#         pkg-config \
-#         libasprintf-dev \
-#         libgettextpo-dev \
-#         gnulib-l10n \
-#         build-essential \
-#         epm \
-#         libavahi-client-dev \
-#         libkrb5-dev \
-#         libpam-dev \
-#         libssl-dev \
-#         libsystemd-dev \
-#         libusb-1.0-0-dev \
-#         pkg-config \
-#         zlib1g-dev \
-#     && apt-get autoremove -y \
-#     && apt-get autoclean -y \
-#     && apt-get clean \
-#     && rm -rf /var/lib/apt/lists/*
+RUN apt-get remove -y   \
+        build-essential \
+    && apt-get autoremove -y \
+    && apt-get autoclean -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 WORKDIR /config

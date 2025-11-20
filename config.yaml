@@ -49,6 +49,7 @@ watchdog: http://[HOST]:[PORT:631]/printers
 options:
   system_settings:
     use_ipv6: false
+    packages: "printer-driver-all"
   avahi:
     avahi_debug: true
     avahi_reflector: false
@@ -77,9 +78,6 @@ schema:
     avahi_debug: bool
     avahi_reflector: bool
     avahi_reflect_ipv: bool
-  # cups_settings:
-  #   cups_remote_admin: bool
-
   cups_logging:
     cups_log_level: list(debug|info|notice|error|none)
     cups_access_log_level: list(all|access|config)

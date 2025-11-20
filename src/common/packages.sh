@@ -43,7 +43,7 @@ function upgrade() {
         bashio::log.info "Running apt upgrade"
         apt update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
-        apt upgrade -y --no-install-recommends ||
+        apt upgrade -y ||
             bashio::exit.nok "Failed to upgrade apt packages"
     fi
 }
