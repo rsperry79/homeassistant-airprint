@@ -538,7 +538,7 @@ CreateIPPPrinterQueues All
 # IPPPrinterQueueType PPD
 # IPPPrinterQueueType NoPPD
 # IPPPrinterQueueType Interface
-IPPPrinterQueueType Auto
+IPPPrinterQueueType PPD
 
 
 # The NewIPPPrinterQueuesShared directive determines whether a print

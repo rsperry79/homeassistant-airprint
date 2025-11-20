@@ -298,7 +298,6 @@ RUN apt-get update \
         # cups-browsed \
         # ipp-usb
 
-
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
 
@@ -319,9 +318,12 @@ COPY templates /usr/templates
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
     && sed -i '/%sudo[[:space:]]/ s/ALL[[:space:]]*$/NOPASSWD:ALL/' /etc/sudoers \
     && useradd  lpadmin \
+    &&  useradd lpinfo -g lp \
     && usermod -aG lpadmin root \
+    && usermod -aG sudo lpadmin \
     && usermod -aG lp root
 
+# hadolint ignore=DL3008, DL3009
 RUN apt-get update && apt-get install \
             libcupsfilters2 \
             \
