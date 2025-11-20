@@ -2,6 +2,7 @@
 
 function run() {
     users=()
+
     if bashio::config.has_value 'logins'; then
         additional_logins=$(bashio::jq "$(bashio::addon.config)" ".logins[]")
         readarray -t additional_logins <<<"${additional_logins}"
@@ -24,6 +25,8 @@ function run() {
         #     remove_users "$grp" "${users[@]}"
         # done
     fi
+
+
 }
 
 function add_or_update_user() {
