@@ -294,7 +294,7 @@ RUN apt-get update \
         fonts-droid-fallback \
         libpaper-utils\
         rasterview \
-        build-essentials
+        build-essential
         # cups-browsed \
         # ipp-usb
 
