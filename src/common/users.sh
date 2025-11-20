@@ -19,10 +19,10 @@ function run() {
             fi
         done
 
-        user_groups=("sudo" "lpadmin" "lp")
-        for grp in "${user_groups[@]}"; do
-            remove_users "$grp" "${users[@]}"
-        done
+        # user_groups=("sudo" "lpadmin" "lp")
+        # for grp in "${user_groups[@]}"; do
+        #     remove_users "$grp" "${users[@]}"
+        # done
     fi
 }
 
