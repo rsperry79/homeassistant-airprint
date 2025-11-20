@@ -79,7 +79,6 @@ function check_install() {
         find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i --force-confold --force-confdef "$pkg"; done' _ {} +
 
         bashio::log.debug "Installing lib cups filters"
-
     fi
 }
 

@@ -11,6 +11,11 @@ configuration:
         name: Additional packages
         description: >-
           A CSV of additional apt packages to be installed at startup.
+
+      install_recommends:
+        name: Install recommended packages for the additional packages
+        description: >+
+          Recommend packages may not be needed and could cause issues or security concerns.
   avahi:
     name: Avahi Config
     fields:
