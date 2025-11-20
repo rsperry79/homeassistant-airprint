@@ -1,4 +1,6 @@
 #!/usr/bin/with-contenv bashio
+ulimit -n 1048576
+
 # shellcheck source="./common/paths.sh"
 source "/opt/common/paths.sh"
 
@@ -16,8 +18,6 @@ source "/opt/cups/cups-ssl-helpers.sh"
 
 # shellcheck source="./cups/cups-config-helpers.sh"
 source "/opt/cups/cups-config-helpers.sh"
-
-ulimit -n 1048576
 
 function run() {
     bashio::log info "Entered Entry.sh"
