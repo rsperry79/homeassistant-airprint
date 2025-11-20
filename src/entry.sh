@@ -21,7 +21,7 @@ ulimit -n 1048576
 
 function run() {
     bashio::log info "Entered Entry.sh"
-    check_install
+    #check_install
     self_sign
     update_cups_conf
     run_custom_script
@@ -74,17 +74,7 @@ function check_install() {
         find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i --force-confold --force-confdef "$pkg"; done' _ {} +
 
         bashio::log.debug "Installing lib cups filters"
-        apt-get update && apt-get install \
-            libcupsfilters2 \
-            \
-            foomatic-db \
-            hp-ppd \
-            printer-driver-all \
-            printer-driver-brlaser \
-            printer-driver-escpr \
-            printer-driver-foo2zjs \
-            cups-backend-bjnp \
-            -y --no-install-recommends # libfontembed2 \
+
     fi
 }
 

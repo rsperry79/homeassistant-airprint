@@ -305,7 +305,7 @@ COPY --from=builder /build /build
 
 COPY --from=builder /cups /cups
 WORKDIR /cups/cups-${CUPS_VER}
-
+RUN make install
 
 # Misc configs
 COPY system-files /
@@ -320,6 +320,18 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
     && useradd  lpadmin \
     && usermod -aG lpadmin root \
     && usermod -aG lp root
+
+RUN apt-get update && apt-get install \
+            libcupsfilters2 \
+            \
+            foomatic-db \
+            hp-ppd \
+            printer-driver-all \
+            printer-driver-brlaser \
+            printer-driver-escpr \
+            printer-driver-foo2zjs \
+            cups-backend-bjnp \
+            -y --no-install-recommends # libfontembed2
 
 # RUN apt-get remove -y   \
 #         automake \
