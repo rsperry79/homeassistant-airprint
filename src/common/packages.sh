@@ -24,21 +24,6 @@ function ensure_package_paths() {
     fi
 }
 
-# Install user configured/requested packages
-function install_config_packages() {
-    if bashio::config.has_value 'packages'; then
-        apt update ||
-            bashio::exit.nok 'Failed updating packages repository indexes'
-        to_inst=""
-        for package in $(bashio::config 'packages'); do
-            to_inst+=" $package"
-        done
-        bashio::log.info "Installing additional packages: $to_inst"
-        apt-get install "$to_inst" -y ||
-            bashio::exit.nok "Failed installing package ${package}"
-    fi
-}
-
 function upgrade() {
     if [ "$(bashio::addon.auto_update)" == "true" ]; then
         bashio::log.info "Running apt upgrade"

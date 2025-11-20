@@ -1,28 +1,28 @@
 #!/usr/bin/with-contenv bashio
 
-# shellcheck source="./common/paths.sh"
-source "/opt/common/paths.sh"
+function load_sources() {
+    # shellcheck source="./common/paths.sh"
+    source "/opt/common/paths.sh"
 
-# shellcheck source="./cups/cups-host-helpers.sh"
-source "/opt/cups/cups-host-helpers.sh"
+    # shellcheck source="./cups/cups-host-helpers.sh"
+    source "/opt/cups/cups-host-helpers.sh"
 
-# shellcheck source="./common/network-common.sh"
-source "/opt/common/network-common.sh"
+    # shellcheck source="./common/network-common.sh"
+    source "/opt/common/network-common.sh"
 
-# shellcheck source="./common/ha-helpers.sh"
-source "/opt/common/ha-helpers.sh"
+    # shellcheck source="./common/ha-helpers.sh"
+    source "/opt/common/ha-helpers.sh"
 
-# shellcheck source="./common/packages.sh"
-source "/opt/common/packages.sh"
+    # shellcheck source="./cups/cups-ssl-helpers.sh"
+    source "/opt/cups/cups-ssl-helpers.sh"
 
-# shellcheck source="./cups/cups-ssl-helpers.sh"
-source "/opt/cups/cups-ssl-helpers.sh"
-
-# shellcheck source="./cups/cups-config-helpers.sh"
-source "/opt/cups/cups-config-helpers.sh"
+    # shellcheck source="./cups/cups-config-helpers.sh"
+    source "/opt/cups/cups-config-helpers.sh"
+}
 
 function run() {
     bashio::log info "Entered Entry.sh"
+
     #check_install
     self_sign
     update_cups_conf
@@ -83,5 +83,21 @@ function check_install() {
     fi
 }
 
+# Install user configured/requested packages
+function install_config_packages() {
+    if bashio::config.has_value 'packages'; then
+        apt update ||
+            bashio::exit.nok 'Failed updating packages repository indexes'
+        to_inst=""
+        for package in $(bashio::config 'packages'); do
+            to_inst+=" $package"
+        done
+        bashio::log.info "Installing additional packages: $to_inst"
+        apt-get install "$to_inst" -y ||
+            bashio::exit.nok "Failed installing package ${package}"
+    fi
+}
+
+load_sources      # loads needed scripts
 run               # run entrypoint
 tail -f /dev/null # Keep Running

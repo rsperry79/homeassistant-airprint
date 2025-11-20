@@ -142,8 +142,8 @@ function autoconf_files() {
 function update_files() {
     update_access_log_level "$cups_access_log_level"
     update_self_sign "$self_sign"
-    update_public_key "$CUPS_PUBLIC_KEY"
-    update_private_key "$CUPS_PRIVATE_KEY"
+    # update_public_key "$CUPS_PUBLIC_KEY"
+    # update_private_key "$CUPS_PRIVATE_KEY"
 }
 
 function autoconf_pdf() {

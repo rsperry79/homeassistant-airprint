@@ -61,7 +61,7 @@ ErrorLog stderr
 PageLog stderr
 
 # Location of the file listing all of the local printers...
-Printcap /config/cups/printcap
+#Printcap /config/cups/printcap
 
 # Format of the Printcap file...
 #PrintcapFormat bsd

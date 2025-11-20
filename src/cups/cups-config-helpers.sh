@@ -18,32 +18,32 @@ function update_public_key() {
 
 function update_self_sign() {
     local self_sign_setting=${1}
-    bashio::log.info update_self_sign
+    bashio::log.debug update_self_sign
     sed -i "s#^.*CreateSelfSignedCerts .*#CreateSelfSignedCerts ${self_sign_setting}#" "$real_cups_path/$cups_files"
 }
 
 function update_access_log_level() {
     local setting=${1}
-    bashio::log.info update_access_log_level
+    bashio::log.debug update_access_log_level
     sed -i "s#^.*AccessLogLevel .*#AccessLogLevel ${setting}#" "$real_cups_path/$cups_files"
 }
 
 function update_log_level() {
     local setting=${1}
-    bashio::log.info update_log_level
+    bashio::log.debug update_log_level
     sed -i "s/^.*LogLevel .*/LogLevel ${setting}/" "$real_cups_path/$cups_daemon"
 
 }
 
 function update_server_alias() {
     local setting=${1}
-    bashio::log.info update_server_alias
+    bashio::log.debug update_server_alias
     sed -i "s/^.*ServerAlias .*/ServerAlias ${setting}/" "$real_cups_path/$cups_daemon"
 }
 
 function update_server_name() {
     local setting=${1}
-    bashio::log.info update_server_name
+    bashio::log.debug update_server_name
     sed -i "s/^.*ServerName .*/ServerName ${setting}/" "$real_cups_path/$cups_daemon"
     #sed -i "s/^.*ServerName .*/ServerName ${setting}:631/" "$real_cups_path/$cups_client"
 }
