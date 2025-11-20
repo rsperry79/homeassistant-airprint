@@ -33,7 +33,7 @@ function install_config_packages() {
         for package in $(bashio::config 'packages'); do
             to_inst+=" $package"
         done
-
+        bashio::log.info "Installing additional packages: $to_inst"
         apt-get install "$to_inst" -y ||
             bashio::exit.nok "Failed installing package ${package}"
     fi
