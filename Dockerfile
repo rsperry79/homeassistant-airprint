@@ -363,7 +363,7 @@ RUN apt-get update && apt-get install \
 #     && rm -rf /var/lib/apt/lists/*
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
-
+WORKDIR /config
 CMD ["/opt/entry.sh"]
 #CMD ["tail", "-f", "/dev/null"]
 #CMD ["tail", "-f", "/dev/null"]
