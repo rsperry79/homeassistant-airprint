@@ -293,7 +293,8 @@ RUN apt-get update \
         gpg-wks-client \
         fonts-droid-fallback \
         libpaper-utils\
-        rasterview
+        rasterview \
+        build-essentials
         # cups-browsed \
         # ipp-usb
 
