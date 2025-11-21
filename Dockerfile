@@ -93,18 +93,19 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
 
 # Prevent Cups install via apt
 # hadolint ignore=DL3008, DL3009
-RUN apt-get update \
-    && apt-mark hold \
-        cups-daemon \
-        cups-bsd \
-        cups-client \
-        cups-common \
-        cups-core-drivers \
-        cups-daemon \
-        cups-filters \
-        cups-filters-core-driver \
-        cups-ipp-utils \
-        cups-server-common
+ RUN apt-get update
+
+#     && apt-mark hold \
+#         cups-daemon \
+#         cups-bsd \
+#         cups-client \
+#         cups-common \
+#         cups-core-drivers \
+#         cups-daemon \
+#         cups-filters \
+#         cups-filters-core-driver \
+#         cups-ipp-utils \
+#         cups-server-common
 
 RUN apt-get upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
