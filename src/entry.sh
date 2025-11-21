@@ -22,13 +22,7 @@ function load_sources() {
 
 function run() {
     bashio::log info "Entered Entry.sh"
-
-    #check_install
-    # self_sign
     update_cups_conf
-
-    install_config_packages
-
     run_custom_script
 }
 

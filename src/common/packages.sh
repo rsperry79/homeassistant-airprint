@@ -30,7 +30,6 @@ function install_config_packages() {
     if bashio::config.has_value 'system_settings.packages'; then
         apt update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
-        to_inst=""
 
         if [ "$(bashio::config 'system_settings.package_debug')" = true ]; then
             for package in $(bashio::config 'system_settings.packages'); do
