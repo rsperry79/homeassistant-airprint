@@ -4,14 +4,9 @@ FROM $BUILD_FROM AS builder
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ENV \
-    DEBIAN_FRONTEND="noninteractive" \
+ENV DEBIAN_FRONTEND="noninteractive" \
     PATH="/lib64:/usr/lib64:${PATH}" \
-    CUPS_DEBUG_LOG=- \
-    CUPS_DEBUG_LEVEL=0 \
-    CUPS_VER="2.4.14"\
-    CUPS_BROWSED_VER="2.1.1"
-
+    CUPS_VER="2.4.14"
 
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008, DL3009
@@ -73,22 +68,16 @@ FROM $BUILD_FROM AS prod
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ENV \
-    DEBIAN_FRONTEND="noninteractive" \
+ENV DEBIAN_FRONTEND="noninteractive" \
     PATH="/lib64:/usr/lib64:${PATH}" \
-    CUPS_DEBUG_LOG=- \
-    CUPS_DEBUG_LEVEL=0 \
     CUPS_VER="2.4.14"
 
 # Services
 COPY services /etc/s6-overlay/s6-rc.d
-
 # Misc Configs
 COPY system-files /
-
 # Core runtime scripts
 COPY src /opt
-
 # Config Templates
 COPY templates /usr/templates
 
@@ -214,8 +203,7 @@ WORKDIR /cups/cups-${CUPS_VER}
 RUN make install
 
 # Remove build tools and clean
-RUN apt-get remove -y   \
-        build-essential \
+RUN apt-get remove -y build-essential \
     && apt-get autoremove -y \
     && apt-get autoclean -y \
     && apt-get clean \
@@ -230,7 +218,6 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
     && usermod -aG lp root \
     && useradd  lp_service -g lp \
     &&  useradd lpinfo -g lp
-
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 WORKDIR /config
