@@ -92,7 +92,7 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
 # Prevent Cups install via apt
-RUN apt-mark hold\
+RUN apt-mark hold \
     cups-daemon \
     cups-bsd \
     cups-client \
