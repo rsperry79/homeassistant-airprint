@@ -67,8 +67,7 @@ function setup() {
 
     cups_log_level=$(bashio::config 'cups_logging.cups_log_level')
     cups_access_log_level=$(bashio::config 'cups_logging.cups_access_log_level')
-    cups_log_level=$(bashio::config 'cups_ssl.cups_encryption')
-
+    cups_encryption=$(bashio::config 'cups_ssl.cups_encryption')
 
     cups_self_sign=no
     if bashio::config.has_value 'cups_ssl.cups_self_sign'; then

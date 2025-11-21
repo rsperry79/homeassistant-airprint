@@ -49,7 +49,6 @@ RUN apt-get update \
         pkg-config \
         zlib1g-dev
 
-WORKDIR /build
 WORKDIR /cups
 
 # Get latest stable Cups
@@ -73,9 +72,7 @@ RUN ./configure \
             --enable-webif \
             --with-ipp-port=631 \
         && make clean \
-        && make all \
-        && make deb \
-        &&  tar --skip-old-files -xzf ./dist/*.tgz  --directory /build
+        && make all
 
 FROM $BUILD_FROM AS prod
 
@@ -195,8 +192,6 @@ RUN apt-get update \
 
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
-
-COPY --from=builder /build /build
 
 COPY --from=builder /cups /cups
 WORKDIR /cups/cups-${CUPS_VER}
