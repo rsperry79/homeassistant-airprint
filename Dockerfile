@@ -85,48 +85,65 @@ ENV \
     CUPS_DEBUG_LEVEL=0 \
     CUPS_VER="2.4.14"
 
+# Services
+COPY services /etc/s6-overlay/s6-rc.d
+
+# Misc Configs
+COPY system-files /
+
+# Core runtime scripts
+COPY src /opt
+
+# Config Templates
+COPY templates /usr/templates
+
 # Optimize APT for faster, smaller builds
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
     && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recommends \
     && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
     && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
-# Prevent Cups install via apt
 # hadolint ignore=DL3008, DL3009
  RUN apt-get update \
+    # Prevent Cups install via apt
     && apt-mark hold \
+        cups \
         cups-daemon \
         cups-bsd \
         cups-client \
-        cups-common \
-        cups-core-drivers \
         cups-daemon \
-        cups-filters \
+        cups-common \
         cups-ipp-utils \
         cups-server-common \
     && apt-get full-upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
+        # system tools
         htop \
+        cron \
+        dbus \
         sudo \
         locales \
         bash-completion \
         procps \
         lsb-release \
         nano \
-        gnupg2 \
         inotify-tools \
+        bc \
+        udev \
+        # SSL
+        ssl-cert \
         openssl \
-        cron \
+        gnupg2 \
+        # network
         avahi-daemon \
         avahi-utils \
-        dbus \
         iproute2 \
         libnss-mdns \
         net-tools \
         wget \
         curl \
         whois \
-        bc \
+        # cups depends
         fontconfig-config \
         libcairo2 \
         libfontconfig1 \
@@ -138,7 +155,6 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
         libtiff6 \
         libxau6 \
         libxext6 \
-        ssl-cert \
         fonts-dejavu-core \
         libgs-common \
         libijs-0.35 \
@@ -183,7 +199,6 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
         libsm6 \
         libx11-data \
         libxdmcp6 \
-        udev \
         docx2txt \
         colord \
         fonts-freefont-otf \
@@ -196,26 +211,26 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
         fonts-droid-fallback \
         libpaper-utils\
         rasterview \
-        build-essential \
         libcupsfilters2 \
+        # drivers
         foomatic-db \
         foomatic-filters \
-        foomatic-filters-beh
-# samba \
-# smbclient \
-# Copy services code
-COPY services /etc/s6-overlay/s6-rc.d
+        foomatic-filters-beh \
+        # build
+        build-essential
 
+# Copy Cups and install
 COPY --from=builder /cups /cups
 WORKDIR /cups/cups-${CUPS_VER}
 RUN make install
 
-# Misc configs
-COPY system-files /
-# the core scripts to run the server
-COPY src /opt
-# The config templates
-COPY templates /usr/templates
+# Remove build tools and clean
+RUN apt-get remove -y   \
+        build-essential \
+    && apt-get autoremove -y \
+    && apt-get autoclean -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Enable scripts to run & Disable sudo password checking add root
 RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
@@ -227,23 +242,8 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
     && useradd  lp_service -g lp \
     &&  useradd lpinfo -g lp
 
-# hadolint ignore=DL3008, DL3009
-# RUN apt-get update && apt-get install \
-#             libcupsfilters2 \
-#             foomatic-db \
-#             foomatic-filters \
-#             foomatic-filters-beh \
-#             -y --no-install-recommends # libfontembed2
-
-RUN apt-get remove -y   \
-        build-essential \
-    && apt-get autoremove -y \
-    && apt-get autoclean -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 WORKDIR /config
 CMD ["/opt/entry.sh"]
-#CMD ["tail", "-f", "/dev/null"]
 #CMD ["tail", "-f", "/dev/null"]
