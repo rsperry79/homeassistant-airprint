@@ -123,8 +123,6 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
         iproute2 \
         libnss-mdns \
         net-tools \
-        samba \
-        smbclient \
         wget \
         curl \
         whois \
@@ -198,8 +196,13 @@ RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommend
         fonts-droid-fallback \
         libpaper-utils\
         rasterview \
-        build-essential
-
+        build-essential \
+        libcupsfilters2 \
+        foomatic-db \
+        foomatic-filters \
+        foomatic-filters-beh
+# samba \
+# smbclient \
 # Copy services code
 COPY services /etc/s6-overlay/s6-rc.d
 
@@ -225,12 +228,12 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
     &&  useradd lpinfo -g lp
 
 # hadolint ignore=DL3008, DL3009
-RUN apt-get update && apt-get install \
-            libcupsfilters2 \
-            foomatic-db \
-            foomatic-filters \
-            foomatic-filters-beh \
-            -y --no-install-recommends # libfontembed2
+# RUN apt-get update && apt-get install \
+#             libcupsfilters2 \
+#             foomatic-db \
+#             foomatic-filters \
+#             foomatic-filters-beh \
+#             -y --no-install-recommends # libfontembed2
 
 RUN apt-get remove -y   \
         build-essential \
