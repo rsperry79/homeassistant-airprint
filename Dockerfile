@@ -12,11 +12,6 @@ ENV \
     CUPS_VER="2.4.14"\
     CUPS_BROWSED_VER="2.1.1"
 
-# Optimize APT for faster, smaller builds
-RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
-    && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recommends \
-    && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
-    && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
 # Update package list and upgrade existing packages
 # hadolint ignore=DL3008, DL3009
@@ -96,12 +91,6 @@ COPY src /opt
 
 # Config Templates
 COPY templates /usr/templates
-
-# Optimize APT for faster, smaller builds
-RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/99no-recommends \
-    && echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf.d/99no-recommends \
-    && echo 'APT::Get::Clean "always";' >> /etc/apt/apt.conf.d/99auto-clean \
-    && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' >> /etc/apt/apt.conf.d/99auto-clean
 
 # hadolint ignore=DL3008, DL3009
  RUN apt-get update \
