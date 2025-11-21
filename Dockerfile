@@ -104,8 +104,9 @@ RUN apt-get update \
         cups-filters \
         cups-filters-core-driver \
         cups-ipp-utils \
-        cups-server-common \
-    && apt-get upgrade --fix-missing -y --no-install-recommends \
+        cups-server-common
+
+RUN apt-get upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
         htop \
         sudo \
