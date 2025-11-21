@@ -28,16 +28,22 @@ function ensure_package_paths() {
 # Install user configured/requested packages
 function install_config_packages() {
     if bashio::config.has_value 'system_settings.packages'; then
+        export DEBIAN_FRONTEND=noninteractive
         apt update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
 
         if [ "$(bashio::config 'system_settings.package_debug')" = true ]; then
             for package in $(bashio::config 'system_settings.packages'); do
                 if [ "$(bashio::config 'system_settings.install_recommends')" = true ]; then
-                    apt-get install "$package" -y ||
+
+                    apt-get -o Dpkg::Options::="--force-confold" \
+                        -o Dpkg::Options::="--force-confdef" \
+                        install "$package" -y ||
                         bashio::exit.nok "Failed installing packages ${package}"
                 else
-                    apt-get install "$package" -y --no-install-recommends ||
+                    apt-get -o Dpkg::Options::="--force-confold" \
+                        -o Dpkg::Options::="--force-confdef" \
+                        install "$package" -y --no-install-recommends ||
                         bashio::exit.nok "Failed installing packages ${package}"
                 fi
             done
@@ -50,10 +56,14 @@ function install_config_packages() {
             bashio::log.info "Installing additional packages: $to_inst"
 
             if [ "$(bashio::config 'system_settings.install_recommends')" = true ]; then
-                apt-get install "$to_inst" -y ||
+                apt-get -o Dpkg::Options::="--force-confold" \
+                    -o Dpkg::Options::="--force-confdef" \
+                    install "$to_inst" -y ||
                     bashio::exit.nok "Failed installing packages ${package}"
             else
-                apt-get install "$to_inst" -y --no-install-recommends ||
+                apt-get -o Dpkg::Options::="--force-confold" \
+                    -o Dpkg::Options::="--force-confdef" \
+                    install "$to_inst" -y --no-install-recommends ||
                     bashio::exit.nok "Failed installing packages ${package}"
             fi
         fi
