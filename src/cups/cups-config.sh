@@ -65,23 +65,14 @@ function run() {
 # Gets current settings from HA
 function setup() {
 
-    # CUPS_PRIVATE_KEY="$cups_ssl_path/$host_name.crt"
-    # CUPS_PUBLIC_KEY="$cups_ssl_path/$host_name.pem"
+    cups_log_level=$(bashio::config 'cups_logging.cups_log_level')
+    cups_access_log_level=$(bashio::config 'cups_logging.cups_access_log_level')
+    cups_log_level=$(bashio::config 'cups_ssl.cups_encryption')
 
-    if bashio::config.has_value 'cups_log_level'; then
-        cups_log_level=$(bashio::config 'cups_log_level')
-    fi
-    if bashio::config.has_value 'cups_encryption'; then
-        cups_log_level=$(bashio::config 'cups_encryption')
-    fi
-
-    if bashio::config.has_value 'cups_access_log_level'; then
-        cups_access_log_level=$(bashio::config 'cups_access_log_level')
-    fi
 
     cups_self_sign=no
-    if bashio::config.has_value cups_self_sign; then
-        self_sign=$(bashio::config 'cups_self_sign')
+    if bashio::config.has_value 'cups_ssl.cups_self_sign'; then
+        self_sign=$(bashio::config 'cups_ssl.cups_self_sign')
         bashio::log.debug "Self sign has value: $self_sign"
         if [ "$self_sign" == true ]; then
             cups_self_sign=yes

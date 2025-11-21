@@ -52,6 +52,7 @@ options:
     install_recommends: true
     packages:
       - "printer-driver-all"
+    package_debug: false
   avahi:
     avahi_debug: true
     avahi_reflector: false
@@ -77,6 +78,7 @@ schema:
     install_recommends: bool
     packages:
       - str?
+    package_debug: bool
   avahi:
     avahi_debug: bool
     avahi_reflector: bool

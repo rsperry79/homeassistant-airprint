@@ -16,6 +16,10 @@ configuration:
         name: Install recommended packages for the additional packages
         description: >+
           Recommend packages may not be needed and could cause issues or security concerns.
+      package_debug:
+        name: Install one package at a time?
+        description: >+
+          Installing one package at a time can help find a bad package but is incredibly inefficient.
   avahi:
     name: Avahi Config
     fields:

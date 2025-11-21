@@ -33,16 +33,16 @@ function setup() {
     fi
 
     avahi_reflector="no"
-    if bashio::config.has_value 'avahi_reflector'; then
-        avahi_reflector_flag=$(bashio::config 'avahi_reflector')
+    if bashio::config.has_value 'avahi.avahi_reflector'; then
+        avahi_reflector_flag=$(bashio::config 'avahi.avahi_reflector')
         if [ "$avahi_reflector_flag" == true ]; then
             avahi_reflector="yes"
         fi
     fi
 
     avahi_reflect_ipv="no"
-    if bashio::config.has_value 'avahi_reflector'; then
-        avahi_reflector_flag=$(bashio::config 'avahi_reflector')
+    if bashio::config.has_value 'avahi.avahi_reflect_ipv'; then
+        avahi_reflector_flag=$(bashio::config 'avahi.avahi_reflect_ipv')
         if [ "$avahi_reflector_flag" == true ]; then
             avahi_reflect_ipv="yes"
         fi

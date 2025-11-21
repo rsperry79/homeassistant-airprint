@@ -24,7 +24,7 @@ function run() {
     bashio::log info "Entered Entry.sh"
 
     #check_install
-    self_sign
+    # self_sign
     update_cups_conf
 
     install_config_packages
@@ -53,51 +53,34 @@ function run_custom_script() {
     bashio "$packages_path/$install_script"
 }
 
-function self_sign() {
-    if bashio::config.has_value cups_self_sign; then
-        self_sign=$(bashio::config 'cups_self_sign')
-        bashio::log.debug "Self sign has value: $self_sign"
-        if [ "$self_sign" == true ]; then
-            cups_self_sign=yes
-        else
-            cups_self_sign=no
-        fi
+# function self_sign() {
+#     if bashio::config.has_value cups_self_sign; then
+#         self_sign=$(bashio::config 'cups_self_sign')
+#         bashio::log.debug "Self sign has value: $self_sign"
+#         if [ "$self_sign" == true ]; then
+#             cups_self_sign=yes
+#         else
+#             cups_self_sign=no
+#         fi
 
-        update_self_sign "$cups_self_sign"
-    fi
+#         update_self_sign "$cups_self_sign"
+#     fi
 
-}
+# }
 
-function check_install() {
-    if command -v cupsd &>/dev/null; then
-        bashio::log.debug "Cupsd is installed"
-    else
-        bashio::log.debug "Installing Cups Libs"
-        find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i --force-confold --force-confdef "$pkg" ; done' _ {} +
+# function check_install() {
+#     if command -v cupsd &>/dev/null; then
+#         bashio::log.debug "Cupsd is installed"
+#     else
+#         bashio::log.debug "Installing Cups Libs"
+#         find /build -type f -name "cups-libs-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i --force-confold --force-confdef "$pkg" ; done' _ {} +
 
-        bashio::log.debug "Installing Cups"
-        find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i --force-confold --force-confdef "$pkg"; done' _ {} +
+#         bashio::log.debug "Installing Cups"
+#         find /build -type f -name "cups-$CUPS_VER-linux-**.deb" -exec bash -c 'for pkg; do dpkg -i --force-confold --force-confdef "$pkg"; done' _ {} +
 
-        bashio::log.debug "Installing lib cups filters"
-    fi
-}
-
-# Install user configured/requested packages
-function install_config_packages() {
-    if bashio::config.has_value 'packages'; then
-        apt update ||
-            bashio::exit.nok 'Failed updating packages repository indexes'
-        to_inst=""
-        for package in $(bashio::config 'packages'); do
-            to_inst+=" $package"
-        done
-        bashio::log.info "Installing additional packages: $to_inst"
-        apt-get install "$to_inst" -y ||
-            bashio::exit.nok "Failed installing package ${package}"
-    else
-        bashio::log.info "Packages is empty"
-    fi
-}
+#         bashio::log.debug "Installing lib cups filters"
+#     fi
+# }
 
 load_sources      # loads needed scripts
 run               # run entrypoint

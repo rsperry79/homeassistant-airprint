@@ -35,8 +35,8 @@ function setup_ssl_private() {
 
     local _privkey
 
-    if bashio::config.has_value 'cups_ssl_key'; then
-        _privkey=$(bashio::config 'cups_ssl_key')
+    if bashio::config.has_value 'cups_ssl.cups_ssl_key'; then
+        _privkey=$(bashio::config 'cups_ssl.cups_ssl_key')
     elif [ -e "/ssl/privkey.pem" ]; then
         _privkey="/ssl/privkey.pem"
     else
@@ -56,8 +56,8 @@ function setup_ssl_public() {
 
     local _pubkey
 
-    if bashio::config.has_value 'cups_ssl_cert'; then
-        _pubkey=$(bashio::config 'cups_ssl_cert')
+    if bashio::config.has_value 'cups_ssl.cups_ssl_cert'; then
+        _pubkey=$(bashio::config 'cups_ssl.cups_ssl_cert')
     elif [ -e "/ssl/fullchain.pem" ]; then
         _pubkey="/ssl/fullchain.pem"
     else

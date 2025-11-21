@@ -5,8 +5,8 @@ source "/opt/common/paths.sh"
 ulimit -n 524288
 
 debug_flag="false"
-if bashio::config.has_value 'avahi_debug'; then
-    debug_flag=$(bashio::config 'avahi_debug')
+if bashio::config.has_value 'avahi.avahi_debug'; then
+    debug_flag=$(bashio::config 'avahi.avahi_debug')
 fi
 
 bashio::log.info "Starting Avahi daemon from S6"
