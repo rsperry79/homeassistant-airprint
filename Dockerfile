@@ -63,7 +63,6 @@ RUN ./configure \
             --enable-debug \
             --enable-debug-printfs \
             --enable-libpaper \
-            --with-dbusdir=/etc/dbus-1/system.d \
             --with-dnssd=avahi  \
             --with-local-protocols=all \
             --with-tls=openssl \
@@ -225,6 +224,7 @@ RUN apt-get update && apt-get install \
             libcupsfilters2 \
             foomatic-db \
             foomatic-filters \
+            foomatic-filters-beh \
             -y --no-install-recommends # libfontembed2
 
 RUN apt-get remove -y   \

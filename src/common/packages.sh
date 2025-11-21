@@ -31,7 +31,7 @@ function install_config_packages() {
         export DEBIAN_FRONTEND=noninteractive
         apt update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
-
+        # If debug, install one at a time
         if [ "$(bashio::config 'system_settings.package_debug')" = true ]; then
             for package in $(bashio::config 'system_settings.packages'); do
                 if [ "$(bashio::config 'system_settings.install_recommends')" = true ]; then
@@ -47,9 +47,8 @@ function install_config_packages() {
                         bashio::exit.nok "Failed installing packages ${package}"
                 fi
             done
-
+        # if not debug, install normally
         else
-
             for package in $(bashio::config 'system_settings.packages'); do
                 to_inst+=" $package"
             done
