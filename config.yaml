@@ -57,20 +57,20 @@ options:
     install_recommends: true
     package_debug: false
   avahi:
-    avahi_debug: true
+    avahi_debug: false
     avahi_reflector: false
     avahi_reflect_ipv: false
   # cups_settings:
   #   cups_remote_admin: false
 
   cups_logging:
-    cups_log_level: debug
+    cups_log_level: info
     cups_access_log_level: all
   cups_ssl:
-    cups_encryption: IfRequested
+    cups_encryption: Never
     cups_ssl_cert: /ssl/fullchain.pem
     cups_ssl_key: /ssl/privkey.pem
-    cups_self_sign: false
+    cups_self_sign: true
   logins:
     - username: print
       password: "print"
