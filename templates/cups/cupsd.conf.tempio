@@ -17,8 +17,7 @@ MaxLogSize 0
 ErrorPolicy retry-job
 AccessLogLevel {{.cups_access_log_level}}
 
-# Only listen for connections from the local machine.
-Listen 0.0.0.0:631
+Port 631
 Listen /run/cups/cups.sock
 
 # Show shared printers on the local network.
@@ -48,14 +47,23 @@ DefaultPaperSize Auto
 # Restrict access
 # Allow shared printing...
 <Location />
-    AuthType None
-    Encryption {{.host_alias}}
-    Order allow,deny
-    Allow all
+
+
+     # Restrict access to the server 'root' location...
+   Allow from 192.168.0.0/16
+   Allow from localhost
+   Allow from 127.0.0.1
+   Deny from all
+   Require valid-user
+   Satisfy any
+   Order deny,allow
 </Location>
+
+
 # Restrict access to the admin pages...
 <Location /admin>
     AuthType Default
+    Encryption {{.cups_encryption}}
     Order allow,deny
     Satisfy any
     Allow all
@@ -64,6 +72,8 @@ DefaultPaperSize Auto
 # Restrict access to configuration files...
 <Location /admin/conf>
     AuthType Default
+    Require user @SYSTEM
+    Encryption {{.cups_encryption}}
     Order allow,deny
     Allow all
 </Location>
@@ -75,6 +85,17 @@ DefaultPaperSize Auto
   Order allow,deny
   Allow all
 </Location>
+
+<Location /printers>
+   # Restrict access to the server's shared printers...
+   Allow from 192.168.0.0/16
+   Allow from localhost
+   Allow from 127.0.0.1
+   deny from all
+   Require valid-user
+   Satisfy any
+   Order deny,allow
+ </Location>
 
 # Set the default printer/job policies...
 <Policy default>
