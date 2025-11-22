@@ -17,14 +17,14 @@ CreateSelfSignedCerts {{.self_sign}}
 # Default user and group for filters/backends/helper programs; this cannot be
 # any user or group that resolves to ID 0 for security reasons...
 User lp_service
-Group lp
+Group lpadmin
 
 # Administrator user group, used to match @SYSTEM in cupsd.conf policy rules...
 SystemGroup lpadmin
 
 
 # User that is substituted for unauthenticated (remote) root accesses...
-RemoteRoot lp
+RemoteRoot lpadmin
 
 ConfigFilePerm 0640
 LogFilePerm 0644

@@ -44,18 +44,7 @@ DefaultShared Yes
 DefaultPaperSize Auto
 
 # Default error policy for printers
-ErrorPolicy stop-printer
-<Location />
-    Order allow,deny
-    Allow @IF(docker0)
-    Allow @IF(hassio)
-    Encryption Never
-</Location>
-<Location /admin>
-    AuthType Default
-    Order allow,deny
-    Allow all
-</Location>
+
 # Restrict acces
 # Allow shared printing...
 <Location />
