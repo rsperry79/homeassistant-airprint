@@ -89,13 +89,12 @@ COPY templates /usr/templates
         cups-daemon \
         cups-bsd \
         cups-client \
-        cups-ppd \
         cups-daemon \
         cups-common \
         cups-ipp-utils \
         cups-server-common \
-    && apt-get full-upgrade --fix-missing -y --no-install-recommends \
-    && apt-get install -y  --no-install-recommends \
+    && apt-get full-upgrade --fix-missing -y --no-install-recommends --no-install-suggests  \
+    && apt-get install -y  --no-install-recommends --no-install-suggests \
         # system tools
         htop \
         cron \
