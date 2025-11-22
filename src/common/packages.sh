@@ -27,20 +27,20 @@ function ensure_package_paths() {
 
 # Install user configured/requested packages
 function install_config_packages() {
-    if bashio::config.has_value 'system_settings.packages'; then
+    if bashio::config.has_value 'custom_packages.packages'; then
         export DEBIAN_FRONTEND=noninteractive
         apt-get update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
 
         # If debug, install one at a time
-        if [ "$(bashio::config 'system_settings.package_debug')" = true ]; then
-            for package in $(bashio::config 'system_settings.packages'); do
+        if [ "$(bashio::config 'custom_packages.package_debug')" = true ]; then
+            for package in $(bashio::config 'custom_packages.packages'); do
                 install_package "$package"
             done
         # if not debug, install normally
         else
             to_inst=""
-            for package in $(bashio::config 'system_settings.packages'); do
+            for package in $(bashio::config 'custom_packages.packages'); do
                 if [ -z "$to_inst" ]; then
                     to_inst+="$package"
                 else
@@ -59,7 +59,7 @@ function install_config_packages() {
 function install_package() {
     local package=${1}
 
-    if [ "$(bashio::config 'system_settings.install_recommends')" = false ]; then
+    if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
         apt-get \
             -o Dpkg::Options::="--force-confold" \
             -o Dpkg::Options::="--force-confdef" \

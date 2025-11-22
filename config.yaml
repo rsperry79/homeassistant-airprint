@@ -49,9 +49,11 @@ watchdog: http://[HOST]:[PORT:631]/printers
 options:
   system_settings:
     use_ipv6: false
-    install_recommends: true
+  custom_packages:
+    run_script: true
     packages:
       - "printer-driver-all"
+    install_recommends: true
     package_debug: false
   avahi:
     avahi_debug: true
@@ -75,6 +77,8 @@ options:
 schema:
   system_settings:
     use_ipv6: bool
+  custom_packages:
+    run_script: bool
     install_recommends: bool
     packages:
       - str?
