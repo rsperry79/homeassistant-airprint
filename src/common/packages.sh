@@ -31,40 +31,36 @@ function install_config_packages() {
         export DEBIAN_FRONTEND=noninteractive
         apt update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
+
+        opts=""
+        if [ "$(bashio::config 'system_settings.install_recommends')" = false ]; then
+            opts="--no-install-recommends"
+        fi
+
         # If debug, install one at a time
         if [ "$(bashio::config 'system_settings.package_debug')" = true ]; then
             for package in $(bashio::config 'system_settings.packages'); do
-                if [ "$(bashio::config 'system_settings.install_recommends')" = true ]; then
-
-                    apt-get -o Dpkg::Options::="--force-confold" \
-                        -o Dpkg::Options::="--force-confdef" \
-                        install "$package" -y ||
-                        bashio::exit.nok "Failed installing packages ${package}"
-                else
-                    apt-get -o Dpkg::Options::="--force-confold" \
-                        -o Dpkg::Options::="--force-confdef" \
-                        install "$package" -y --no-install-recommends ||
-                        bashio::exit.nok "Failed installing packages ${package}"
-                fi
+                apt-get -o Dpkg::Options::="--force-confold" \
+                    -o Dpkg::Options::="--force-confdef" \
+                    install "$package" -y "$opts" || bashio::exit.nok "Failed installing packages ${package}"
             done
         # if not debug, install normally
         else
+            to_inst=""
             for package in $(bashio::config 'system_settings.packages'); do
-                to_inst+=" $package"
+                if [ -z "$to_inst" ]; then
+                    to_inst+="$package"
+                else
+                    to_inst+=" $package"
+                fi
             done
+
             bashio::log.info "Installing additional packages: $to_inst"
 
-            if [ "$(bashio::config 'system_settings.install_recommends')" = true ]; then
-                apt-get -o Dpkg::Options::="--force-confold" \
-                    -o Dpkg::Options::="--force-confdef" \
-                    install "$to_inst" -y ||
-                    bashio::exit.nok "Failed installing packages ${package}"
-            else
-                apt-get -o Dpkg::Options::="--force-confold" \
-                    -o Dpkg::Options::="--force-confdef" \
-                    install "$to_inst" -y --no-install-recommends ||
-                    bashio::exit.nok "Failed installing packages ${package}"
-            fi
+            apt-get -o Dpkg::Options::="--force-confold" \
+                -o Dpkg::Options::="--force-confdef" \
+                install "$to_inst" -y "$opts" ||
+                bashio::"exit.nok" "Failed installing packages ${package}"
         fi
     else
         bashio::log.info "No additional packages are listed for install."
