@@ -45,9 +45,11 @@ DefaultPaperSize Auto
 
 # Default error policy for printers
 
-# Restrict acces
+# Restrict access
 # Allow shared printing...
 <Location />
+    AuthType None
+    Encryption {{.host_alias}}
     Order allow,deny
     Allow all
 </Location>
@@ -55,6 +57,7 @@ DefaultPaperSize Auto
 <Location /admin>
     AuthType Default
     Order allow,deny
+    Satisfy any
     Allow all
 </Location>
 
