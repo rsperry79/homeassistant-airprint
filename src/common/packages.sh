@@ -32,17 +32,10 @@ function install_config_packages() {
         apt-get update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
 
-        opts=""
-        if [ "$(bashio::config 'system_settings.install_recommends')" = false ]; then
-            opts="--no-install-recommends"
-        fi
-
         # If debug, install one at a time
         if [ "$(bashio::config 'system_settings.package_debug')" = true ]; then
             for package in $(bashio::config 'system_settings.packages'); do
-                apt-get -o Dpkg::Options::="--force-confold" \
-                    -o Dpkg::Options::="--force-confdef" \
-                    install "$package" -y "$opts" || bashio::exit.nok "Failed installing packages ${package}"
+                install_package "$package"
             done
         # if not debug, install normally
         else
@@ -54,16 +47,30 @@ function install_config_packages() {
                     to_inst+=" $package"
                 fi
             done
-
+            install_package "$package"
             bashio::log.info "Installing additional packages: $to_inst"
 
-            apt-get -o Dpkg::Options::="--force-confold" \
-                -o Dpkg::Options::="--force-confdef" \
-                install "$to_inst" "$opts" -y ||
-                bashio::"exit.nok" "Failed installing packages ${package}"
         fi
     else
         bashio::log.info "No additional packages are listed for install."
+    fi
+}
+
+function install_package() {
+    local package=${1}
+
+    if [ "$(bashio::config 'system_settings.install_recommends')" = false ]; then
+        apt-get \
+            -o Dpkg::Options::="--force-confold" \
+            -o Dpkg::Options::="--force-confdef" \
+            install "$package" --no-install-suggests -y ||
+            bashio::"exit.nok" "Failed installing packages ${package}"
+    else
+        apt-get \
+            -o Dpkg::Options::="--force-confold" \
+            -o Dpkg::Options::="--force-confdef" \
+            install "$package" --no-install-recommends --no-install-suggests -y ||
+            bashio::"exit.nok" "Failed installing packages ${package}"
     fi
 }
 
