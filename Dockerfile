@@ -89,6 +89,7 @@ COPY templates /usr/templates
         cups-daemon \
         cups-bsd \
         cups-client \
+        cups-ppd \
         cups-daemon \
         cups-common \
         cups-ipp-utils \

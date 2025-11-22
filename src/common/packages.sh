@@ -29,7 +29,7 @@ function ensure_package_paths() {
 function install_config_packages() {
     if bashio::config.has_value 'system_settings.packages'; then
         export DEBIAN_FRONTEND=noninteractive
-        apt update ||
+        apt-get update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
 
         opts=""
@@ -59,7 +59,7 @@ function install_config_packages() {
 
             apt-get -o Dpkg::Options::="--force-confold" \
                 -o Dpkg::Options::="--force-confdef" \
-                install "$to_inst" -y "$opts" ||
+                install "$to_inst" "$opts" -y ||
                 bashio::"exit.nok" "Failed installing packages ${package}"
         fi
     else
