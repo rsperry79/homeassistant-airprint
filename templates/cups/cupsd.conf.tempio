@@ -47,16 +47,14 @@ DefaultPaperSize Auto
 # Restrict access
 # Allow shared printing...
 <Location />
-
-
      # Restrict access to the server 'root' location...
-   Allow from 192.168.0.0/16
-   Allow from localhost
-   Allow from 127.0.0.1
-   Deny from all
-   Require valid-user
-   Satisfy any
-   Order deny,allow
+    Allow from 192.168.0.0/16
+    Allow from localhost
+    Allow from 127.0.0.1
+    Allow from all
+    Encryption {{.cups_encryption}}
+    Satisfy any
+    Order deny,allow
 </Location>
 
 
