@@ -40,7 +40,7 @@ panel_icon: mdi:printer
 ingress: true
 ingress_port: 631
 ingress_stream: true
-ingress_entry: /admin
+ingress_entry: admin
 #webui: http://[HOST]:[PORT:631]/
 
 # Health

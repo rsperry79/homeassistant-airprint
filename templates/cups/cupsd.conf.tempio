@@ -52,11 +52,11 @@ DefaultPaperSize Auto
     Allow from localhost
     Allow from 127.0.0.1
     Allow from all
+    AuthType None
     Encryption {{.cups_encryption}}
     Satisfy any
     Order deny,allow
 </Location>
-
 
 # Restrict access to the admin pages...
 <Location /admin>
@@ -64,6 +64,7 @@ DefaultPaperSize Auto
     Encryption {{.cups_encryption}}
     Order allow,deny
     Satisfy any
+    AuthType None
     Allow all
 </Location>
 
