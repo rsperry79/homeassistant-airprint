@@ -17,21 +17,13 @@ function setup_ssl() {
         disable_ssl_config
     else
         if [ "$self_sign" == true ]; then
-
-            CUPS_PRIVATE_KEY="$cups_ssl_path/$HOSTNAME.key"
-            CUPS_PUBLIC_KEY="$cups_ssl_path/$HOSTNAME.crt"
-
             HOST_ALIAS="$(hostname -f)"
         else
             bashio::log.info "Self sign is off"
             rm -f "$cups_ssl_path/*"
             setup_ssl_public
             setup_ssl_private
-
         fi
-
-        export cups_public_key
-        export cups_private_key
     fi
 }
 
