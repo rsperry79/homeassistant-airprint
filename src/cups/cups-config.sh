@@ -64,7 +64,6 @@ function run() {
 
 # Gets current settings from HA
 function setup() {
-
     cups_log_level=$(bashio::config 'cups_logging.cups_log_level')
     cups_access_log_level=$(bashio::config 'cups_logging.cups_access_log_level')
     cups_encryption=$(bashio::config 'cups_ssl.cups_encryption')
@@ -78,7 +77,7 @@ function setup() {
         fi
     fi
 
-    setup_ssl "$self_sign"
+    setup_ssl "$cups_encryption" "$self_sign"
 
     # Used by autoconf
     config=$(jq --arg host_name "$HOSTNAME" --arg cups_ssl_path "$cups_ssl_path" \
@@ -134,8 +133,6 @@ function autoconf_files() {
 function update_files() {
     update_access_log_level "$cups_access_log_level"
     update_self_sign "$self_sign"
-    # update_public_key "$CUPS_PUBLIC_KEY"
-    # update_private_key "$CUPS_PRIVATE_KEY"
 }
 
 function autoconf_pdf() {

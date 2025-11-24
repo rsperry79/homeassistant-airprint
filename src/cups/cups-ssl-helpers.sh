@@ -10,25 +10,29 @@ source "/opt/cups/cups-config-helpers.sh"
 source "/opt/cups/cups-host-helpers.sh"
 
 function setup_ssl() {
-    self_sign=${1}
+    local use_ssl=${1}
+    local self_sign=${2}
 
-    if [ "$self_sign" == true ]; then
-
-        CUPS_PRIVATE_KEY="$cups_ssl_path/$HOSTNAME.key"
-        CUPS_PUBLIC_KEY="$cups_ssl_path/$HOSTNAME.crt"
-
-        bashio::log.info "Self sign is on"
-        HOST_ALIAS="*"
+    if [ "$use_ssl" = "Never" ]; then
+        disable_ssl_config
     else
-        bashio::log.info "Self sign is off"
-        rm -f "$cups_ssl_path/*"
-        setup_ssl_public
-        setup_ssl_private
+        if [ "$self_sign" == true ]; then
 
+            CUPS_PRIVATE_KEY="$cups_ssl_path/$HOSTNAME.key"
+            CUPS_PUBLIC_KEY="$cups_ssl_path/$HOSTNAME.crt"
+
+            HOST_ALIAS="$(hostname -f)"
+        else
+            bashio::log.info "Self sign is off"
+            rm -f "$cups_ssl_path/*"
+            setup_ssl_public
+            setup_ssl_private
+
+        fi
+
+        export cups_public_key
+        export cups_private_key
     fi
-
-    export cups_public_key
-    export cups_private_key
 }
 
 function setup_ssl_private() {
