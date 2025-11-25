@@ -37,5 +37,4 @@ function update_server_name() {
     local setting=${1}
     bashio::log.debug update_server_name
     sed -i "s/^.*ServerName .*/ServerName ${setting}/" "$real_cups_path/$cups_daemon"
-    #sed -i "s/^.*ServerName .*/ServerName ${setting}:631/" "$real_cups_path/$cups_client"
 }

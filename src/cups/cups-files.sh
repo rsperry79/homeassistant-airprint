@@ -34,7 +34,8 @@ if ! bashio::fs.directory_exists "${cups_ssl_path}"; then
 fi
 
 # client.conf
-if [ ! -e "$cups_templates_path/$cups_client_cfg" ]; then
+cups_encryption=$(bashio::config 'cups_ssl.cups_encryption')
+if [ ! -e "$cups_templates_path/$cups_client_cfg" ] && [ "$cups_encryption" != "Never" ]; then
     install -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_client_cfg" "$cups_templates_path" ||
         bashio::exit.nok "Failed to create $cups_client_cfg"
 fi
@@ -64,8 +65,8 @@ if [ ! -e "$cups_templates_path/$cups_snmp_cfg" ]; then
         bashio::exit.nok "Failed to create $cups_snmp_cfg"
 fi
 
-# cups-browsed.conf
-if [ ! -e "$cups_templates_path/$cups_browsed_cfg" ]; then
-    install -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_browsed_cfg" "$cups_templates_path" ||
-        bashio::exit.nok "Failed to create $cups_browsed_cfg"
-fi
+# # cups-browsed.conf
+# if [ ! -e "$cups_templates_path/$cups_browsed_cfg" ]; then
+#     install -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_browsed_cfg" "$cups_templates_path" ||
+#         bashio::exit.nok "Failed to create $cups_browsed_cfg"
+# fi

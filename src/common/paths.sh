@@ -3,7 +3,7 @@
 ### Svc Acct Settings
 export svc_acct="lp"
 export svc_group="lp"
-export svc_file_perms="0777"
+export svc_file_perms="0640"
 
 # Base Folders
 export real_config_path=/config

@@ -61,7 +61,7 @@ ErrorLog stderr
 PageLog stderr
 
 # Location of the file listing all of the local printers...
-#Printcap /config/cups/printcap
+Printcap /config/cups/printcap
 
 # Format of the Printcap file...
 #PrintcapFormat bsd
@@ -72,7 +72,7 @@ PageLog stderr
 #RequestRoot /var/spool/cups
 
 # Location of helper programs...
-ServerBin /lib/cups
+# ServerBin /lib/cups
 
 ServerKeychain {{.cups_ssl_path}}
 
