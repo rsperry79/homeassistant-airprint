@@ -64,7 +64,9 @@ options:
   #   cups_remote_admin: false
 
   cups_logging:
+    cups_log_location: log_tab
     cups_log_level: info
+    cups_access_log_location: log_tab
     cups_access_log_level: all
   cups_ssl:
     cups_encryption: Never
@@ -89,7 +91,9 @@ schema:
     avahi_reflector: bool
     avahi_reflect_ipv: bool
   cups_logging:
+    cups_log_location: list(log_tab|file)
     cups_log_level: list(debug|info|notice|error|none)
+    cups_access_log_location: list(log_tab|file)
     cups_access_log_level: list(all|access|config)
   cups_ssl:
     cups_encryption: list(IfRequested|Required|Never)

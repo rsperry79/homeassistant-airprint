@@ -41,20 +41,22 @@ configuration:
         name: Avahi IPV Reflection
         description: >-
           Do you want to enable Avahi IPV Reflection?
-  # cups_settings:
-  #   name: CUPS Settings
-  #   fields:
-  #     encryption:
-  #       name: Use encryption?
-  #       description: >-
-  #         When do you want ssl used?
+
   cups_logging:
     name: CUPS Log Levels
     fields:
+      cups_log_location:
+        name: Cups Log Location
+        description: >-
+          Do you want to Log to the Log tab or to a file (/config/cups/log, in the addons config directory)?
       cups_log_level:
         name: Cups Log Level
         description: >-
           Defines the log level for
+      cups_access_log_location:
+        name: Cups Access Log Location
+        description: >-
+          Do you want to Log to the Log tab or to a file (/config/cups/log, in the addons config directory)?
       cups_access_log_level:
         name: Cups Access Log Level
         description: >-

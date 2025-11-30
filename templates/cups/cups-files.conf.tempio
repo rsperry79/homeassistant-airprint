@@ -32,7 +32,8 @@ LogFilePerm 0644
 # Location of the file logging all access to the scheduler; may be the name
 # "syslog". If not an absolute path, the value of ServerRoot is used as the
 # root directory.  Also see the "AccessLogLevel" directive in cupsd.conf.
-AccessLog stderr
+AccessLog {{.cups_access_log_location}}
+#stderr
 # Location of cache files used by the scheduler...
 # CacheDir /var/cache/cups
 
@@ -46,7 +47,7 @@ AccessLog stderr
 # helper programs; may be the name "syslog". If not an absolute path, the value
 # of ServerRoot is used as the root directory.  Also see the "LogLevel"
 # directive in cupsd.conf.
-ErrorLog stderr
+ErrorLog {{.cups_log_location}}
 
 # Location of fonts used by older print filters...
 #FontPath /usr/share/cups/fonts

@@ -15,11 +15,11 @@ if ! bashio::fs.directory_exists "${real_cups_path}"; then
 
 fi
 
-# Cups log folder
-# if ! bashio::fs.directory_exists "${cups_log_path}"; then
-#     install -d -m "$svc_file_perms" -g "$svc_group" "${cups_log_path}" ||
-#         bashio::exit.nok 'Failed to create a persistent cups logging folder'
-# fi
+#Cups log folder
+if ! bashio::fs.directory_exists "${cups_log_path}"; then
+    install -d -m "$svc_file_perms" -g "$svc_group" "${cups_log_path}" ||
+        bashio::exit.nok 'Failed to create a persistent cups logging folder'
+fi
 
 # cups templates folder
 if ! bashio::fs.directory_exists "${cups_templates_path}"; then

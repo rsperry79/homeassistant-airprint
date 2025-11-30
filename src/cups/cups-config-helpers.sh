@@ -35,6 +35,22 @@ function update_log_level() {
     fi
 }
 
+function update_access_log_location() {
+    local setting=${1}
+    bashio::log.debug update_log_level
+    if [ -e "$real_cups_path/$cups_files" ]; then
+        sed -i "s/^.*AccessLog .*/AccessLog ${setting}/" "$real_cups_path/$cups_files"
+    fi
+}
+
+function update_log_location() {
+    local setting=${1}
+    bashio::log.debug update_log_level
+    if [ -e "$real_cups_path/$cups_files" ]; then
+        sed -i "s/^.*ErrorLog .*/ErrorLog ${setting}/" "$real_cups_path/$cups_files"
+    fi
+}
+
 function update_server_alias() {
     local setting=${1}
     bashio::log.debug update_server_alias
