@@ -58,6 +58,7 @@ function run() {
         update_snmp
     fi
 
+    setup_ssl "$cups_encryption" "$self_sign"
     #add_host_name_to_hosts "$host_name"
 
 }
@@ -76,8 +77,6 @@ function setup() {
             cups_self_sign=yes
         fi
     fi
-
-    setup_ssl "$cups_encryption" "$self_sign"
 
     # Used by autoconf
     config=$(jq --arg host_name "$HOSTNAME" --arg cups_ssl_path "$cups_ssl_path" --arg cups_log_level "$cups_log_level" \
