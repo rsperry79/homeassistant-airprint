@@ -28,7 +28,8 @@ function run() {
     #     update_browsed
     # fi
 
-    if [ ! -e "$real_cups_path/$cups_client" ]; then
+    cups_encryption=$(bashio::config 'cups_ssl.cups_encryption')
+    if [ ! -e "$real_cups_path/$cups_client" ] && [ "$cups_encryption" != "Never" ]; then
         autoconf_client
     else
         update_client
