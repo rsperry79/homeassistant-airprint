@@ -22,11 +22,11 @@ function run() {
     self_sign=false
     setup
 
-    if [ ! -e "$real_cups_path/$cups_browsed" ]; then
-        autoconf_browsed
-    else
-        update_browsed
-    fi
+    # if [ ! -e "$real_cups_path/$cups_browsed" ]; then
+    #     autoconf_browsed
+    # else
+    #     update_browsed
+    # fi
 
     if [ ! -e "$real_cups_path/$cups_client" ]; then
         autoconf_client
@@ -64,6 +64,7 @@ function run() {
 
 # Gets current settings from HA
 function setup() {
+    bashio::log.info "setup cups configs:"
     cups_log_level=$(bashio::config 'cups_logging.cups_log_level')
     cups_access_log_level=$(bashio::config 'cups_logging.cups_access_log_level')
     cups_encryption=$(bashio::config 'cups_ssl.cups_encryption')
@@ -71,7 +72,6 @@ function setup() {
     cups_self_sign=no
     if bashio::config.has_value 'cups_ssl.cups_self_sign'; then
         self_sign=$(bashio::config 'cups_ssl.cups_self_sign')
-        bashio::log.debug "Self sign has value: $self_sign"
         if [ "$self_sign" == true ]; then
             cups_self_sign=yes
         fi
@@ -84,6 +84,7 @@ function setup() {
         --arg cups_access_log_level "$cups_access_log_level" --arg host_alias "$HOST_ALIAS" --arg self_sign "$cups_self_sign" --arg cups_encryption "$cups_encryption" \
         '{ host_name: $host_name, cups_ssl_path: $cups_ssl_path,  host_alias: $host_alias , cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign,  cups_encryption: $cups_encryption }' \
         /data/options.json)
+
     bashio::log.info "setup autoconf:"
     bashio::log.info "$config"
 }
