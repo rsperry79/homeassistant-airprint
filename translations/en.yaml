@@ -82,6 +82,20 @@ configuration:
         name: File path for the Certificate private key.
         description: >-
           Do you want to allow remote Administration of Cups?
+
+  # cups_browsed:
+  #   name: CUPS Browsed
+  #   description: >-
+  #     Cups-Browsed: A helper daemon to browse the network for remote CUPS queues and IPP network printers and automatically create local queues pointing to them.
+  #   fields:
+  #     cups_browsed_enable:
+  #       name: Enable Cups-Browsed?
+  #       description: >-
+  #         Do you want to enable the cups helper daemon?
+  #     cups_browsed_debug:
+  #       name: Cups-Browsed Debug
+  #       description: >-
+  #         Do you want to set Cups-Browsed logging to verbose?
   logins:
     name: Server Users
     description: >-

@@ -31,7 +31,7 @@ function get_interfaces() {
             if [ -n "$bcast_interfaces" ]; then
                 bcast_interfaces+=",$interface"
                 bashio::log.info "Adding interface $interface"
-                #resolvectl mdns "$interface" >yes # enable resolved
+
             else
                 bcast_interfaces=$interface
             fi

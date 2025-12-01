@@ -13,7 +13,6 @@ boot: auto
 startup: system
 usb: true
 init: false
-#host_dbus: true
 host_network: true
 ports:
   631/tcp: 631
@@ -38,10 +37,10 @@ homeassistant_api: true
 # Sidebar
 panel_icon: mdi:printer
 ingress: true
-ingress_port: 631
-ingress_stream: true
-ingress_entry: admin
-#webui: http://[HOST]:[PORT:631]/
+# ingress_port: 631
+# ingress_stream: true
+# ingress_entry: admin
+webui: http://[HOST]:[PORT:631]/
 
 # Health
 watchdog: http://[HOST]:[PORT:631]/printers
@@ -73,6 +72,9 @@ options:
     cups_ssl_cert: /ssl/fullchain.pem
     cups_ssl_key: /ssl/privkey.pem
     cups_self_sign: true
+  # cups_browsed:
+  #   cups_browsed_enable: true
+  #   cups_browsed_debug: false
   logins:
     - username: print
       password: "print"
@@ -100,6 +102,9 @@ schema:
     cups_self_sign: bool
     cups_ssl_cert: str?
     cups_ssl_key: str?
+  # cups_browsed:
+  #   cups_browsed_enable: bool
+  #   cups_browsed_debug: bool
   logins:
     - username: str
       password: str

@@ -10,6 +10,7 @@
 LogLevel {{.cups_log_level}}
 PageLogFormat
 
+HostNameLookups On
 # Specifies the maximum size of the log files before they are rotated.  The value "0" disables log rotation.
 MaxLogSize 0
 
