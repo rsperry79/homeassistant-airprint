@@ -203,7 +203,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY default.conf /etc/nginx/conf.d/default.conf
 
 # Add s6 service definition for nginx
-COPY services.d/nginx/run /etc/services.d/nginx/run
+# COPY services.d/nginx/run /etc/services.d/nginx/run
 
 # Copy Cups and install
 COPY --from=builder /cups /cups
