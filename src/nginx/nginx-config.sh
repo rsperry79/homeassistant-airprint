@@ -70,8 +70,9 @@ function update_nginx_cfg() {
 function replace_configs() {
     bashio::log.info "replace_configs"
     if [ -e "$nginx_etc/$nginx_conf" ]; then
+        bashio::log.info "nginx_conf existing"
         if [ ! -L "$nginx_etc/$nginx_conf" ]; then
-            bashio::log.info "nginx_conf existing"
+            bashio::log.info "nginx_conf existing no link"
             rm -f "$nginx_etc/$nginx_conf"
             ln -s "$nginx_config_path/$nginx_conf" "$nginx_etc/$nginx_conf"
         fi
@@ -81,8 +82,9 @@ function replace_configs() {
     fi
 
     if [ -e "$nginx_sites/$nginx_default" ]; then
+        bashio::log.info "nginx_default existing"
         if [ ! -L "$nginx_sites/$nginx_default" ]; then
-            bashio::log.info "nginx_default existing"
+            bashio::log.info "nginx_default existing no link"
             rm -f "$nginx_sites/$nginx_default"
             ln -s "$nginx_config_path/$nginx_default" "$nginx_sites/$nginx_default"
         fi
