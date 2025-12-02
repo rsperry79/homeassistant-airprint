@@ -84,7 +84,7 @@ function replace_configs() {
     fi
 
     if [ -e "$nginx_etc_sites/$nginx_default" ]; then
-        bashio::log.info "nginx_default existing"
+        bashio::log.debug "nginx_default existing"
         if [ ! -L "$nginx_etc_sites/$nginx_default" ]; then
             bashio::log.info "nginx_default existing no link"
             rm -f "$nginx_etc_sites/$nginx_default"
