@@ -225,6 +225,7 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
     && usermod -aG sudo lpadmin \
     && usermod -aG lp root \
     && useradd  lp_service -g lp \
+    && useradd  ColorManager \
     && usermod -aG lpadmin lp_service \
     &&  useradd lpinfo -g lp
 
