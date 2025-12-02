@@ -22,12 +22,6 @@ if ! bashio::fs.directory_exists "${nginx_log_path}"; then
         bashio::exit.nok 'Failed to create a persistent nginx log folder'
 fi
 
-# NGINX conf.d folder
-if ! bashio::fs.directory_exists "${nginx_sites_path}"; then
-    install -d -m "$svc_file_perms" -g "$svc_group" "${nginx_sites_path}" ||
-        bashio::exit.nok 'Failed to create a persistent nginx available-sites folder'
-fi
-
 # nginx.conf
 if [ ! -e "$nginx_templates_path/$nginx_conf_cfg" ]; then
     install -m "$svc_file_perms" -g "$svc_group" "$src_nginx_templates_path/$nginx_conf_cfg" "$nginx_templates_path" ||

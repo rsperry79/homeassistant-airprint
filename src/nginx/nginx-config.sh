@@ -11,11 +11,13 @@ function run() {
         update_nginx_cfg
     fi
 
-    if [ ! -e "$nginx_sites_path/$nginx_default" ]; then
+    if [ ! -e "$nginx_config_path/$nginx_default" ]; then
         autoconf_default_config
     else
         update_nginx_default
     fi
+
+    replace_configs
 }
 
 function setup() {
@@ -54,7 +56,7 @@ function autoconf_default_config() {
     # default.conf
     echo "$config" | tempio \
         -template "$nginx_templates_path/$nginx_default_cfg" \
-        -out "$nginx_sites_path/$nginx_default"
+        -out "$nginx_config_path/$nginx_default"
 }
 
 function update_nginx_default() {
@@ -63,6 +65,18 @@ function update_nginx_default() {
 
 function update_nginx_cfg() {
     true
+}
+
+function replace_configs() {
+    if [ -e "$nginx_etc/$nginx_conf" ]; then
+        rm -f "$nginx_etc/$nginx_conf"
+        ln "$nginx_config_path/$nginx_conf" "$nginx_etc/$nginx_conf"
+    fi
+
+    if [ -e "$nginx_sites/$nginx_default" ]; then
+        rm -f "$nginx_sites/$nginx_default"
+        ln "$nginx_config_path/$nginx_default" "$nginx_sites/$nginx_default"
+    fi
 }
 
 run
