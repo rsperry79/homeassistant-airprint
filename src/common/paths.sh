@@ -56,7 +56,7 @@ export nginx_log_path=$nginx_config_path/logs
 export nginx_templates_path=$nginx_config_path/templates
 export src_nginx_templates_path=$templates_path/nginx
 # Template files
-export nginx_default_cfg=default.conf.tempio
+export nginx_default_cfg=default.tempio
 export nginx_conf_cfg=nginx.conf.tempio
 # Config files
 export nginx_default=default
