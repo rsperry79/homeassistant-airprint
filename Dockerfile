@@ -201,7 +201,6 @@ COPY templates /usr/templates
 
 # RUN rm -f  /etc/nginx/nginx.conf \
 #     rm -f  /etc/nginx/sites-available/default
-RUN cp /etc/nginx /config
 
 # Copy Cups and install
 COPY --from=builder /cups /cups
