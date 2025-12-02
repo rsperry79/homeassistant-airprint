@@ -95,7 +95,6 @@ function replace_configs() {
     else
         bashio::log.info "nginx_default no existing"
         ln -s "$nginx_config_path/$nginx_default" "$nginx_etc_sites/$nginx_default"
-        ln -s "$nginx_etc_sites/$nginx_default" "$nginx_etc_enabled"
     fi
 
     if [ -e "$nginx_etc_enabled/$nginx_default" ]; then
