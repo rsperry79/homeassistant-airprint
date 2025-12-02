@@ -75,22 +75,26 @@ function replace_configs() {
             bashio::log.info "nginx_conf existing no link"
             rm -f "$nginx_etc/$nginx_conf"
             ln -s "$nginx_config_path/$nginx_conf" "$nginx_etc/$nginx_conf"
+        else
+            bashio::log.info "nginx_conf valid link"
         fi
     else
         bashio::log.info "nginx_conf no existing"
         ln -s "$nginx_config_path/$nginx_conf" "$nginx_etc/$nginx_conf"
     fi
 
-    if [ -e "$nginx_sites/$nginx_default" ]; then
+    if [ -e "$nginx_etc_sites/$nginx_default" ]; then
         bashio::log.info "nginx_default existing"
-        if [ ! -L "$nginx_sites/$nginx_default" ]; then
+        if [ ! -L "$nginx_etc_sites/$nginx_default" ]; then
             bashio::log.info "nginx_default existing no link"
-            rm -f "$nginx_sites/$nginx_default"
-            ln -s "$nginx_config_path/$nginx_default" "$nginx_sites/$nginx_default"
+            rm -f "$nginx_etc_sites/$nginx_default"
+            ln -s "$nginx_config_path/$nginx_default" "$nginx_etc_sites/$nginx_default"
+        else
+            bashio::log.info "nginx_default valid symlink"
         fi
     else
         bashio::log.info "nginx_default no existing"
-        ln -s "$nginx_config_path/$nginx_default" "$nginx_sites/$nginx_default"
+        ln -s "$nginx_config_path/$nginx_default" "$nginx_etc_sites/$nginx_default"
     fi
 }
 
