@@ -40,7 +40,7 @@ function setup() {
     nginx_ssl_key=""         #"ssl_certificate_key {{.nginx_ssl_key}};"
 
     config=$(jq --arg nginx_log_location "$nginx_log_location" --arg nginx_access_log_location "$nginx_access_log_location" --arg nginx_ssl_certificate "$nginx_ssl_certificate" --arg nginx_ssl_key "$nginx_ssl_key" \
-        '{nginx_log_location: $nginx_log_location, nginx_access_log_location: $nginx_access_log_location, nginx_ssl_certificate: $nginx_ssl_certificate, nginx_ssl_key: $nginx_ssl_key' \
+        '{nginx_log_location: $nginx_log_location, nginx_access_log_location: $nginx_access_log_location, nginx_ssl_certificate: $nginx_ssl_certificate, nginx_ssl_key: $nginx_ssl_key}' \
         /data/options.json)
 }
 
