@@ -95,6 +95,21 @@ function replace_configs() {
     else
         bashio::log.info "nginx_default no existing"
         ln -s "$nginx_config_path/$nginx_default" "$nginx_etc_sites/$nginx_default"
+        ln -s "$nginx_etc_sites/$nginx_default" "$nginx_etc_enabled"
+    fi
+
+    if [ -e "$nginx_etc_enabled/$nginx_default" ]; then
+        bashio::log.debug "nginx_etc_enabled existing"
+        if [ ! -L "$nginx_etc_enabled/$nginx_default" ]; then
+            bashio::log.info "nginx_etc_enabled existing no link"
+            rm -f "$nginx_etc_enabled/$nginx_default"
+            ln -s "$nginx_etc_sites/$nginx_default" "$nginx_etc_enabled"
+        else
+            bashio::log.info "nginx_etc_enabled valid symlink"
+        fi
+    else
+        bashio::log.info "nginx_etc_enabled no existing"
+        ln -s "$nginx_etc_sites/$nginx_default" "$nginx_etc_enabled"
     fi
 }
 
