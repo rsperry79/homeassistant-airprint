@@ -7,6 +7,7 @@ source "/opt/common/paths.sh"
 ulimit -n 524288
 
 function run() {
+    nginx -t
     nginx -g "daemon off;"
 }
 
