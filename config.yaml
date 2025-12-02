@@ -39,10 +39,8 @@ panel_icon: mdi:printer
 ingress: true
 ingress_port: 80
 ingress_stream: true
-ingress_entry: admin
+ingress_entry:
 #webui: http://[HOST]:[PORT:631]/
-
-
 
 # Health
 watchdog: http://[HOST]:[PORT:631]/printers
@@ -61,9 +59,6 @@ options:
     avahi_debug: false
     avahi_reflector: false
     avahi_reflect_ipv: false
-  # cups_settings:
-  #   cups_remote_admin: false
-
   cups_logging:
     cups_log_location: log_tab
     cups_log_level: info
@@ -74,9 +69,9 @@ options:
     cups_ssl_cert: /ssl/fullchain.pem
     cups_ssl_key: /ssl/privkey.pem
     cups_self_sign: true
-  # cups_browsed:
-  #   cups_browsed_enable: true
-  #   cups_browsed_debug: false
+  nginx:
+    nginx_log_location: log_tab
+    nginx_access_log_location: log_tab
   logins:
     - username: print
       password: "print"
@@ -104,9 +99,9 @@ schema:
     cups_self_sign: bool
     cups_ssl_cert: str?
     cups_ssl_key: str?
-  # cups_browsed:
-  #   cups_browsed_enable: bool
-  #   cups_browsed_debug: bool
+  nginx:
+    nginx_log_location: list(log_tab|file)
+    nginx_access_log_location: list(log_tab|file)
   logins:
     - username: str
       password: str

@@ -77,6 +77,8 @@ function setup() {
     cups_access_log_location=$(bashio::config 'cups_logging.cups_access_log_location')
     if [ "$cups_access_log_location" = "log_tab" ]; then
         cups_access_log_location=stderr
+    else
+        cups_access_log_location=$cups_log_path/cups.log
     fi
 
     cups_access_log_level=$(bashio::config 'cups_logging.cups_access_log_level')

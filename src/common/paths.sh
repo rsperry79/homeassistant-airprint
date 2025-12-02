@@ -46,3 +46,18 @@ export src_avahi_templates_path=$templates_path/avahi
 export avahi_daemon_cfg=avahi-daemon.conf.tempio
 # Config files
 export avahi_daemon=avahi-daemon.conf
+
+#### NGINX
+# Folder paths
+export nginx_etc=/etc/nginx
+export nginx_config_path=$real_config_path/nginx
+export nginx_sites_path=$nginx_config_path/sites-available
+export nginx_log_path=$nginx_config_path/logs
+export nginx_templates_path=$nginx_config_path/templates
+export src_nginx_templates_path=$templates_path/nginx
+# Template files
+export nginx_default_cfg=default.conf.tempio
+export nginx_conf_cfg=nginx.conf.tempio
+# Config files
+export nginx_default=default.conf
+export nginx_conf=nginx.conf

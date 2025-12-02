@@ -10,10 +10,9 @@ if ! bashio::fs.directory_exists "${real_cups_path}"; then
     if [ -d /etc/cups ] && [ ! -h /etc/cups ]; then
         rm -rf /etc/cups
     fi
-
-    ln -sn "$real_cups_path" /etc/cups
-
 fi
+
+ln -sn "$real_cups_path" /etc/cups
 
 #Cups log folder
 if ! bashio::fs.directory_exists "${cups_log_path}"; then
@@ -63,9 +62,3 @@ if [ ! -e "$cups_templates_path/$cups_snmp_cfg" ]; then
     install -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_snmp_cfg" "$cups_templates_path" ||
         bashio::exit.nok "Failed to create $cups_snmp_cfg"
 fi
-
-# # cups-browsed.conf
-# if [ ! -e "$cups_templates_path/$cups_browsed_cfg" ]; then
-#     install -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_browsed_cfg" "$cups_templates_path" ||
-#         bashio::exit.nok "Failed to create $cups_browsed_cfg"
-# fi

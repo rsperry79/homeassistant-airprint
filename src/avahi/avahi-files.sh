@@ -13,8 +13,9 @@ if ! bashio::fs.directory_exists "${avahi_services_path}"; then
     install -d -m "$svc_file_perms" -g "$svc_group" "${avahi_services_path}" ||
         bashio::exit.nok 'Failed to create a persistent Avahi services folder'
 
-    ln -sn "$avahi_services_path" /etc/avahi/services
 fi
+
+ln -sn "$avahi_services_path" /etc/avahi/services
 
 # avahi templates folder
 if ! bashio::fs.directory_exists "${avahi_templates_path}"; then

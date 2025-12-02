@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv bashio
+# shellcheck disable=SC2034
+
+# shellcheck source="../../src/common/paths.sh"
+source "/opt/common/paths.sh"
+
+ulimit -n 524288
+
+function run() {
+    nginx -g "daemon off;"
+}
+
+run

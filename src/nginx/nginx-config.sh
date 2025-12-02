@@ -1,0 +1,68 @@
+#!/command/with-contend bashio
+# shellcheck source="../common/paths.sh"
+source "/opt/common/paths.sh"
+
+function run() {
+    setup
+
+    if [ ! -e "$nginx_config_path/$nginx_conf" ]; then
+        autoconf_nginx_config
+    else
+        update_nginx_cfg
+    fi
+
+    if [ ! -e "$nginx_sites_path/$nginx_default" ]; then
+        autoconf_default_config
+    else
+        update_nginx_default
+    fi
+}
+
+function setup() {
+
+    nginx_log_location=$(bashio::config 'nginx.nginx_log_location')
+    if [ "$nginx_log_location" = "log_tab" ]; then
+        nginx_log_location=stderr
+    else
+        nginx_log_location=$nginx_log_path/nginx.log
+    fi
+
+    nginx_access_log_location=$(bashio::config 'nginx.nginx_access_log_location')
+    if [ "$nginx_log_location" = "log_tab" ]; then
+        nginx_log_location=stderr
+    else
+        nginx_log_location=$nginx_log_path/access.log
+    fi
+
+    nginx_ssl_certificate="" #"ssl_certificate {{.nginx_ssl_cert}};"
+    nginx_ssl_key=""         #"ssl_certificate_key {{.nginx_ssl_key}};"
+
+    config=$(jq --arg nginx_log_location "$nginx_log_location" --arg nginx_access_log_location "$nginx_access_log_location" --arg nginx_ssl_certificate "$nginx_ssl_certificate" --arg nginx_ssl_key "$nginx_ssl_key" \
+        '{nginx_log_location: $nginx_log_location, nginx_access_log_location: $nginx_access_log_location, nginx_ssl_certificate: $nginx_ssl_certificate, nginx_ssl_key: $nginx_ssl_key' \
+        /data/options.json)
+}
+
+# Uses the template to regenerate the configuration file. Ensures a clean file.
+function autoconf_nginx_config() {
+    # nginx.conf
+    echo "$config" | tempio \
+        -template "$nginx_templates_path/$nginx_conf_cfg" \
+        -out "$nginx_config_path/$nginx_conf"
+}
+
+function autoconf_default_config() {
+    # default.conf
+    echo "$config" | tempio \
+        -template "$nginx_templates_path/$nginx_default_cfg" \
+        -out "$nginx_sites_path/$nginx_default"
+}
+
+function update_nginx_default() {
+    true
+}
+
+function update_nginx_cfg() {
+    true
+}
+
+run

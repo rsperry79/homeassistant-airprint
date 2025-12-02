@@ -82,20 +82,20 @@ configuration:
         name: File path for the Certificate private key.
         description: >-
           Do you want to allow remote Administration of Cups?
+  nginx:
+    name: Sidebar NGINX
+    description: >-
+      Settings for the Sidebar NGINX reverser proxy. This allows the admin portal to be displayed.
+    fields:
+      nginx_log_location:
+        name: Error Logging
+        description: >-
+          Do you want to Log errors  to the Log tab or to a file (/config/nginx/log, in the addons config directory)?
 
-  # cups_browsed:
-  #   name: CUPS Browsed
-  #   description: >-
-  #     Cups-Browsed: A helper daemon to browse the network for remote CUPS queues and IPP network printers and automatically create local queues pointing to them.
-  #   fields:
-  #     cups_browsed_enable:
-  #       name: Enable Cups-Browsed?
-  #       description: >-
-  #         Do you want to enable the cups helper daemon?
-  #     cups_browsed_debug:
-  #       name: Cups-Browsed Debug
-  #       description: >-
-  #         Do you want to set Cups-Browsed logging to verbose?
+      nginx_access_log_location:
+        name: Access Logging
+        description: >-
+          Do you want the Access Log to log to the Log tab or to a file (/config/nginx/log, in the addons config directory)?
   logins:
     name: Server Users
     description: >-

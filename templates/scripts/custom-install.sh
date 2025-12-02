@@ -12,20 +12,24 @@ function install_9970() {
     cd "$package_dir" || exit 1
     mkdir -p /var/spool/lpd/
     # check if dl'd to speed up boot
-    if [ ! -e "$package_dir"/mfc9970cdwlpr-1.1.1-5.i386.deb ]; then
-        wget https://download.brother.com/welcome/dlf006526/mfc9970cdwlpr-1.1.1-5.i386.deb -O "$package_dir"/mfc9970cdwlpr-1.1.1-5.i386.deb
+    lpr_pkg="$package_dir"/mfc9970cdwlpr-1.1.1-5.i386.deb
+    lpr_url=https://download.brother.com/welcome/dlf006526/mfc9970cdwlpr-1.1.1-5.i386.deb
+    if [ ! -e "$lpr_pkg" ]; then
+        wget "$lpr_url" -O "$lpr_pkg"
     fi
     # second check to ensure it was dl'd before install to prevent fatal errors
-    if [ -e "$package_dir"/mfc9970cdwlpr-1.1.1-5.i386.deb ]; then
+    if [ -e "$lpr_pkg" ]; then
         # force all as brother only supplies a 386 package.
-        dpkg -i --force-all "$package_dir"/mfc9970cdwlpr-1.1.1-5.i386.deb || rm -f "$package_dir"/mfc9970cdwlpr-1.1.1-5.i386.deb
+        dpkg -i --force-all "$lpr_pkg" || rm -f "$lpr_pkg"
     fi
 
-    if [ ! -e "$package_dir"/mfc9970cdwcupswrapper-1.1.1-5.i386.deb ]; then
-        wget https://download.brother.com/welcome/dlf006528/mfc9970cdwcupswrapper-1.1.1-5.i386.deb -O "$package_dir"/mfc9970cdwcupswrapper-1.1.1-5.i386.deb
+    cups_pkg="$package_dir"/mfc9970cdwcupswrapper-1.1.1-5.i386.deb
+    cups_url=https://download.brother.com/welcome/dlf006528/mfc9970cdwcupswrapper-1.1.1-5.i386.deb
+    if [ ! -e "$cups_pkg" ]; then
+        wget "$cups_url" -O "$cups_pkg"
     fi
-    if [ -e "$package_dir"/mfc9970cdwcupswrapper-1.1.1-5.i386.deb ]; then
-        dpkg -i --force-all "$package_dir"/mfc9970cdwcupswrapper-1.1.1-5.i386.deb || rm -f e "$package_dir"/mfc9970cdwcupswrapper-1.1.1-5.i386.deb
+    if [ -e "$cups_pkg" ]; then
+        dpkg -i --force-all "$cups_pkg" || rm -f e "$cups_pkg"
     else
         bashio::log.notice "Cups wrapper was not present"
     fi
