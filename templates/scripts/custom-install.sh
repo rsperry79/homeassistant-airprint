@@ -9,30 +9,12 @@ function run() {
 }
 
 function install_9970() {
-    cd "$package_dir" || exit 1
-    mkdir -p /var/spool/lpd/
-    # check if dl'd to speed up boot
-    lpr_pkg="$package_dir"/mfc9970cdwlpr-1.1.1-5.i386.deb
-    lpr_url=https://download.brother.com/welcome/dlf006526/mfc9970cdwlpr-1.1.1-5.i386.deb
-    if [ ! -e "$lpr_pkg" ]; then
-        wget "$lpr_url" -O "$lpr_pkg"
-    fi
-    # second check to ensure it was dl'd before install to prevent fatal errors
-    if [ -e "$lpr_pkg" ]; then
-        # force all as brother only supplies a 386 package.
-        dpkg -i --force-all "$lpr_pkg" || rm -f "$lpr_pkg"
-    fi
-
-    cups_pkg="$package_dir"/mfc9970cdwcupswrapper-1.1.1-5.i386.deb
     cups_url=https://download.brother.com/welcome/dlf006528/mfc9970cdwcupswrapper-1.1.1-5.i386.deb
-    if [ ! -e "$cups_pkg" ]; then
-        wget "$cups_url" -O "$cups_pkg"
-    fi
-    if [ -e "$cups_pkg" ]; then
-        dpkg -i --force-all "$cups_pkg" || rm -f e "$cups_pkg"
-    else
-        bashio::log.notice "Cups wrapper was not present"
-    fi
+    lpr_url=https://download.brother.com/welcome/dlf006526/mfc9970cdwlpr-1.1.1-5.i386.deb
+
+    mkdir -p /var/spool/lpd/
+    get_install "mfc9970cdwlpr.i386.deb" "$lpr_url" true
+    get_install "mfc9970cdwcupswrapper.i386.deb" "$cups_url" true
 }
 
 function install_cannon() {
@@ -42,6 +24,29 @@ function install_cannon() {
     tar -xvf ./cnijfilter2.tar.gz cnijfilter2-6.80-1-deb/packages/cnijfilter2_6.80-1_amd64.deb
     mv cnijfilter2-6.80-1-deb/packages/cnijfilter2_6.80-1_amd64.deb cnijfilter2_6.80-1.deb
     apt install ./cnijfilter2_6.80-1.deb
+}
+
+function get_install() {
+    local name=${1}
+    local url=${2}
+    local force=${3:-false}
+
+    cd "$package_dir" || exit 1
+
+    file="$package_dir"/"$name"
+    # check if dl'd to speed up boot
+    if [ ! -e "$file" ]; then
+        wget "$url" -O "$file"
+    fi
+    if [ -e "$file" ]; then
+        if [ "$force" = true ]; then
+            dpkg -i --force-all "$file" || rm -f "$file"
+        else
+            dpkg -i "$file" || rm -f "$file"
+        fi
+    else
+        bashio::log.notice "Failed to install $file"
+    fi
 }
 
 run
