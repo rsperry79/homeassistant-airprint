@@ -68,12 +68,12 @@ function update_nginx_cfg() {
 }
 
 function replace_configs() {
-    if [ -e "$nginx_etc/$nginx_conf" ]; then
+    if [ -e "$nginx_etc/$nginx_conf" ] && [ ! -L "$nginx_etc/$nginx_conf" ]; then
         rm -f "$nginx_etc/$nginx_conf"
         ln -s "$nginx_config_path/$nginx_conf" "$nginx_etc/$nginx_conf"
     fi
 
-    if [ -e "$nginx_sites/$nginx_default" ]; then
+    if [ -e "$nginx_sites/$nginx_default" ] && [ ! -L "$nginx_sites/$nginx_default" ]; then
         rm -f "$nginx_sites/$nginx_default"
         ln -s "$nginx_config_path/$nginx_default" "$nginx_sites/$nginx_default"
     fi
