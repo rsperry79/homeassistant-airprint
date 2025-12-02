@@ -4,11 +4,14 @@ mkdir -p /var/run/dbus
 bashio::log.info "Initializing Common Config"
 bashio /opt/common/common.sh
 
+bashio::log.info "Initializing Avahi files"
+bashio /opt/avahi/avahi-files.sh
+
 bashio::log.info "Initializing Cups files"
 bashio /opt/cups/cups-files.sh
 
-bashio::log.info "Initializing Avahi files"
-bashio /opt/avahi/avahi-files.sh
+bashio::log.info "Initializing NGINX files"
+bashio /opt/nginx/nginx-files.sh
 
 bashio::log.info "Running Additional packages"
 bashio /opt/common/packages.sh
@@ -21,3 +24,6 @@ bashio /opt/avahi/avahi-config.sh
 
 bashio::log.info "Initializing Cups config"
 bashio /opt/cups/cups-config.sh
+
+bashio::log.info "Initializing NGINX config"
+bashio /opt/nginx/nginx-config.sh
