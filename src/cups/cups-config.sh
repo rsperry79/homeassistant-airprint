@@ -35,31 +35,38 @@ function run() {
         update_client
     fi
 
+    bashio::log.info "exit cups config client"
+
     if [ ! -e "$real_cups_path/$cups_daemon" ]; then
         autoconf_daemon
     else
         update_daemon
     fi
+    bashio::log.info "exit cups config daemon"
 
     if [ ! -e "$real_cups_path/$cups_files" ]; then
         autoconf_files
     else
         update_files
     fi
+    bashio::log.info "exit cups config FILES"
 
     if [ ! -e "$real_cups_path/$cups_pdf" ]; then
         autoconf_pdf
     else
         update_pdf
     fi
+    bashio::log.info "exit cups config pdf"
 
     if [ ! -e "$real_cups_path/$cups_snmp" ]; then
         autoconf_snmp
     else
         update_snmp
     fi
+    bashio::log.info "exit cups config snmp"
 
     setup_ssl "$cups_encryption" "$self_sign"
+    bashio::log.info "exit cups config ssl"
     #add_host_name_to_hosts "$host_name"
 
 }
@@ -103,8 +110,7 @@ function setup() {
             /data/options.json
     )
 
-    bashio::log.info "setup autoconf:"
-    bashio::log.info "$config"
+    bashio::log.info "exit cups config setup"
 }
 
 function autoconf_client() {
