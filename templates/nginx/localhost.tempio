@@ -19,8 +19,8 @@
 # Default server configuration
 #
 server {
-	listen 88 default_server;
-	listen [::]:88 default_server;
+	listen 127.0.0.1:88 default_server;
+
 
 	# SSL configuration
     # listen 443 ssl default_server;

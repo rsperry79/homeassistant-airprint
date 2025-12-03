@@ -37,7 +37,7 @@ homeassistant_api: true
 # Sidebar
 panel_icon: mdi:printer
 ingress: true
-ingress_port: 80
+ingress_port: 88
 ingress_stream: true
 
 #webui: http://[HOST]:[PORT:631]/
