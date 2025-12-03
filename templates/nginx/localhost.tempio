@@ -19,7 +19,7 @@
 # Default server configuration
 #
 server {
-	listen 127.0.0.1:5150 default_server;
+	listen 5150 default_server;
 
 
 	# SSL configuration
@@ -28,9 +28,6 @@ server {
 
 
 	server_name _;
-
-    # {{.nginx_ssl_cert}};;
-    # {{.nginx_ssl_key}};
 
     location / {
         proxy_pass http://localhost:631;
