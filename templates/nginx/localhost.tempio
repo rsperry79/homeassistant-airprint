@@ -30,8 +30,8 @@ server {
 
 	server_name _;
 
-    {{.nginx_ssl_cert}};;
-    {{.nginx_ssl_key}};
+    # {{.nginx_ssl_cert}};;
+    # {{.nginx_ssl_key}};
 
     location / {
         proxy_pass http://localhost:631;
