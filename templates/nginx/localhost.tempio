@@ -29,6 +29,8 @@ server {
 
 	server_name _;
 
+
+
     location / {
         proxy_pass http://localhost:631;
         proxy_http_version 1.1;
@@ -51,7 +53,8 @@ server {
 #server {
 #	listen 80;
 #	listen [::]:80;
-#
+# {{.nginx_ssl_cert__}};;
+# {{.nginx_ssl_key__}};
 #	server_name example.com;
 #
 #	root /var/www/example.com;
