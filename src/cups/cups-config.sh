@@ -18,7 +18,7 @@ function run() {
     cups_log_level="error"
     cups_encryption="IfRequested"
     cups_access_log_level="config"
-    HOST_ALIAS="*"
+    HOST_ALIAS="localhost"
     self_sign=false
     setup
 
