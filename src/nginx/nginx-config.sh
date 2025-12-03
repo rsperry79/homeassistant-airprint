@@ -33,7 +33,7 @@ function setup() {
     if [ "$nginx_log_location" = "log_tab" ]; then
         nginx_log_location=stderr
     else
-        nginx_log_location=$nginx_log_path/access.log
+        nginx_log_location=$nginx_log_path/nginx.log
     fi
 
     nginx_ssl_certificate="" #"ssl_certificate {{.nginx_ssl_cert}};"
