@@ -97,6 +97,11 @@ function replace_configs() {
         ln -s "$nginx_config_path/$nginx_default" "$nginx_etc_sites/$nginx_default"
     fi
 
+    # remove the default file with localhost defined
+    # if [ -d "$nginx_etc_enabled"/default ]; then
+    #     rm "$nginx_etc_enabled"/default
+    # fi
+
     if [ -e "$nginx_etc_enabled/$nginx_default" ]; then
         bashio::log.debug "nginx_etc_enabled existing"
         if [ ! -L "$nginx_etc_enabled/$nginx_default" ]; then

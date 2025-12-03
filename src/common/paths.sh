@@ -64,5 +64,5 @@ export nginx_templates_path=$nginx_config_path/templates
 export nginx_default_cfg=localhost.tempio
 export nginx_conf_cfg=nginx.conf.tempio
 # Config files
-export nginx_default=localhost
+export nginx_default=default
 export nginx_conf=nginx.conf
