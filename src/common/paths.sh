@@ -53,7 +53,6 @@ export avahi_daemon=avahi-daemon.conf
 export nginx_config_path=$real_config_path/nginx
 export nginx_log_path=$nginx_config_path/logs
 # etc
-
 export nginx_etc=/etc/nginx
 export nginx_etc_sites=/etc/nginx/sites-available
 export nginx_etc_enabled=/etc/nginx/sites-enabled/
