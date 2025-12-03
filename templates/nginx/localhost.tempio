@@ -19,7 +19,7 @@
 # Default server configuration
 #
 server {
-	listen 127.0.0.1:88 default_server;
+	listen 127.0.0.1:5150 default_server;
 
 
 	# SSL configuration
