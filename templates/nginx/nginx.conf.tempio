@@ -38,7 +38,7 @@ http {
 	# Logging Settings
 	##
 
-	access_log  {{.nginx_log_location}};
+	access_log  {{.nginx_access_log_location}};
 
 	##
 	# Gzip Settings

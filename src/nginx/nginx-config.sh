@@ -30,10 +30,10 @@ function setup() {
     fi
 
     nginx_access_log_location=$(bashio::config 'nginx.nginx_access_log_location')
-    if [ "$nginx_log_location" = "log_tab" ]; then
-        nginx_log_location=stderr
+    if [ "$nginx_access_log_location" = "log_tab" ]; then
+        nginx_access_log_location=stderr
     else
-        nginx_log_location=$nginx_log_path/nginx.log
+        nginx_access_log_location=$nginx_log_path/access.log
     fi
 
     nginx_ssl_certificate="" #"ssl_certificate {{.nginx_ssl_cert}};"
