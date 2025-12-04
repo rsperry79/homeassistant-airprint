@@ -23,7 +23,7 @@ function update_access_log_level() {
     local setting=${1}
     bashio::log.debug update_access_log_level
     if [ -e "$real_cups_path/$cups_files" ]; then
-        sed -i "s#^.*AccessLogLevel .*#AccessLogLevel ${setting}#" "$real_cups_path/$cups_files"
+        sed -i "s/^.*AccessLogLevel .*/AccessLogLevel ${setting}/" "$real_cups_path/$cups_daemon"
     fi
 }
 
