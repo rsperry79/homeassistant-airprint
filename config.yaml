@@ -63,9 +63,9 @@ options:
     avahi_reflect_ipv: false
   cups_logging:
     cups_fatal_errors: permissions
-    cups_log_location: log_tab
+    cups_log_location: file
     cups_log_level: info
-    cups_access_log_location: log_tab
+    cups_access_log_location: file
     cups_access_log_level: all
   cups_ssl:
     cups_encryption: Never
@@ -74,8 +74,8 @@ options:
     cups_self_sign: true
   nginx:
     nginx_log_level: warn
-    nginx_log_location: log_tab
-    nginx_access_log_location: log_tab
+    nginx_log_location: file
+    nginx_access_log_location: file
   logins:
     - username: print
       password: "print"
