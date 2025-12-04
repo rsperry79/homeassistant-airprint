@@ -75,7 +75,7 @@ function setup() {
     else
         cups_access_log_location=$cups_log_path/cups.log
     fi
-    fatal_errors
+
     cups_fatal_errors=$(bashio::config 'cups_logging.cups_fatal_errors')
     cups_access_log_level=$(bashio::config 'cups_logging.cups_access_log_level')
     cups_encryption=$(bashio::config 'cups_ssl.cups_encryption')
