@@ -64,13 +64,13 @@ function setup() {
     bashio::log.info "setup cups configs:"
 
     cups_log_location=$(bashio::config 'cups_logging.cups_log_location')
-    if [ "$cups_log_location" = "log_tab" ]; then
+    if [ "$cups_log_location" = "false" ]; then
         cups_log_location=stderr
     fi
 
     cups_log_level=$(bashio::config 'cups_logging.cups_log_level')
     cups_access_log_location=$(bashio::config 'cups_logging.cups_access_log_location')
-    if [ "$cups_access_log_location" = "log_tab" ]; then
+    if [ "$cups_access_log_location" = "false" ]; then
         cups_access_log_location=stderr
     else
         cups_access_log_location=$cups_log_path/cups.log

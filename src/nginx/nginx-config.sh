@@ -23,14 +23,14 @@ function run() {
 function setup() {
 
     nginx_log_location=$(bashio::config 'nginx.nginx_log_location')
-    if [ "$nginx_log_location" = "log_tab" ]; then
+    if [ "$nginx_log_location" = "false" ]; then
         nginx_log_location=stderr
     else
         nginx_log_location=$nginx_log_path/nginx.log
     fi
 
     nginx_access_log_location=$(bashio::config 'nginx.nginx_access_log_location')
-    if [ "$nginx_access_log_location" = "log_tab" ]; then
+    if [ "$nginx_access_log_location" = "false" ]; then
         nginx_access_log_location=stderr
     else
         nginx_access_log_location=$nginx_log_path/access.log
