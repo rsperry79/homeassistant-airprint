@@ -41,7 +41,6 @@ configuration:
         name: Avahi IPV Reflection
         description: >-
           Do you want to enable Avahi IPV Reflection?
-
   cups_logging:
     name: CUPS Log Levels
     fields:
