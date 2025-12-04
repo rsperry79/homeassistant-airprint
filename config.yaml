@@ -70,6 +70,7 @@ options:
     cups_ssl_key: /ssl/privkey.pem
     cups_self_sign: true
   nginx:
+    nginx_log_level: warn
     nginx_log_location: log_tab
     nginx_access_log_location: log_tab
   logins:
@@ -102,6 +103,7 @@ schema:
   nginx:
     nginx_log_location: list(log_tab|file)
     nginx_access_log_location: list(log_tab|file)
+    nginx_log_level: list(warn,error,crit,alert,emerg)
   logins:
     - username: str
       password: str

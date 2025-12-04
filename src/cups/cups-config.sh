@@ -22,12 +22,6 @@ function run() {
     self_sign=false
     setup
 
-    # if [ ! -e "$real_cups_path/$cups_browsed" ]; then
-    #     autoconf_browsed
-    # else
-    #     update_browsed
-    # fi
-
     cups_encryption=$(bashio::config 'cups_ssl.cups_encryption')
     if [ ! -e "$real_cups_path/$cups_client" ] && [ "$cups_encryption" != "Never" ]; then
         autoconf_client
@@ -35,35 +29,29 @@ function run() {
         update_client
     fi
 
-    bashio::log.info "exit cups config client"
-
     if [ ! -e "$real_cups_path/$cups_daemon" ]; then
         autoconf_daemon
     else
         update_daemon
     fi
-    bashio::log.info "exit cups config daemon"
 
     if [ ! -e "$real_cups_path/$cups_files" ]; then
         autoconf_files
     else
         update_files
     fi
-    bashio::log.info "exit cups config FILES"
 
     if [ ! -e "$real_cups_path/$cups_pdf" ]; then
         autoconf_pdf
     else
         update_pdf
     fi
-    bashio::log.info "exit cups config pdf"
 
     if [ ! -e "$real_cups_path/$cups_snmp" ]; then
         autoconf_snmp
     else
         update_snmp
     fi
-    bashio::log.info "exit cups config snmp"
 
     setup_ssl "$cups_encryption" "$self_sign"
     bashio::log.info "exit cups config ssl"
@@ -109,8 +97,6 @@ function setup() {
             '{ host_name: $host_name, cups_ssl_path: $cups_ssl_path,  host_alias: $host_alias , cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign,  cups_encryption: $cups_encryption, cups_log_location: $cups_log_location, cups_access_log_location: $cups_access_log_location  }' \
             /data/options.json
     )
-
-    bashio::log.info "exit cups config setup"
 }
 
 function autoconf_client() {
@@ -156,11 +142,8 @@ function autoconf_files() {
 
 function update_files() {
     update_access_log_level "$cups_access_log_level"
-    bashio::log.info "exit cups update_files access level"
     update_access_log_location "$cups_access_log_location"
-    bashio::log.info "exit cups update_files access location"
     update_log_location "$cups_log_location"
-    bashio::log.info "exit cups update_files error location"
     update_self_sign "$self_sign"
 }
 
@@ -168,7 +151,6 @@ function autoconf_pdf() {
     echo "$config" | tempio \
         -template "$cups_templates_path/$cups_pdf_cfg" \
         -out "$real_cups_path/$cups_pdf"
-
 }
 
 function update_pdf() {

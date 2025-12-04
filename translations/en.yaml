@@ -52,7 +52,7 @@ configuration:
       cups_log_level:
         name: Cups Log Level
         description: >-
-          Defines the log level for
+          Defines the log level for CUPS error logging
       cups_access_log_location:
         name: Cups Access Log Location
         description: >-
@@ -60,7 +60,7 @@ configuration:
       cups_access_log_level:
         name: Cups Access Log Level
         description: >-
-          Defines the access log level for
+          Defines the access log level for CUPS access logging
   cups_ssl:
     name: CUPS SSL Settings
     description: >-
@@ -96,6 +96,10 @@ configuration:
         name: Access Logging
         description: >-
           Do you want the Access Log to log to the Log tab or to a file (/config/nginx/log, in the addons config directory)?
+      nginx_log_level:
+        name: Log Level
+        description: >-
+          Defines the log level for NGINX error logging.
   logins:
     name: Server Users
     description: >-
