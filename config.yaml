@@ -1,6 +1,6 @@
 name: AirPrint Server
 version: "1.0"
-slug: airprint
+slug: airprintz
 description: An AirPrint Server
 url: >-
   https://github.com/rsperry79/homeassistant-airprint
