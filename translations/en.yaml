@@ -91,7 +91,6 @@ configuration:
         name: Write Error Log to a file?
         description: >-
           Do you want to Log errors to a file (/addon_configs/airprint_[slug]/nginx/log/nginx.log)?
-
       nginx_access_log_to_file:
         name: Write Access Log to a file?
         description: >-
