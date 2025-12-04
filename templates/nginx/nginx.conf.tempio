@@ -1,4 +1,4 @@
-user www-data;
+user lp;
 worker_processes auto;
 worker_cpu_affinity auto;
 pid /run/nginx.pid;

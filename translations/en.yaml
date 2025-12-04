@@ -45,6 +45,10 @@ configuration:
   cups_logging:
     name: CUPS Log Levels
     fields:
+      cups_fatal_errors:
+        name: Cups Fatal Errors
+        description: >-
+          Specifies which errors are fatal, causing the scheduler to exit.
       cups_log_location:
         name: Cups Log Location
         description: >-

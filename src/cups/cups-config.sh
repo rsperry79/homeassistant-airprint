@@ -75,7 +75,8 @@ function setup() {
     else
         cups_access_log_location=$cups_log_path/cups.log
     fi
-
+    fatal_errors
+    cups_fatal_errors=$(bashio::config 'cups_logging.cups_fatal_errors')
     cups_access_log_level=$(bashio::config 'cups_logging.cups_access_log_level')
     cups_encryption=$(bashio::config 'cups_ssl.cups_encryption')
     cups_access_log_level=$(bashio::config 'cups_logging.cups_access_log_level')
@@ -91,10 +92,10 @@ function setup() {
 
     # Used by autoconf
     config=$(
-        jq --arg host_name "$HOSTNAME" --arg host_alias "$HOST_ALIAS" \
+        jq --arg host_name "$HOSTNAME" --arg host_alias "$HOST_ALIAS" --arg cups_fatal_errors "$cups_fatal_errors" \
             --arg cups_ssl_path "$cups_ssl_path" --arg self_sign "$cups_self_sign" --arg cups_encryption "$cups_encryption" \
             --arg cups_log_level "$cups_log_level" --arg cups_access_log_level "$cups_access_log_level" --arg cups_log_location "$cups_log_location" --arg cups_access_log_location "$cups_access_log_location" \
-            '{ host_name: $host_name, cups_ssl_path: $cups_ssl_path,  host_alias: $host_alias , cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign,  cups_encryption: $cups_encryption, cups_log_location: $cups_log_location, cups_access_log_location: $cups_access_log_location  }' \
+            '{ host_name: $host_name, cups_fatal_errors: $cups_fatal_errors, cups_ssl_path: $cups_ssl_path,  host_alias: $host_alias , cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign,  cups_encryption: $cups_encryption, cups_log_location: $cups_log_location, cups_access_log_location: $cups_access_log_location  }' \
             /data/options.json
     )
 }

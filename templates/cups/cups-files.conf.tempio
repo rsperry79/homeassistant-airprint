@@ -9,7 +9,7 @@ CreateSelfSignedCerts {{.self_sign}}
 #
 
 # List of events that are considered fatal errors for the scheduler...
-#FatalErrors config
+FatalErrors {{.cups_fatal_errors}}
 
 # Do we call fsync() after writing configuration or status files?
 #SyncOnClose No
@@ -22,7 +22,6 @@ Group lp
 # Administrator user group, used to match @SYSTEM in cupsd.conf policy rules...
 SystemGroup lpadmin
 
-
 # User that is substituted for unauthenticated (remote) root accesses...
 RemoteRoot lpadmin
 
@@ -33,27 +32,12 @@ LogFilePerm 0644
 # "syslog". If not an absolute path, the value of ServerRoot is used as the
 # root directory.  Also see the "AccessLogLevel" directive in cupsd.conf.
 AccessLog {{.cups_access_log_location}}
-#stderr
-# Location of cache files used by the scheduler...
-# CacheDir /var/cache/cups
-
-# Location of data files used by the scheduler...
-#DataDir /usr/share/cups
-
-# Location of the static web content served by the scheduler...
-#DocumentRoot /usr/share/doc/cups
 
 # Location of the file logging all messages produced by the scheduler and any
 # helper programs; may be the name "syslog". If not an absolute path, the value
 # of ServerRoot is used as the root directory.  Also see the "LogLevel"
 # directive in cupsd.conf.
 ErrorLog {{.cups_log_location}}
-
-# Location of fonts used by older print filters...
-#FontPath /usr/share/cups/fonts
-
-# Location of LPD configuration
-#LPDConfigFile
 
 # Location of the file logging all pages printed by the scheduler and any
 # helper programs; may be the name "syslog". If not an absolute path, the value
@@ -69,11 +53,7 @@ Printcap /config/cups/printcap
 #PrintcapFormat plist
 #PrintcapFormat solaris
 
-# Location of all spool files...
-#RequestRoot /var/spool/cups
 
-# Location of helper programs...
-# ServerBin /lib/cups
 
 ServerKeychain {{.cups_ssl_path}}
 
@@ -86,7 +66,3 @@ ServerRoot /config/cups
 # Location of scheduler state files...
 StateDir /run/cups
 
-# Location of scheduler/helper temporary files. This directory is emptied on
-# scheduler startup and cannot be one of the standard (public) temporary
-# directory locations for security reasons...
-# TempDir /tmp
