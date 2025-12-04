@@ -156,8 +156,11 @@ function autoconf_files() {
 
 function update_files() {
     update_access_log_level "$cups_access_log_level"
+    bashio::log.info "exit cups update_files access level"
     update_access_log_location "$cups_access_log_location"
+    bashio::log.info "exit cups update_files access location"
     update_log_location "$cups_log_location"
+    bashio::log.info "exit cups update_files error location"
     update_self_sign "$self_sign"
 }
 
