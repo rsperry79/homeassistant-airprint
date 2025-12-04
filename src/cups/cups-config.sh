@@ -63,17 +63,21 @@ function run() {
 function setup() {
     bashio::log.info "setup cups configs:"
 
-    cups_log_location=$(bashio::config 'cups_logging.cups_log_location')
-    if [ "$cups_log_location" = "false" ]; then
-        cups_log_location=stderr
+    cups_log_to_file=$(bashio::config 'cups_logging.cups_log_to_file')
+    if [ "$cups_log_to_file" = "false" ]; then
+        cups_log_to_file=stderr
+    else
+
+        cups_log_to_file=$cups_log_path/cups.log
     fi
 
     cups_log_level=$(bashio::config 'cups_logging.cups_log_level')
-    cups_access_log_location=$(bashio::config 'cups_logging.cups_access_log_location')
-    if [ "$cups_access_log_location" = "false" ]; then
-        cups_access_log_location=stderr
+
+    cups_access_log_to_file=$(bashio::config 'cups_logging.cups_access_log_to_file')
+    if [ "$cups_access_log_to_file" = "false" ]; then
+        cups_access_log_to_file=stderr
     else
-        cups_access_log_location=$cups_log_path/cups.log
+        cups_access_log_to_file=$cups_log_path/access.log
     fi
 
     cups_fatal_errors=$(bashio::config 'cups_logging.cups_fatal_errors')
@@ -94,8 +98,8 @@ function setup() {
     config=$(
         jq --arg host_name "$HOSTNAME" --arg host_alias "$HOST_ALIAS" --arg cups_fatal_errors "$cups_fatal_errors" \
             --arg cups_ssl_path "$cups_ssl_path" --arg self_sign "$cups_self_sign" --arg cups_encryption "$cups_encryption" \
-            --arg cups_log_level "$cups_log_level" --arg cups_access_log_level "$cups_access_log_level" --arg cups_log_location "$cups_log_location" --arg cups_access_log_location "$cups_access_log_location" \
-            '{ host_name: $host_name, cups_fatal_errors: $cups_fatal_errors, cups_ssl_path: $cups_ssl_path,  host_alias: $host_alias , cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign,  cups_encryption: $cups_encryption, cups_log_location: $cups_log_location, cups_access_log_location: $cups_access_log_location  }' \
+            --arg cups_log_level "$cups_log_level" --arg cups_access_log_level "$cups_access_log_level" --arg cups_log_to_file "$cups_log_to_file" --arg cups_access_log_to_file "$cups_access_log_to_file" \
+            '{ host_name: $host_name, cups_fatal_errors: $cups_fatal_errors, cups_ssl_path: $cups_ssl_path,  host_alias: $host_alias , cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign,  cups_encryption: $cups_encryption, cups_log_to_file: $cups_log_to_file, cups_access_log_to_file: $cups_access_log_to_file  }' \
             /data/options.json
     )
 }
@@ -143,8 +147,8 @@ function autoconf_files() {
 
 function update_files() {
     update_access_log_level "$cups_access_log_level"
-    update_access_log_location "$cups_access_log_location"
-    update_log_location "$cups_log_location"
+    update_access_log_location "$cups_access_log_to_file"
+    update_log_location "$cups_log_to_file"
     update_self_sign "$self_sign"
 }
 

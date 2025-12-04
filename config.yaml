@@ -63,9 +63,9 @@ options:
     avahi_reflect_ipv: false
   cups_logging:
     cups_fatal_errors: permissions
-    cups_log_location: true
+    cups_log_to_file: true
     cups_log_level: info
-    cups_access_log_location: true
+    cups_access_log_to_file: true
     cups_access_log_level: all
   cups_ssl:
     cups_encryption: Never
@@ -74,8 +74,8 @@ options:
     cups_self_sign: true
   nginx:
     nginx_log_level: warn
-    nginx_log_location: true
-    nginx_access_log_location: true
+    nginx_log_to_file: true
+    nginx_access_log_to_file: true
   logins:
     - username: print
       password: "print"
@@ -95,9 +95,9 @@ schema:
     avahi_reflect_ipv: bool
   cups_logging:
     cups_fatal_errors: list(none|all|browse|config|listen|log|permissions)
-    cups_log_location: bool
-    cups_log_level: bool
-    cups_access_log_location: list(log_tab|file)
+    cups_log_to_file: bool
+    cups_log_level: list(debug|info|notice|error|none)
+    cups_access_log_to_file: bool
     cups_access_log_level: list(all|actions|config)
   cups_ssl:
     cups_encryption: list(IfRequested|Required|Never)
@@ -105,8 +105,8 @@ schema:
     cups_ssl_cert: str?
     cups_ssl_key: str?
   nginx:
-    nginx_log_location: bool
-    nginx_access_log_location: bool
+    nginx_log_to_file: bool
+    nginx_access_log_to_file: bool
     nginx_log_level: list(warn|error|crit|alert|emerg)
   logins:
     - username: str

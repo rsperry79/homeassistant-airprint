@@ -48,18 +48,18 @@ configuration:
         name: Cups Fatal Errors
         description: >-
           Specifies which errors are fatal, causing the scheduler to exit.
-      cups_log_location:
-        name: Cups Log Location
+      cups_log_to_file:
+        name: Write Error Log to file?
         description: >-
-          Do you want to Log to the Log tab or to a file (/config/cups/log, in the addons config directory)?
+          Do you want to Log to a file (/addon_configs/airprint_[slug]/cups/log/cups.log)?
       cups_log_level:
         name: Cups Log Level
         description: >-
           Defines the log level for CUPS error logging
-      cups_access_log_location:
-        name: Cups Access Log Location
+      cups_access_log_to_file:
+        name: Write Access Log to file?
         description: >-
-          Do you want to Log to the Log tab or to a file (/config/cups/log, in the addons config directory)?
+          Do you want to Log to a file (/addon_configs/airprint_[slug]/cups/log/access.log)?
       cups_access_log_level:
         name: Cups Access Log Level
         description: >-
@@ -90,15 +90,15 @@ configuration:
     description: >-
       Settings for the Sidebar NGINX reverser proxy. This allows the admin portal to be displayed.
     fields:
-      nginx_log_location:
-        name: Error Logging
+      nginx_log_to_file:
+        name: Write Error Log to a file?
         description: >-
-          Do you want to Log errors  to the Log tab or to a file (/config/nginx/log, in the addons config directory)?
+          Do you want to Log errors to a file (/addon_configs/airprint_[slug]/nginx/log/nginx.log)?
 
-      nginx_access_log_location:
-        name: Access Logging
+      nginx_access_log_to_file:
+        name: Write Access Log to a file?
         description: >-
-          Do you want the Access Log to log to the Log tab or to a file (/config/nginx/log, in the addons config directory)?
+          Do you want the Access Log to a file (/addon_configs/airprint_[slug]/nginx/log/access.log)?
       nginx_log_level:
         name: Log Level
         description: >-

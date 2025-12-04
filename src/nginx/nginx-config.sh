@@ -22,26 +22,26 @@ function run() {
 
 function setup() {
 
-    nginx_log_location=$(bashio::config 'nginx.nginx_log_location')
-    if [ "$nginx_log_location" = "false" ]; then
-        nginx_log_location=stderr
+    nginx_log_to_file=$(bashio::config 'nginx.nginx_log_to_file')
+    if [ "$nginx_log_to_file" = "false" ]; then
+        nginx_log_to_file=stderr
     else
-        nginx_log_location=$nginx_log_path/nginx.log
+        nginx_log_to_file=$nginx_log_path/nginx.log
     fi
 
-    nginx_access_log_location=$(bashio::config 'nginx.nginx_access_log_location')
-    if [ "$nginx_access_log_location" = "false" ]; then
-        nginx_access_log_location=stderr
+    nginx_access_log_to_file=$(bashio::config 'nginx.nginx_access_log_to_file')
+    if [ "$nginx_access_log_to_file" = "false" ]; then
+        nginx_access_log_to_file=stderr
     else
-        nginx_access_log_location=$nginx_log_path/access.log
+        nginx_access_log_to_file=$nginx_log_path/access.log
     fi
     nginx_log_level=$(bashio::config 'nginx.nginx_log_level')
 
     nginx_ssl_certificate="" #"ssl_certificate {{.nginx_ssl_cert}};"
     nginx_ssl_key=""         #"ssl_certificate_key {{.nginx_ssl_key}};"
 
-    config=$(jq --arg host_name "$HOSTNAME" --arg nginx_log_level "$nginx_log_level" --arg nginx_log_location "$nginx_log_location" --arg nginx_access_log_location "$nginx_access_log_location" --arg nginx_ssl_certificate "$nginx_ssl_certificate" --arg nginx_ssl_key "$nginx_ssl_key" \
-        '{host_name: $host_name, nginx_log_level: $nginx_log_level, nginx_log_location: $nginx_log_location, nginx_access_log_location: $nginx_access_log_location, nginx_ssl_certificate: $nginx_ssl_certificate, nginx_ssl_key: $nginx_ssl_key}' \
+    config=$(jq --arg host_name "$HOSTNAME" --arg nginx_log_level "$nginx_log_level" --arg nginx_log_to_file "$nginx_log_to_file" --arg nginx_access_log_to_file "$nginx_access_log_to_file" --arg nginx_ssl_certificate "$nginx_ssl_certificate" --arg nginx_ssl_key "$nginx_ssl_key" \
+        '{host_name: $host_name, nginx_log_level: $nginx_log_level, nginx_log_to_file: $nginx_log_to_file, nginx_access_log_to_file: $nginx_access_log_to_file, nginx_ssl_certificate: $nginx_ssl_certificate, nginx_ssl_key: $nginx_ssl_key}' \
         /data/options.json)
 }
 
