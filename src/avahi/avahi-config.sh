@@ -25,8 +25,8 @@ function setup() {
     host="${host_name%%.*}"
 
     use_ipv6="no"
-    if bashio::config.has_value 'use_ipv6'; then
-        ipv6_flag=$(bashio::config 'use_ipv6')
+    if bashio::config.has_value 'avahi.use_ipv6'; then
+        ipv6_flag=$(bashio::config 'avahi.use_ipv6')
         if [ "$ipv6_flag" == true ]; then
             use_ipv6="yes"
         fi

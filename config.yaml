@@ -49,18 +49,11 @@ watchdog: http://[HOST]:[PORT:631]/printers
 
 # Options
 options:
-  system_settings:
-    use_ipv6: false
-  custom_packages:
-    run_script: true
-    packages:
-      - "printer-driver-all"
-    install_recommends: true
-    package_debug: false
   avahi:
     avahi_debug: false
     avahi_reflector: false
     avahi_reflect_ipv: false
+    use_ipv6: false
   cups_logging:
     cups_fatal_errors: permissions
     cups_log_to_file: true
@@ -80,9 +73,14 @@ options:
     - username: print
       password: "print"
       user_level: superuser
+  custom_packages:
+    run_script: true
+    packages:
+      - "printer-driver-all"
+    install_recommends: true
+    package_debug: false
+
 schema:
-  system_settings:
-    use_ipv6: bool
   custom_packages:
     run_script: bool
     install_recommends: bool
@@ -93,6 +91,7 @@ schema:
     avahi_debug: bool
     avahi_reflector: bool
     avahi_reflect_ipv: bool
+    use_ipv6: bool
   cups_logging:
     cups_fatal_errors: list(none|all|browse|config|listen|log|permissions)
     cups_log_to_file: bool

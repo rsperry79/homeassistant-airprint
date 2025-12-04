@@ -1,16 +1,5 @@
 ---
 configuration:
-  system_settings:
-    name: System Settings
-    fields:
-      use_ipv6:
-        name: IPV6 Support
-        description: >-
-          Do you want to enable IPV6?
-      packages:
-        name: Additional packages
-        description: >-
-          A CSV of additional apt packages to be installed at startup.
   custom_packages:
     name: Custom Install Settings
     fields:
@@ -26,6 +15,10 @@ configuration:
         name: Run the custom install script?
         description: >+
           Do you want to run the /config/packages/custom-install.sh script at boot-time to install custom drivers, etc?
+      packages:
+        name: Additional packages
+        description: >-
+          A CSV of additional apt packages to be installed at startup.
   avahi:
     name: Avahi Config
     fields:
@@ -41,6 +34,10 @@ configuration:
         name: Avahi IPV Reflection
         description: >-
           Do you want to enable Avahi IPV Reflection?
+      use_ipv6:
+        name: IPV6 Support
+        description: >-
+          Do you want to enable IPV6?
   cups_logging:
     name: CUPS Log Levels
     fields:
