@@ -103,7 +103,7 @@ schema:
   nginx:
     nginx_log_location: list(log_tab|file)
     nginx_access_log_location: list(log_tab|file)
-    nginx_log_level: list(warn,error,crit,alert,emerg)
+    nginx_log_level: list(warn|error|crit|alert|emerg)
   logins:
     - username: str
       password: str
