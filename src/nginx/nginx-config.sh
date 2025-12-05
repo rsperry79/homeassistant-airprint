@@ -32,17 +32,14 @@ function run() {
 function setup() {
 
     nginx_log_to_file=$(bashio::config 'nginx.nginx_log_to_file')
-    if [ "$nginx_log_to_file" = "false" ]; then
-        nginx_log_location=stderr
-    else
+    nginx_log_location=stderr
+    if [ "$nginx_log_to_file" = "true" ]; then
         nginx_log_location=$nginx_log_path/nginx.log
     fi
 
     nginx_access_log_to_file=$(bashio::config 'nginx.nginx_access_log_to_file')
-
-    if [ "$nginx_access_log_to_file" = "false" ]; then
-        nginx_access_log_location=stderr
-    else
+    nginx_access_log_location=stderr
+    if [ "$nginx_access_log_to_file" = "true" ]; then
         nginx_access_log_location=$nginx_log_path/access.log
     fi
     nginx_log_level=$(bashio::config 'nginx.nginx_log_level')
@@ -50,17 +47,14 @@ function setup() {
     nginx_ssl_certificate="" #"ssl_certificate {{.nginx_ssl_cert}};"
     nginx_ssl_key=""         #"ssl_certificate_key {{.nginx_ssl_key}};"
 
-    docker_host_ip=$(get_ip_by_iface "docker0")
-
     config=$(jq \
         --arg host_name "$HOSTNAME" \
-        --arg docker_host_ip "$docker_host_ip" \
         --arg nginx_log_location "$nginx_log_location" \
         --arg nginx_log_level "$nginx_log_level" \
         --arg nginx_access_log_location "$nginx_access_log_location" \
         --arg nginx_ssl_certificate "$nginx_ssl_certificate" \
         --arg nginx_ssl_key "$nginx_ssl_key" \
-        '{host_name: $host_name, docker_host_ip: $docker_host_ip, nginx_log_location: $nginx_log_location, nginx_log_level: $nginx_log_level, nginx_access_log_location: $nginx_access_log_to_file, nginx_ssl_certificate: $nginx_ssl_certificate, nginx_ssl_key: $nginx_ssl_key}' \
+        '{host_name: $host_name, docker_host_ip: $docker_host_ip, nginx_log_location: $nginx_log_location, nginx_log_level: $nginx_log_level, nginx_access_log_location: $nginx_access_log_location, nginx_ssl_certificate: $nginx_ssl_certificate, nginx_ssl_key: $nginx_ssl_key}' \
         /data/options.json)
 }
 
