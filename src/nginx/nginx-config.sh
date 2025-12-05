@@ -56,7 +56,6 @@ function setup() {
         --arg nginx_ssl_key "$nginx_ssl_key" \
         '{
             host_name: $host_name,
-            docker_host_ip: $docker_host_ip,
             nginx_log_location: $nginx_log_location,
             nginx_log_level: $nginx_log_level,
             nginx_access_log_location: $nginx_access_log_location,

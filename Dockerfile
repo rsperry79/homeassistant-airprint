@@ -108,6 +108,7 @@ COPY templates /usr/templates
         inotify-tools \
         bc \
         udev \
+        yq \
         # SSL
         ssl-cert \
         openssl \

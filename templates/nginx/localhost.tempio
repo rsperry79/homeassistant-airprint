@@ -19,8 +19,9 @@
 # Default server configuration
 #
 server {
-	listen {{.docker_host_ip}}:5150 default_server;
-	listen {{.docker_host_ip}}:5150 default_server;
+    include /config/nginx/docker_ip;
+    include /config/nginx/hassio_ip;
+
 
 	# SSL configuration
     # listen 443 ssl default_server;
