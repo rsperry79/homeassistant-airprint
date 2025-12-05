@@ -6,8 +6,6 @@ source "/opt/common/paths.sh"
 
 ulimit -n 524288
 
-run
-
 function run() {
     /usr/bin/inotifywait -m -e close_write,moved_to,create "$nginx_config_path" |
         while read -r directory events filename; do
@@ -21,3 +19,5 @@ function run() {
             fi
         done
 }
+
+run
