@@ -2,6 +2,15 @@
 # shellcheck source="../common/paths.sh"
 source "/opt/common/paths.sh"
 
+# shellcheck source="./nginx-config-helpers.sh"
+source "/opt/nginx/nginx-config-helpers.sh"
+
+# shellcheck source="./nginx-ssl-helpers.sh"
+source "/opt/nginx/nginx-ssl-helpers.sh"
+
+# shellcheck source="../common/network-common.sh"
+source "/opt/common/network-common.sh"
+
 function run() {
     setup
 
@@ -24,24 +33,34 @@ function setup() {
 
     nginx_log_to_file=$(bashio::config 'nginx.nginx_log_to_file')
     if [ "$nginx_log_to_file" = "false" ]; then
-        nginx_log_to_file=stderr
+        nginx_log_location=stderr
     else
-        nginx_log_to_file=$nginx_log_path/nginx.log
+        nginx_log_location=$nginx_log_path/nginx.log
     fi
 
     nginx_access_log_to_file=$(bashio::config 'nginx.nginx_access_log_to_file')
+
     if [ "$nginx_access_log_to_file" = "false" ]; then
-        nginx_access_log_to_file=stderr
+        nginx_access_log_location=stderr
     else
-        nginx_access_log_to_file=$nginx_log_path/access.log
+        nginx_access_log_location=$nginx_log_path/access.log
     fi
     nginx_log_level=$(bashio::config 'nginx.nginx_log_level')
 
     nginx_ssl_certificate="" #"ssl_certificate {{.nginx_ssl_cert}};"
     nginx_ssl_key=""         #"ssl_certificate_key {{.nginx_ssl_key}};"
 
-    config=$(jq --arg host_name "$HOSTNAME" --arg nginx_log_level "$nginx_log_level" --arg nginx_log_to_file "$nginx_log_to_file" --arg nginx_access_log_to_file "$nginx_access_log_to_file" --arg nginx_ssl_certificate "$nginx_ssl_certificate" --arg nginx_ssl_key "$nginx_ssl_key" \
-        '{host_name: $host_name, nginx_log_level: $nginx_log_level, nginx_log_to_file: $nginx_log_to_file, nginx_access_log_to_file: $nginx_access_log_to_file, nginx_ssl_certificate: $nginx_ssl_certificate, nginx_ssl_key: $nginx_ssl_key}' \
+    docker_host_ip=$(get_ip_by_iface "docker0")
+
+    config=$(jq \
+        --arg host_name "$HOSTNAME" \
+        --arg docker_host_ip "$docker_host_ip" \
+        --arg nginx_log_location "$nginx_log_location" \
+        --arg nginx_log_level "$nginx_log_level" \
+        --arg nginx_access_log_location "$nginx_access_log_location" \
+        --arg nginx_ssl_certificate "$nginx_ssl_certificate" \
+        --arg nginx_ssl_key "$nginx_ssl_key" \
+        '{host_name: $host_name, docker_host_ip: $docker_host_ip, nginx_log_location: $nginx_log_location, nginx_log_level: $nginx_log_level, nginx_access_log_location: $nginx_access_log_to_file, nginx_ssl_certificate: $nginx_ssl_certificate, nginx_ssl_key: $nginx_ssl_key}' \
         /data/options.json)
 }
 
@@ -61,11 +80,13 @@ function autoconf_default_config() {
 }
 
 function update_nginx_default() {
+
     true
 }
 
 function update_nginx_cfg() {
-    true
+    update_error_log "$nginx_log_location" "$nginx_log_level"
+    update_access_log "$nginx_access_log_location"
 }
 
 function replace_configs() {

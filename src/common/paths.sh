@@ -67,3 +67,6 @@ export nginx_conf_cfg=nginx.conf.tempio
 # Config files
 export nginx_default=default
 export nginx_conf=nginx.conf
+
+### Ports
+export nginx_port=5150

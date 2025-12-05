@@ -1,6 +1,13 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
 
+function get_ip_by_iface() {
+    local interface=${1}
+
+    ip_addr=$(ip addr show "$interface" | awk '/inet / {print $2}')
+    echo "$ip_addr"
+}
+
 function get_interfaces() {
     # gets all network interfaces with their broadcast addresses
     local bcast_interfaces=""

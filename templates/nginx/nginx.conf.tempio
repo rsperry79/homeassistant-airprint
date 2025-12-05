@@ -2,7 +2,7 @@ user lp;
 worker_processes auto;
 worker_cpu_affinity auto;
 pid /run/nginx.pid;
-error_log  {{.nginx_log_to_file}} {{.nginx_log_level}};
+error_log  {{.nginx_log_location}} {{.nginx_log_level}};
 include /etc/nginx/modules-enabled/*.conf;
 
 events {
@@ -37,7 +37,7 @@ http {
 	##
 	# Logging Settings
 	##
-	access_log  {{.nginx_access_log_to_file}};
+	access_log  {{.nginx_access_log_location}};
 
 	##
 	# Gzip Settings
