@@ -54,15 +54,11 @@ function run() {
     fi
 
     setup_ssl "$cups_encryption" "$self_sign"
-    bashio::log.info "exit cups config ssl"
     #add_host_name_to_hosts "$host_name"
-
 }
 
 # Gets current settings from HA
 function setup() {
-    bashio::log.info "setup cups configs:"
-
     cups_log_to_file=$(bashio::config 'cups_logging.cups_log_to_file')
     if [ "$cups_log_to_file" = "false" ]; then
         cups_log_to_file=stderr
