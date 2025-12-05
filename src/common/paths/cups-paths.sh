@@ -1,15 +1,15 @@
 #!/command/with-contend bashio
 
-# shellcheck source="./common.sh"
-source "/opt/common/paths/common.sh"
+# shellcheck source="./base.sh"
+source "/opt/common/paths/base.sh"
 
-#### CUPS paths
 # Folder paths
 export real_cups_path=$real_config_path/cups
 export cups_log_path=$real_cups_path/logs
 export cups_ssl_path=$real_cups_path/ssl
 export cups_templates_path=$real_cups_path/templates
 export src_cups_templates_path=$templates_path/cups
+
 # Template files
 export cups_client_cfg=client.conf.tempio
 export cups_daemon_cfg=cupsd.conf.tempio
@@ -17,6 +17,7 @@ export cups_files_cfg=cups-files.conf.tempio
 export cups_browsed_cfg=cups-browsed.conf.tempio
 export cups_pdf_cfg=cups-pdf.conf.tempio
 export cups_snmp_cfg=snmp.conf.tempio
+
 # Config files
 export cups_client=client.conf
 export cups_daemon=cupsd.conf

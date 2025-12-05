@@ -1,9 +1,8 @@
 #!/command/with-contend bashio
 
-# shellcheck source="./common.sh"
-source "/opt/common/paths/common.sh"
+# shellcheck source="./base.sh"
+source "/opt/common/paths/base.sh"
 
-#### Avahi
 # Folder paths
 export avahi_config_path=$real_config_path/avahi
 export avahi_services_path=$avahi_config_path/services

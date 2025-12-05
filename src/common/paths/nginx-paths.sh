@@ -1,9 +1,8 @@
 #!/command/with-contend bashio
 
-# shellcheck source="./common.sh"
-source "/opt/common/paths/common.sh"
+# shellcheck source="./base.sh"
+source "/opt/common/paths/base.sh"
 
-#### NGINX
 ## Folder paths
 # config folders
 export nginx_config_path=$real_config_path/nginx
