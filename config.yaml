@@ -20,9 +20,6 @@ ports:
   5150/tcp: 5150
   5353/udp: 5353
 map:
-  - type: ssl
-    read_only: true
-    path: /ssl
   - type: addon_config
     read_only: false
     path: /config
@@ -30,6 +27,12 @@ map:
     read_only: false
     path: /share
 
+  - type: homeassistant_config
+    read_only: true
+    path: homeassistant
+  - type: ssl
+    read_only: true
+    path: /ssl
 # HA API
 hassio_role: default
 hassio_api: true

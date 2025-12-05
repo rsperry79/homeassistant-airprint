@@ -1,6 +1,9 @@
 #!/command/with-contend bashio
 mkdir -p /var/run/dbus
 
+bashio::log.info "Getting HA config"
+bashio /opt/helpers/ha-config-loader.sh
+
 bashio::log.info "Initializing Common Config"
 bashio /opt/common/common.sh
 

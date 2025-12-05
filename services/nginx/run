@@ -11,7 +11,7 @@ function run() {
         while read -r directory events filename; do
             if [ "$filename" = "$nginx_default" ] || [ "$filename" = "$nginx_conf" ]; then
                 bashio::log.info "Getting NGINX IPs"
-                bashio /opt/common/nginx-ip-helper.sh
+                bashio /opt/helpers/nginx-ip-helper.sh
 
                 bashio::log.info "Testing NGINX server config"
                 nginx -t
