@@ -1,7 +1,7 @@
 #!/command/with-contend bashio
 
-# shellcheck source="./paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="./settings.sh"
+source "/opt/common/settings.sh"
 
 function run_setup() {
     if ! bashio::fs.directory_exists "${real_config_path}"; then

@@ -1,8 +1,8 @@
 #!/usr/bin/with-contenv bashio
 # shellcheck disable=SC2034
 
-# shellcheck source="../../src/common/paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="../../src/common/settings.sh"
+source "/opt/common/settings.sh"
 
 ulimit -n 524288
 
@@ -21,4 +21,3 @@ function run() {
 }
 
 run
-

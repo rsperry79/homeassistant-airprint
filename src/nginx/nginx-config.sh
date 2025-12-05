@@ -1,6 +1,6 @@
 #!/command/with-contend bashio
-# shellcheck source="../common/paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="../common/settings.sh"
+source "/opt/common/settings.sh"
 
 # shellcheck source="./nginx-config-helpers.sh"
 source "/opt/nginx/nginx-config-helpers.sh"

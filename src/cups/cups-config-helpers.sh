@@ -1,8 +1,8 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
 
-# shellcheck source="../common/paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="../common/settings.sh"
+source "/opt/common/settings.sh"
 
 function disable_ssl_config() {
     bashio::log.debug disable_ssl_config

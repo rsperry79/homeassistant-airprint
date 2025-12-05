@@ -1,7 +1,7 @@
 #!/command/with-contend bashio
 
-# shellcheck source="./paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="./settings.sh"
+source "/opt/common/settings.sh"
 
 function run() {
     ensure_package_paths

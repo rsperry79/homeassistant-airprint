@@ -1,8 +1,8 @@
 #!/usr/bin/with-contenv bashio
 
 function load_sources() {
-    # shellcheck source="./common/paths.sh"
-    source "/opt/common/paths.sh"
+    # shellcheck source="./common/settings.sh"
+    source "/opt/common/settings.sh"
 
     # shellcheck source="./cups/cups-host-helpers.sh"
     source "/opt/cups/cups-host-helpers.sh"

@@ -1,10 +1,10 @@
 #!/command/with-contend bashio
-# shellcheck source="../common/paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="../common/settings.sh"
+source "/opt/common/settings.sh"
 
 function get_host() {
-  # ssl_certificate
-  true
+    # ssl_certificate
+    true
 }
 
 function add_sans() {

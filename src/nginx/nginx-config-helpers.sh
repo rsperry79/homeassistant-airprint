@@ -1,8 +1,8 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
 
-# shellcheck source="../common/paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="../common/settings.sh"
+source "/opt/common/settings.sh"
 
 # --arg host_name "$HOSTNAME" --arg nginx_log_level "$nginx_log_level" --arg nginx_log_to_file "$nginx_log_to_file"
 #  --arg nginx_access_log_to_file "$nginx_access_log_to_file" --arg nginx_ssl_certificate "$nginx_ssl_certificate" --arg nginx_ssl_key "$nginx_ssl_key"
