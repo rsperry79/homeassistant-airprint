@@ -29,7 +29,7 @@ map:
 
   - type: homeassistant_config
     read_only: true
-    path: homeassistant
+    path: /homeassistant
   - type: ssl
     read_only: true
     path: /ssl
