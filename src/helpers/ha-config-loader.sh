@@ -38,21 +38,4 @@ function get_ssl() {
 
 }
 
-function ha_is_secure() {
-    if yq . "${ha_config_file}" >/dev/null; then
-        # https://www.home-assistant.io/integrations/http/#http-configuration-variables
-        ha_ssl=$(yq '.http | (has("ssl_certificate") and has("ssl_key"))' "${ha_config_file}")
-    else
-        bashio::log.warning "Unable to parse Home Assistant configuration file at ${ha_config_file}, assuming port ${ha_port} and no SSL"
-    fi
-
-    if bashio::var.true "${ha_ssl}"; then
-        echo true
-    else
-        echo false
-    fi
-}
-
-is_secure=$(ha_is_secure)
-bashio::log "HA is Secure: $is_secure"
-get_ssl
+get_ha_certs

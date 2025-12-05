@@ -68,5 +68,8 @@ export nginx_conf_cfg=nginx.conf.tempio
 export nginx_default=default
 export nginx_conf=nginx.conf
 
+### Homeassistant Paths
+export ha_config_file="/homeassistant/configuration.yaml"
+
 ### Ports
 export nginx_port=5150
