@@ -7,9 +7,10 @@ source "/opt/common/paths/nginx-paths.sh"
 ulimit -n 524288
 
 function run() {
-    bashio::log.info "NGINX Path $nginx_config_path/$nginx_default $nginx_config_path/$nginx_config_path"
+    bashio::log.info "NGINX Path $nginx_config_path/$nginx_default $nginx_config_path/$nginx_conf"
     /usr/bin/inotifywait -m -e close_write,moved_to,create "$nginx_config_path" |
         while read -r directory events filename; do
+            bashio::log.info "NGINX Runner FNAME: $filename"
             if [ "$filename" = "$nginx_default" ] || [ "$filename" = "$nginx_conf" ]; then
                 bashio::log.info "Getting NGINX IPs"
                 bashio /opt/helpers/nginx-ip-helper.sh
