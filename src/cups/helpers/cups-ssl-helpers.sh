@@ -7,10 +7,10 @@ source "/opt/common/settings.sh"
 source "/opt/common/paths/cups-paths.sh"
 
 # shellcheck source="./cups-config-helpers.sh"
-source "/opt/cups/cups-config-helpers.sh"
+source "/opt/cups/helpers/cups-config-helpers.sh"
 
 # shellcheck source="./cups-host-helpers.sh"
-source "/opt/cups/cups-host-helpers.sh"
+source "/opt/cups/helpers/cups-host-helpers.sh"
 
 function setup_ssl() {
     local use_ssl=${1}
