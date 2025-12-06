@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 
 # shellcheck source="../../src/common/paths/nginx-paths.sh"
-source "/opt/common/paths/nginx/nginx-paths.sh"
+source "/opt/common/paths/nginx-paths.sh"
 
 ulimit -n 524288
 
