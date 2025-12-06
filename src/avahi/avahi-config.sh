@@ -1,9 +1,10 @@
 #!/command/with-contend bashio
-# shellcheck source="../common/settings.sh"
-source "/opt/common/settings.sh"
 
-# shellcheck source="./avahi-config-helpers.sh"
-source "/opt/avahi/avahi-config-helpers.sh"
+# shellcheck source="../common/paths/avahi-paths.sh"
+source "/opt/common/paths/avahi-paths.sh"
+
+# shellcheck source="./helpers/avahi-config-helpers.sh"
+source "/opt/avahi/helpers/avahi-config-helpers.sh"
 
 # shellcheck source="../common/network-common.sh"
 source "/opt/common/network-common.sh"

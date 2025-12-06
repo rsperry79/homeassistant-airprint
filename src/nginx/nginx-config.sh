@@ -1,12 +1,13 @@
 #!/command/with-contend bashio
-# shellcheck source="../common/settings.sh"
-source "/opt/common/settings.sh"
 
-# shellcheck source="./nginx-config-helpers.sh"
-source "/opt/nginx/nginx-config-helpers.sh"
+# shellcheck source="../common/paths/nginx-paths.sh"
+source "/opt/common/paths/nginx-paths.sh"
 
-# shellcheck source="./nginx-ssl-helpers.sh"
-source "/opt/nginx/nginx-ssl-helpers.sh"
+# shellcheck source="./helpers/nginx-config-helpers.sh"
+source "/opt/nginx/helpers/nginx-config-helpers.sh"
+
+# shellcheck source="./helpers/nginx-ssl-helpers.sh"
+source "/opt/nginx/helpers/nginx-ssl-helpers.sh"
 
 # shellcheck source="../common/network-common.sh"
 source "/opt/common/network-common.sh"

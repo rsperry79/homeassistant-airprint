@@ -1,5 +1,8 @@
 #!/command/with-contend bashio
 
+# shellcheck source="./paths/common-paths.sh"
+source "/opt/common/paths/common-paths.sh"
+
 # shellcheck source="./settings.sh"
 source "/opt/common/settings.sh"
 

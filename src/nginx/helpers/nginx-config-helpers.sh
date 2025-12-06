@@ -1,11 +1,10 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
+# shellcheck source="../../common/paths/nginx-paths.sh"
+source "/opt/common/paths/nginx-paths.sh"
 
-# shellcheck source="../common/settings.sh"
-source "/opt/common/settings.sh"
-
-# --arg host_name "$HOSTNAME" --arg nginx_log_level "$nginx_log_level" --arg nginx_log_to_file "$nginx_log_to_file"
-#  --arg nginx_access_log_to_file "$nginx_access_log_to_file" --arg nginx_ssl_certificate "$nginx_ssl_certificate" --arg nginx_ssl_key "$nginx_ssl_key"
+# --arg host_name "$HOSTNAME" --arg
+#  - --arg nginx_ssl_certificate "$nginx_ssl_certificate" --arg nginx_ssl_key "$nginx_ssl_key"
 
 function update_error_log() {
     local location=${1}
@@ -27,10 +26,10 @@ function update_access_log() {
     fi
 }
 
-function update_server_alias() {
-    local setting=${1}
-    bashio::log.debug update_server_alias
-    if [ -e "$real_cups_path/$cups_daemon" ]; then
-        sed -i "s/^.*ServerAlias .*/ServerAlias ${setting}/" "$real_cups_path/$cups_daemon"
-    fi
-}
+# function update_server_alias() {
+#     local setting=${1}
+#     bashio::log.debug update_server_alias
+#     if [ -e "$real_cups_path/$cups_daemon" ]; then
+#         sed -i "s/^.*ServerAlias .*/ServerAlias ${setting}/" "$real_cups_path/$cups_daemon"
+#     fi
+# }

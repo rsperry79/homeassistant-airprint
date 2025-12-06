@@ -1,11 +1,11 @@
 #!/usr/bin/with-contenv bashio
 
 function load_sources() {
-    # shellcheck source="./common/settings.sh"
-    source "/opt/common/settings.sh"
+    # shellcheck source="./common/paths/common-paths.sh"
+    source "/opt/common/paths/common-paths.sh"
 
-    # shellcheck source="./cups/cups-host-helpers.sh"
-    source "/opt/cups/cups-host-helpers.sh"
+    # shellcheck source="./cups/helpers/cups-host-helpers.sh"
+    source "/opt/cups/helpers/cups-host-helpers.sh"
 
     # shellcheck source="./common/network-common.sh"
     source "/opt/common/network-common.sh"
@@ -13,11 +13,11 @@ function load_sources() {
     # shellcheck source="./common/ha-helpers.sh"
     source "/opt/common/ha-helpers.sh"
 
-    # shellcheck source="./cups/cups-ssl-helpers.sh"
-    source "/opt/cups/cups-ssl-helpers.sh"
+    # shellcheck source="./cups/helpers/cups-ssl-helpers.sh"
+    source "/opt/cups/helpers/cups-ssl-helpers.sh"
 
-    # shellcheck source="./cups/cups-config-helpers.sh"
-    source "/opt/cups/cups-config-helpers.sh"
+    # shellcheck source="./cups/helpers/cups-config-helpers.sh"
+    source "/opt/cups/helpers/cups-config-helpers.sh"
 }
 
 function run() {

@@ -1,4 +1,7 @@
 #!/command/with-contend bashio
+# shellcheck source="../common/paths/avahi-paths.sh"
+source "/opt/common/paths/avahi-paths.sh"
+
 # shellcheck source="../common/settings.sh"
 source "/opt/common/settings.sh"
 

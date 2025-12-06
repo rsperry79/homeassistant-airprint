@@ -1,6 +1,4 @@
 #!/command/with-contend bashio
-# shellcheck source="../common/settings.sh"
-source "/opt/common/settings.sh"
 
 function get_host() {
     # ssl_certificate

@@ -1,4 +1,8 @@
 #!/command/with-contend bashio
+
+# shellcheck source="../common/paths/cups-paths.sh"
+source "/opt/common/paths/cups-paths.sh"
+
 # shellcheck source="../common/settings.sh"
 source "/opt/common/settings.sh"
 
