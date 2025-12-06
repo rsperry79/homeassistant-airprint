@@ -15,7 +15,7 @@ function run() {
     nginx -t
 
     bashio::log.info "Starting NGINX server from S6"
-    nginx -g "daemon off;"
+    nginx # -g "daemon off;"
 
     /usr/bin/inotifywait -m -e close_write,moved_to,create "$nginx_config_path" |
         while read -r directory events filename; do
