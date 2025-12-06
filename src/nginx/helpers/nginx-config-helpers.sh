@@ -12,7 +12,7 @@ function update_error_log() {
 
     bashio::log.debug update_log_level
     if [ -e "$nginx_config_path/$nginx_conf" ]; then
-        sed -i "s#^.*error_log .*#error_log ${location} ${level}#" "$nginx_config_path/$nginx_conf"
+        sed -i "s#^.*error_log .*#error_log ${location} ${level};#" "$nginx_config_path/$nginx_conf"
     fi
 }
 
@@ -21,7 +21,7 @@ function update_access_log() {
 
     bashio::log.debug update_log_level
     if [ -e "$nginx_config_path/$nginx_conf" ]; then
-        sed -i "s#^.*access_log .*#access_log ${location}#" "$nginx_config_path/$nginx_conf"
+        sed -i "s#^.*access_log .*#access_log ${location};#" "$nginx_config_path/$nginx_conf"
     fi
 }
 

@@ -7,6 +7,7 @@ source "/opt/common/paths/nginx-paths.sh"
 ulimit -n 524288
 
 function run() {
+    bashio::log.info "NGINX Path $nginx_config_path/$nginx_default $nginx_config_path/$nginx_config_path"
     /usr/bin/inotifywait -m -e close_write,moved_to,create "$nginx_config_path" |
         while read -r directory events filename; do
             if [ "$filename" = "$nginx_default" ] || [ "$filename" = "$nginx_conf" ]; then
