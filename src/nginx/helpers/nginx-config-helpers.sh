@@ -18,7 +18,6 @@ function update_error_log() {
 
 function update_access_log() {
     local location=${1}
-    local level=${2}
 
     bashio::log.debug update_log_level
     if [ -e "$nginx_config_path/$nginx_conf" ]; then

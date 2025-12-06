@@ -43,6 +43,7 @@ function setup() {
     if [ "$nginx_access_log_to_file" = "true" ]; then
         nginx_access_log_location=$nginx_log_path/access.log
     fi
+
     nginx_log_level=$(bashio::config 'nginx.nginx_log_level')
 
     nginx_ssl_certificate="" #"ssl_certificate {{.nginx_ssl_cert}};"
