@@ -1,8 +1,8 @@
 #!/usr/bin/with-contenv bashio
 # shellcheck disable=SC2034
 
-# shellcheck source="../../src/common/settings.sh"
-source "/opt/common/settings.sh"
+# shellcheck source="../../src/common/paths/nginx-paths.sh"
+source "/opt/common/paths/nginx/nginx-paths.sh"
 
 ulimit -n 524288
 
