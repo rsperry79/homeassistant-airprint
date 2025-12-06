@@ -19,7 +19,6 @@ function run() {
 
     /usr/bin/inotifywait -m -e close_write,moved_to,create "$nginx_config_path" |
         while read -r directory events filename; do
-            bashio::log.info "NGINX Runner FNAME: $filename"
             if [ "$filename" = "$nginx_default" ] || [ "$filename" = "$nginx_conf" ]; then
                 bashio::log.info "NGINX Runner Restarting"
                 nginx -s reload
