@@ -17,6 +17,7 @@ function run() {
                 bashio::log.info "Starting CUPS server from S6"
 
                 cupsd -l -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
+                tail -f /dev/null # Keep Running
             fi
         done
 }
