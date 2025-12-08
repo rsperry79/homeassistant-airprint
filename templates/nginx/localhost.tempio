@@ -21,13 +21,13 @@
 server {
     include /config/nginx/docker_ip;
     include /config/nginx/hassio_ip;
-
+;
 
 	# SSL configuration
     # listen 443 ssl default_server;
     # listen [::]:443 default_server;
 
-	root /var/www/html;
+    root /usr/share/doc/cups
 
 	server_name _;
 
@@ -37,6 +37,7 @@ server {
     location / {
         proxy_pass http://localhost:631;
         proxy_http_version 1.1;
+
         # TODO update val
         proxy_set_header Host localhost;
         proxy_set_header X-Real-IP $remote_addr;
@@ -51,12 +52,28 @@ server {
         # add new allow
         # TODO update val
         add_header X-Frame-Options "ALLOWALL" always;
+
+
+
+
+
+        sub_filter_types *;
+        sub_filter_once off;
     }
 
 	# deny access to .htaccess files
 	location ~ /\.ht {
 		deny all;
 	}
+
+    location ~ \.css {
+        add_header  Content-Type    text/css;
+    }
+
+    location ~ \.js {
+        add_header  Content-Type    application/x-javascript;
+    }
+	# deny access
 }
 
 
