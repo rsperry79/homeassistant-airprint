@@ -181,11 +181,11 @@ function replace_index() {
     if [ -e "$cups_web_root/$cups_html" ]; then
         if [ ! -L "$cups_web_root/$cups_html" ]; then
             rm -f "$cups_web_root/$cups_html"
-            #     ln -s "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
+            ln -s "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
         fi
     else
         true
-        # ln -s "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
+        ln -s "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
     fi
 }
 
