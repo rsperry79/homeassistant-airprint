@@ -14,19 +14,19 @@ apt_config_file="99custom-cache-dir"
 function run_setup() {
     # D-BUS dir
     if ! bashio::fs.directory_exists "$dbus_dir"; then
-        install -d -m "root" -g "root" "${dbus_dir}" ||
+        install -d -m "svc_file_perms" -g "root" "${dbus_dir}" ||
             bashio::exit.nok 'Failed to create the dbus folder'
     fi
 
     # Apt-Cache dir
     if ! bashio::fs.directory_exists "$apt_cache_dir"; then
-        install -d -m "root" -g "root" "${apt_cache_dir}" ||
+        install -d -m "svc_file_perms" -g "root" "${apt_cache_dir}" ||
             bashio::exit.nok 'Failed to create the apt-cache folder'
     fi
 
     # Apt config dir
     if ! bashio::fs.directory_exists "$apt_config_dir"; then
-        install -d -m "root" -g "root" "${apt_config_dir}" ||
+        install -d -m "svc_file_perms" -g "root" "${apt_config_dir}" ||
             bashio::exit.nok 'Failed to create the apt-config folder'
     fi
 
