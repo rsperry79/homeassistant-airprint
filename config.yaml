@@ -33,6 +33,11 @@ map:
   - type: ssl
     read_only: true
     path: /ssl
+
+# Backup settings
+backup_exclude:
+  - /config/apt-cache
+
 # HA API
 hassio_role: default
 hassio_api: true
