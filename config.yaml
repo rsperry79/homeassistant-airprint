@@ -36,7 +36,8 @@ map:
 
 # Backup settings
 backup_exclude:
-  - /config/apt-cache
+  - "/config/apt-cache"
+  - "**/*.log"
 
 # HA API
 hassio_role: default
