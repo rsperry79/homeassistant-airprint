@@ -1,7 +1,4 @@
 #!/command/with-contend bashio
-mkdir -p /var/run/dbus
-
-mkdir -p /config/apt-cache/archives
 
 bashio::log.info "Getting HA config"
 bashio /opt/helpers/ha-config-loader.sh
