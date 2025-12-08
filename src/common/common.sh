@@ -6,7 +6,6 @@ source "/opt/common/paths/base.sh"
 # shellcheck source="./settings.sh"
 source "/opt/common/settings.sh"
 
-apt_config_file
 dbus_dir=/var/run/dbus
 apt_cache_dir=/config/apt-cache/archives
 apt_config_dir=/etc/apt/apt.conf.d
