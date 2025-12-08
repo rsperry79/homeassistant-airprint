@@ -5,18 +5,23 @@
 source "/opt/common/paths/cups-paths.sh"
 
 ulimit -n 524288
-
+pid=-1
 function run() {
     /usr/bin/inotifywait -m -e close_write,moved_to,create "$real_cups_path" |
         while read -r directory events filename; do
             if [ "$filename" = "$cups_daemon" ] || [ "$filename" = "$cups_files" ] || [ "$filename" = "$cups_client" ] || [ "$filename" = "$cups_html" ]; then
+                if [ "$pid" -ne -1 ]; then
+                    kill "$pid"
+                fi
 
                 bashio::log.info "Testing CUPS server config"
                 cupsd -t -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
 
                 bashio::log.info "Starting CUPS server from S6"
 
-                cupsd -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
+                cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
+                pid=$!
+
             fi
         done
 }
