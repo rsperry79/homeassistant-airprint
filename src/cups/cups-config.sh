@@ -171,23 +171,25 @@ function update_snmp() {
 }
 
 function replace_index() {
+    if [ true ]; then
 
-    if [ ! -e "$real_cups_path/$cups_html" ]; then
-        echo "$config" | tempio \
-            -template "$cups_templates_path/$cups_html_tempio" \
-            -out "$real_cups_path/$cups_html"
-        chown "$svc_acct":"$svc_group" "$real_cups_path/$cups_html"
+        if [ ! -e "$real_cups_path/$cups_html" ]; then
+            echo "$config" | tempio \
+                -template "$cups_templates_path/$cups_html_tempio" \
+                -out "$real_cups_path/$cups_html"
+            chown "$svc_acct":"$svc_group" "$real_cups_path/$cups_html"
 
-    fi
-
-    if [ -e "$cups_web_root/$cups_html" ]; then
-        if [ ! -L "$cups_web_root/$cups_html" ]; then
-            rm -f "$cups_web_root/$cups_html"
-            ln -s "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
         fi
-    else
-        true
-        ln -s "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
+
+        if [ -e "$cups_web_root/$cups_html" ]; then
+            if [ ! -L "$cups_web_root/$cups_html" ]; then
+                rm -f "$cups_web_root/$cups_html"
+                ln "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
+            fi
+        else
+            true
+            ln "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
+        fi
     fi
 }
 
