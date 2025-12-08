@@ -53,6 +53,7 @@ function run() {
     fi
 
     replace_index
+
     setup_ssl "$cups_encryption" "$self_sign"
     #add_host_name_to_hosts "$host_name"
 }
@@ -180,12 +181,12 @@ function replace_index() {
     if [ -e "$cups_web_root/$cups_html" ]; then
         if [ ! -L "$cups_web_root/$cups_html" ]; then
             rm -f "$cups_web_root/$cups_html"
-            ln -s "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
+            #     ln -s "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
         fi
     else
-        ln -s "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
+        true
+        # ln -s "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
     fi
-    ..
 }
 
 run
