@@ -52,7 +52,11 @@ function run() {
         update_snmp
     fi
 
-    replace_index
+    if [ ! -e "$real_cups_path/$cups_html" ]; then
+        autoconf_index
+    else
+        update_index
+    fi
 
     setup_ssl "$cups_encryption" "$self_sign"
     #add_host_name_to_hosts "$host_name"
@@ -93,10 +97,10 @@ function setup() {
 
     # Used by autoconf
     config=$(
-        jq --arg host_name "$HOSTNAME" --arg host_alias "$HOST_ALIAS" --arg cups_fatal_errors "$cups_fatal_errors" \
+        jq --arg host_name "$HOSTNAME" --arg host_alias "$HOST_ALIAS" --arg cups_fatal_errors "$cups_fatal_errors" --arg cups_www_root "$cups_web_root" \
             --arg cups_ssl_path "$cups_ssl_path" --arg self_sign "$cups_self_sign" --arg cups_encryption "$cups_encryption" \
             --arg cups_log_level "$cups_log_level" --arg cups_access_log_level "$cups_access_log_level" --arg cups_log_to_file "$cups_log_to_file" --arg cups_access_log_to_file "$cups_access_log_to_file" \
-            '{ host_name: $host_name, cups_fatal_errors: $cups_fatal_errors, cups_ssl_path: $cups_ssl_path,  host_alias: $host_alias , cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign,  cups_encryption: $cups_encryption, cups_log_to_file: $cups_log_to_file, cups_access_log_to_file: $cups_access_log_to_file  }' \
+            '{ host_name: $host_name, cups_fatal_errors: $cups_fatal_errors, cups_www_root: $cups_www_root, cups_ssl_path: $cups_ssl_path,  host_alias: $host_alias , cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign,  cups_encryption: $cups_encryption, cups_log_to_file: $cups_log_to_file, cups_access_log_to_file: $cups_access_log_to_file  }' \
             /data/options.json
     )
 }
@@ -147,6 +151,18 @@ function update_files() {
     update_access_log_location "$cups_access_log_to_file"
     update_log_location "$cups_log_to_file"
     update_self_sign "$self_sign"
+    DocumentRoot "$cups_web_root"
+}
+
+function autoconf_index() {
+    echo "$config" | tempio \
+        -template "$cups_templates_path/$cups_html_tempio" \
+        -out "$real_cups_path/$cups_html"
+    chown "$svc_acct":"$svc_group" "$real_cups_path/$cups_html"
+}
+
+function update_index() {
+    true
 }
 
 function autoconf_pdf() {
@@ -168,29 +184,6 @@ function autoconf_snmp() {
 
 function update_snmp() {
     true
-}
-
-function replace_index() {
-    if [ true ]; then
-
-        if [ ! -e "$real_cups_path/$cups_html" ]; then
-            echo "$config" | tempio \
-                -template "$cups_templates_path/$cups_html_tempio" \
-                -out "$real_cups_path/$cups_html"
-            chown "$svc_acct":"$svc_group" "$real_cups_path/$cups_html"
-
-        fi
-
-        if [ -e "$cups_web_root/$cups_html" ]; then
-            if [ ! -L "$cups_web_root/$cups_html" ]; then
-                rm -f "$cups_web_root/$cups_html"
-                ln "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
-            fi
-        else
-            true
-            ln "$real_cups_path/$cups_html" "$cups_web_root/$cups_html"
-        fi
-    fi
 }
 
 run

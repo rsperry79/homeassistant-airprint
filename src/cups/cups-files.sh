@@ -36,6 +36,14 @@ if ! bashio::fs.directory_exists "${cups_ssl_path}"; then
         bashio::exit.nok 'Failed to create a persistent cups templates folder'
 fi
 
+# cups www folder
+if ! bashio::fs.directory_exists "${cups_web_root}"; then
+    install -d -m "$svc_file_perms" -g "$svc_group" "${cups_web_root}" ||
+        bashio::exit.nok 'Failed to create a persistent cups www folder'
+    cp "$cups_real_web_root" "$cups_web_root"
+    rm -f "$cups_web_root/$cups_html"
+fi
+
 # client.conf
 if [ ! -e "$cups_templates_path/$cups_client_cfg" ]; then
     install -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_client_cfg" "$cups_templates_path" ||
