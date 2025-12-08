@@ -66,3 +66,9 @@ if [ ! -e "$cups_templates_path/$cups_snmp_cfg" ]; then
     install -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_snmp_cfg" "$cups_templates_path" ||
         bashio::exit.nok "Failed to create $cups_snmp_cfg"
 fi
+
+# index.html
+if [ ! -e "$cups_templates_path/$cups_html" ]; then
+    install -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_html_tempio" "$cups_templates_path" ||
+        bashio::exit.nok "Failed to create $cups_html"
+fi

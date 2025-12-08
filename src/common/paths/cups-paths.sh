@@ -25,3 +25,8 @@ export cups_files=cups-files.conf
 export cups_browsed=cups-browsed.conf
 export cups_pdf=cups-pdf.conf
 export cups_snmp=snmp.conf
+
+#www
+export cups_web_root=/usr/share/cups/www/
+export cups_html_tempio=index.html.tempio
+export cups_html=index.html

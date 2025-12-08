@@ -36,3 +36,4 @@ if [ ! -e "$nginx_templates_path/$nginx_default_cfg" ]; then
     install -m "$svc_file_perms" -g "$svc_group" "$src_nginx_templates_path/$nginx_default_cfg" "$nginx_templates_path" ||
         bashio::exit.nok "Failed to create $nginx_default_cfg"
 fi
+
