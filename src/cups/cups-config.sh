@@ -157,8 +157,8 @@ function update_files() {
 function autoconf_index() {
     echo "$config" | tempio \
         -template "$cups_templates_path/$cups_html_tempio" \
-        -out "$real_cups_path/$cups_html"
-    chown "$svc_acct":"$svc_group" "$real_cups_path/$cups_html"
+        -out "$cups_web_root/$cups_html"
+    chown "$svc_acct":"$svc_group" "$cups_web_root/$cups_html"
 }
 
 function update_index() {
