@@ -23,5 +23,5 @@ export nginx_default_cfg=localhost.tempio
 export nginx_conf_cfg=nginx.conf.tempio
 
 # Config files
-export nginx_default=default
+export nginx_default=default.conf
 export nginx_conf=nginx.conf

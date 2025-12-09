@@ -2,8 +2,8 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="./cups.css" type="text/css">
-    <link rel="shortcut icon" href="./apple-touch-icon.png" type="image/png">
+    <link rel="stylesheet" href="/cups.css" type="text/css">
+    <link rel="shortcut icon" href="/apple-touch-icon.png" type="image/png">
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=9">
@@ -16,11 +16,11 @@
         <ul>
             <li><a href="https://openprinting.github.io/cups/" target="_blank">OpenPrinting CUPS</a></li>
             <li><a class="active" href="/">Home</a></li>
-            <li><a href="./admin">Administration</a></li>
-            <li><a href="./classes/">Classes</a></li>
-            <li><a href="./help/">Help</a></li>
-            <li><a href="./jobs/">Jobs</a></li>
-            <li><a href="./printers/">Printers</a></li>
+            <li><a href="admin">Administration</a></li>
+            <li><a href="/classes/">Classes</a></li>
+            <li><a href="/help/">Help</a></li>
+            <li><a href="/jobs/">Jobs</a></li>
+            <li><a href="/printers/">Printers</a></li>
         </ul>
     </div>
     <div class="cups-body">

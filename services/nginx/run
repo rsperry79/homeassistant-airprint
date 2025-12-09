@@ -16,6 +16,7 @@ function run() {
 
     bashio::log.info "Starting NGINX server from S6"
     nginx # -g "daemon off;"
+    nginx_pid=$!
 
     /usr/bin/inotifywait -m -e close_write,moved_to,create "$nginx_config_path" |
         while read -r directory events filename; do
@@ -23,8 +24,11 @@ function run() {
                 bashio::log.info "NGINX Runner Restarting due to config change"
                 nginx -t
                 # shellcheck disable=SC2181
-                if [ "$?" -eq 0 ]; then
+                if [ "$?" -eq 0 ]; then # if the config is valid, restart nginx
                     nginx -s reload
+                    if [ "$?" -ne 0 ]; then # if this fails, then kill this instance so s6 can restart it.
+                        return 1
+                    fi
                 fi
             fi
         done
