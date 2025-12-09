@@ -11,8 +11,6 @@ if ! bashio::fs.directory_exists "${nginx_config_path}"; then
         bashio::exit.nok 'Failed to create a persistent NGINX config folder'
 fi
 
-ln -sn "$nginx_config_path" "$nginx_etc"
-
 # NGINX templates folder
 if ! bashio::fs.directory_exists "${nginx_templates_path}"; then
     install -d -m "$svc_file_perms" -g "$svc_group" "${nginx_templates_path}" ||
