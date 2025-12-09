@@ -38,10 +38,12 @@ fi
 
 # cups www folder
 if ! bashio::fs.directory_exists "${cups_web_root}"; then
-    install -d -m "$svc_file_perms" -g "$svc_group" "${cups_web_root}" ||
+    install -d -m "$www_svc_perms" -g "$svc_group" "${cups_web_root}" ||
         bashio::exit.nok 'Failed to create a persistent cups www folder'
     cp -r "$cups_real_web_root" "$cups_web_root"
     rm -f "$cups_web_root/$cups_html"
+    chown root:root -R "$cups_web_root"
+    chmod "$www_svc_perms" -R "$cups_web_root"
 fi
 
 # client.conf
