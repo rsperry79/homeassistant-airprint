@@ -191,10 +191,6 @@ COPY templates /usr/templates
         libpaper-utils\
         rasterview \
         libcupsfilters2 \
-        # drivers
-        foomatic-db \
-        foomatic-filters \
-        foomatic-filters-beh \
         # build
         build-essential \
         # helpers

@@ -86,6 +86,9 @@ options:
     run_script: true
     packages:
       - "printer-driver-all"
+      - "foomatic-db"
+      - "foomatic-filters"
+      - "foomatic-filters-beh"
     install_recommends: true
     package_debug: false
 
