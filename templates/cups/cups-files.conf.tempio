@@ -53,7 +53,7 @@ Printcap /config/cups/printcap
 #PrintcapFormat plist
 #PrintcapFormat solaris
 
-DocumentRoot {{.cups_www_root}}
+DocumentRoot {{.cups_www_root}}/
 
 
 

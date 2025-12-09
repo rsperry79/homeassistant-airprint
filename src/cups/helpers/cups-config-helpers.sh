@@ -27,11 +27,11 @@ function update_access_log_level() {
     fi
 }
 
-function DocumentRoot() {
+function update_web_root() {
     local setting=${1}
     bashio::log.debug update_access_log_level
     if [ -e "$real_cups_path/$cups_files" ]; then
-        sed -i "s#^.*DocumentRoot .*#DocumentRoot ${setting}#" "$real_cups_path/$cups_files"
+        sed -i "s#^.*DocumentRoot .*#DocumentRoot ${setting}/#" "$real_cups_path/$cups_files"
     fi
 }
 

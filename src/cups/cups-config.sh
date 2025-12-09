@@ -151,7 +151,7 @@ function update_files() {
     update_access_log_location "$cups_access_log_to_file"
     update_log_location "$cups_log_to_file"
     update_self_sign "$self_sign"
-    DocumentRoot "$cups_web_root"
+    update_web_root "$cups_web_root"
 }
 
 function autoconf_index() {
