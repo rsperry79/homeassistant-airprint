@@ -32,7 +32,6 @@ server {
     # {{.nginx_ssl_cert}};;
     # {{.nginx_ssl_key}};
 
-    proxy_pass http://localhost:631;
     proxy_http_version 1.1;
     # TODO update val
     proxy_set_header Host localhost;
@@ -53,9 +52,35 @@ server {
 
     sub_filter_types *;
     sub_filter_once off;
+
     location / {
+        proxy_pass http://localhost:631;
+        sub_filter ' href="/cups.css' ' href="./cups.css';
+    }
 
+    location /admin {
+        proxy_pass http://localhost:631/admin;
+        sub_filter ' href="/cups.css' ' href="../cups.css';
+    }
 
+    location /classes {
+        proxy_pass http://localhost:631/classes;
+        sub_filter ' href="/cups.css' ' href="../cups.css';
+    }
+
+    location /help {
+        proxy_pass http://localhost:631/help;
+        sub_filter ' href="/cups.css' ' href="../cups.css';
+    }
+
+    location /jobs {
+        proxy_pass http://localhost:631/admin;
+        sub_filter ' href="/cups.css' ' href="../cups.css';
+    }
+
+    location /printers {
+        proxy_pass http://localhost:631/printers;
+        sub_filter ' href="/cups.css' ' href="../cups.css';
     }
 
 	# deny access to .htaccess files

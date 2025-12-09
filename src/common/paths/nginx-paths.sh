@@ -19,9 +19,9 @@ export nginx_templates_path=$nginx_config_path/templates
 
 ## File paths
 # Template files
-export nginx_default_cfg=localhost.tempio
+export nginx_default_cfg=cups.conf.tempio
 export nginx_conf_cfg=nginx.conf.tempio
 
 # Config files
-export nginx_default=default.conf
+export nginx_default=cups.conf
 export nginx_conf=nginx.conf
