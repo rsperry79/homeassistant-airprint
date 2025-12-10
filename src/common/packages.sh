@@ -35,20 +35,26 @@ function install_config_packages() {
         export DEBIAN_FRONTEND=noninteractive
         apt-get update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
+        packages=$(bashio::config 'custom_packages.packages')
+        bashio::log.info "packages: $packages"
 
         # If debug, install one at a time
         if [ "$(bashio::config 'custom_packages.package_debug')" = true ]; then
             bashio::log.info "Installing custom packages one at a time"
-            for package in $(bashio::config 'custom_packages.packages'); do
+            for package in $packages; do
                 bashio::log.info "Installing $package"
-                install_package "$package"
+                if [ -n "$package" ]; then
+                    install_package "$package"
+                fi
             done
         # if not debug, install normally
         else
             bashio::log.info "Installing custom packages"
             to_inst=()
-            for package in $(bashio::config 'custom_packages.packages'); do
-                to_inst+=("$package")
+            for package in $packages; do
+                if [ -n "$package" ]; then
+                    to_inst+=("$package")
+                fi
             done
 
             if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
