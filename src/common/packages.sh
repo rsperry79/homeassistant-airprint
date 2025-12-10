@@ -56,7 +56,7 @@ function install_config_packages() {
                     to_inst+=("$package")
                 fi
             done
-            install_package "${to_inst[*]}"
+            install_package "${to_inst[@]}"
             # if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
             #     bashio::log.info "install_recommend: false"
             #     apt-get \
@@ -79,13 +79,18 @@ function install_config_packages() {
 }
 
 function install_package() {
-    local input=${1}
+    local -n input=${1}
 
-    # if [[ "$(declare -p input)" =~ "declare -a" ]]; then
-    #     to_install=${input[@]}
-    # else
-    #     to_install=$input
-    # fi
+    if [[ "$(declare -p input)" =~ "declare -a" ]]; then
+        # shellcheck disable=SC2124
+        to_install=${input[@]}
+        bashio::log.info "arr: ${to_install[*]}"
+    else
+
+        to_install=$input
+        bashio::log.info "Not arr: $to_install"
+    fi
+    bashio::log.info "Installing Package(s): $input"
 
     if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
         apt-get \
