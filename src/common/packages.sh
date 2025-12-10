@@ -44,7 +44,7 @@ function install_config_packages() {
             for package in $packages; do
                 bashio::log.info "Installing $package"
                 if [ -n "$package" ]; then
-                    install_package "$package"
+                    install_package package
                 fi
             done
         # if not debug, install normally
@@ -56,22 +56,7 @@ function install_config_packages() {
                     to_inst+=("$package")
                 fi
             done
-            install_package "${to_inst[@]}"
-            # if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
-            #     bashio::log.info "install_recommend: false"
-            #     apt-get \
-            #         -o Dpkg::Options::="--force-confold" \
-            #         -o Dpkg::Options::="--force-confdef" \
-            #         install "${to_inst[@]}" --no-install-suggests -y ||
-            #         bashio::"exit.nok" "Failed installing packages ${package}"
-            # else
-            #     bashio::log.info "install_recommend: true"
-            #     apt-get \
-            #         -o Dpkg::Options::="--force-confold" \
-            #         -o Dpkg::Options::="--force-confdef"
-            #     install "${to_inst[@]}" --no-install-recommends --no-install-suggests -y ||
-            #         bashio::"exit.nok" "Failed installing packages ${package}"
-            # fi
+            install_package to_inst
         fi
     else
         bashio::log.info "No additional packages are listed for install."
@@ -80,31 +65,42 @@ function install_config_packages() {
 
 function install_package() {
     local -n input=${1}
-
+    bashio::log.info "Installing Package(s): $input"
     if [[ "$(declare -p input)" =~ "declare -a" ]]; then
         # shellcheck disable=SC2124
         to_install=${input[@]}
         bashio::log.info "arr: ${to_install[*]}"
+        if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
+            apt-get \
+                -o Dpkg::Options::="--force-confold" \
+                -o Dpkg::Options::="--force-confdef" \
+                install "${input[@]}" --no-install-suggests -y
+            # ||  bashio::"exit.nok" "Failed installing packages ${package}"
+        else
+            apt-get \
+                -o Dpkg::Options::="--force-confold" \
+                -o Dpkg::Options::="--force-confdef"
+            install "${input[@]}" --no-install-recommends --no-install-suggests -y
+            # ||   bashio::"exit.nok" "Failed installing packages ${package}"
+        fi
     else
+        bashio::log.info "Not arr: $input"
 
-        to_install=$input
-        bashio::log.info "Not arr: $to_install"
+        if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
+            apt-get \
+                -o Dpkg::Options::="--force-confold" \
+                -o Dpkg::Options::="--force-confdef" \
+                install "$input" --no-install-suggests -y
+            # ||  bashio::"exit.nok" "Failed installing packages ${package}"
+        else
+            apt-get \
+                -o Dpkg::Options::="--force-confold" \
+                -o Dpkg::Options::="--force-confdef"
+            install "$input" --no-install-recommends --no-install-suggests -y
+            # ||   bashio::"exit.nok" "Failed installing packages ${package}"
+        fi
     fi
-    bashio::log.info "Installing Package(s): $input"
 
-    if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
-        apt-get \
-            -o Dpkg::Options::="--force-confold" \
-            -o Dpkg::Options::="--force-confdef" \
-            install "$input" --no-install-suggests -y
-        # ||  bashio::"exit.nok" "Failed installing packages ${package}"
-    else
-        apt-get \
-            -o Dpkg::Options::="--force-confold" \
-            -o Dpkg::Options::="--force-confdef"
-        install "$input" --no-install-recommends --no-install-suggests -y
-        # ||   bashio::"exit.nok" "Failed installing packages ${package}"
-    fi
 }
 
 function upgrade() {
