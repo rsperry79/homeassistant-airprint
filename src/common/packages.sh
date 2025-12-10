@@ -50,9 +50,8 @@ function install_config_packages() {
                     to_inst+=" $package"
                 fi
             done
-            install_package "$to_inst"
             bashio::log.info "Installing additional packages: $to_inst"
-
+            install_package "$to_inst"
         fi
     else
         bashio::log.info "No additional packages are listed for install."
