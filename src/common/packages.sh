@@ -45,8 +45,10 @@ function install_config_packages() {
             to_inst=""
             for package in $(bashio::config 'custom_packages.packages'); do
                 if [ -z "$to_inst" ]; then
+                    bashio::log.info "Packages -z $package"
                     to_inst+="$package"
                 else
+                    bashio::log.info "Packages  $package"
                     to_inst+=" $package"
                 fi
             done
