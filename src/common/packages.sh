@@ -42,16 +42,17 @@ function install_config_packages() {
             done
         # if not debug, install normally
         else
-            to_inst=""
-            for package in $(bashio::config 'custom_packages.packages'); do
-                if [ -z "$to_inst" ]; then
-                    to_inst+="$package"
-                else
-                    to_inst+=" $package"
-                fi
-            done
-            bashio::log.info "Installing additional packages: $to_inst"
-            install_package "$to_inst"
+            packages="$(bashio::config 'custom_packages.packages')"
+            #o_inst=""
+            # for package in $(bashio::config 'custom_packages.packages'); do
+            #     if [ -z "$to_inst" ]; then
+            #         to_inst+="$package"
+            #     else
+            #         to_inst+=" $package"
+            #     fi
+            # done
+            bashio::log.info "Installing additional packages"
+            install_package "${packages[@]}"
         fi
     else
         bashio::log.info "No additional packages are listed for install."
@@ -70,8 +71,8 @@ function install_package() {
     else
         apt-get \
             -o Dpkg::Options::="--force-confold" \
-            -o Dpkg::Options::="--force-confdef" \
-            install "$package" --no-install-recommends --no-install-suggests -y ||
+            -o Dpkg::Options::="--force-confdef"
+        install "$package" --no-install-recommends --no-install-suggests -y ||
             bashio::"exit.nok" "Failed installing packages ${package}"
     fi
 }
