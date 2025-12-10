@@ -53,6 +53,20 @@ function install_config_packages() {
             # done
             bashio::log.info "Installing additional packages"
             install_package "${packages[@]}"
+
+            if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
+                apt-get \
+                    -o Dpkg::Options::="--force-confold" \
+                    -o Dpkg::Options::="--force-confdef" \
+                    install "${packages[@]}" --no-install-suggests -y ||
+                    bashio::"exit.nok" "Failed installing packages ${package}"
+            else
+                apt-get \
+                    -o Dpkg::Options::="--force-confold" \
+                    -o Dpkg::Options::="--force-confdef"
+                install "${packages[@]}" --no-install-recommends --no-install-suggests -y ||
+                    bashio::"exit.nok" "Failed installing packages ${package}"
+            fi
         fi
     else
         bashio::log.info "No additional packages are listed for install."
