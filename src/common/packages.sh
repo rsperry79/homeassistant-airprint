@@ -96,14 +96,14 @@ function install_package() {
         apt-get \
             -o Dpkg::Options::="--force-confold" \
             -o Dpkg::Options::="--force-confdef" \
-            install "$input" --no-install-suggests -y ||
-            bashio::"exit.nok" "Failed installing packages ${package}"
+            install "$input" --no-install-suggests -y
+        # ||  bashio::"exit.nok" "Failed installing packages ${package}"
     else
         apt-get \
             -o Dpkg::Options::="--force-confold" \
             -o Dpkg::Options::="--force-confdef"
-        install "$input" --no-install-recommends --no-install-suggests -y ||
-            bashio::"exit.nok" "Failed installing packages ${package}"
+        install "$input" --no-install-recommends --no-install-suggests -y
+        # ||   bashio::"exit.nok" "Failed installing packages ${package}"
     fi
 }
 
