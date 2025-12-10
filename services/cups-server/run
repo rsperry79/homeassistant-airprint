@@ -11,7 +11,7 @@ function run() {
         while read -r directory events filename; do
             if [ "$filename" = "$cups_daemon" ] || [ "$filename" = "$cups_files" ] || [ "$filename" = "$cups_client" ] || [ "$filename" = "$cups_html" ]; then
                 if [ "$pid" -ne -1 ]; then
-                    kill "$pid"
+                    kill "$(pgrep cupsd)"
                 fi
 
                 bashio::log.info "Testing CUPS server config"
@@ -20,7 +20,6 @@ function run() {
                 bashio::log.info "Starting CUPS server from S6"
 
                 cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
-                pid=$!
 
             fi
         done
