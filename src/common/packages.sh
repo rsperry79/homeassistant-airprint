@@ -64,7 +64,7 @@ function install_config_packages() {
 }
 
 function install_package() {
-    local -n input=${1}
+    local input=${1}
     bashio::log.info "Installing Package(s): $input"
     if [[ "$(declare -p input)" =~ "declare -a" ]]; then
         # shellcheck disable=SC2124
