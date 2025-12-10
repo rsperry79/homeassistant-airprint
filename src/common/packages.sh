@@ -31,31 +31,35 @@ function ensure_package_paths() {
 # Install user configured/requested packages
 function install_config_packages() {
     if bashio::config.has_value 'custom_packages.packages'; then
+
         export DEBIAN_FRONTEND=noninteractive
         apt-get update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
 
         # If debug, install one at a time
         if [ "$(bashio::config 'custom_packages.package_debug')" = true ]; then
+            bashio::log.info "Installing custom packages one at a time"
             for package in $(bashio::config 'custom_packages.packages'); do
+                bashio::log.info "Installing $package"
                 install_package "$package"
             done
         # if not debug, install normally
         else
-            bashio::log.info "Installing additional packages"
-            packages="$(bashio::config 'custom_packages.packages')"
+            bashio::log.info "Installing custom packages"
             to_inst=()
             for package in $(bashio::config 'custom_packages.packages'); do
                 to_inst+=("$package")
             done
 
             if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
+                bashio::log.info "install_recommend: false"
                 apt-get \
                     -o Dpkg::Options::="--force-confold" \
                     -o Dpkg::Options::="--force-confdef" \
                     install "${to_inst[@]}" --no-install-suggests -y ||
                     bashio::"exit.nok" "Failed installing packages ${package}"
             else
+                bashio::log.info "install_recommend: true"
                 apt-get \
                     -o Dpkg::Options::="--force-confold" \
                     -o Dpkg::Options::="--force-confdef"
