@@ -52,7 +52,6 @@ function install_config_packages() {
             #     fi
             # done
             bashio::log.info "Installing additional packages"
-            install_package "${packages[@]}"
 
             if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
                 apt-get \
