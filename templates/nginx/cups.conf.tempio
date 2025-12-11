@@ -55,33 +55,38 @@ server {
 
     location / {
         proxy_pass http://localhost:631;
-        sub_filter ' href="/cups.css' ' href="./cups.css';
-        
+        sub_filter ' href="/cups.css' ' href="{{.ingress_url}}/cups.css';
+        sub_filter ' href="/apple-touch-icon.png' ' href="{{.ingress_url}}/apple-touch-icon.png';
     }
 
     location /admin {
         proxy_pass http://localhost:631/admin;
-        sub_filter ' href="/cups.css' ' href="../cups.css';
+        sub_filter ' href="/cups.css' ' href="{{.ingress_url}}/cups.css';
+        sub_filter ' href="/apple-touch-icon.png' ' href="{{.ingress_url}}/apple-touch-icon.png';
     }
 
     location /classes {
         proxy_pass http://localhost:631/classes;
-        sub_filter ' href="/cups.css' ' href="../cups.css';
+        sub_filter ' href="/cups.css' ' href="{{.ingress_url}}/cups.css';
+        sub_filter ' href="/apple-touch-icon.png' ' href="{{.ingress_url}}/apple-touch-icon.png';
     }
 
     location /help {
         proxy_pass http://localhost:631/help;
-        sub_filter ' href="/cups.css' ' href="../cups.css';
+        sub_filter ' href="/cups.css' ' href="{{.ingress_url}}/cups.css';
+        sub_filter ' href="/apple-touch-icon.png' ' href="{{.ingress_url}}/apple-touch-icon.png';
     }
 
     location /jobs {
         proxy_pass http://localhost:631/admin;
-        sub_filter ' href="/cups.css' ' href="../cups.css';
+        sub_filter ' href="/cups.css' ' href="{{.ingress_url}}/cups.css';
+        sub_filter ' href="/apple-touch-icon.png' ' href="{{.ingress_url}}/apple-touch-icon.png';
     }
 
     location /printers {
         proxy_pass http://localhost:631/printers;
-        sub_filter ' href="/cups.css' ' href="../cups.css';
+        sub_filter ' href="/cups.css' ' href="{{.ingress_url}}/cups.css';
+        sub_filter ' href="/apple-touch-icon.png' ' href="{{.ingress_url}}/apple-touch-icon.png';
     }
 
 	# deny access to .htaccess files
