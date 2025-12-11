@@ -44,7 +44,8 @@ function install_config_packages() {
             for package in $packages; do
                 bashio::log.info "Installing $package"
                 if [ -n "$package" ]; then
-                    install_package "$package" false
+                    to_inst=("$package")
+                    install_package "${to_inst[@]}" false
                 fi
             done
         # if not debug, install normally
@@ -65,17 +66,10 @@ function install_config_packages() {
 }
 
 function install_package() {
-    local input=${1}
-    local is_array=${2:-"false"}
+    local input
+    input=$(@)
 
-    bashio::log.info "Installing Package(s): $input"
-    if [[ $is_array = "false" ]]; then
-        bashio::log.info "not arr: $input"
-        input=("$input")
-    else
-        bashio::log.info "arr: ${input[*]}"
-        true
-    fi
+    bashio::log.info "Installing Package(s): ${input[*]}"
 
     if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
         apt-get install "${input[@]}" --no-install-suggests -y
