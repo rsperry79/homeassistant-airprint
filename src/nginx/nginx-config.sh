@@ -27,6 +27,9 @@ function run() {
     ingress_port=$(bashio::addon.ingress_port)
     bashio::log.info "ingress_url $ingress_port"
 
+    addon_url=$(bashio::addon.url)
+    bashio::log.info "addon_url $addon_url"
+
     if [ ! -e "$nginx_config_path/$nginx_conf" ]; then
         autoconf_nginx_config
     else
