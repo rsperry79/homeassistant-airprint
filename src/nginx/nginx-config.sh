@@ -42,6 +42,9 @@ function run() {
     addon_repository=$(bashio::addon.repository)
     bashio::log.info "addon_repository $addon_repository"
 
+    addon_ip_address=$(bashio::addon.ip_address)
+    bashio::log.info "addon_ip_address $addon_ip_address"
+
     if [ ! -e "$nginx_config_path/$nginx_conf" ]; then
         autoconf_nginx_config
     else
