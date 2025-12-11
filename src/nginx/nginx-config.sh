@@ -13,7 +13,6 @@ source "/opt/nginx/helpers/nginx-ssl-helpers.sh"
 source "/opt/common/network-common.sh"
 
 function run() {
-    setup
 
     ingress=$(bashio::addon.ingress)
     bashio::log.info "ingress $ingress"
@@ -45,6 +44,8 @@ function run() {
     addon_ip_address=$(bashio::addon.ip_address)
     bashio::log.info "addon_ip_address $addon_ip_address"
 
+    setup
+
     if [ ! -e "$nginx_config_path/$nginx_conf" ]; then
         autoconf_nginx_config
     else
@@ -61,6 +62,7 @@ function run() {
 }
 
 function setup() {
+    ingress_url=$(bashio::addon.ingress_url)
 
     nginx_log_to_file=$(bashio::config 'nginx.nginx_log_to_file')
     nginx_log_location=stderr
