@@ -44,7 +44,7 @@ function install_config_packages() {
             for package in $packages; do
                 bashio::log.info "Installing $package"
                 if [ -n "$package" ]; then
-                    install_package "$package" "false"
+                    install_package "$package" false
                 fi
             done
         # if not debug, install normally
@@ -56,7 +56,7 @@ function install_config_packages() {
                     to_inst+=("$package")
                 fi
             done
-            install_package "${to_inst[@]}"
+            install_package "${to_inst[@]}" true
         fi
     else
         bashio::log.info "No additional packages are listed for install."
@@ -68,39 +68,26 @@ function install_package() {
     local is_array=${2:-"false"}
 
     bashio::log.info "Installing Package(s): $input"
-    if [[ "$(declare -p input)" =~ "declare -a" ]]; then
-        # shellcheck disable=SC2124
-        to_install=${input[@]}
-        bashio::log.info "arr: ${to_install[*]}"
-        if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
-            apt-get \
-                -o Dpkg::Options::="--force-confold" \
-                -o Dpkg::Options::="--force-confdef" \
-                install "${input[@]}" --no-install-suggests -y
-            # ||  bashio::"exit.nok" "Failed installing packages ${package}"
-        else
-            apt-get \
-                -o Dpkg::Options::="--force-confold" \
-                -o Dpkg::Options::="--force-confdef"
-            install "${input[@]}" --no-install-recommends --no-install-suggests -y
-            # ||   bashio::"exit.nok" "Failed installing packages ${package}"
-        fi
+    if [[ $is_array = "false" ]]; then
+        bashio::log.info "not arr: $input"
+        input=("$input")
     else
-        bashio::log.info "Not arr: $input"
+        bashio::log.info "arr: ${input[*]}"
+        true
+    fi
 
-        if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
-            apt-get \
-                -o Dpkg::Options::="--force-confold" \
-                -o Dpkg::Options::="--force-confdef" \
-                install "$input" --no-install-suggests -y
-            # ||  bashio::"exit.nok" "Failed installing packages ${package}"
-        else
-            apt-get \
-                -o Dpkg::Options::="--force-confold" \
-                -o Dpkg::Options::="--force-confdef"
-            install "$input" --no-install-recommends --no-install-suggests -y
-            # ||   bashio::"exit.nok" "Failed installing packages ${package}"
-        fi
+    if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
+        apt-get \
+            -o Dpkg::Options::="--force-confold" \
+            -o Dpkg::Options::="--force-confdef" \
+            install "${input[@]}" --no-install-suggests -y
+        # ||  bashio::"exit.nok" "Failed installing packages ${package}"
+    else
+        apt-get \
+            -o Dpkg::Options::="--force-confold" \
+            -o Dpkg::Options::="--force-confdef"
+        install "${input[@]}" --no-install-recommends --no-install-suggests -y
+        # ||   bashio::"exit.nok" "Failed installing packages ${package}"
     fi
 
 }
