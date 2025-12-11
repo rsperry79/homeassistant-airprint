@@ -71,17 +71,17 @@ function install_package() {
     bashio::log.info "Installing Package(s): ${input[*]}"
 
     if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
-        apt-get install "${input[@]}" --no-install-suggests -y
-        # -o Dpkg::Options::="--force-confold"
-        # -o Dpkg::Options::="--force-confdef"
-
-        # ||  bashio::"exit.nok" "Failed installing packages ${package}"
+        apt-get \
+            -o Dpkg::Options::="--force-confold" \
+            -o Dpkg::Options::="--force-confdef" \
+            install "${input[@]}" --no-install-suggests -y ||
+            bashio::"exit.nok" "Failed installing packages ${package}"
     else
-        apt-get install "${input[@]}" --no-install-recommends --no-install-suggests -y
-        # -o Dpkg::Options::="--force-confold" \
-        #     -o Dpkg::Options::="--force-confdef"
-
-        # ||   bashio::"exit.nok" "Failed installing packages ${package}"
+        apt-get \
+            -o Dpkg::Options::="--force-confold" \
+            -o Dpkg::Options::="--force-confdef" \
+            install "${input[@]}" --no-install-recommends --no-install-suggests -y ||
+            bashio::"exit.nok" "Failed installing packages ${package}"
     fi
 
 }
