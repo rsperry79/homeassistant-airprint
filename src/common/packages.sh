@@ -45,7 +45,7 @@ function install_config_packages() {
                 bashio::log.info "Installing $package"
                 if [ -n "$package" ]; then
                     to_inst=("$package")
-                    install_package "${to_inst[@]}" false
+                    install_package "${to_inst[@]}"
                 fi
             done
         # if not debug, install normally
@@ -58,7 +58,7 @@ function install_config_packages() {
                     to_inst+=("$package")
                 fi
             done
-            install_package "${to_inst[@]}" true
+            install_package "${to_inst[@]}"
         fi
     else
         bashio::log.info "No additional packages are listed for install."
