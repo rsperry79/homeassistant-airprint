@@ -218,7 +218,8 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
     && useradd  lp_service -g lp \
     && useradd  ColorManager \
     && usermod -aG lpadmin lp_service \
-    &&  useradd lpinfo -g lp
+    &&  useradd lpinfo -g lp \
+    && usermod -aG root _apt
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 WORKDIR /config
