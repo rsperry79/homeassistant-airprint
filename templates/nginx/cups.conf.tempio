@@ -19,7 +19,7 @@
 # Default server configuration
 #
 server {
-    listen {{.hassio_ip}}:{{.ingress_port}}
+    listen {{.hassio_ip}}:{{.ingress_port}};
 
 
 	# SSL configuration

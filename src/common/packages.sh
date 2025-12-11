@@ -42,7 +42,6 @@ function install_config_packages() {
         if [ "$(bashio::config 'custom_packages.package_debug')" = true ]; then
             bashio::log.info "Installing custom packages one at a time"
             for package in $packages; do
-                bashio::log.info "Installing $package"
                 if [ -n "$package" ]; then
                     to_inst=("$package")
                     install_package "${to_inst[@]}"
@@ -54,7 +53,6 @@ function install_config_packages() {
             to_inst=()
             for package in $packages; do
                 if [ -n "$package" ]; then
-                    bashio::log.info "Adding $package to install array"
                     to_inst+=("$package")
                 fi
             done
