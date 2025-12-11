@@ -63,6 +63,8 @@ function run() {
 
 function setup() {
     ingress_url=$(bashio::addon.ingress_url)
+    hassio_ip=$(bashio::addon.ip_address)
+    ingress_port=$(bashio::addon.ingress_port)
 
     nginx_log_to_file=$(bashio::config 'nginx.nginx_log_to_file')
     nginx_log_location=stderr
@@ -81,24 +83,30 @@ function setup() {
     nginx_ssl_certificate="" #"ssl_certificate {{.nginx_ssl_cert}};"
     nginx_ssl_key=""         #"ssl_certificate_key {{.nginx_ssl_key}};"
 
-    config=$(jq \
-        --arg host_name "$HOSTNAME" \
-        --arg ingress_url "$ingress_url" \
-        --arg nginx_log_location "$nginx_log_location" \
-        --arg nginx_log_level "$nginx_log_level" \
-        --arg nginx_access_log_location "$nginx_access_log_location" \
-        --arg nginx_ssl_certificate "$nginx_ssl_certificate" \
-        --arg nginx_ssl_key "$nginx_ssl_key" \
-        '{
+    config=$(
+        jq \
+            --arg host_name "$HOSTNAME" \
+            --arg ingress_url "$ingress_url" \
+            --arg hassio_ip "$hassio_ip" \
+            --arg ingress_port "$ingress_port" \
+            --arg nginx_log_location "$nginx_log_location" \
+            --arg nginx_log_level "$nginx_log_level" \
+            --arg nginx_access_log_location "$nginx_access_log_location" \
+            --arg nginx_ssl_certificate "$nginx_ssl_certificate" \
+            --arg nginx_ssl_key "$nginx_ssl_key" \
+            '{
             host_name: $host_name,
             ingress_url: $ingress_url,
+            hassio_ip: $hassio_ip,
+            ingress_port: $ingress_port,
             nginx_log_location: $nginx_log_location,
             nginx_log_level: $nginx_log_level,
             nginx_access_log_location: $nginx_access_log_location,
             nginx_ssl_certificate: $nginx_ssl_certificate,
             nginx_ssl_key: $nginx_ssl_key
         }' \
-        /data/options.json)
+            /data/options.json
+    )
 }
 
 # Uses the template to regenerate the configuration file. Ensures a clean file.

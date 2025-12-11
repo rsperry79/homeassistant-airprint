@@ -19,7 +19,7 @@
 # Default server configuration
 #
 server {
-    include /config/nginx/hassio_ip;
+    listen {{.hassio_ip}}:{{.ingress_port}}
 
 
 	# SSL configuration

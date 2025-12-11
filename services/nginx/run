@@ -8,9 +8,6 @@ ulimit -n 524288
 
 function run() {
 
-    bashio::log.info "Getting NGINX IPs"
-    bashio /opt/helpers/nginx-ip-helper.sh
-
     bashio::log.info "Testing NGINX server config"
     nginx -t
 
