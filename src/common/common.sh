@@ -23,6 +23,7 @@ function run_setup() {
         install -d -m "$svc_file_perms" -g "root" "${apt_cache_dir}" ||
             bashio::exit.nok 'Failed to create the apt-cache folder'
     fi
+    chown -R root:root "${apt_cache_dir}"
 
     # Apt config dir
     if ! bashio::fs.directory_exists "$apt_config_dir"; then
