@@ -19,7 +19,6 @@
 # Default server configuration
 #
 server {
-    include /config/nginx/docker_ip;
     include /config/nginx/hassio_ip;
 
 
