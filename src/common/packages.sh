@@ -44,7 +44,7 @@ function install_config_packages() {
             for package in $packages; do
                 bashio::log.info "Installing $package"
                 if [ -n "$package" ]; then
-                    install_package package
+                    install_package "$package" "false"
                 fi
             done
         # if not debug, install normally
@@ -56,7 +56,7 @@ function install_config_packages() {
                     to_inst+=("$package")
                 fi
             done
-            install_package to_inst
+            install_package "${to_inst[@]}"
         fi
     else
         bashio::log.info "No additional packages are listed for install."
@@ -65,6 +65,8 @@ function install_config_packages() {
 
 function install_package() {
     local input=${1}
+    local is_array=${2:-"false"}
+
     bashio::log.info "Installing Package(s): $input"
     if [[ "$(declare -p input)" =~ "declare -a" ]]; then
         # shellcheck disable=SC2124
