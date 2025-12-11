@@ -66,8 +66,7 @@ function install_config_packages() {
 }
 
 function install_package() {
-    local input
-    input=$(@)
+    local input=$(@)
 
     bashio::log.info "Installing Package(s): ${input[*]}"
 
