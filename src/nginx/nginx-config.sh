@@ -15,6 +15,18 @@ source "/opt/common/network-common.sh"
 function run() {
     setup
 
+    ingress=$(bashio::addon.ingress)
+    bashio::log.info "ingress $ingress"
+
+    ingress_entry=$(bashio::addon.ingress_entry)
+    bashio::log.info "ingress_entry $ingress_entry"
+
+    ingress_url=$(bashio::addon.ingress_url)
+    bashio::log.info "ingress_url $ingress_url"
+
+    ingress_port=$(bashio::addon.ingress_port)
+    bashio::log.info "ingress_url $ingress_port"
+
     if [ ! -e "$nginx_config_path/$nginx_conf" ]; then
         autoconf_nginx_config
     else
