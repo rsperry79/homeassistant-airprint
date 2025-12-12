@@ -65,6 +65,7 @@ function setup() {
     ingress_url=$(bashio::addon.ingress_url)
 
     ingress_entry=$(bashio::addon.ingress_entry)
+
     hassio_ip=$(bashio::addon.ip_address)
     ingress_port=$(bashio::addon.ingress_port)
 
