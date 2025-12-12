@@ -16,9 +16,9 @@ configuration:
         description: >+
           Do you want to run the /config/packages/custom-install.sh script at boot-time to install custom drivers, etc?
       packages:
-        name: Additional packages
+        name: Add an additional package
         description: >-
-          A CSV of additional apt packages to be installed at startup.
+          Additional Debian apt packages to be installed at startup.
   avahi:
     name: Avahi Config
     fields:
@@ -51,7 +51,7 @@ configuration:
           Do you want to Log to a file (/addon_configs/{repo_id}_airprint/cups/log/cups.log)?
       cups_log_level:
         name: Cups Log Level
-        description: >-
+        description: >+
           Defines the log level for CUPS error logging
       cups_access_log_to_file:
         name: Write Access Log to file?
@@ -59,7 +59,7 @@ configuration:
           Do you want to Log to a file (/addon_configs/{repo_id}_airprint/cups/log/access.log)?
       cups_access_log_level:
         name: Cups Access Log Level
-        description: >-
+        description: >+
           Defines the access log level for CUPS access logging
   cups_ssl:
     name: CUPS SSL Settings

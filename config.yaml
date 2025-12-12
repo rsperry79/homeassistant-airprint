@@ -17,7 +17,7 @@ host_network: true
 ports:
   631/tcp: 631
   631/udp: 631
-  5150/tcp: 5150
+  # 5150/tcp: 5150
   5353/udp: 5353
 map:
   - type: addon_config
@@ -71,9 +71,9 @@ options:
     cups_access_log_level: all
   cups_ssl:
     cups_encryption: Never
-    cups_ssl_cert: /ssl/fullchain.pem
-    cups_ssl_key: /ssl/privkey.pem
-    cups_self_sign: true
+    # cups_ssl_cert: /ssl/fullchain.pem
+    # cups_ssl_key: /ssl/privkey.pem
+    # cups_self_sign: true
   nginx:
     nginx_log_level: warn
     nginx_log_to_file: true
