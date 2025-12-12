@@ -59,7 +59,7 @@ watchdog: http://[HOST]:[PORT:631]/printers
 # Options
 options:
   avahi:
-    avahi_debug: false
+    avahi_debug: false?
     avahi_reflector: false
     avahi_reflect_ipv: false
     use_ipv6: false
