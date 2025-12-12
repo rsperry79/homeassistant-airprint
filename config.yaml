@@ -112,7 +112,7 @@ schema:
     cups_access_log_level: list(all|actions|config)
   cups_ssl:
     cups_encryption: list(IfRequested|Required|Never)
-    cups_self_sign: bool
+    cups_self_sign: bool?
     cups_ssl_cert: str?
     cups_ssl_key: str?
   nginx:
