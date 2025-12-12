@@ -53,6 +53,7 @@ server {
 
     sub_filter_types *;
     sub_filter_once off;
+    root /config/cups/www/;
 
     location / {
         proxy_pass http://localhost:631;
@@ -64,10 +65,10 @@ server {
 
     }
 
-    location /cups.css {
-        proxy_pass http://localhost:631/cups.css ;
+    # location /cups.css {
+    #     proxy_pass http://localhost:631/cups.css ;
 
-    }
+    # }
 
     location /classes {
         proxy_pass http://localhost:631/classes;
