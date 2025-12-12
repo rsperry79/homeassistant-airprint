@@ -50,6 +50,11 @@ server {
 
     sub_filter ' href="/cups.css' ' href="{{.ingress_entry}}/cups.css';
     sub_filter ' href="/apple-touch-icon.png' ' href="{{.ingress_entry}}/apple-touch-icon.png';
+    sub_filter ' href="/admin' ' href="{{.ingress_entry}/admin';
+    sub_filter ' href="/classes' ' href="{{.ingress_entry}/classes';
+    sub_filter ' href="/help' ' href="{{.ingress_entry}/help';
+    sub_filter ' href="/jobs' ' href="{{.ingress_entry}/jobs';
+    sub_filter ' href="/printers' ' href="{{.ingress_entry}/printers';
 
     sub_filter_types *;
     sub_filter_once off;
@@ -59,33 +64,32 @@ server {
         proxy_pass http://localhost:631;
     }
 
-    # location /admin {
-    #     proxy_pass http://localhost:631/admin;
+    location /admin {
+        proxy_pass http://localhost:631/admin;
+    }
 
-    # }
+    location /cups.css {
+        proxy_pass http://localhost:631/cups.css ;
 
-    # # location /cups.css {
-    # #     proxy_pass http://localhost:631/cups.css ;
+    }
 
-    # # }
+    location /classes {
+        proxy_pass http://localhost:631/classes;
 
-    # location /classes {
-    #     proxy_pass http://localhost:631/classes;
+    }
 
-    # }
+    location /help {
+        proxy_pass http://localhost:631/help;
 
-    # location /help {
-    #     proxy_pass http://localhost:631/help;
+    }
 
-    # }
+    location /jobs {
+        proxy_pass http://localhost:631/admin;
 
-    # location /jobs {
-    #     proxy_pass http://localhost:631/admin;
+    }
 
-    # }
-
-    # location /printers {
-    #     proxy_pass http://localhost:631/printers;
+    location /printers {
+        proxy_pass http://localhost:631/printers;
 
     # }
 
@@ -93,33 +97,4 @@ server {
 	location ~ /\.ht {
 		deny all;
 	}
-
-    location ~ \.css {
-        add_header  Content-Type    text/css;
-    }
-
-    location ~ \.js {
-        add_header  Content-Type    application/x-javascript;
-    }
-	# deny access
 }
-
-
-# Virtual Host configuration for example.com
-#
-# You can move that to a different file under sites-available/ and symlink that
-# to sites-enabled/ to enable it.
-#
-#server {
-#	listen 80;
-#	listen [::]:80;
-#
-#	server_name example.com;
-#
-#	root /var/www/example.com;
-#	index index.html;
-#
-#	location / {
-#		try_files $uri $uri/ =404;
-#	}
-#}
