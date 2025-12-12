@@ -48,8 +48,8 @@ server {
     # TODO update val
     add_header X-Frame-Options "ALLOWALL" always;
 
-    sub_filter ' href="/cups.css' ' href="{{.ingress_entry}}cups.css';
-    sub_filter ' href="/apple-touch-icon.png' ' href="{{.ingress_entry}}apple-touch-icon.png';
+    sub_filter ' href="/cups.css' ' href="{{.ingress_entry}}/cups.css';
+    sub_filter ' href="/apple-touch-icon.png' ' href="{{.ingress_entry}}/apple-touch-icon.png';
 
     sub_filter_types *;
     sub_filter_once off;
