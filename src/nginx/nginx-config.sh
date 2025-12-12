@@ -63,6 +63,8 @@ function run() {
 
 function setup() {
     ingress_url=$(bashio::addon.ingress_url)
+
+    ingress_entry=$(bashio::addon.ingress_entry)
     hassio_ip=$(bashio::addon.ip_address)
     ingress_port=$(bashio::addon.ingress_port)
 
@@ -86,7 +88,7 @@ function setup() {
     config=$(
         jq \
             --arg host_name "$HOSTNAME" \
-            --arg ingress_url "$ingress_url" \
+            --arg ingress_entry "$ingress_entry" \
             --arg hassio_ip "$hassio_ip" \
             --arg ingress_port "$ingress_port" \
             --arg nginx_log_location "$nginx_log_location" \
@@ -95,16 +97,16 @@ function setup() {
             --arg nginx_ssl_certificate "$nginx_ssl_certificate" \
             --arg nginx_ssl_key "$nginx_ssl_key" \
             '{
-            host_name: $host_name,
-            ingress_url: $ingress_url,
-            hassio_ip: $hassio_ip,
-            ingress_port: $ingress_port,
-            nginx_log_location: $nginx_log_location,
-            nginx_log_level: $nginx_log_level,
-            nginx_access_log_location: $nginx_access_log_location,
-            nginx_ssl_certificate: $nginx_ssl_certificate,
-            nginx_ssl_key: $nginx_ssl_key
-        }' \
+                host_name: $host_name,
+                ingress_entry: $ingress_entry,
+                hassio_ip: $hassio_ip,
+                ingress_port: $ingress_port,
+                nginx_log_location: $nginx_log_location,
+                nginx_log_level: $nginx_log_level,
+                nginx_access_log_location: $nginx_access_log_location,
+                nginx_ssl_certificate: $nginx_ssl_certificate,
+                nginx_ssl_key: $nginx_ssl_key
+            }' \
             /data/options.json
     )
 }
