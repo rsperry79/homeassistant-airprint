@@ -53,7 +53,7 @@ server {
 
     sub_filter_types *;
     sub_filter_once off;
-    root /config/cups/www/;
+    # root /config/cups/www/;
 
     location / {
         proxy_pass http://localhost:631;
