@@ -57,38 +57,37 @@ server {
 
     location / {
         proxy_pass http://localhost:631;
-
     }
 
-    location /admin {
-        proxy_pass http://localhost:631/admin;
-
-    }
-
-    # location /cups.css {
-    #     proxy_pass http://localhost:631/cups.css ;
+    # location /admin {
+    #     proxy_pass http://localhost:631/admin;
 
     # }
 
-    location /classes {
-        proxy_pass http://localhost:631/classes;
+    # # location /cups.css {
+    # #     proxy_pass http://localhost:631/cups.css ;
 
-    }
+    # # }
 
-    location /help {
-        proxy_pass http://localhost:631/help;
+    # location /classes {
+    #     proxy_pass http://localhost:631/classes;
 
-    }
+    # }
 
-    location /jobs {
-        proxy_pass http://localhost:631/admin;
+    # location /help {
+    #     proxy_pass http://localhost:631/help;
 
-    }
+    # }
 
-    location /printers {
-        proxy_pass http://localhost:631/printers;
+    # location /jobs {
+    #     proxy_pass http://localhost:631/admin;
 
-    }
+    # }
+
+    # location /printers {
+    #     proxy_pass http://localhost:631/printers;
+
+    # }
 
 	# deny access to .htaccess files
 	location ~ /\.ht {
