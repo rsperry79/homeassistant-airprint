@@ -66,7 +66,7 @@ server {
         proxy_pass http://localhost:631;
     }
 
-    location /admin {
+    location {{.ingress_entry}}/admin {
         proxy_pass http://localhost:631/admin;
     }
 
@@ -75,22 +75,22 @@ server {
 
     }
 
-    location /classes {
+    location {{.ingress_entry}}/classes {
         proxy_pass http://localhost:631/classes;
 
     }
 
-    location /help {
+    location {{.ingress_entry}}/help {
         proxy_pass http://localhost:631/help;
 
     }
 
-    location /jobs {
+    location {{.ingress_entry}}/jobs {
         proxy_pass http://localhost:631/admin;
 
     }
 
-    location /printers {
+    location {{.ingress_entry}}/printers {
         proxy_pass http://localhost:631/printers;
 
     }
