@@ -49,7 +49,7 @@ panel_icon: mdi:printer
 ingress: true
 ingress_port: 5150
 
-ingress_stream: true
+# ingress_stream: true
 
 #webui: http://[HOST]:[PORT:631]/
 
@@ -106,15 +106,15 @@ schema:
     use_ipv6: bool
   cups_logging:
     cups_fatal_errors: list(none|all|browse|config|listen|log|permissions)
-    cups_log_to_file: bool?
+    cups_log_to_file: bool
     cups_log_level: list(debug|info|notice|error|none)
-    cups_access_log_to_file: bool?
+    cups_access_log_to_file: bool
     cups_access_log_level: list(all|actions|config)
   cups_ssl:
     cups_encryption: list(IfRequested|Required|Never)
-    cups_self_sign: bool?
-    cups_ssl_cert: str?
-    cups_ssl_key: str?
+    cups_self_sign: bool
+    cups_ssl_cert: str
+    cups_ssl_key: str
   nginx:
     nginx_log_to_file: bool
     nginx_access_log_to_file: bool
