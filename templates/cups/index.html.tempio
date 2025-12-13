@@ -16,12 +16,12 @@
     <div class="cups-header">
         <ul>
             <li><a href="https://openprinting.github.io/cups/" target="_blank">OpenPrinting CUPS</a></li>
-            <li><a class="active" href="/">Home</a></li>
-            <li><a href="/admin">Administration</a></li>
-            <li><a href="/classes/">Classes</a></li>
-            <li><a href="/help/">Help</a></li>
-            <li><a href="/jobs/">Jobs</a></li>
-            <li><a href="/printers/">Printers</a></li>
+            <li><a class="active" href="/" target="_self">Home</a></li>
+            <li><a href="/admin" target="_self">Administration</a></li>
+            <li><a href="/classes/" target="_self">Classes</a></li>
+            <li><a href="/help/" target="_self">Help</a></li>
+            <li><a href="/jobs/" target="_self">Jobs</a></li>
+            <li><a href="/printers/" target="_self">Printers</a></li>
         </ul>
     </div>
     <div class="cups-body">
