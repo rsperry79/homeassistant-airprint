@@ -71,8 +71,8 @@ options:
     cups_access_log_level: all
   cups_ssl:
     cups_encryption: Never
-    # cups_ssl_cert: /ssl/fullchain.pem
-    # cups_ssl_key: /ssl/privkey.pem
+    cups_ssl_cert: /ssl/fullchain.pem
+    cups_ssl_key: /ssl/privkey.pem
     cups_self_sign: true
   nginx:
     nginx_log_level: warn
@@ -98,7 +98,7 @@ schema:
     install_recommends: bool
     packages:
       - str?
-    package_debug: bool
+    package_debug: bool?
   avahi:
     avahi_debug: bool
     avahi_reflector: bool
@@ -106,9 +106,9 @@ schema:
     use_ipv6: bool
   cups_logging:
     cups_fatal_errors: list(none|all|browse|config|listen|log|permissions)
-    cups_log_to_file: bool
+    cups_log_to_file: bool?
     cups_log_level: list(debug|info|notice|error|none)
-    cups_access_log_to_file: bool
+    cups_access_log_to_file: bool?
     cups_access_log_level: list(all|actions|config)
   cups_ssl:
     cups_encryption: list(IfRequested|Required|Never)
