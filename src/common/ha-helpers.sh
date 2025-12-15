@@ -42,7 +42,6 @@ function ha_is_secure() {
     fi
 
     if bashio::var.true "${ha_ssl}"; then
-
         export ha_is_secure=true
         echo true
     else

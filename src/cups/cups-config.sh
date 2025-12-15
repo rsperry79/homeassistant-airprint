@@ -58,7 +58,10 @@ function run() {
         update_index
     fi
 
+<<<<<<< HEAD
     setup_ssl "$cups_encryption" "$self_sign"
+=======
+>>>>>>> refs/remotes/origin/main
     setup_ssl "$cups_encryption" "$self_sign"
     #add_host_name_to_hosts "$host_name"
 }

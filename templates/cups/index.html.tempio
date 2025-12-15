@@ -18,6 +18,10 @@
             <li><a href="https://openprinting.github.io/cups/" target="_blank">OpenPrinting CUPS</a></li>
 
             <li><a class="active" href="/">Home</a></li>
+<<<<<<< HEAD
+=======
+            <button onclick="changeContent('/admin')">Administration</button>
+>>>>>>> refs/remotes/origin/main
             <li><a href="/admin">Administration</a></li>
             <li><a href="/classes">Classes</a></li>
             <li><a href="/help">Help</a></li>
@@ -55,6 +59,16 @@
         </div>
     </div>
     <div class="cups-footer">Copyright &copy; 2021-2025 OpenPrinting. All rights reserved.</div>
+<<<<<<< HEAD
+=======
+
+
+    <script>
+        function changeContent(page) {
+            window.location.replace(page)
+        }
+    </script>
+>>>>>>> refs/remotes/origin/main
 </body>
 
 </html>
