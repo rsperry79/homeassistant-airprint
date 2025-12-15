@@ -1,11 +1,11 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
 
-# shellcheck source="../common/paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="../../common/paths/cups-paths.sh"
+source "/opt/common/paths/cups-paths.sh"
 
 # shellcheck source="./cups-config-helpers.sh"
-source "/opt/cups/cups-config-helpers.sh"
+source "/opt/cups/helpers/cups-config-helpers.sh"
 
 function update_hosts() {
     local pubkey="${1}"

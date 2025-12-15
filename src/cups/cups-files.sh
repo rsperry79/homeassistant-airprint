@@ -1,6 +1,10 @@
 #!/command/with-contend bashio
-# shellcheck source="../common/paths.sh"
-source "/opt/common/paths.sh"
+
+# shellcheck source="../common/paths/cups-paths.sh"
+source "/opt/common/paths/cups-paths.sh"
+
+# shellcheck source="../common/settings.sh"
+source "/opt/common/settings.sh"
 
 # Cups config folder
 if ! bashio::fs.directory_exists "${real_cups_path}"; then
@@ -32,6 +36,16 @@ if ! bashio::fs.directory_exists "${cups_ssl_path}"; then
         bashio::exit.nok 'Failed to create a persistent cups templates folder'
 fi
 
+# cups www folder
+if ! bashio::fs.directory_exists "${cups_web_root}"; then
+    install -d -m "$www_svc_perms" -g "$svc_group" "${cups_web_root}" ||
+        bashio::exit.nok 'Failed to create a persistent cups www folder'
+    cp -ra "$cups_real_web_root/." "$cups_web_root"
+    rm -f "$cups_web_root/$cups_html"
+    chown root:root -R "$cups_web_root"
+    chmod "$www_svc_perms" -R "$cups_web_root"
+fi
+
 # client.conf
 if [ ! -e "$cups_templates_path/$cups_client_cfg" ]; then
     install -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_client_cfg" "$cups_templates_path" ||
@@ -61,4 +75,10 @@ fi
 if [ ! -e "$cups_templates_path/$cups_snmp_cfg" ]; then
     install -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_snmp_cfg" "$cups_templates_path" ||
         bashio::exit.nok "Failed to create $cups_snmp_cfg"
+fi
+
+# index.html
+if [ ! -e "$cups_templates_path/$cups_html" ]; then
+    install -m "$svc_file_perms" -g "$svc_group" "$src_cups_templates_path/$cups_html_tempio" "$cups_templates_path" ||
+        bashio::exit.nok "Failed to create $cups_html"
 fi

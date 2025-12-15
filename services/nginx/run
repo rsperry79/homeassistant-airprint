@@ -1,23 +1,33 @@
 #!/usr/bin/with-contenv bashio
 # shellcheck disable=SC2034
 
-# shellcheck source="../../src/common/paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="../../src/common/paths/nginx-paths.sh"
+source "/opt/common/paths/nginx-paths.sh"
 
 ulimit -n 524288
 
 function run() {
+
+    bashio::log.info "Testing NGINX server config"
+    nginx -t
+
+    bashio::log.info "Starting NGINX server from S6"
+    nginx # -g "daemon off;"
+
     /usr/bin/inotifywait -m -e close_write,moved_to,create "$nginx_config_path" |
         while read -r directory events filename; do
             if [ "$filename" = "$nginx_default" ] || [ "$filename" = "$nginx_conf" ]; then
-                bashio::log.info "Getting NGINX IPs"
-                bashio /opt/common/nginx-ip-helper.sh
-
-                bashio::log.info "Testing NGINX server config"
+                bashio::log.info "NGINX Runner Restarting due to config change"
                 nginx -t
-
-                bashio::log.info "Starting NGINX server from S6"
-                nginx -g "daemon off;"
+                # shellcheck disable=SC2181
+                if [ "$?" -eq 0 ]; then # if the config is valid, restart nginx
+                    nginx -s reload
+                    if [ "$?" -ne 0 ]; then # if this fails, then kill this instance so s6 can restart it.
+                        pid=$(head -n 1 /run/nginx.pid)
+                        kill "$pid"
+                        return 1
+                    fi
+                fi
             fi
         done
 }

@@ -108,6 +108,7 @@ COPY templates /usr/templates
         inotify-tools \
         bc \
         udev \
+        yq \
         # SSL
         ssl-cert \
         openssl \
@@ -190,17 +191,10 @@ COPY templates /usr/templates
         libpaper-utils\
         rasterview \
         libcupsfilters2 \
-        # drivers
-        foomatic-db \
-        foomatic-filters \
-        foomatic-filters-beh \
         # build
         build-essential \
         # helpers
         nginx
-
-# RUN rm -f  /etc/nginx/nginx.conf \
-#     rm -f  /etc/nginx/sites-available/default
 
 # Copy Cups and install
 COPY --from=builder /cups /cups
@@ -224,7 +218,8 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
     && useradd  lp_service -g lp \
     && useradd  ColorManager \
     && usermod -aG lpadmin lp_service \
-    &&  useradd lpinfo -g lp
+    &&  useradd lpinfo -g lp \
+    && usermod -aG root _apt
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 WORKDIR /config

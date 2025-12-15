@@ -1,24 +1,34 @@
 #!/usr/bin/with-contenv bashio
 # shellcheck disable=SC2034
 
-# shellcheck source="../../src/common/paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="../../src/common/paths/cups-paths.sh"
+source "/opt/common/paths/cups-paths.sh"
 
 ulimit -n 524288
 
 function run() {
+    start_cups
     /usr/bin/inotifywait -m -e close_write,moved_to,create "$real_cups_path" |
         while read -r directory events filename; do
-            if [ "$filename" = "$cups_daemon" ] || [ "$filename" = "$cups_files" ] || [ "$filename" = "$cups_client" ]; then
-
-                bashio::log.info "Testing CUPS server config"
-                cupsd -t -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
-
-                bashio::log.info "Starting CUPS server from S6"
-                cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
+            if [ "$filename" = "$cups_daemon" ] || [ "$filename" = "$cups_files" ] || [ "$filename" = "$cups_client" ] || [ "$filename" = "$cups_html" ]; then
+                bashio::log.info "Restarting CUPS server for config change"
+                kill_cups
+                start_cups
             fi
         done
 }
 
-run
+function kill_cups() {
+    bashio::log.info "Killing any existing CUPS servers"
+    kill "$(pgrep cupsd)"
+}
 
+function start_cups() {
+    bashio::log.info "Testing CUPS server config"
+    cupsd -t -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
+
+    bashio::log.info "Starting CUPS server from S6"
+    cupsd -f -c "$real_cups_path"/"$cups_daemon" -s "$real_cups_path"/"$cups_files"
+}
+
+run

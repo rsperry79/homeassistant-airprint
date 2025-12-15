@@ -1,0 +1,2 @@
+Dir::Cache{Archives /config/apt-cache/}
+Dir::Cache::Archives /config/apt-cache/archives/;

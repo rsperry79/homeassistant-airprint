@@ -91,7 +91,6 @@ function remove_users() {
                 deluser "$user"
             fi
         fi
-
     done
 }
 

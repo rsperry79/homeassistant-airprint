@@ -1,8 +1,8 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
 
-# shellcheck source="../common/paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="../../common/paths/cups-paths.sh"
+source "/opt/common/paths/cups-paths.sh"
 
 function disable_ssl_config() {
     bashio::log.debug disable_ssl_config
@@ -24,6 +24,14 @@ function update_access_log_level() {
     bashio::log.debug update_access_log_level
     if [ -e "$real_cups_path/$cups_files" ]; then
         sed -i "s#^.*AccessLogLevel .*#AccessLogLevel ${setting}#" "$real_cups_path/$cups_files"
+    fi
+}
+
+function update_web_root() {
+    local setting=${1}
+    bashio::log.debug update_access_log_level
+    if [ -e "$real_cups_path/$cups_files" ]; then
+        sed -i "s#^.*DocumentRoot .*#DocumentRoot ${setting}/#" "$real_cups_path/$cups_files"
     fi
 }
 

@@ -1,13 +1,19 @@
 #!/command/with-contend bashio
 
-# shellcheck source="../common/paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="../../common/settings.sh"
+source "/opt/common/settings.sh"
+
+# shellcheck source="../../common/ha-helpers.sh"
+source "/opt/common/paths/ha-helpers.sh"
+
+# shellcheck source="../../common/paths/cups-paths.sh"
+source "/opt/common/paths/cups-paths.sh"
 
 # shellcheck source="./cups-config-helpers.sh"
-source "/opt/cups/cups-config-helpers.sh"
+source "/opt/cups/helpers/cups-config-helpers.sh"
 
 # shellcheck source="./cups-host-helpers.sh"
-source "/opt/cups/cups-host-helpers.sh"
+source "/opt/cups/helpers/cups-host-helpers.sh"
 
 function setup_ssl() {
     local use_ssl=${1}
@@ -31,8 +37,13 @@ function setup_ssl_private() {
 
     local _privkey
 
+    ha_is_secure=$(ha_is_secure)
+
     if bashio::config.has_value 'cups_ssl.cups_ssl_key'; then
         _privkey=$(bashio::config 'cups_ssl.cups_ssl_key')
+    elif [ "$ha_is_secure" = true ]; then
+        _privkey=$ha_ssl_key
+
     elif [ -e "/ssl/privkey.pem" ]; then
         _privkey="/ssl/privkey.pem"
     else
@@ -54,6 +65,9 @@ function setup_ssl_public() {
 
     if bashio::config.has_value 'cups_ssl.cups_ssl_cert'; then
         _pubkey=$(bashio::config 'cups_ssl.cups_ssl_cert')
+    elif [ "$ha_is_secure" = true ]; then
+        get_ha_certs
+        _pubkey=$ha_ssl_certificate
     elif [ -e "/ssl/fullchain.pem" ]; then
         _pubkey="/ssl/fullchain.pem"
     else
@@ -72,6 +86,9 @@ function setup_ssl_public() {
         #cp "$_pubkey" "$CUPS_PUBLIC_KEY"
         convert_public_key "$_pubkey" "$CUPS_PUBLIC_KEY"
     fi
+
+    export CUPS_PUBLIC_KEY
+    export CUPS_PRIVATE_KEY
 }
 
 function convert_private_key() {

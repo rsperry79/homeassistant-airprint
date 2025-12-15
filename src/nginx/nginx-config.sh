@@ -1,17 +1,49 @@
 #!/command/with-contend bashio
-# shellcheck source="../common/paths.sh"
-source "/opt/common/paths.sh"
 
-# shellcheck source="./nginx-config-helpers.sh"
-source "/opt/nginx/nginx-config-helpers.sh"
+# shellcheck source="../common/paths/nginx-paths.sh"
+source "/opt/common/paths/nginx-paths.sh"
 
-# shellcheck source="./nginx-ssl-helpers.sh"
-source "/opt/nginx/nginx-ssl-helpers.sh"
+# shellcheck source="./helpers/nginx-config-helpers.sh"
+source "/opt/nginx/helpers/nginx-config-helpers.sh"
+
+# shellcheck source="./helpers/nginx-ssl-helpers.sh"
+source "/opt/nginx/helpers/nginx-ssl-helpers.sh"
 
 # shellcheck source="../common/network-common.sh"
 source "/opt/common/network-common.sh"
 
 function run() {
+
+    ingress=$(bashio::addon.ingress)
+    bashio::log.info "ingress $ingress"
+
+    ingress_entry=$(bashio::addon.ingress_entry)
+    bashio::log.info "ingress_entry $ingress_entry"
+
+    ingress_url=$(bashio::addon.ingress_url)
+    bashio::log.info "ingress_url $ingress_url"
+
+    ingress_port=$(bashio::addon.ingress_port)
+    bashio::log.info "ingress_port $ingress_port"
+
+    addon_name=$(bashio::addon.name)
+    bashio::log.info "addon_name $addon_name"
+
+    addon_url=$(bashio::addon.url)
+    bashio::log.info "addon_url $addon_url"
+
+    addon_hostname=$(bashio::addon.hostname)
+    bashio::log.info "addon_hostname $addon_hostname"
+
+    addon_dns=$(bashio::addon.dns)
+    bashio::log.info "addon_dns $addon_dns"
+
+    addon_repository=$(bashio::addon.repository)
+    bashio::log.info "addon_repository $addon_repository"
+
+    addon_ip_address=$(bashio::addon.ip_address)
+    bashio::log.info "addon_ip_address $addon_ip_address"
+
     setup
 
     if [ ! -e "$nginx_config_path/$nginx_conf" ]; then
@@ -30,39 +62,59 @@ function run() {
 }
 
 function setup() {
+    ingress_entry=$(bashio::addon.ingress_entry)
 
+    hassio_ip=$(bashio::addon.ip_address)
+    ingress_port=$(bashio::addon.ingress_port)
+
+    setup_nginx_logging
+    setup_nginx_ssl
+
+    config=$(
+        jq \
+            --arg host_name "$HOSTNAME" \
+            --arg ingress_entry "$ingress_entry" \
+            --arg hassio_ip "$hassio_ip" \
+            --arg ingress_port "$ingress_port" \
+            --arg nginx_log_location "$nginx_log_location" \
+            --arg nginx_log_level "$nginx_log_level" \
+            --arg nginx_proto "$nginx_proto" \
+            --arg nginx_access_log_location "$nginx_access_log_location" \
+            --arg nginx_ssl_cert "$nginx_ssl_cert" \
+            --arg nginx_ssl_key "$nginx_ssl_key" \
+            '{
+                host_name: $host_name,
+                ingress_entry: $ingress_entry,
+                hassio_ip: $hassio_ip,
+                ingress_port: $ingress_port,
+                nginx_log_location: $nginx_log_location,
+                nginx_log_level: $nginx_log_level,
+                nginx_access_log_location: $nginx_access_log_location,
+                nginx_proto: $nginx_proto,
+                nginx_ssl_cert: $nginx_ssl_cert,
+                nginx_ssl_key: $nginx_ssl_key
+            }' \
+            /data/options.json
+    )
+}
+
+function setup_nginx_logging () {
     nginx_log_to_file=$(bashio::config 'nginx.nginx_log_to_file')
-    if [ "$nginx_log_to_file" = "false" ]; then
-        nginx_log_location=stderr
-    else
+    nginx_log_location=stderr
+    if [ "$nginx_log_to_file" = "true" ]; then
         nginx_log_location=$nginx_log_path/nginx.log
     fi
 
     nginx_access_log_to_file=$(bashio::config 'nginx.nginx_access_log_to_file')
-
-    if [ "$nginx_access_log_to_file" = "false" ]; then
-        nginx_access_log_location=stderr
-    else
+    nginx_access_log_location=stderr
+    if [ "$nginx_access_log_to_file" = "true" ]; then
         nginx_access_log_location=$nginx_log_path/access.log
     fi
+
     nginx_log_level=$(bashio::config 'nginx.nginx_log_level')
-
-    nginx_ssl_certificate="" #"ssl_certificate {{.nginx_ssl_cert}};"
-    nginx_ssl_key=""         #"ssl_certificate_key {{.nginx_ssl_key}};"
-
-    docker_host_ip=$(get_ip_by_iface "docker0")
-
-    config=$(jq \
-        --arg host_name "$HOSTNAME" \
-        --arg docker_host_ip "$docker_host_ip" \
-        --arg nginx_log_location "$nginx_log_location" \
-        --arg nginx_log_level "$nginx_log_level" \
-        --arg nginx_access_log_location "$nginx_access_log_location" \
-        --arg nginx_ssl_certificate "$nginx_ssl_certificate" \
-        --arg nginx_ssl_key "$nginx_ssl_key" \
-        '{host_name: $host_name, docker_host_ip: $docker_host_ip, nginx_log_location: $nginx_log_location, nginx_log_level: $nginx_log_level, nginx_access_log_location: $nginx_access_log_to_file, nginx_ssl_certificate: $nginx_ssl_certificate, nginx_ssl_key: $nginx_ssl_key}' \
-        /data/options.json)
 }
+
+
 
 # Uses the template to regenerate the configuration file. Ensures a clean file.
 function autoconf_nginx_config() {

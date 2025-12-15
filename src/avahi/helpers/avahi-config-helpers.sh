@@ -1,8 +1,8 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
 
-# shellcheck source="../common/paths.sh"
-source "/opt/common/paths.sh"
+# shellcheck source="../../common/paths/avahi-paths.sh"
+source "/opt/common/paths/avahi-paths.sh"
 
 function update_interfaces() {
     local bcast_interfaces=${1}
