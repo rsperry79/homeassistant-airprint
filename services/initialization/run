@@ -1,7 +1,7 @@
 #!/command/with-contend bashio
 
-bashio::log.info "Getting HA config"
-bashio /opt/helpers/ha-config-loader.sh
+# bashio::log.info "Getting HA config"
+# bashio /opt/helpers/ha-config-loader.sh
 
 bashio::log.info "Initializing Common Config"
 bashio /opt/common/common.sh

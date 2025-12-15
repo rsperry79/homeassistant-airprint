@@ -1,10 +1,10 @@
 #!/command/with-contend bashio
 
 # Homeassistant Paths
-export ha_config_file="/homeassistant/configuration.yaml"
+export HA_CONFIG_PATH="/homeassistant/configuration.yaml"
 
 # Ports
-export nginx_port=5150
+# export nginx_port=5150
 
 # Svc Acct Settings
 export svc_acct="lp"

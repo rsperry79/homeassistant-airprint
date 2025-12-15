@@ -13,12 +13,12 @@ function get_ha_certs() {
 
     if ha_is_secure; then
 
-        if yq . "${ha_config_file}" >/dev/null; then
+        if yq . "${HA_CONFIG_PATH}" >/dev/null; then
             # https://www.home-assistant.io/integrations/http/#http-configuration-variables
-            ha_ssl_key=
-            ha_ssl_key=$(yq ".http.ssl_key // ${ha_ssl_key}" "${ha_config_file}")
-            ha_ssl_certificate=
-            ha_ssl_certificate=$(yq ".http.ssl_certificate // ${ha_ssl_certificate}" "${ha_config_file}")
+            ha_ssl_key=""
+            ha_ssl_key=$(yq ".http.ssl_key // ${ha_ssl_key}" "${HA_CONFIG_PATH}")
+            ha_ssl_certificate=""
+            ha_ssl_certificate=$(yq ".http.ssl_certificate // ${ha_ssl_certificate}" "${HA_CONFIG_PATH}")
 
             bashio::log.info "ha_ssl_key: ${ha_ssl_key}"
             bashio::log.info "ha_ssl_certificate: ${ha_ssl_certificate}"
@@ -27,7 +27,7 @@ function get_ha_certs() {
             export ha_ssl_certificate
 
         else
-            bashio::log.warning "Unable to parse Home Assistant configuration file at ${ha_config_file}"
+            bashio::log.warning "Unable to parse Home Assistant configuration file at ${HA_CONFIG_PATH}"
         fi
     fi
 
@@ -35,11 +35,11 @@ function get_ha_certs() {
 
 # returns a bool
 function ha_is_secure() {
-    if yq . "${ha_config_file}" >/dev/null; then
+    if yq . "${HA_CONFIG_PATH}" >/dev/null; then
         # https://www.home-assistant.io/integrations/http/#http-configuration-variables
-        ha_ssl=$(yq '.http | (has("ssl_certificate") and has("ssl_key"))' "${ha_config_file}")
+        ha_ssl=$(yq '.http | (has("ssl_certificate") and has("ssl_key"))' "${HA_CONFIG_PATH}")
     else
-        bashio::log.warning "Unable to parse Home Assistant configuration file at ${ha_config_file} and no SSL"
+        bashio::log.warning "Unable to parse Home Assistant configuration file at ${HA_CONFIG_PATH} and no SSL"
     fi
 
     if bashio::var.true "${ha_ssl}"; then
