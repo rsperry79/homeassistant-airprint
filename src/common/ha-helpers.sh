@@ -15,8 +15,9 @@ function get_ha_certs() {
 
         if yq . "${ha_config_file}" >/dev/null; then
             # https://www.home-assistant.io/integrations/http/#http-configuration-variables
-
+            ha_ssl_key=
             ha_ssl_key=$(yq ".http.ssl_key // ${ha_ssl_key}" "${ha_config_file}")
+            ha_ssl_certificate=
             ha_ssl_certificate=$(yq ".http.ssl_certificate // ${ha_ssl_certificate}" "${ha_config_file}")
 
             bashio::log.info "ha_ssl_key: ${ha_ssl_key}"

@@ -1,6 +1,5 @@
 #!/command/with-contend bashio
 
-
 # shellcheck source="../../common/ha-helpers.sh"
 source "/opt/common/ha-helpers.sh"
 
