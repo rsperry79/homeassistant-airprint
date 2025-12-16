@@ -21,6 +21,7 @@ source "/opt/cups/helpers/cups-host-helpers.sh"
 export CUPS_ENCRYPTION
 export CUPS_PUBLIC_KEY
 export CUPS_PRIVATE_KEY
+export CUPS_SELF_SIGN
 
 function get_settings () {
 
