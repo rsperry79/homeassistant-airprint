@@ -22,6 +22,9 @@ source "/opt/cups/helpers/cups-ssl-helpers.sh"
 # shellcheck source="./helpers/cups-config-helpers.sh"
 source "/opt/cups/helpers/cups-config-helpers.sh"
 
+# shellcheck source="./helpers/cups-logging-helpers.sh"
+source "/opt/cups/helpers/cups-logging-helpers.sh"
+
 function run() {
 
     CUPS_ENCRYPTION="IfRequested"
