@@ -27,11 +27,12 @@ source "/opt/cups/helpers/cups-logging-helpers.sh"
 
 function run() {
 
-    CUPS_ENCRYPTION="IfRequested"
+    # CUPS_ENCRYPTION="IfRequested"
     HOST_ALIAS="localhost"
-    CUPS_SELF_SIGN=false
+    # CUPS_SELF_SIGN=false
     setup_cups_logging
     setup
+
 
     if [ ! -e "$real_cups_path/$cups_client" ] && [ "$CUPS_ENCRYPTION" != "Never" ]; then
         autoconf_client
@@ -70,13 +71,12 @@ function run() {
     fi
 
     setup_ssl
+
     #add_host_name_to_hosts "$host_name"
 }
 
 # Gets current settings from HA
 function setup() {
-
-
     # Used by autoconf
     config=$(
         jq --arg host_name "$HOSTNAME" --arg host_alias "$HOST_ALIAS" --arg CUPS_FATAL_ERROR_LEVEL "$CUPS_FATAL_ERROR_LEVEL" --arg cups_www_root "$cups_web_root" \

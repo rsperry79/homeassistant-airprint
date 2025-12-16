@@ -18,10 +18,6 @@ source "/opt/cups/helpers/cups-config-helpers.sh"
 # shellcheck source="./cups-host-helpers.sh"
 source "/opt/cups/helpers/cups-host-helpers.sh"
 
-
-
-
-
 function get_settings () {
 
     if bashio::config.has_value 'CUPS_SSL.CUPS_ENCRYPTION'; then
@@ -96,10 +92,10 @@ function setup_ssl_public() {
     fi
 
     HOST_ALIAS=$(get_cn_name "$_pubkey")
+    # TODO HIDE?
     CUPS_PUBLIC_KEY="$cups_ssl_path/$HOST_ALIAS.crt"
     CUPS_PRIVATE_KEY="$cups_ssl_path/$HOST_ALIAS.key"
-    export CUPS_PUBLIC_KEY
-    export CUPS_PRIVATE_KEY
+
     if [ ! -e "$_pubkey" ]; then
         bashio::log.notice "SSL Public key does not exist at given path"
     else
@@ -109,8 +105,6 @@ function setup_ssl_public() {
         convert_public_key "$_pubkey" "$CUPS_PUBLIC_KEY"
     fi
 
-    export CUPS_PUBLIC_KEY
-    export CUPS_PRIVATE_KEY
 }
 
 function convert_private_key() {
