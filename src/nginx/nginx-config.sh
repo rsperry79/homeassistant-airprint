@@ -112,37 +112,6 @@ function setup_nginx_logging () {
     fi
 
     nginx_log_level=$(bashio::config 'nginx.nginx_log_level')
-<<<<<<< HEAD
-=======
-
-    nginx_ssl_certificate="" #"ssl_certificate {{.nginx_ssl_cert}};"
-    nginx_ssl_key=""         #"ssl_certificate_key {{.nginx_ssl_key}};"
-
-    config=$(
-        jq \
-            --arg host_name "$HOSTNAME" \
-            --arg ingress_entry "$ingress_entry" \
-            --arg hassio_ip "$hassio_ip" \
-            --arg ingress_port "$ingress_port" \
-            --arg nginx_log_location "$nginx_log_location" \
-            --arg nginx_log_level "$nginx_log_level" \
-            --arg nginx_access_log_location "$nginx_access_log_location" \
-            --arg nginx_ssl_certificate "$nginx_ssl_certificate" \
-            --arg nginx_ssl_key "$nginx_ssl_key" \
-            '{
-                host_name: $host_name,
-                ingress_entry: $ingress_entry,
-                hassio_ip: $hassio_ip,
-                ingress_port: $ingress_port,
-                nginx_log_location: $nginx_log_location,
-                nginx_log_level: $nginx_log_level,
-                nginx_access_log_location: $nginx_access_log_location,
-                nginx_ssl_certificate: $nginx_ssl_certificate,
-                nginx_ssl_key: $nginx_ssl_key
-            }' \
-            /data/options.json
-    )
->>>>>>> refs/remotes/origin/main
 }
 
 
