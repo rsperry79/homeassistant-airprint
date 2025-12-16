@@ -38,35 +38,35 @@ configuration:
         name: IPV6 Support
         description: >-
           Do you want to enable IPV6?
-  cups_logging:
+  CUPS_LOGGING:
     name: CUPS Log Levels
     fields:
-      cups_fatal_errors:
+      CUPS_FATAL_ERROR_LEVEL:
         name: Cups Fatal Errors
         description: >-
           Specifies which errors are fatal, causing the scheduler to exit.
-      cups_log_to_file:
+      CUPS_LOG_TO_FILE:
         name: Write Error Log to file?
         description: >-
           Do you want to Log to a file (/addon_configs/{repo_id}_airprint/cups/log/cups.log)?
-      cups_log_level:
+      CUPS_LOG_LEVEL:
         name: Cups Log Level
         description: >+
           Defines the log level for CUPS error logging
-      cups_access_log_to_file:
+      CUPS_ACCESS_LOG_TO_FILE:
         name: Write Access Log to file?
         description: >+
           Do you want to Log to a file (/addon_configs/{repo_id}_airprint/cups/log/access.log)?
-      cups_access_log_level:
+      CUPS_ACCESS_LOG_LEVEL:
         name: Cups Access Log Level
         description: >+
           Defines the access log level for CUPS access logging
-  cups_ssl:
+  CUPS_SSL:
     name: CUPS SSL Settings
     description: >-
       Certificates must be in one of the following dirs: /ssl (HA SSL folder), /share (HA Share folder), or in /config (the addons config directory)
     fields:
-      cups_encryption:
+      CUPS_ENCRYPTION:
         name: Use encryption?
         description: >-
           When do you want ssl used?

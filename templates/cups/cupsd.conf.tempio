@@ -7,7 +7,7 @@
 
 # Log general information in error_log - change "warn" to "debug"
 # for troubleshooting...
-LogLevel {{.cups_log_level}}
+LogLevel {{.CUPS_LOG_LEVEL}}
 
 
 
@@ -17,7 +17,7 @@ MaxLogSize 0
 
 # Default error policy for printers
 ErrorPolicy retry-job
-AccessLogLevel {{.cups_access_log_level}}
+AccessLogLevel {{.CUPS_ACCESS_LOG_LEVEL}}
 
 Listen *:631
 Listen /run/cups/cups.sock
@@ -55,7 +55,7 @@ DefaultPaperSize Auto
     Allow from 127.0.0.1
     Allow from all
     AuthType None
-    Encryption {{.cups_encryption}}
+    Encryption {{.CUPS_ENCRYPTION}}
     Satisfy any
     Order deny,allow
 </Location>
@@ -63,7 +63,7 @@ DefaultPaperSize Auto
 # Restrict access to the admin pages...
 <Location /admin>
     AuthType Default
-    Encryption {{.cups_encryption}}
+    Encryption {{.CUPS_ENCRYPTION}}
     Order allow,deny
     Satisfy any
     AuthType None
@@ -74,7 +74,7 @@ DefaultPaperSize Auto
 <Location /admin/conf>
     AuthType Default
     Require user @SYSTEM
-    Encryption {{.cups_encryption}}
+    Encryption {{.CUPS_ENCRYPTION}}
     Order allow,deny
     Allow all
 </Location>

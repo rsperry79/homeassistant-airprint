@@ -63,17 +63,14 @@ options:
     avahi_reflector: false
     avahi_reflect_ipv: false
     use_ipv6: false
-  cups_logging:
-    cups_fatal_errors: permissions
-    cups_log_to_file: true
-    cups_log_level: info
-    cups_access_log_to_file: true
-    cups_access_log_level: all
-  cups_ssl:
-    cups_encryption: Never
-    cups_ssl_cert: /ssl/fullchain.pem
-    cups_ssl_key: /ssl/privkey.pem
-    cups_self_sign: true
+  CUPS_LOGGING:
+    CUPS_FATAL_ERROR_LEVEL: permissions
+    CUPS_LOG_TO_FILE: true
+    CUPS_LOG_LEVEL: info
+    CUPS_ACCESS_LOG_TO_FILE: true
+    CUPS_ACCESS_LOG_LEVEL: all
+  CUPS_SSL:
+    CUPS_ENCRYPTION: Never
   nginx:
     nginx_log_level: warn
     nginx_log_to_file: true
@@ -104,17 +101,14 @@ schema:
     avahi_reflector: bool
     avahi_reflect_ipv: bool
     use_ipv6: bool
-  cups_logging:
-    cups_fatal_errors: list(none|all|browse|config|listen|log|permissions)
-    cups_log_to_file: bool
-    cups_log_level: list(debug|info|notice|error|none)
-    cups_access_log_to_file: bool
-    cups_access_log_level: list(all|actions|config)
-  cups_ssl:
-    cups_encryption: list(IfRequested|Required|Never)
-    cups_self_sign: bool
-    cups_ssl_cert: str
-    cups_ssl_key: str
+  CUPS_LOGGING:
+    CUPS_FATAL_ERROR_LEVEL: list(none|all|browse|config|listen|log|permissions)
+    CUPS_LOG_TO_FILE: bool
+    CUPS_LOG_LEVEL: list(debug|info|notice|error|none)
+    CUPS_ACCESS_LOG_TO_FILE: bool
+    CUPS_ACCESS_LOG_LEVEL: list(all|actions|config)
+  CUPS_SSL:
+    CUPS_ENCRYPTION: list(IfRequested|Required|Never)
   nginx:
     nginx_log_to_file: bool
     nginx_access_log_to_file: bool

@@ -1,7 +1,17 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2181
+
+function linter () {
+    # shellcheck source="../../lint/cups-settings.lint"
+    source "../../lint/cups-settings.lint"
+}
+
+
 # shellcheck source="../common/paths/cups-paths.sh"
 source "/opt/common/paths/cups-paths.sh"
+
+# shellcheck source="./helpers/cups-host-helpers.sh"
+source "/opt/cups/helpers/cups-host-helpers.sh"
 
 # shellcheck source="./helpers/cups-host-helpers.sh"
 source "/opt/cups/helpers/cups-host-helpers.sh"
@@ -14,15 +24,13 @@ source "/opt/cups/helpers/cups-config-helpers.sh"
 
 function run() {
 
-    cups_log_level="error"
-    cups_encryption="IfRequested"
-    cups_access_log_level="config"
+    CUPS_ENCRYPTION="IfRequested"
     HOST_ALIAS="localhost"
-    self_sign=false
+    CUPS_SELF_SIGN=false
+    setup_cups_logging
     setup
 
-    cups_encryption=$(bashio::config 'cups_ssl.cups_encryption')
-    if [ ! -e "$real_cups_path/$cups_client" ] && [ "$cups_encryption" != "Never" ]; then
+    if [ ! -e "$real_cups_path/$cups_client" ] && [ "$CUPS_ENCRYPTION" != "Never" ]; then
         autoconf_client
     else
         update_client
@@ -58,49 +66,20 @@ function run() {
         update_index
     fi
 
-    setup_ssl "$cups_encryption" "$self_sign"
+    setup_ssl
     #add_host_name_to_hosts "$host_name"
 }
 
 # Gets current settings from HA
 function setup() {
-    cups_log_to_file=$(bashio::config 'cups_logging.cups_log_to_file')
-    if [ "$cups_log_to_file" = "false" ]; then
-        cups_log_to_file=stderr
-    else
 
-        cups_log_to_file=$cups_log_path/cups.log
-    fi
-
-    cups_log_level=$(bashio::config 'cups_logging.cups_log_level')
-
-    cups_access_log_to_file=$(bashio::config 'cups_logging.cups_access_log_to_file')
-    if [ "$cups_access_log_to_file" = "false" ]; then
-        cups_access_log_to_file=stderr
-    else
-        cups_access_log_to_file=$cups_log_path/access.log
-    fi
-
-    cups_fatal_errors=$(bashio::config 'cups_logging.cups_fatal_errors')
-    cups_access_log_level=$(bashio::config 'cups_logging.cups_access_log_level')
-    cups_encryption=$(bashio::config 'cups_ssl.cups_encryption')
-    cups_access_log_level=$(bashio::config 'cups_logging.cups_access_log_level')
-    cups_self_sign=No
-    if [ "$cups_encryption" != "Never" ]; then
-        if bashio::config.has_value 'cups_ssl.cups_self_sign'; then
-            self_sign=$(bashio::config 'cups_ssl.cups_self_sign')
-            if [ "$self_sign" == true ]; then
-                cups_self_sign=Yes
-            fi
-        fi
-    fi
 
     # Used by autoconf
     config=$(
-        jq --arg host_name "$HOSTNAME" --arg host_alias "$HOST_ALIAS" --arg cups_fatal_errors "$cups_fatal_errors" --arg cups_www_root "$cups_web_root" \
-            --arg cups_ssl_path "$cups_ssl_path" --arg self_sign "$cups_self_sign" --arg cups_encryption "$cups_encryption" \
-            --arg cups_log_level "$cups_log_level" --arg cups_access_log_level "$cups_access_log_level" --arg cups_log_to_file "$cups_log_to_file" --arg cups_access_log_to_file "$cups_access_log_to_file" \
-            '{ host_name: $host_name, cups_fatal_errors: $cups_fatal_errors, cups_www_root: $cups_www_root, cups_ssl_path: $cups_ssl_path,  host_alias: $host_alias , cups_log_level: $cups_log_level, cups_access_log_level: $cups_access_log_level, self_sign: $self_sign,  cups_encryption: $cups_encryption, cups_log_to_file: $cups_log_to_file, cups_access_log_to_file: $cups_access_log_to_file  }' \
+        jq --arg host_name "$HOSTNAME" --arg host_alias "$HOST_ALIAS" --arg CUPS_FATAL_ERROR_LEVEL "$CUPS_FATAL_ERROR_LEVEL" --arg cups_www_root "$cups_web_root" \
+            --arg cups_ssl_path "$cups_ssl_path" --arg CUPS_SELF_SIGN "$cups_self_sign" --arg CUPS_ENCRYPTION "$CUPS_ENCRYPTION" \
+            --arg CUPS_LOG_LEVEL "$CUPS_LOG_LEVEL" --arg CUPS_ACCESS_LOG_LEVEL "$CUPS_ACCESS_LOG_LEVEL" --arg CUPS_LOG_TO_FILE "$CUPS_LOG_TO_FILE" --arg CUPS_ACCESS_LOG_TO_FILE "$CUPS_ACCESS_LOG_TO_FILE" \
+            '{ host_name: $host_name, CUPS_FATAL_ERROR_LEVEL: $CUPS_FATAL_ERROR_LEVEL, cups_www_root: $cups_www_root, cups_ssl_path: $cups_ssl_path,  host_alias: $host_alias , CUPS_LOG_LEVEL: $CUPS_LOG_LEVEL, CUPS_ACCESS_LOG_LEVEL: $CUPS_ACCESS_LOG_LEVEL, CUPS_SELF_SIGN: $CUPS_SELF_SIGN,  CUPS_ENCRYPTION: $CUPS_ENCRYPTION, CUPS_LOG_TO_FILE: $CUPS_LOG_TO_FILE, CUPS_ACCESS_LOG_TO_FILE: $CUPS_ACCESS_LOG_TO_FILE  }' \
             /data/options.json
     )
 }
@@ -135,7 +114,7 @@ function update_browsed() {
 }
 
 function update_daemon() {
-    update_log_level "$cups_log_level"
+    update_log_level "$CUPS_LOG_LEVEL"
     update_server_alias "$HOST_ALIAS"
     update_server_name "$HOSTNAME"
 }
@@ -147,10 +126,10 @@ function autoconf_files() {
 }
 
 function update_files() {
-    update_access_log_level "$cups_access_log_level"
-    update_access_log_location "$cups_access_log_to_file"
-    update_log_location "$cups_log_to_file"
-    update_self_sign "$self_sign"
+    update_access_log_level "$CUPS_ACCESS_LOG_LEVEL"
+    update_access_log_location "$CUPS_ACCESS_LOG_TO_FILE"
+    update_log_location "$CUPS_LOG_TO_FILE"
+    update_self_sign "$CUPS_SELF_SIGN"
     update_web_root "$cups_web_root"
 }
 
@@ -158,7 +137,7 @@ function autoconf_index() {
     echo "$config" | tempio \
         -template "$cups_templates_path/$cups_html_tempio" \
         -out "$cups_web_root/$cups_html"
-    chown "$svc_acct":"$svc_group" "$cups_web_root/$cups_html"
+    chown "$SVC_ACCT":"$SVC_GROUP" "$cups_web_root/$cups_html"
 }
 
 function update_index() {

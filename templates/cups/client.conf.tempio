@@ -5,7 +5,7 @@
 ServerName localhost:631
 AllowAnyRoot Yes
 AllowExpiredCerts Yes
-Encryption {{.cups_encryption}}
+Encryption {{.CUPS_ENCRYPTION}}
 SSLOptions AllowRC4 AllowSSL3
 TrustOnFirstUse Yes
 ValidateCerts No

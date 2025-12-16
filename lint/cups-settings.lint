@@ -1,0 +1,15 @@
+#!/command/with-contend bashio
+# These are not real values, this is for linting
+
+# Logging Defaults
+export CUPS_LOG_LEVEL=""
+export CUPS_LOG_TO_FILE=""
+export CUPS_FATAL_ERROR_LEVEL=""
+export CUPS_ACCESS_LOG_TO_FILE=""
+export CUPS_ACCESS_LOG_LEVEL=""
+
+# SSL
+export CUPS_SELF_SIGN="false"
+export CUPS_DEFAULT_ENCRYPTION="Never"
+export CUPS_PUBLIC_KEY="/config/cups/ssl/pub.key"
+export CUPS_PRIVATE_KEY="/config/cups/ssl/pri.key"

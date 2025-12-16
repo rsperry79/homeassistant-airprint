@@ -9,26 +9,48 @@ source "/opt/common/paths/ha-helpers.sh"
 # shellcheck source="../../common/paths/cups-paths.sh"
 source "/opt/common/paths/cups-paths.sh"
 
+# shellcheck source="../../common/settings/cups-settings.sh"
+source "/opt/common/settings/cups-settings.sh"
+
 # shellcheck source="./cups-config-helpers.sh"
 source "/opt/cups/helpers/cups-config-helpers.sh"
 
 # shellcheck source="./cups-host-helpers.sh"
 source "/opt/cups/helpers/cups-host-helpers.sh"
 
-function setup_ssl() {
-    local use_ssl=${1}
-    local self_sign=${2}
+export CUPS_ENCRYPTION
+export CUPS_PUBLIC_KEY
+export CUPS_PRIVATE_KEY
 
-    if [ "$use_ssl" = "Never" ]; then
+function get_settings () {
+
+    if bashio::config.has_value 'CUPS_SSL.CUPS_ENCRYPTION'; then
+         CUPS_ENCRYPTION=$(bashio::config 'CUPS_LOGGING.CUPS_ENCRYPTION')
+    else
+        CUPS_ENCRYPTION=$CUPS_DEFAULT_ENCRYPTION
+    fi
+
+    if  [ "$(ha_is_secure)" = "false" ]; then
+        CUPS_SELF_SIGN=true
+    fi
+}
+
+
+function setup_ssl() {
+    get_settings
+
+    if [ "$CUPS_ENCRYPTION" = "Never" ]; then
         disable_ssl_config
     else
-        if [ "$self_sign" == true ]; then
-            HOST_ALIAS="$(hostname -f)"
-        else
+        if [ "$CUPS_SELF_SIGN" == false ]; then
             bashio::log.info "Self sign is off"
             rm -f "$cups_ssl_path/*"
             setup_ssl_public
             setup_ssl_private
+        fi
+        # Second check for failure above
+        if [ "$CUPS_SELF_SIGN" == true ]; then
+            HOST_ALIAS="$(hostname -f)"
         fi
     fi
 }
@@ -37,41 +59,37 @@ function setup_ssl_private() {
 
     local _privkey
 
-    ha_is_secure=$(ha_is_secure)
-
-    if bashio::config.has_value 'cups_ssl.cups_ssl_key'; then
-        _privkey=$(bashio::config 'cups_ssl.cups_ssl_key')
-    elif [ "$ha_is_secure" = true ]; then
+    if [ "$CUPS_SELF_SIGN" = false ]; then
         _privkey=$ha_ssl_key
-
     elif [ -e "/ssl/privkey.pem" ]; then
         _privkey="/ssl/privkey.pem"
     else
-        _privkey=""
+        bashio::log.info "Unable to find SSL key, setting Self-Sign on"
+        CUPS_SELF_SIGN="true"
+        return
     fi
 
     if [ ! -e "$_privkey" ]; then
         bashio::log.notice "SSL Private key does not exist at given path"
+
     else
 
         convert_private_key "$_privkey" "$CUPS_PRIVATE_KEY"
-        # cp "$_privkey" "$CUPS_PRIVATE_KEY"
-    fi
+     fi
 }
 
 function setup_ssl_public() {
 
     local _pubkey
 
-    if bashio::config.has_value 'cups_ssl.cups_ssl_cert'; then
-        _pubkey=$(bashio::config 'cups_ssl.cups_ssl_cert')
-    elif [ "$ha_is_secure" = true ]; then
-        get_ha_certs
+   if [ "$CUPS_SELF_SIGN" = "false" ]; then
         _pubkey=$ha_ssl_certificate
     elif [ -e "/ssl/fullchain.pem" ]; then
         _pubkey="/ssl/fullchain.pem"
     else
-        _pubkey=""
+        bashio::log.info "Unable to find SSL Cert, setting Self-Sign on"
+        CUPS_SELF_SIGN="true"
+        return
     fi
 
     HOST_ALIAS=$(get_cn_name "$_pubkey")
@@ -99,8 +117,8 @@ function convert_private_key() {
     msg=$(openssl rsa -in "$to_convert" -out "$CUPS_PRIVATE_KEY")
     # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
-        chown "$svc_acct":"$svc_group" "$CUPS_PRIVATE_KEY"
-        chmod "$svc_file_perms" "$CUPS_PRIVATE_KEY"
+        chown "$SVC_ACCT":"$SVC_GROUP" "$CUPS_PRIVATE_KEY"
+        chmod "$SVC_FILE_PERMS" "$CUPS_PRIVATE_KEY"
         bashio::log.debug "SSL Private Key exists. $CUPS_PRIVATE_KEY"
     else
         bashio::log.error "Private key is not valid. $msg"
@@ -115,8 +133,8 @@ function convert_public_key() {
     msg=$(openssl x509 -in "$to_convert" -out "$output_file")
     # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
-        chown "$svc_acct":"$svc_group" "$output_file"
-        chmod "$svc_file_perms" "$output_file"
+        chown "$SVC_ACCT":"$SVC_GROUP" "$output_file"
+        chmod "$SVC_FILE_PERMS" "$output_file"
         bashio::log.debug "SSL Public Key exists. $output_file"
     else
         bashio::log.error "Public key is not valid. $msg"
