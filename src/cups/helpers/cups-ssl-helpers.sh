@@ -4,7 +4,7 @@
 source "/opt/common/settings.sh"
 
 # shellcheck source="../../common/ha-helpers.sh"
-source "/opt/common/paths/ha-helpers.sh"
+source "/opt/common/ha-helpers.sh"
 
 # shellcheck source="../../common/paths/cups-paths.sh"
 source "/opt/common/paths/cups-paths.sh"
