@@ -82,25 +82,25 @@ function autoconf_setup() {
         jq  \
             --arg host_name "$HOSTNAME" \
             --arg host_alias "$HOST_ALIAS" \
-            --arg CUPS_FATAL_ERROR_LEVEL "$CUPS_FATAL_ERROR_LEVEL" \
-            --arg cups_www_root "$cups_web_root" \
-            --arg cups_ssl_path "$cups_ssl_path" \
             --arg CUPS_SELF_SIGN "$CUPS_SELF_SIGN" \
             --arg CUPS_ENCRYPTION "$CUPS_ENCRYPTION" \
+            --arg cups_ssl_path "$cups_ssl_path" \
+            --arg cups_www_root "$cups_web_root" \
             --arg CUPS_LOG_LEVEL "$CUPS_LOG_LEVEL" \
+            --arg CUPS_FATAL_ERROR_LEVEL "$CUPS_FATAL_ERROR_LEVEL" \
             --arg CUPS_ACCESS_LOG_LEVEL "$CUPS_ACCESS_LOG_LEVEL" \
             --arg CUPS_LOG_TO_FILE "$CUPS_LOG_TO_FILE" \
             --arg CUPS_ACCESS_LOG_TO_FILE "$CUPS_ACCESS_LOG_TO_FILE" \
             '{
                 host_name: $host_name,
-                CUPS_FATAL_ERROR_LEVEL: $CUPS_FATAL_ERROR_LEVEL,
-                cups_www_root: $cups_www_root,
-                cups_ssl_path: $cups_ssl_path,
                 host_alias: $host_alias,
-                CUPS_LOG_LEVEL: $CUPS_LOG_LEVEL,
-                CUPS_ACCESS_LOG_LEVEL: $CUPS_ACCESS_LOG_LEVEL,
                 CUPS_SELF_SIGN: $CUPS_SELF_SIGN,
                 CUPS_ENCRYPTION: $CUPS_ENCRYPTION,
+                cups_ssl_path: $cups_ssl_path,
+                cups_www_root: $cups_www_root,
+                CUPS_LOG_LEVEL: $CUPS_LOG_LEVEL,
+                CUPS_FATAL_ERROR_LEVEL: $CUPS_FATAL_ERROR_LEVEL,
+                CUPS_ACCESS_LOG_LEVEL: $CUPS_ACCESS_LOG_LEVEL,
                 CUPS_LOG_TO_FILE: $CUPS_LOG_TO_FILE,
                 CUPS_ACCESS_LOG_TO_FILE: $CUPS_ACCESS_LOG_TO_FILE
             }' /data/options.json
