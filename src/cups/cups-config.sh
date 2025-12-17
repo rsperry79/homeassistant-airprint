@@ -31,8 +31,10 @@ function load_sources () {
 function run() {
     load_sources
     get_settings
-    CUPS_HOST_ALIAS="localhost"
+
     setup_cups_logging
+    setup_ssl
+    autoconf_setup
 
 
     if [ ! -e "$real_cups_path/$cups_daemon" ]; then
@@ -73,12 +75,13 @@ function run() {
     fi
 
 
-    setup_ssl
-    autoconf_setup
+
+
 }
 
 
 function get_settings () {
+    CUPS_HOST_ALIAS="localhost"
 
     if bashio::config.has_value 'CUPS_SSL.CUPS_ENCRYPTION'; then
          CUPS_ENCRYPTION=$(bashio::config 'CUPS_LOGGING.CUPS_ENCRYPTION')
@@ -90,6 +93,7 @@ function get_settings () {
         CUPS_SELF_SIGN=true
     fi
 
+    export CUPS_HOST_ALIAS
     export CUPS_ENCRYPTION
     export CUPS_SELF_SIGN
 }
