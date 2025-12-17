@@ -7,37 +7,33 @@ function linter () {
 }
 
 
-# shellcheck source="../common/paths/cups-paths.sh"
-source "/opt/common/paths/cups-paths.sh"
+function load_sources () {
+    # shellcheck source="../common/paths/cups-paths.sh"
+    source "/opt/common/paths/cups-paths.sh"
 
-# shellcheck source="./helpers/cups-host-helpers.sh"
-source "/opt/cups/helpers/cups-host-helpers.sh"
+    # shellcheck source="./helpers/cups-host-helpers.sh"
+    source "/opt/cups/helpers/cups-host-helpers.sh"
 
-# shellcheck source="./helpers/cups-host-helpers.sh"
-source "/opt/cups/helpers/cups-host-helpers.sh"
+    # shellcheck source="./helpers/cups-host-helpers.sh"
+    source "/opt/cups/helpers/cups-host-helpers.sh"
 
-# shellcheck source="./helpers/cups-ssl-helpers.sh"
-source "/opt/cups/helpers/cups-ssl-helpers.sh"
+    # shellcheck source="./helpers/cups-ssl-helpers.sh"
+    source "/opt/cups/helpers/cups-ssl-helpers.sh"
 
-# shellcheck source="./helpers/cups-config-helpers.sh"
-source "/opt/cups/helpers/cups-config-helpers.sh"
+    # shellcheck source="./helpers/cups-config-helpers.sh"
+    source "/opt/cups/helpers/cups-config-helpers.sh"
 
-# shellcheck source="./helpers/cups-logging-helpers.sh"
-source "/opt/cups/helpers/cups-logging-helpers.sh"
+    # shellcheck source="./helpers/cups-logging-helpers.sh"
+    source "/opt/cups/helpers/cups-logging-helpers.sh"
+}
+
 
 function run() {
-
-     HOST_ALIAS="localhost"
-    # CUPS_SELF_SIGN=false
+    load_sources
+    get_settings
+    CUPS_HOST_ALIAS="localhost"
     setup_cups_logging
 
-
-
-    if [ ! -e "$real_cups_path/$cups_client" ] && [ "$CUPS_ENCRYPTION" != "Never" ]; then
-        autoconf_client
-    else
-        update_client
-    fi
 
     if [ ! -e "$real_cups_path/$cups_daemon" ]; then
         autoconf_daemon
@@ -69,11 +65,35 @@ function run() {
         update_index
     fi
 
+
+    if [ ! -e "$real_cups_path/$cups_client" ] && [ "$CUPS_ENCRYPTION" != "Never" ]; then
+        autoconf_client
+    else
+        update_client
+    fi
+
+
     setup_ssl
     autoconf_setup
-
-    #add_host_name_to_hosts "$host_name"
 }
+
+
+function get_settings () {
+
+    if bashio::config.has_value 'CUPS_SSL.CUPS_ENCRYPTION'; then
+         CUPS_ENCRYPTION=$(bashio::config 'CUPS_LOGGING.CUPS_ENCRYPTION')
+    else
+        CUPS_ENCRYPTION=$CUPS_DEFAULT_ENCRYPTION
+    fi
+
+    if  [ "$(ha_is_secure)" = "false" ]; then
+        CUPS_SELF_SIGN=true
+    fi
+
+    export CUPS_ENCRYPTION
+    export CUPS_SELF_SIGN
+}
+
 
 # Gets current settings from HA
 function autoconf_setup() {
@@ -81,7 +101,7 @@ function autoconf_setup() {
     config=$(
         jq  \
             --arg host_name "$HOSTNAME" \
-            --arg host_alias "$HOST_ALIAS" \
+            --arg CUPS_HOST_ALIAS "$CUPS_HOST_ALIAS" \
             --arg CUPS_SELF_SIGN "$CUPS_SELF_SIGN" \
             --arg CUPS_ENCRYPTION "$CUPS_ENCRYPTION" \
             --arg cups_ssl_path "$cups_ssl_path" \
@@ -93,7 +113,7 @@ function autoconf_setup() {
             --arg CUPS_ACCESS_LOG_TO_FILE "$CUPS_ACCESS_LOG_TO_FILE" \
             '{
                 host_name: $host_name,
-                host_alias: $host_alias,
+                CUPS_HOST_ALIAS: $CUPS_HOST_ALIAS,
                 CUPS_SELF_SIGN: $CUPS_SELF_SIGN,
                 CUPS_ENCRYPTION: $CUPS_ENCRYPTION,
                 cups_ssl_path: $cups_ssl_path,
@@ -116,6 +136,7 @@ function autoconf_client() {
 
 function update_client() {
     true
+    # TODO
     # local h_name=${1}
     # update_server_name "$h_name"
 }
@@ -132,13 +153,9 @@ function autoconf_browsed() {
         -out "$real_cups_path/$cups_browsed"
 }
 
-function update_browsed() {
-    true
-}
-
 function update_daemon() {
     update_log_level "$CUPS_LOG_LEVEL"
-    update_server_alias "$HOST_ALIAS"
+    update_server_alias "$CUPS_HOST_ALIAS"
     update_server_name "$HOSTNAME"
 }
 
@@ -165,6 +182,7 @@ function autoconf_index() {
 
 function update_index() {
     true
+    # TODO
 }
 
 function autoconf_pdf() {
@@ -175,13 +193,13 @@ function autoconf_pdf() {
 
 function update_pdf() {
     true
+    # TODO
 }
 
 function autoconf_snmp() {
     echo "$config" | tempio \
         -template "$cups_templates_path/$cups_snmp_cfg" \
         -out "$real_cups_path/$cups_snmp"
-
 }
 
 function update_snmp() {

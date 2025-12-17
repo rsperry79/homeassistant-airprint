@@ -9,8 +9,8 @@ source "/opt/cups/helpers/cups-config-helpers.sh"
 
 function update_hosts() {
     local pubkey="${1}"
-    HOST_ALIAS=$(get_cn_name "$pubkey")
-    append_host_alias "$(hostname -f)"
+    CUPS_HOST_ALIAS=$(get_cn_name "$pubkey")
+    append_CUPS_HOST_ALIAS "$(hostname -f)"
     add_sans "$pubkey"
 }
 
@@ -45,16 +45,16 @@ function add_sans() {
 
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
-        append_host_alias "$to_check"
+        append_CUPS_HOST_ALIAS "$to_check"
         add_host_name_to_hosts "$to_check"
     done
 }
 
-function append_host_alias() {
+function append_CUPS_HOST_ALIAS() {
     local to_check=${1}
 
-    if ! echo "$HOST_ALIAS" | grep -q "$to_check"; then
-        HOST_ALIAS+=" $to_check"
+    if ! echo "$CUPS_HOST_ALIAS" | grep -q "$to_check"; then
+        CUPS_HOST_ALIAS+=" $to_check"
     fi
 }
 

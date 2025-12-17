@@ -32,7 +32,7 @@ DefaultAuthType basic
 DefaultEncryption Never
 
 # Host header validation
-ServerAlias {{.host_alias}}
+ServerAlias {{.CUPS_HOST_ALIAS}}
 ServerName {{.host_name}}
 
 # Web interface setting...
