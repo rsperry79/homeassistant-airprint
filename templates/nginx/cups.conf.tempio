@@ -19,7 +19,7 @@
 # Default server configuration
 #
 server {
-    listen {{.nginx_proto}} {{.hassio_ip}}:{{.ingress_port}};
+    listen {{.NGINX_PROTO}} {{.hassio_ip}}:{{.ingress_port}};
     {{.nginx_ssl_cert}};;
     {{.nginx_ssl_key}};
 

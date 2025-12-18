@@ -19,9 +19,6 @@ function update_reflectors() {
     sed -i "s/^.*reflect\-ipv=.*/reflect\-ipv\=${AVAHI_REFLECTOR_IPV}/" "$avahi_config_path/$avahi_daemon"
 }
 
-
-
-
 function setup_reflector () {
     if bashio::config.has_value 'AVAHI_SETTINGS.AVAHI_REFLECTOR'; then
         AVAHI_REFLECTOR_FLAG=$(bashio::config 'AVAHI_SETTINGS.AVAHI_REFLECTOR')

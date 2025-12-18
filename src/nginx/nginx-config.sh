@@ -98,7 +98,7 @@ function setup_autoconf () {
             --arg ingress_port "$ingress_port" \
             --arg nginx_log_location "$NGINX_ERROR_LOG_LOCATION" \
             --arg NGINX_LOG_LEVEL "$NGINX_LOG_LEVEL_SETTING" \
-            --arg nginx_proto "$nginx_proto" \
+            --arg NGINX_PROTO "$NGINX_PROTO" \
             --arg nginx_access_log_location "$NGINX_ACCESS_LOG_LOCATION" \
             --arg nginx_ssl_cert "$nginx_ssl_cert" \
             --arg nginx_ssl_key "$nginx_ssl_key" \
@@ -110,7 +110,7 @@ function setup_autoconf () {
                 nginx_log_location: $nginx_log_location,
                 NGINX_LOG_LEVEL: $NGINX_LOG_LEVEL,
                 nginx_access_log_location: $nginx_access_log_location,
-                nginx_proto: $nginx_proto,
+                NGINX_PROTO : $NGINX_PROTO,
                 nginx_ssl_cert: $nginx_ssl_cert,
                 nginx_ssl_key: $nginx_ssl_key
             }' \

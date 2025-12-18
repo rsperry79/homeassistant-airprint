@@ -82,7 +82,8 @@ function get_settings () {
         CUPS_ENCRYPTION=$CUPS_DEFAULT_ENCRYPTION
     fi
 
-    if  [ "$(ha_is_secure)" = "false" ]; then
+    CUPS_SELF_SIGN=false
+    if  [ "$(ha_is_secure)" == "false" ]; then
         CUPS_SELF_SIGN=true
     fi
 

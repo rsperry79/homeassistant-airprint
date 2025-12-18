@@ -23,7 +23,6 @@ function get_ha_certs() {
 
             export HA_SSL_KEY
             export HA_SSL_CERT
-
         else
             bashio::log.warning "Unable to parse Home Assistant configuration file at ${HA_CONFIG_PATH}"
         fi
