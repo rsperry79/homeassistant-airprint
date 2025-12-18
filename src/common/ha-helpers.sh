@@ -42,8 +42,10 @@ function ha_is_secure() {
     fi
 
     if bashio::var.true "${ha_ssl}"; then
+        bashio::log.info "HA is in secure mode"
         echo true
     else
+        bashio::log.info "HA is not in secure mode"
         echo false
     fi
 }
