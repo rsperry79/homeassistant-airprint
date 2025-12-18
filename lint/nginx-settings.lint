@@ -1,4 +1,4 @@
-#!/command/with-contend bashio
+#!/command/with-contenv bashio
 # These are not real values, this is for linting
 
 # Logging Defaults

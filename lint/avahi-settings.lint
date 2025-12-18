@@ -1,4 +1,4 @@
-#!/command/with-contend bashio
+#!/command/with-contenv bashio
 # These are not real values, this is for linting
 export AVAHI_REFLECTOR_FLAG="no"
 export AVAHI_REFLECTOR_IPV_FLAG="no"

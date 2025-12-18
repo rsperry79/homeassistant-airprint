@@ -83,7 +83,7 @@ function setup() {
     host="${host_name%%.*}"
 
     setup_reflector
-    setup__ipv_reflector
+    setup_ipv_reflector
     setup_ipv6
 }
 
