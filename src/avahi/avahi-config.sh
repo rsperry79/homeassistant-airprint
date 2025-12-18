@@ -49,18 +49,18 @@ function setup_reflector () {
 
 function setup_ipv_reflector () {
     if bashio::config.has_value 'AVAHI_SETTINGS.AVAHI_REFLECTOR_IPV'; then
-        AVAHI_REFLECTOR_IPV=$(bashio::config 'AVAHI_SETTINGS.AVAHI_REFLECTOR_IPV')
+        AVAHI_REFLECTOR_FLAG=$(bashio::config 'AVAHI_SETTINGS.AVAHI_REFLECTOR_IPV')
     else
-        AVAHI_REFLECTOR_IPV=$AVAHI_DEFAULT_REFLECT_IPV
+        AVAHI_REFLECTOR_FLAG=$AVAHI_DEFAULT_REFLECT_IPV
     fi
 
     if [ "$AVAHI_REFLECTOR_FLAG" == true ]; then
-        AVAHI_REFLECTOR_IPV_FLAG="yes"
+        AVAHI_REFLECTOR_IPV="yes"
     else
-        AVAHI_REFLECTOR_IPV_FLAG="no"
+        AVAHI_REFLECTOR_IPV="no"
     fi
 
-    export AVAHI_REFLECTOR_IPV_FLAG
+    export AVAHI_REFLECTOR_IPV
 }
 function setup_ipv6 () {
     if bashio::config.has_value 'AVAHI_SETTINGS.AVAHI_USE_IPV6'; then
