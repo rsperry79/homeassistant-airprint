@@ -26,6 +26,13 @@ function update_access_log() {
     fi
 }
 
+function setup_nginx_logging () {
+    setup_error_logging
+    setup_error_log_level
+    setup_access_logging
+}
+
+
 function setup_error_logging () {
     if bashio::config.has_value 'NGINX_LOGGING.NGINX_ERROR_LOG_TO_FILE'; then
         log_to_file_flag=$(bashio::config 'NGINX_LOGGING.NGINX_ERROR_LOG_TO_FILE')
