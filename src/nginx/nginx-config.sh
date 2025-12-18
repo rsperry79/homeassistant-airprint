@@ -120,7 +120,9 @@ function setup_autoconf () {
 
 function setup_nginx_logging () {
     setup_error_logging
+        setup_error_log_level
     setup_access_logging
+
 }
 
 
