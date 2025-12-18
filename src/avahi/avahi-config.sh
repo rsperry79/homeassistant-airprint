@@ -32,13 +32,13 @@ function run() {
 
 function setup_reflector () {
     if bashio::config.has_value 'AVAHI_SETTINGS.AVAHI_REFLECTOR'; then
-        AVAHI_REFLECTOR=$(bashio::config 'AVAHI_SETTINGS.AVAHI_REFLECTOR')
+        AVAHI_REFLECTOR_FLAG=$(bashio::config 'AVAHI_SETTINGS.AVAHI_REFLECTOR')
 
     else
-        AVAHI_REFLECTOR=$AVAHI_DEFAULT_REFLECTOR
+        AVAHI_REFLECTOR_FLAG=$AVAHI_DEFAULT_REFLECTOR
     fi
 
-    if [ "$AVAHI_REFLECTOR" == true ]; then
+    if [ "$AVAHI_REFLECTOR_FLAG" == true ]; then
         AVAHI_REFLECTOR="yes"
     else
         AVAHI_REFLECTOR="no"
