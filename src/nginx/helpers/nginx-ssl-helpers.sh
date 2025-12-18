@@ -8,8 +8,8 @@ function setup_nginx_ssl () {
     if ha_is_secure; then
         nginx_proto="SSL"
         get_ha_certs
-        nginx_ssl_cert="ssl_certificate $ha_ssl_certificate;"
-        nginx_ssl_key="ssl_certificate_key $ha_ssl_key;"
+        nginx_ssl_cert="ssl_certificate $HA_SSL_CERT;"
+        nginx_ssl_key="ssl_certificate_key $HA_SSL_KEY;"
 
     else
         nginx_proto=""

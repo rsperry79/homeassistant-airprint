@@ -42,7 +42,7 @@ function setup_ssl_private() {
     local _privkey
 
     if [ "$CUPS_SELF_SIGN" = false ]; then
-        _privkey=$ha_ssl_key
+        _privkey=$HA_SSL_KEY
     elif [ -e "/ssl/privkey.pem" ]; then
         _privkey="/ssl/privkey.pem"
     else
@@ -65,7 +65,7 @@ function setup_ssl_public() {
     local _pubkey
 
    if [ "$CUPS_SELF_SIGN" = "false" ]; then
-        _pubkey=$ha_ssl_certificate
+        _pubkey=$HA_SSL_CERT
     elif [ -e "/ssl/fullchain.pem" ]; then
         _pubkey="/ssl/fullchain.pem"
     else
