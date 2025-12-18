@@ -1,19 +1,28 @@
 #!/command/with-contend bashio
 
-# shellcheck source="../common/paths/nginx-paths.sh"
-source "/opt/common/paths/nginx-paths.sh"
+function load_sources () {
+    # shellcheck source="../common/paths/nginx-paths.sh"
+    source "/opt/common/paths/nginx-paths.sh"
 
-# shellcheck source="./helpers/nginx-config-helpers.sh"
-source "/opt/nginx/helpers/nginx-config-helpers.sh"
+    # shellcheck source="../common/settings/nginx-settings.sh"
+    source "/opt/common/settings/nginx-settings.sh"
 
-# shellcheck source="./helpers/nginx-ssl-helpers.sh"
-source "/opt/nginx/helpers/nginx-ssl-helpers.sh"
+    # shellcheck source="./helpers/nginx-config-helpers.sh"
+    source "/opt/nginx/helpers/nginx-config-helpers.sh"
 
-# shellcheck source="../common/network-common.sh"
-source "/opt/common/network-common.sh"
+    # shellcheck source="./helpers/nginx-ssl-helpers.sh"
+    source "/opt/nginx/helpers/nginx-ssl-helpers.sh"
 
-function run() {
+    # shellcheck source="../common/network-common.sh"
+    source "/opt/common/network-common.sh"
+}
 
+function linter () {
+    # shellcheck source="../../lint/nginx-settings.lint"
+    source "../../lint/nginx-settings.lint"
+}
+
+function log_info () {
     ingress=$(bashio::addon.ingress)
     bashio::log.info "ingress $ingress"
 
@@ -43,8 +52,15 @@ function run() {
 
     addon_ip_address=$(bashio::addon.ip_address)
     bashio::log.info "addon_ip_address $addon_ip_address"
+}
 
+
+function run() {
+    load_sources
+    log_info
     setup
+
+    setup_autoconf
 
     if [ ! -e "$nginx_config_path/$nginx_conf" ]; then
         autoconf_nginx_config
@@ -70,16 +86,20 @@ function setup() {
     setup_nginx_logging
     setup_nginx_ssl
 
-    config=$(
+
+}
+
+function setup_autoconf () {
+     config=$(
         jq \
             --arg host_name "$HOSTNAME" \
             --arg ingress_entry "$ingress_entry" \
             --arg hassio_ip "$hassio_ip" \
             --arg ingress_port "$ingress_port" \
-            --arg nginx_log_location "$nginx_log_location" \
-            --arg nginx_log_level "$nginx_log_level" \
+            --arg nginx_log_location "$NGINX_ERROR_LOG_LOCATION" \
+            --arg NGINX_LOG_LEVEL "$NGINX_LOG_LEVEL_SETTING" \
             --arg nginx_proto "$nginx_proto" \
-            --arg nginx_access_log_location "$nginx_access_log_location" \
+            --arg nginx_access_log_location "$NGINX_ACCESS_LOG_LOCATION" \
             --arg nginx_ssl_cert "$nginx_ssl_cert" \
             --arg nginx_ssl_key "$nginx_ssl_key" \
             '{
@@ -88,7 +108,7 @@ function setup() {
                 hassio_ip: $hassio_ip,
                 ingress_port: $ingress_port,
                 nginx_log_location: $nginx_log_location,
-                nginx_log_level: $nginx_log_level,
+                NGINX_LOG_LEVEL: $NGINX_LOG_LEVEL,
                 nginx_access_log_location: $nginx_access_log_location,
                 nginx_proto: $nginx_proto,
                 nginx_ssl_cert: $nginx_ssl_cert,
@@ -99,21 +119,9 @@ function setup() {
 }
 
 function setup_nginx_logging () {
-    nginx_log_to_file=$(bashio::config 'nginx.nginx_log_to_file')
-    nginx_log_location=stderr
-    if [ "$nginx_log_to_file" = "true" ]; then
-        nginx_log_location=$nginx_log_path/nginx.log
-    fi
-
-    nginx_access_log_to_file=$(bashio::config 'nginx.nginx_access_log_to_file')
-    nginx_access_log_location=stderr
-    if [ "$nginx_access_log_to_file" = "true" ]; then
-        nginx_access_log_location=$nginx_log_path/access.log
-    fi
-
-    nginx_log_level=$(bashio::config 'nginx.nginx_log_level')
+    setup_error_logging
+    setup_access_logging
 }
-
 
 
 # Uses the template to regenerate the configuration file. Ensures a clean file.
@@ -137,8 +145,8 @@ function update_nginx_default() {
 }
 
 function update_nginx_cfg() {
-    update_error_log "$nginx_log_location" "$nginx_log_level"
-    update_access_log "$nginx_access_log_location"
+    update_error_log "$NGINX_ERROR_LOG_LOCATION" "$NGINX_LOG_LEVEL_SETTING"
+    update_access_log "$NGINX_ACCESS_LOG_LOCATION"
 }
 
 function replace_configs() {

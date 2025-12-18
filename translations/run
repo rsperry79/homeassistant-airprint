@@ -1,5 +1,5 @@
 #!/usr/bin/with-contenv bashio
-# shellcheck source="../../src/common/paths/avahi-paths.sh"
+# shellcheck source="../src/common/paths/avahi-paths.sh"
 source "/opt/common/paths/avahi-paths.sh"
 
 ulimit -n 524288

@@ -1,0 +1,7 @@
+#!/command/with-contend bashio
+# These are not real values, this is for linting
+
+# Logging Defaults
+export NGINX_ERROR_LOG_LOCATION=""
+export NGINX_ACCESS_LOG_LOCATION=""
+export NGINX_LOG_LEVEL_SETTING="alert"

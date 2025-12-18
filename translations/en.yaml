@@ -19,22 +19,22 @@ configuration:
         name: Add an additional package
         description: >-
           Additional Debian apt packages to be installed at startup.
-  avahi:
+  AVAHI_SETTINGS:
     name: Avahi Config
     fields:
-      avahi_debug:
+      AVAHI_DEBUG:
         name: Avahi Debug
         description: >-
           Do you want to set Avahi logging to verbose?
-      avahi_reflector:
+      AVAHI_REFLECTOR:
         name: Avahi  Reflection
         description: >-
           Do you want to enable Avahi Reflection?
-      avahi_reflect_ipv:
+      AVAHI_REFLECTOR_IPV:
         name: Avahi IPV Reflection
         description: >-
           Do you want to enable Avahi IPV Reflection?
-      use_ipv6:
+      AVAHI_USE_IPV6:
         name: IPV6 Support
         description: >-
           Do you want to enable IPV6?
@@ -70,32 +70,32 @@ configuration:
         name: Use encryption?
         description: >-
           When do you want ssl used?
-      cups_self_sign:
-        name: Self-Signed?
-        description: >-
-          Do you want to use self-signed certificates?
-      cups_ssl_cert:
-        name: File path for the Certificate public key.
-        description: >-
-          Defines the log level for
-      cups_ssl_key:
-        name: File path for the Certificate private key.
-        description: >-
-          Do you want to allow remote Administration of Cups?
-  nginx:
-    name: Sidebar
+      # cups_self_sign:
+      #   name: Self-Signed?
+      #   description: >-
+      #     Do you want to use self-signed certificates?
+      # cups_ssl_cert:
+      #   name: File path for the Certificate public key.
+      #   description: >-
+      #     Defines the log level for
+      # cups_ssl_key:
+      #   name: File path for the Certificate private key.
+      #   description: >-
+      #     Do you want to allow remote Administration of Cups?
+  NGINX_LOGGING:
+    name: Sidebar Logging
     description: >-
       Settings for the Sidebar NGINX Server. This allows the admin portal to be displayed in HomeAssistant
     fields:
-      nginx_log_to_file:
+      NGINX_ERROR_LOG_TO_FILE:
         name: Write Error Log to a file?
         description: >-
           Do you want to Log errors to a file (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
-      nginx_access_log_to_file:
+      NGINX_ACCESS_LOG_TO_FILE:
         name: Write Access Log to a file?
         description: >-
           Do you want the Access Log to a file (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
-      nginx_log_level:
+      NGINX_LOG_LEVEL:
         name: Log Level
         description: >-
           Defines the log level for NGINX error logging.

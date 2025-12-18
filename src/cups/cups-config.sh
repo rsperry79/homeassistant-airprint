@@ -6,7 +6,6 @@ function linter () {
     source "../../lint/cups-settings.lint"
 }
 
-
 function load_sources () {
     # shellcheck source="../common/paths/cups-paths.sh"
     source "/opt/common/paths/cups-paths.sh"
@@ -26,7 +25,6 @@ function load_sources () {
     # shellcheck source="./helpers/cups-logging-helpers.sh"
     source "/opt/cups/helpers/cups-logging-helpers.sh"
 }
-
 
 function run() {
     load_sources
@@ -73,18 +71,13 @@ function run() {
     else
         update_client
     fi
-
-
-
-
 }
-
 
 function get_settings () {
     CUPS_HOST_ALIAS="localhost"
 
     if bashio::config.has_value 'CUPS_SSL.CUPS_ENCRYPTION'; then
-         CUPS_ENCRYPTION=$(bashio::config 'CUPS_LOGGING.CUPS_ENCRYPTION')
+         CUPS_ENCRYPTION=$(bashio::config 'CUPS_SSL.CUPS_ENCRYPTION')
     else
         CUPS_ENCRYPTION=$CUPS_DEFAULT_ENCRYPTION
     fi
@@ -97,7 +90,6 @@ function get_settings () {
     export CUPS_ENCRYPTION
     export CUPS_SELF_SIGN
 }
-
 
 # Gets current settings from HA
 function autoconf_setup() {

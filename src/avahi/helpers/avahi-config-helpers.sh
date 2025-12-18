@@ -10,9 +10,9 @@ function update_interfaces() {
 }
 
 function update_reflectors() {
-    local avahi_reflector=${1}
-    local avahi_reflect_ipv=${2}
+    local AVAHI_REFLECTOR=${1}
+    local AVAHI_REFLECTOR_IPV=${2}
 
-    sed -i "s/^.*enable\-reflector=.*/enable\-reflector\=${avahi_reflector}/" "$avahi_config_path/$avahi_daemon"
-    sed -i "s/^.*reflect\-ipv=.*/reflect\-ipv\=${avahi_reflect_ipv}/" "$avahi_config_path/$avahi_daemon"
+    sed -i "s/^.*enable\-reflector=.*/enable\-reflector\=${AVAHI_REFLECTOR}/" "$avahi_config_path/$avahi_daemon"
+    sed -i "s/^.*reflect\-ipv=.*/reflect\-ipv\=${AVAHI_REFLECTOR_IPV}/" "$avahi_config_path/$avahi_daemon"
 }

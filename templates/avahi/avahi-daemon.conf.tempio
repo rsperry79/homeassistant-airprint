@@ -29,7 +29,7 @@
 #browse-domains=0pointer.de, zeroconf.org
 use-ipv4=yes
 # use-ipv6 overwritten at boot
-use-ipv6={{.use_ipv6}}
+use-ipv6={{.AVAHI_USE_IPV6}}
 allow-interfaces={{.bcast_interfaces}}
 #deny-interfaces=geth*
 #check-response-ttl=no
@@ -58,14 +58,14 @@ publish-hinfo=no
 #publish-dns-servers=192.168.50.1, 192.168.50.2
 #publish-resolv-conf-dns-servers=yes
 # publish-aaaa-on-ipv4 overwritten at boot
-publish-aaaa-on-ipv4={{.use_ipv6}}
+publish-aaaa-on-ipv4={{.AVAHI_USE_IPV6}}
 #publish-a-on-ipv6=no
 
 [reflector]
 # enable-reflector overwritten at boot
-enable-reflector={{.avahi_reflector}}
+enable-reflector={{.AVAHI_REFLECTOR}}
 # reflect-ipv overwritten at boot
-reflect-ipv={{.avahi_reflect_ipv}}
+reflect-ipv={{.AVAHI_REFLECTOR_IPV}}
 #reflect-filters=_airplay._tcp.local,_raop._tcp.local
 
 [rlimits]

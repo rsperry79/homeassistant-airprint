@@ -3,8 +3,9 @@
 # shellcheck source="../../common/paths/nginx-paths.sh"
 source "/opt/common/paths/nginx-paths.sh"
 
-# --arg host_name "$HOSTNAME" --arg
-#  - --arg nginx_ssl_certificate "$nginx_ssl_certificate" --arg nginx_ssl_key "$nginx_ssl_key"
+# shellcheck source="../../common/settings/nginx-settings.sh"
+source "/opt/common/settings/nginx-settings.sh"
+
 
 function update_error_log() {
     local location=${1}
@@ -25,10 +26,49 @@ function update_access_log() {
     fi
 }
 
-# function update_server_alias() {
-#     local setting=${1}
-#     bashio::log.debug update_server_alias
-#     if [ -e "$real_cups_path/$cups_daemon" ]; then
-#         sed -i "s/^.*ServerAlias .*/ServerAlias ${setting}/" "$real_cups_path/$cups_daemon"
-#     fi
-# }
+function setup_error_logging () {
+    if bashio::config.has_value 'NGINX_LOGGING.NGINX_ERROR_LOG_TO_FILE'; then
+        log_to_file_flag=$(bashio::config 'NGINX_LOGGING.NGINX_ERROR_LOG_TO_FILE')
+    else
+        log_to_file_flag=$NGINX_DEFAULT_ERROR_LOG_TO_FILE
+    fi
+
+    NGINX_ERROR_LOG_LOCATION=stderr
+    if [ "$log_to_file_flag" = "true" ]; then
+        NGINX_ERROR_LOG_LOCATION=$nginx_log_path/nginx.log
+    fi
+
+    export NGINX_ERROR_LOG_LOCATION
+}
+
+
+function setup_access_logging () {
+    local log_to_file_flag
+    if bashio::config.has_value 'NGINX_LOGGING.NGINX_ACCESS_LOG_TO_FILE'; then
+        log_to_file_flag=$(bashio::config 'NGINX_LOGGING.NGINX_ACCESS_LOG_TO_FILE')
+    else
+        log_to_file_flag=$NGINX_DEFAULT_ACCESS_LOG_TO_FILE
+    fi
+
+    NGINX_ACCESS_LOG_LOCATION=stderr
+    if [ "$log_to_file_flag" = "true" ]; then
+        NGINX_ACCESS_LOG_LOCATION=$nginx_log_path/nginx.log
+    fi
+
+    export NGINX_ACCESS_LOG_LOCATION
+}
+
+
+
+function setup_error_log_level () {
+    if bashio::config.has_value 'NGINX_LOGGING.nginx_log_level'; then
+        NGINX_LOG_LEVEL_SETTING=$(bashio::config 'NGINX_LOGGING.nginx_log_level')
+    else
+        NGINX_LOG_LEVEL_SETTING=$NGINX_DEFAULT_LOG_LEVEL
+    fi
+
+    export NGINX_LOG_LEVEL_SETTING
+}
+
+
+

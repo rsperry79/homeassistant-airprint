@@ -58,11 +58,11 @@ watchdog: http://[HOST]:[PORT:631]/printers
 
 # Options
 options:
-  avahi:
-    avahi_debug: false
-    avahi_reflector: false
-    avahi_reflect_ipv: false
-    use_ipv6: false
+  AVAHI_SETTINGS:
+    AVAHI_DEBUG: false
+    AVAHI_REFLECTOR: false
+    AVAHI_REFLECTOR_IPV: false
+    AVAHI_USE_IPV6: false
   CUPS_LOGGING:
     CUPS_FATAL_ERROR_LEVEL: permissions
     CUPS_LOG_TO_FILE: true
@@ -71,10 +71,10 @@ options:
     CUPS_ACCESS_LOG_LEVEL: all
   CUPS_SSL:
     CUPS_ENCRYPTION: Never
-  nginx:
-    nginx_log_level: warn
-    nginx_log_to_file: true
-    nginx_access_log_to_file: true
+  NGINX_LOGGING:
+    NGINX_LOG_LEVEL: warn
+    NGINX_ERROR_LOG_TO_FILE: true
+    NGINX_ACCESS_LOG_TO_FILE: true
   logins:
     - username: print
       password: "print"
@@ -96,11 +96,11 @@ schema:
     packages:
       - str?
     package_debug: bool?
-  avahi:
-    avahi_debug: bool
-    avahi_reflector: bool
-    avahi_reflect_ipv: bool
-    use_ipv6: bool
+  AVAHI_SETTINGS:
+    AVAHI_DEBUG: bool
+    AVAHI_REFLECTOR: bool
+    AVAHI_REFLECTOR_IPV: bool
+    AVAHI_USE_IPV6: bool
   CUPS_LOGGING:
     CUPS_FATAL_ERROR_LEVEL: list(none|all|browse|config|listen|log|permissions)
     CUPS_LOG_TO_FILE: bool
@@ -109,10 +109,10 @@ schema:
     CUPS_ACCESS_LOG_LEVEL: list(all|actions|config)
   CUPS_SSL:
     CUPS_ENCRYPTION: list(IfRequested|Required|Never)
-  nginx:
-    nginx_log_to_file: bool
-    nginx_access_log_to_file: bool
-    nginx_log_level: list(warn|error|crit|alert|emerg)
+  NGINX_LOGGING:
+    NGINX_ERROR_LOG_TO_FILE: bool
+    NGINX_ACCESS_LOG_TO_FILE: bool
+    NGINX_LOG_LEVEL: list(warn|error|crit|alert|emerg)
   logins:
     - username: str
       password: str
