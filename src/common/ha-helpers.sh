@@ -11,11 +11,10 @@ function update_interfaces() {
 
 function get_ha_certs() {
 
-    if ha_is_secure; then
+    if [ "$(ha_is_secure)" == true ]; then
 
         if yq . "${HA_CONFIG_PATH}" >/dev/null; then
             # https://www.home-assistant.io/integrations/http/#http-configuration-variables
-            ha_ssl_key=""
             ha_ssl_key=$(yq ".http.ssl_key // ${ha_ssl_key}" "${HA_CONFIG_PATH}")
             ha_ssl_certificate=""
             ha_ssl_certificate=$(yq ".http.ssl_certificate // ${ha_ssl_certificate}" "${HA_CONFIG_PATH}")
