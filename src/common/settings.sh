@@ -11,5 +11,3 @@ export SVC_ACCT="lp"
 export SVC_GROUP="lp"
 export SVC_FILE_PERMS="0640"
 export WWW_SVC_PERMS="0755"
-
-

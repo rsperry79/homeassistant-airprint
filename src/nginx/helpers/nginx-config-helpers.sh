@@ -6,7 +6,6 @@ source "/opt/common/paths/nginx-paths.sh"
 # shellcheck source="../../common/settings/nginx-settings.sh"
 source "/opt/common/settings/nginx-settings.sh"
 
-
 function update_error_log() {
     local location=${1}
     local level=${2}
@@ -31,7 +30,6 @@ function setup_nginx_logging () {
     setup_error_log_level
     setup_access_logging
 }
-
 
 function setup_error_logging () {
     if bashio::config.has_value 'NGINX_LOGGING.NGINX_ERROR_LOG_TO_FILE'; then
@@ -65,8 +63,6 @@ function setup_access_logging () {
     export NGINX_ACCESS_LOG_LOCATION
 }
 
-
-
 function setup_error_log_level () {
     if bashio::config.has_value 'NGINX_LOGGING.nginx_log_level'; then
         NGINX_LOG_LEVEL_SETTING=$(bashio::config 'NGINX_LOGGING.nginx_log_level')
@@ -76,6 +72,3 @@ function setup_error_log_level () {
 
     export NGINX_LOG_LEVEL_SETTING
 }
-
-
-

@@ -10,7 +10,6 @@ function update_interfaces() {
 }
 
 function get_ha_certs() {
-
     if [ "$(ha_is_secure)" == true ]; then
 
         if yq . "${HA_CONFIG_PATH}" >/dev/null; then
@@ -27,7 +26,6 @@ function get_ha_certs() {
             bashio::log.warning "Unable to parse Home Assistant configuration file at ${HA_CONFIG_PATH}"
         fi
     fi
-
 }
 
 # returns a bool

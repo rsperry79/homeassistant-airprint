@@ -1,27 +1,32 @@
 #!/command/with-contend bashio
 
-# shellcheck source="../../common/settings.sh"
-source "/opt/common/settings.sh"
+function load_sources () {
+    # shellcheck source="../../common/settings.sh"
+    source "/opt/common/settings.sh"
 
-# shellcheck source="../../common/ha-helpers.sh"
-source "/opt/common/ha-helpers.sh"
+    # shellcheck source="../../common/ha-helpers.sh"
+    source "/opt/common/ha-helpers.sh"
 
-# shellcheck source="../../common/paths/cups-paths.sh"
-source "/opt/common/paths/cups-paths.sh"
+    # shellcheck source="../../common/paths/cups-paths.sh"
+    source "/opt/common/paths/cups-paths.sh"
 
-# shellcheck source="../../common/settings/cups-settings.sh"
-source "/opt/common/settings/cups-settings.sh"
+    # shellcheck source="../../common/settings/cups-settings.sh"
+    source "/opt/common/settings/cups-settings.sh"
 
-# shellcheck source="./cups-config-helpers.sh"
-source "/opt/cups/helpers/cups-config-helpers.sh"
+    # shellcheck source="./cups-config-helpers.sh"
+    source "/opt/cups/helpers/cups-config-helpers.sh"
 
-# shellcheck source="./cups-host-helpers.sh"
-source "/opt/cups/helpers/cups-host-helpers.sh"
-
+    # shellcheck source="./cups-host-helpers.sh"
+    source "/opt/cups/helpers/cups-host-helpers.sh"
+}
 
 function setup_ssl() {
+    load_sources || {
+        bashio::log.error "Failed to load required sources"
+        return 1
+    }
 
-    if [ "$CUPS_ENCRYPTION" = "Never" ]; then
+     if [ "$CUPS_ENCRYPTION" = "Never" ]; then
         disable_ssl_config
     else
         if [ "$CUPS_SELF_SIGN" == false ]; then
@@ -53,9 +58,7 @@ function setup_ssl_private() {
 
     if [ ! -e "$_privkey" ]; then
         bashio::log.notice "SSL Private key does not exist at given path"
-
     else
-
         convert_private_key "$_privkey" "$CUPS_PRIVATE_KEY"
      fi
 }

@@ -1,14 +1,15 @@
 #!/command/with-contend bashio
 
-# shellcheck source="../common/paths/avahi-paths.sh"
-source "/opt/common/paths/avahi-paths.sh"
+function load_sources () {
+    # shellcheck source="../common/paths/avahi-paths.sh"
+    source "/opt/common/paths/avahi-paths.sh" || { echo "Failed to load avahi-paths.sh" >&2; exit 1; }
 
-# shellcheck source="./helpers/avahi-config-helpers.sh"
-source "/opt/avahi/helpers/avahi-config-helpers.sh"
+    # shellcheck source="./helpers/avahi-config-helpers.sh"
+    source "/opt/avahi/helpers/avahi-config-helpers.sh" || { echo "Failed to load avahi-config-helper.sh" >&2; exit 1; }
 
-# shellcheck source="../common/network-common.sh"
-source "/opt/common/network-common.sh"
-
+    # shellcheck source="../common/network-common.sh"
+    source "/opt/common/network-common.sh" || { echo "Failed to load network-common.sh" >&2; exit 1; }
+}
 
 function linter () {
     # shellcheck source="../../lint/avahi-settings.lint"
@@ -16,6 +17,7 @@ function linter () {
 }
 
 function run() {
+    load_sources
     setup
     bcast_interfaces=$(get_interfaces)
     #enable_resolved "$bcast_interfaces"

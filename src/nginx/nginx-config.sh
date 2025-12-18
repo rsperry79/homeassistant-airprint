@@ -54,7 +54,6 @@ function log_info () {
     bashio::log.info "addon_ip_address $addon_ip_address"
 }
 
-
 function run() {
     load_sources
     log_info
@@ -79,26 +78,23 @@ function run() {
 
 function setup() {
     ingress_entry=$(bashio::addon.ingress_entry)
-
     hassio_ip=$(bashio::addon.ip_address)
     ingress_port=$(bashio::addon.ingress_port)
 
     setup_nginx_logging
     setup_nginx_ssl
-
-
 }
 
 function setup_autoconf () {
-     config=$(
+    config=$(
         jq \
             --arg host_name "$HOSTNAME" \
             --arg ingress_entry "$ingress_entry" \
             --arg hassio_ip "$hassio_ip" \
             --arg ingress_port "$ingress_port" \
             --arg nginx_log_location "$NGINX_ERROR_LOG_LOCATION" \
-            --arg NGINX_LOG_LEVEL "$NGINX_LOG_LEVEL_SETTING" \
-            --arg NGINX_PROTO "$NGINX_PROTO" \
+            --arg nginx_log_level "$NGINX_LOG_LEVEL_SETTING" \
+            --arg nginx_proto "$NGINX_PROTO" \
             --arg nginx_access_log_location "$NGINX_ACCESS_LOG_LOCATION" \
             --arg nginx_ssl_cert "$nginx_ssl_cert" \
             --arg nginx_ssl_key "$nginx_ssl_key" \
@@ -108,17 +104,14 @@ function setup_autoconf () {
                 hassio_ip: $hassio_ip,
                 ingress_port: $ingress_port,
                 nginx_log_location: $nginx_log_location,
-                NGINX_LOG_LEVEL: $NGINX_LOG_LEVEL,
+                nginx_log_level: $nginx_log_level,
                 nginx_access_log_location: $nginx_access_log_location,
-                NGINX_PROTO : $NGINX_PROTO,
+                nginx_proto : $nginx_proto,
                 nginx_ssl_cert: $nginx_ssl_cert,
                 nginx_ssl_key: $nginx_ssl_key
-            }' \
-            /data/options.json
+            }' /data/options.json
     )
 }
-
-
 
 # Uses the template to regenerate the configuration file. Ensures a clean file.
 function autoconf_nginx_config() {
@@ -136,7 +129,7 @@ function autoconf_default_config() {
 }
 
 function update_nginx_default() {
-
+    # TODO
     true
 }
 

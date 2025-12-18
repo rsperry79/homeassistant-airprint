@@ -34,7 +34,6 @@ function run() {
     setup_ssl
     autoconf_setup
 
-
     if [ ! -e "$real_cups_path/$cups_daemon" ]; then
         autoconf_daemon
     else
@@ -128,7 +127,6 @@ function autoconf_client() {
     echo "$config" | tempio \
         -template "$cups_templates_path/$cups_client_cfg" \
         -out "$real_cups_path/$cups_client"
-
 }
 
 function update_client() {

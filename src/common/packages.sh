@@ -30,16 +30,16 @@ function ensure_package_paths() {
 
 # Install user configured/requested packages
 function install_config_packages() {
-    if bashio::config.has_value 'custom_packages.packages'; then
+    if bashio::config.has_value 'CUSTOM_PACKAGES.PACKAGES'; then
 
         export DEBIAN_FRONTEND=noninteractive
         apt-get update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
-        packages=$(bashio::config 'custom_packages.packages')
+        packages=$(bashio::config 'CUSTOM_PACKAGES.PACKAGES')
         bashio::log.info "packages: $packages"
 
         # If debug, install one at a time
-        if [ "$(bashio::config 'custom_packages.package_debug')" = true ]; then
+        if [ "$(bashio::config 'CUSTOM_PACKAGES.PACKAGE_DEBUG')" = true ]; then
             bashio::log.info "Installing custom packages one at a time"
             for package in $packages; do
                 if [ -n "$package" ]; then
@@ -68,7 +68,7 @@ function install_package() {
 
     bashio::log.info "Installing Package(s): ${input[*]}"
 
-    if [ "$(bashio::config 'custom_packages.install_recommends')" = false ]; then
+    if [ "$(bashio::config 'CUSTOM_PACKAGES.INSTALL_RECOMMENDS')" = false ]; then
         apt-get \
             -o Dpkg::Options::="--force-confold" \
             -o Dpkg::Options::="--force-confdef" \
@@ -81,7 +81,6 @@ function install_package() {
             install "${input[@]}" --no-install-recommends --no-install-suggests -y ||
             bashio::"exit.nok" "Failed installing packages ${package}"
     fi
-
 }
 
 function upgrade() {

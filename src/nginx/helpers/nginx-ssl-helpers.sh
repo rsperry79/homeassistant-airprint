@@ -4,7 +4,6 @@
 source "/opt/common/ha-helpers.sh"
 
 function setup_nginx_ssl () {
-
     if [ "$(ha_is_secure)" == true ]; then
         NGINX_PROTO="SSL"
         get_ha_certs

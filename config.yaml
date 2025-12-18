@@ -75,27 +75,27 @@ options:
     NGINX_LOG_LEVEL: warn
     NGINX_ERROR_LOG_TO_FILE: true
     NGINX_ACCESS_LOG_TO_FILE: true
-  logins:
-    - username: print
-      password: "print"
-      user_level: superuser
-  custom_packages:
-    run_script: true
-    packages:
+  LOGINS:
+    - USERNAME: print
+      PASSWORD: "print"
+      USER_LEVEL: superuser
+  CUSTOM_PACKAGES:
+    RUN_CUSTOM_INST_SCRIPT: true
+    PACKAGES:
       - "printer-driver-all"
       - "foomatic-db"
       - "foomatic-filters"
       - "foomatic-filters-beh"
-    install_recommends: true
-    package_debug: false
+    INSTALL_RECOMMENDS: true
+    PACKAGE_DEBUG: false
 
 schema:
-  custom_packages:
-    run_script: bool
-    install_recommends: bool
-    packages:
+  CUSTOM_PACKAGES:
+    RUN_CUSTOM_INST_SCRIPT: bool
+    INSTALL_RECOMMENDS: bool
+    PACKAGES:
       - str?
-    package_debug: bool?
+    PACKAGE_DEBUG: bool?
   AVAHI_SETTINGS:
     AVAHI_DEBUG: bool
     AVAHI_REFLECTOR: bool
@@ -113,7 +113,7 @@ schema:
     NGINX_ERROR_LOG_TO_FILE: bool
     NGINX_ACCESS_LOG_TO_FILE: bool
     NGINX_LOG_LEVEL: list(warn|error|crit|alert|emerg)
-  logins:
-    - username: str
-      password: str
-      user_level: list(standard|admin|superuser)
+  LOGINS:
+    - USERNAME: str
+      PASSWORD: str
+      USER_LEVEL: list(standard|admin|superuser)

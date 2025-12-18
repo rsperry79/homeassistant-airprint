@@ -24,7 +24,6 @@ function setup_cups_logging () {
     # Access Logging
     set_cups_access_log_to_file
     set_cups_access_log_level
-
  }
 
 function set_cups_error_log_level () {
@@ -33,7 +32,6 @@ function set_cups_error_log_level () {
     else
         CUPS_LOG_LEVEL=$CUPS_DEFAULT_LOG_LEVEL
     fi
-
 }
 
 function set_cups_error_log_to_file () {
@@ -49,7 +47,6 @@ function set_cups_error_log_to_file () {
     else
         CUPS_LOG_TO_FILE=$cups_log_path/cups.log#
     fi
-
 }
 
 function set_cups_fatal_error () {
@@ -58,8 +55,6 @@ function set_cups_fatal_error () {
     else
         CUPS_FATAL_ERROR_LEVEL=$CUPS_DEFAULT_FATAL_ERRORS
     fi
-
-
 }
 
 function set_cups_access_log_to_file () {
@@ -74,8 +69,6 @@ function set_cups_access_log_to_file () {
     else
         CUPS_ACCESS_LOG_TO_FILE=$cups_log_path/access.log
     fi
-
-
 }
 
 function set_cups_access_log_level () {
@@ -84,5 +77,4 @@ function set_cups_access_log_level () {
     else
         CUPS_ACCESS_LOG_LEVEL=$CUPS_DEFAULT_ACCESS_LOG_LEVEL
     fi
-
 }

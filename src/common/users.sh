@@ -4,12 +4,12 @@ function run() {
     users=()
 
     if bashio::config.has_value 'logins'; then
-        additional_logins=$(bashio::jq "$(bashio::addon.config)" ".logins[]")
+        additional_logins=$(bashio::jq "$(bashio::addon.config)" ".LOGINS[]")
         readarray -t additional_logins <<<"${additional_logins}"
         for login in "${additional_logins[@]}"; do
-            username=$(bashio::jq "${login}" ".username")
-            pw=$(bashio::jq "${login}" ".password")
-            level=$(bashio::jq "${login}" ".user_level")
+            username=$(bashio::jq "${login}" ".USERNAME")
+            pw=$(bashio::jq "${login}" ".PASSWORD")
+            level=$(bashio::jq "${login}" ".USER_LEVEL")
             users+=("$username")
 
             bashio::log.debug login "$username"
@@ -19,14 +19,7 @@ function run() {
                 bashio::exit.nok 'You cannot add or attempt to change root via logins!'
             fi
         done
-
-        # user_groups=("sudo" "lpadmin" "lp")
-        # for grp in "${user_groups[@]}"; do
-        #     remove_users "$grp" "${users[@]}"
-        # done
     fi
-
-
 }
 
 function add_or_update_user() {

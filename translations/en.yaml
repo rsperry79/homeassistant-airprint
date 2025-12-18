@@ -1,21 +1,21 @@
 ---
 configuration:
-  custom_packages:
+  CUSTOM_PACKAGES:
     name: Custom Install Settings
     fields:
-      install_recommends:
+      INSTALL_RECOMMENDS:
         name: Install recommended packages for the additional packages
         description: >+
           Recommend packages may not be needed and could cause issues or security concerns.
-      package_debug:
+      PACKAGE_DEBUG:
         name: Install one package at a time?
         description: >+
           Installing one package at a time can help find a bad package but is incredibly inefficient.
-      run_script:
+      RUN_CUSTOM_INST_SCRIPT:
         name: Run the custom install script?
         description: >+
           Do you want to run the /config/packages/custom-install.sh script at boot-time to install custom drivers, etc?
-      packages:
+      PACKAGES:
         name: Add an additional package
         description: >-
           Additional Debian apt packages to be installed at startup.
@@ -99,20 +99,20 @@ configuration:
         name: Log Level
         description: >-
           Defines the log level for NGINX error logging.
-  logins:
+  LOGINS:
     name: Server Users
     description: >-
       Users that can administer or print. SuperUsers have addon sudo permissions.
     list:
-      username:
+      USERNAME:
         name: User Name
         description: >-
           The username used for login.
-      password:
+      PASSWORD:
         name: Password
         description: >-
           The user's password.
-      user_level:
+      USER_LEVEL:
         name: Access level.
         description: >-
           The user's access rights.
