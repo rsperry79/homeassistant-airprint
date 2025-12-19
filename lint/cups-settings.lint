@@ -10,6 +10,7 @@ export CUPS_ACCESS_LOG_LEVEL=""
 
 # SSL
 export CUPS_SELF_SIGN="false"
-export CUPS_DEFAULT_ENCRYPTION="Never"
+export CUPS_ENCRYPTION="Never"
 export CUPS_PUBLIC_KEY="/config/cups/ssl/pub.key"
 export CUPS_PRIVATE_KEY="/config/cups/ssl/pri.key"
+
