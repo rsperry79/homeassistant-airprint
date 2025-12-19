@@ -9,40 +9,39 @@ ENV DEBIAN_FRONTEND="noninteractive" \
     CUPS_VER="2.4.14"
 
 # Update package list and upgrade existing packages
-# hadolint ignore=DL3008, DL3009
+
 RUN apt-get update \
     && apt-get upgrade --fix-missing -y --no-install-recommends \
     && apt-get install -y  --no-install-recommends \
-        openssl \
-        cron \
-        avahi-daemon \
-        avahi-utils \
-        libfontconfig1 \
-        automake \
-        autopoint \
-        autoconf \
-        clang \
-        gettext \
-        libtool\
-        libasprintf-dev \
-        libgettextpo-dev \
-        pkg-config \
-        gnulib-l10n \
-        build-essential \
-        epm \
-        libavahi-client-dev \
-        libkrb5-dev \
-        libpam-dev \
-        libssl-dev \
-        libsystemd-dev \
-        libusb-1.0-0-dev \
-        pkg-config \
-        zlib1g-dev \
+        openssl=3.0* \
+        cron=3.0* \
+        avahi-daemon=0.8* \
+        avahi-utils=0.8* \
+        libfontconfig1=2.14* \
+        automake=1:1.16* \
+        autopoint=0.21* \
+        autoconf=2.71* \
+        clang=1:14* \
+        gettext=0.21* \
+        libtool=2.4* \
+        libasprintf-dev=0.21* \
+        libgettextpo-dev=0.21* \
+        pkg-config=0.29* \
+        gnulib-l10n=20220703* \
+        build-essential=12.9* \
+        epm=4.8* \
+        libavahi-client-dev=0.8* \
+        libkrb5-dev=1.18* \
+        libpam-dev=1.5* \
+        libssl-dev=3.0* \
+        libsystemd-dev=251* \
+        libusb-1.0-0-dev=2:1.0* \
+        zlib1g-dev=1:1.2* \
         # drivers
-        printer-driver-all \
-        foomatic-db \
-        foomatic-filters \
-        foomatic-filters-beh
+        printer-driver-all=1.0* \
+        foomatic-db=20230703* \
+        foomatic-filters=4.0* \
+        foomatic-filters-beh=4.0*
 
 WORKDIR /cups
 
@@ -86,8 +85,7 @@ COPY src /opt
 # Config Templates
 COPY templates /usr/templates
 
-# hadolint ignore=DL3008, DL3009
- RUN apt-get update \
+RUN apt-get update \
     # Prevent Cups install via apt
     && apt-mark hold \
         cups \
@@ -101,105 +99,106 @@ COPY templates /usr/templates
     && apt-get full-upgrade --fix-missing -y --no-install-recommends --no-install-suggests  \
     && apt-get install -y  --no-install-recommends --no-install-suggests \
         # system tools
-        htop \
-        cron \
-        dbus \
-        sudo \
-        locales \
-        bash-completion \
-        procps \
-        lsb-release \
-        nano \
-        inotify-tools \
-        bc \
-        udev \
-        yq \
+        htop=3.2* \
+        cron=3.0* \
+        dbus=1.14* \
+        sudo=1.9* \
+        locales=2.36* \
+        bash-completion=1:2.11* \
+        procps=2:4.0* \
+        lsb-release=12.0* \
+        nano=7.2* \
+        inotify-tools=3.22* \
+        bc=1.07* \
+        udev=3.2* \
+        yq=4.25* \
         # SSL
-        ssl-cert \
-        openssl \
-        gnupg2 \
+        ssl-cert=1.1* \
+        openssl=3.0* \
+        gnupg2=2.2* \
         # network
-        avahi-daemon \
-        avahi-utils \
-        iproute2 \
-        libnss-mdns \
-        net-tools \
-        wget \
-        curl \
-        whois \
+        avahi-daemon=0.8* \
+        avahi-utils=0.8* \
+        iproute2=6.1* \
+        libnss-mdns=0.14* \
+        net-tools=1.10* \
+        wget=1.21* \
+        curl=7.88* \
+        whois=5.5* \
         # cups depends
-        fontconfig-config \
-        libcairo2 \
-        libfontconfig1 \
-        libgpgmepp6t64 \
-        libidn12 \
-        liblcms2-2 \
-        libnss3 \
-        libpoppler-cpp2 \
-        libtiff6 \
-        libxau6 \
-        libxext6 \
-        fonts-dejavu-core \
-        libgs-common \
-        libijs-0.35 \
-        liblerc4 \
-        libopenjp2-7 \
-        libusb-1.0-0 \
-        libxcb-render0 \
-        libxrender1 \
-        x11-common \
-        fonts-dejavu-mono  \
-        libcurl3t64-gnutls  \
-        libfontenc1 \
-        libgs10 \
-        libjbig0 \
-        libngtcp2-16 \
-        libpaper2 \
-        libqpdf30 \
-        libwebp7 \
-        libxcb-shm0 \
-        libxt6t64 \
-        xfonts-encodings \
-        fonts-urw-base35 \
-        libdeflate0 \
-        libfreetype6 \
-        libgs10-common \
-        libjbig2dec0 \
-        libngtcp2-crypto-gnutls8  \
-        libpixman-1-0 \
-        libsharpyuv0 \
-        libx11-6 \
-        libxcb1 \
-        poppler-data \
-        poppler-utils \
-        xfonts-utils \
-        ghostscript \
-        libexif12 \
-        libgpgme11t64 \
-        libice6 \
-        libjpeg62-turbo\
-        libnspr4 \
-        libpng16-16t64 \
-        libsm6 \
-        libx11-data \
-        libxdmcp6 \
-        docx2txt \
-        colord \
-        fonts-freefont-otf \
-        fonts-texgyre \
-        liblcms2-utils \
-        antiword \
-        imagemagick \
-        fonts-freefont-ttf  \
-        gpg-wks-client \
-        fonts-droid-fallback \
-        libpaper-utils\
-        rasterview \
-        libcupsfilters2 \
+        fontconfig-config=2.14* \
+        libcairo2=1.16* \
+        libfontconfig1=2.14* \
+        libgpgmepp6t64=1.18* \
+        libidn12=1.41* \
+        liblcms2-2=2.14* \
+        libnss3=2:3.87* \
+        libpoppler-cpp2=22.12* \
+        libtiff6=4.5* \
+        libxau6=1:1.0* \
+        libxext6=2:1.3* \
+        fonts-dejavu-core=2.37* \
+        libgs-common=10.0* \
+        libijs-0.35=0.35* \
+        liblerc4=4.0* \
+        libopenjp2-7=2.5* \
+        libusb-1.0-0=2:1.0* \
+        libxcb-render0=1.15* \
+        libxrender1=1:0.9* \
+        x11-common=1:7.7* \
+        fonts-dejavu-mono=2.37* \
+        libcurl3t64-gnutls=7.88* \
+        libfontenc1=1:1.1* \
+        libgs10=10.0* \
+        libjbig0=2.1* \
+        libngtcp2-16=0.16* \
+        libpaper2=1.1* \
+        libqpdf30=11.3* \
+        libwebp7=1.2* \
+        libxcb-shm0=1.15* \
+        libxt6t64=1:1.2* \
+        xfonts-encodings=1:1.0* \
+        fonts-urw-base35=20200219* \
+        libdeflate0=1.18* \
+        libfreetype6=2.12* \
+        libgs10-common=10.0* \
+        libjbig2dec0=0.19* \
+        libngtcp2-crypto-gnutls8=0.16* \
+        libpixman-1-0=0.42* \
+        libsharpyuv0=1.2* \
+        libx11-6=2:1.8* \
+        libxcb1=1.15* \
+        poppler-data=0.4* \
+        poppler-utils=22.12* \
+        xfonts-utils=7.7* \
+        ghostscript=10.0* \
+        libexif12=0.6* \
+        libgpgme11t64=1.18* \
+        libice6=2:1.0* \
+        libjpeg62-turbo=1:2.1* \
+        libnspr4=2:4.35* \
+        libpng16-16t64=1.6* \
+        libsm6=2:1.2* \
+        libx11-data=2:1.8* \
+        libxdmcp6=1:1.1* \
+        docx2txt=0.0* \
+        colord=1.4* \
+        fonts-freefont-otf=20120503* \
+        fonts-texgyre=20160102* \
+        liblcms2-utils=2.14* \
+        antiword=0.37* \
+        imagemagick=8:6.9* \
+        fonts-freefont-ttf=20120503* \
+        gpg-wks-client=2.2* \
+        fonts-droid-fallback=1:6.0* \
+        libpaper-utils=1.1* \
+        rasterview=1.0* \
+        libcupsfilters2=1.28* \
         # build
-        build-essential \
+        build-essential=12.9* \
         # helpers
-        nginx
+        nginx=1.24* \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy Cups and install
 COPY --from=builder /cups /cups
@@ -223,7 +222,7 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
     && useradd  lp_service -g lp \
     && useradd  ColorManager \
     && usermod -aG lpadmin lp_service \
-    &&  useradd lpinfo -g lp \
+    && useradd lpinfo -g lp \
     && usermod -aG root _apt
 
 LABEL io.hass.version="1.5" io.hass.type="addon" io.hass.arch="aarch64|amd64"
