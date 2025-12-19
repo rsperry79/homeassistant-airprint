@@ -49,10 +49,6 @@ panel_icon: mdi:printer
 ingress: true
 ingress_port: 5150
 
-# ingress_stream: true
-
-#webui: http://[HOST]:[PORT:631]/
-
 # Health
 watchdog: http://[HOST]:[PORT:631]/printers
 
