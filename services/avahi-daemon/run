@@ -7,6 +7,8 @@ ulimit -n 524288
 debug_flag="false"
 if bashio::config.has_value 'AVAHI_SETTINGS.AVAHI_DEBUG'; then
     debug_flag=$(bashio::config 'AVAHI_SETTINGS.AVAHI_DEBUG')
+else
+    debug_flag="false"
 fi
 
 bashio::log.info "Starting Avahi daemon from S6"

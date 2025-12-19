@@ -38,13 +38,15 @@ function update_cups_conf() {
 }
 
 function run_custom_script() {
-    if [ "$(bashio::config 'CUSTOM_PACKAGES.RUN_CUSTOM_INST_SCRIPT')" = true ]; then
-        until [ -e /run/cups/cups.sock ]; do
-            bashio::log.info "Waiting for cups daemon before installing custom script"
-            sleep 10s
-        done
+    if bashio::config.has_value 'CUSTOM_PACKAGES.RUN_CUSTOM_INST_SCRIPT'; then
+        if [ "$(bashio::config 'CUSTOM_PACKAGES.RUN_CUSTOM_INST_SCRIPT')" = true ]; then
+            until [ -e /run/cups/cups.sock ]; do
+                bashio::log.info "Waiting for cups daemon before installing custom script"
+                sleep 10s
+            done
 
-        bashio "$packages_path/$install_script"
+            bashio "$packages_path/$install_script"
+        fi
     fi
 }
 

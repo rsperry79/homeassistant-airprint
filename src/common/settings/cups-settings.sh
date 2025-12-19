@@ -7,7 +7,7 @@ export CUPS_DEFAULT_ACCESS_LOG_LEVEL="all"
 export CUPS_DEFAULT_ACCESS_LOG_TO_FILE="false"
 
 # SSL
-export CUPS_DEFAULT_ENCRYPTION="Never"
-export CUPS_SELF_SIGN="false"
-export CUPS_ENCRYPTION
-export CUPS_SELF_SIGN
+export CUPS_DEFAULT_ENCRYPTION="IfRequested"
+# export CUPS_SELF_SIGN="false"
+# export CUPS_ENCRYPTION
+# export CUPS_SELF_SIGN
