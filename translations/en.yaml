@@ -19,6 +19,8 @@ configuration:
           The user's access rights.
   AVAHI_SETTINGS:
     name: Avahi Config
+    description: >-
+      Settings for the Avahi service
     fields:
       AVAHI_DEBUG:
         name: Avahi Debug
@@ -37,9 +39,9 @@ configuration:
         description: >-
           Do you want to enable IPV6?
   CUPS_SETTINGS:
-    name: CUPS SSL Settings
+    name: CUPS Settings
     description: >-
-      Certificates must be in one of the following dirs: /ssl (HA SSL folder), /share (HA Share folder), or in /config (the addons config directory)
+      Settings for the CUPS server
     fields:
       CUPS_ENCRYPTION:
         name: Use encryption?
@@ -66,8 +68,9 @@ configuration:
           Additional Debian apt packages to be installed at startup.
   LOGGING:
     name: Logging Settings
-    fields:
-      CUPS_LOGGING:
+    description: >-
+      Settings for the logging of the addon. This includes both CUPS and NGINX logging.
+    CUPS_LOGGING:
       name: CUPS Log Levels
       fields:
         CUPS_FATAL_ERROR_LEVEL:
@@ -90,23 +93,23 @@ configuration:
           name: Cups Access Log Level
           description: >+
             Defines the access log level for CUPS access logging
-      NGINX_LOGGING:
-        name: Sidebar Logging
-        description: >-
-          Settings for the Sidebar NGINX Server. This allows the admin portal to be displayed in HomeAssistant
-        fields:
-          NGINX_ERROR_LOG_TO_FILE:
-            name: Write Error Log to a file?
-            description: >-
-              Do you want to Log errors to a file (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
-          NGINX_ACCESS_LOG_TO_FILE:
-            name: Write Access Log to a file?
-            description: >-
-              Do you want the Access Log to a file (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
-          NGINX_LOG_LEVEL:
-            name: Log Level
-            description: >-
-              Defines the log level for NGINX error logging.
+    NGINX_LOGGING:
+      name: Sidebar Logging
+      description: >-
+        Settings for the Sidebar NGINX Server. This allows the admin portal to be displayed in HomeAssistant
+      fields:
+        NGINX_ERROR_LOG_TO_FILE:
+          name: Write Error Log to a file?
+          description: >-
+            Do you want to Log errors to a file (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
+        NGINX_ACCESS_LOG_TO_FILE:
+          name: Write Access Log to a file?
+          description: >-
+            Do you want the Access Log to a file (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
+        NGINX_LOG_LEVEL:
+          name: Log Level
+          description: >-
+            Defines the log level for NGINX error logging.
 
 network:
   631/tcp: IPP printer port TCP
