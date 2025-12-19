@@ -86,9 +86,9 @@ function install_package() {
 function upgrade() {
     if [ "$(bashio::addon.auto_update)" == "true" ]; then
         bashio::log.info "Running apt upgrade"
-        apt update ||
+        apt-get update ||
             bashio::exit.nok 'Failed updating packages repository indexes'
-        apt upgrade -y ||
+        apt-get upgrade -y ||
             bashio::exit.nok "Failed to upgrade apt packages"
     fi
 }

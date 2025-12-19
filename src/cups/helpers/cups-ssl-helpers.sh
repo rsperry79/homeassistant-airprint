@@ -68,6 +68,7 @@ function setup_ssl_public() {
     local _pubkey
 
    if [ "$CUPS_SELF_SIGN" = "false" ]; then
+        get_ha_certs
         _pubkey=$HA_SSL_CERT
     elif [ -e "/ssl/fullchain.pem" ]; then
         _pubkey="/ssl/fullchain.pem"

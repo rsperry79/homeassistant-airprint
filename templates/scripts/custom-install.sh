@@ -4,7 +4,7 @@ readonly package_dir=/config/packages
 
 function run() {
     bashio::log.info "Running Custom install script"
-    # apt update && apt upgrade -y
+    # apt-get update && apt-get upgrade -y
     install_9970
 }
 
@@ -23,7 +23,7 @@ function install_cannon() {
     curl https://gdlp01.c-wss.com/gds/0/0100012300/02/cnijfilter2-6.80-1-deb.tar.gz -o cnijfilter2.tar.gz
     tar -xvf ./cnijfilter2.tar.gz cnijfilter2-6.80-1-deb/packages/cnijfilter2_6.80-1_amd64.deb
     mv cnijfilter2-6.80-1-deb/packages/cnijfilter2_6.80-1_amd64.deb cnijfilter2_6.80-1.deb
-    apt install ./cnijfilter2_6.80-1.deb
+    apt-get install ./cnijfilter2_6.80-1.deb
 }
 
 function get_install() {
