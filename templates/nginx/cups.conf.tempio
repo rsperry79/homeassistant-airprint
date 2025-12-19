@@ -20,8 +20,8 @@
 #
 server {
     listen {{.nginx_proto}} {{.hassio_ip}}:{{.ingress_port}};
-    {{.nginx_ssl_cert}};;
-    {{.nginx_ssl_key}};
+    {{.nginx_ssl_cert}}
+    {{.nginx_ssl_key}}
 
 	server_name _;
 
