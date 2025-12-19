@@ -62,14 +62,6 @@ options:
     - USERNAME: print
       PASSWORD: "print"
       USER_LEVEL: superuser
-  CUPS_SETTINGS:
-    CUPS_ENCRYPTION: IfRequested
-  CUSTOM_PACKAGES:
-    PACKAGES:
-      - "printer-driver-all"
-      - "foomatic-db"
-      - "foomatic-filters"
-      - "foomatic-filters-beh"
 schema:
   LOGINS:
     - USERNAME: str

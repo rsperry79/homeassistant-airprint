@@ -37,7 +37,12 @@ RUN apt-get update \
         libsystemd-dev \
         libusb-1.0-0-dev \
         pkg-config \
-        zlib1g-dev
+        zlib1g-dev \
+        # drivers
+        printer-driver-all \
+        foomatic-db \
+        foomatic-filters \
+        foomatic-filters-beh
 
 WORKDIR /cups
 
