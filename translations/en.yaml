@@ -1,24 +1,22 @@
 ---
 configuration:
-  CUSTOM_PACKAGES:
-    name: Custom Install Settings
-    fields:
-      INSTALL_RECOMMENDS:
-        name: Install recommended packages for the additional packages
-        description: >+
-          Recommend packages may not be needed and could cause issues or security concerns.
-      PACKAGE_DEBUG:
-        name: Install one package at a time?
-        description: >+
-          Installing one package at a time can help find a bad package but is incredibly inefficient.
-      RUN_CUSTOM_INST_SCRIPT:
-        name: Run the custom install script?
-        description: >+
-          Do you want to run the /config/packages/custom-install.sh script at boot-time to install custom drivers, etc?
-      PACKAGES:
-        name: Add an additional package
+  LOGINS:
+    name: Server Users
+    description: >-
+      Users that can administer or print. SuperUsers have addon sudo permissions.
+    list:
+      USERNAME:
+        name: User Name
         description: >-
-          Additional Debian apt packages to be installed at startup.
+          The username used for login.
+      PASSWORD:
+        name: Password
+        description: >-
+          The user's password.
+      USER_LEVEL:
+        name: Access level.
+        description: >-
+          The user's access rights.
   AVAHI_SETTINGS:
     name: Avahi Config
     fields:
@@ -38,30 +36,7 @@ configuration:
         name: IPV6 Support
         description: >-
           Do you want to enable IPV6?
-  CUPS_LOGGING:
-    name: CUPS Log Levels
-    fields:
-      CUPS_FATAL_ERROR_LEVEL:
-        name: Cups Fatal Errors
-        description: >-
-          Specifies which errors are fatal, causing the scheduler to exit.
-      CUPS_LOG_TO_FILE:
-        name: Write Error Log to file?
-        description: >-
-          Do you want to Log to a file (/addon_configs/{repo_id}_airprint/cups/log/cups.log)?
-      CUPS_LOG_LEVEL:
-        name: Cups Log Level
-        description: >+
-          Defines the log level for CUPS error logging
-      CUPS_ACCESS_LOG_TO_FILE:
-        name: Write Access Log to file?
-        description: >+
-          Do you want to Log to a file (/addon_configs/{repo_id}_airprint/cups/log/access.log)?
-      CUPS_ACCESS_LOG_LEVEL:
-        name: Cups Access Log Level
-        description: >+
-          Defines the access log level for CUPS access logging
-  CUPS_SSL:
+  CUPS_SETTINGS:
     name: CUPS SSL Settings
     description: >-
       Certificates must be in one of the following dirs: /ssl (HA SSL folder), /share (HA Share folder), or in /config (the addons config directory)
@@ -70,52 +45,69 @@ configuration:
         name: Use encryption?
         description: >-
           When do you want ssl used?
-      # cups_self_sign:
-      #   name: Self-Signed?
-      #   description: >-
-      #     Do you want to use self-signed certificates?
-      # cups_ssl_cert:
-      #   name: File path for the Certificate public key.
-      #   description: >-
-      #     Defines the log level for
-      # cups_ssl_key:
-      #   name: File path for the Certificate private key.
-      #   description: >-
-      #     Do you want to allow remote Administration of Cups?
-  NGINX_LOGGING:
-    name: Sidebar Logging
-    description: >-
-      Settings for the Sidebar NGINX Server. This allows the admin portal to be displayed in HomeAssistant
+  CUSTOM_PACKAGES:
+    name: Custom Install Settings
     fields:
-      NGINX_ERROR_LOG_TO_FILE:
-        name: Write Error Log to a file?
+      INSTALL_RECOMMENDS:
+        name: Install recommended packages for the additional packages
+        description: >+
+          Recommend packages may not be needed and could cause issues or security concerns.
+      PACKAGE_DEBUG:
+        name: Install one package at a time?
+        description: >+
+          Installing one package at a time can help find a bad package but is incredibly inefficient.
+      RUN_CUSTOM_INST_SCRIPT:
+        name: Run the custom install script?
+        description: >+
+          Do you want to run the /config/packages/custom-install.sh script at boot-time to install custom drivers, etc?
+      PACKAGES:
+        name: Add an additional package
         description: >-
-          Do you want to Log errors to a file (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
-      NGINX_ACCESS_LOG_TO_FILE:
-        name: Write Access Log to a file?
+          Additional Debian apt packages to be installed at startup.
+  LOGGING:
+    name: Logging Settings
+    fields:
+      CUPS_LOGGING:
+      name: CUPS Log Levels
+      fields:
+        CUPS_FATAL_ERROR_LEVEL:
+          name: Cups Fatal Errors
+          description: >-
+            Specifies which errors are fatal, causing the scheduler to exit.
+        CUPS_LOG_TO_FILE:
+          name: Write Error Log to file?
+          description: >-
+            Do you want to Log to a file (/addon_configs/{repo_id}_airprint/cups/log/cups.log)?
+        CUPS_LOG_LEVEL:
+          name: Cups Log Level
+          description: >+
+            Defines the log level for CUPS error logging
+        CUPS_ACCESS_LOG_TO_FILE:
+          name: Write Access Log to file?
+          description: >+
+            Do you want to Log to a file (/addon_configs/{repo_id}_airprint/cups/log/access.log)?
+        CUPS_ACCESS_LOG_LEVEL:
+          name: Cups Access Log Level
+          description: >+
+            Defines the access log level for CUPS access logging
+      NGINX_LOGGING:
+        name: Sidebar Logging
         description: >-
-          Do you want the Access Log to a file (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
-      NGINX_LOG_LEVEL:
-        name: Log Level
-        description: >-
-          Defines the log level for NGINX error logging.
-  LOGINS:
-    name: Server Users
-    description: >-
-      Users that can administer or print. SuperUsers have addon sudo permissions.
-    list:
-      USERNAME:
-        name: User Name
-        description: >-
-          The username used for login.
-      PASSWORD:
-        name: Password
-        description: >-
-          The user's password.
-      USER_LEVEL:
-        name: Access level.
-        description: >-
-          The user's access rights.
+          Settings for the Sidebar NGINX Server. This allows the admin portal to be displayed in HomeAssistant
+        fields:
+          NGINX_ERROR_LOG_TO_FILE:
+            name: Write Error Log to a file?
+            description: >-
+              Do you want to Log errors to a file (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
+          NGINX_ACCESS_LOG_TO_FILE:
+            name: Write Access Log to a file?
+            description: >-
+              Do you want the Access Log to a file (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
+          NGINX_LOG_LEVEL:
+            name: Log Level
+            description: >-
+              Defines the log level for NGINX error logging.
+
 network:
   631/tcp: IPP printer port TCP
   631/udp: IPP printer port UDP
