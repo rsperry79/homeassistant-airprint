@@ -82,7 +82,10 @@ function setup() {
     ingress_port=$(bashio::addon.ingress_port)
 
     setup_nginx_logging
-    setup_nginx_ssl
+    NGINX_PROTO=""
+    nginx_ssl_cert=""
+    nginx_ssl_key=""
+    #setup_nginx_ssl
 }
 
 function setup_autoconf () {
