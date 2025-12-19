@@ -1,52 +1,20 @@
 #!/command/with-contend bashio
-# This script is ran on boot before avahi and cups.
-readonly package_dir=/config/packages
+# This script is used to install custom packages and run custom scripts for the HomeAssistant Addon..
+# All custom packages and scripts should be placed in the /config/packages directory.
+export package_dir=/config/packages
+
+# Loads a common set of bash functions to aid in installing packages.
+# shellcheck source="./script-helpers.sh"
+source "/config/packages/script-helpers.sh"
 
 function run() {
+    # bashio allows HomeAssistant to display the output of the script in the HomeAssistant logs among other benefits.
+    # see <https://github.com/hassio-addons/bashio> for more information on bashio and how to use it.
     bashio::log.info "Running Custom install script"
-    # apt-get update && apt-get upgrade -y
-    install_9970
+
+    # Example of running a custom install script using bashio with a hard failure example. The script should be located in the /config/packages directory.
+    bashio "$package_dir/example-sub-script.sh" || bashio::"exit.nok" "Failed to run custom install script"
 }
 
-function install_9970() {
-    cups_url=https://download.brother.com/welcome/dlf006528/mfc9970cdwcupswrapper-1.1.1-5.i386.deb
-    lpr_url=https://download.brother.com/welcome/dlf006526/mfc9970cdwlpr-1.1.1-5.i386.deb
-
-    mkdir -p /var/spool/lpd/
-    get_install "mfc9970cdwlpr.i386.deb" "$lpr_url" true
-    get_install "mfc9970cdwcupswrapper.i386.deb" "$cups_url" true
-}
-
-function install_cannon() {
-    # Add Canon cnijfilter2 driver
-    cd "$package_dir" || exit 1
-    curl https://gdlp01.c-wss.com/gds/0/0100012300/02/cnijfilter2-6.80-1-deb.tar.gz -o cnijfilter2.tar.gz
-    tar -xvf ./cnijfilter2.tar.gz cnijfilter2-6.80-1-deb/packages/cnijfilter2_6.80-1_amd64.deb
-    mv cnijfilter2-6.80-1-deb/packages/cnijfilter2_6.80-1_amd64.deb cnijfilter2_6.80-1.deb
-    apt-get install ./cnijfilter2_6.80-1.deb
-}
-
-function get_install() {
-    local name=${1}
-    local url=${2}
-    local force=${3:-false}
-
-    cd "$package_dir" || exit 1
-
-    file="$package_dir"/"$name"
-    # check if dl'd to speed up boot
-    if [ ! -e "$file" ]; then
-        wget "$url" -O "$file"
-    fi
-    if [ -e "$file" ]; then
-        if [ "$force" = true ]; then
-            dpkg -i --force-all "$file" || rm -f "$file"
-        else
-            dpkg -i "$file" || rm -f "$file"
-        fi
-    else
-        bashio::log.notice "Failed to install $file"
-    fi
-}
-
+setup_custom_install # located in script-helpers.sh
 run

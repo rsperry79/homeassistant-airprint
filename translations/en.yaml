@@ -67,7 +67,7 @@ configuration:
         description: >-
           Additional Debian apt packages to be installed at startup.
   CUPS_LOGGING:
-    name: CUPS Log Levels
+    name: CUPS Logging Settings
     fields:
       CUPS_FATAL_ERROR_LEVEL:
         name: Cups Fatal Errors

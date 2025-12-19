@@ -26,6 +26,14 @@ function ensure_package_paths() {
     if [ ! -e "$packages_path/$install_script" ]; then
         cp "$src_custom_script_template_path/$install_script" "$packages_path/$install_script"
     fi
+
+    if [ ! -e "$packages_path/$example_subscript" ]; then
+        cp "$src_custom_script_template_path/$example_subscript" "$packages_path/$example_subscript"
+    fi
+
+    if [ ! -e "$packages_path/$script_helpers" ]; then
+        cp "$src_custom_script_template_path/$script_helpers" "$packages_path/$script_helpers"
+    fi
 }
 
 # Install user configured/requested packages
