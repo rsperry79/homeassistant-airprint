@@ -88,14 +88,13 @@ schema:
     PACKAGES:
       - str?
     PACKAGE_DEBUG: bool?
-  LOGGING:
-    CUPS_LOGGING:
-      CUPS_FATAL_ERROR_LEVEL: list(none|all|browse|config|listen|log|permissions)?
-      CUPS_LOG_TO_FILE: bool?
-      CUPS_LOG_LEVEL: list(debug|info|notice|error|none)?
-      CUPS_ACCESS_LOG_TO_FILE: bool?
-      CUPS_ACCESS_LOG_LEVEL: list(all|actions|config)?
-    NGINX_LOGGING:
-      NGINX_ERROR_LOG_TO_FILE: bool?
-      NGINX_ACCESS_LOG_TO_FILE: bool?
-      NGINX_LOG_LEVEL: list(warn|error|crit|alert|emerg)?
+  CUPS_LOGGING:
+    CUPS_FATAL_ERROR_LEVEL: list(none|all|browse|config|listen|log|permissions)?
+    CUPS_LOG_TO_FILE: bool?
+    CUPS_LOG_LEVEL: list(debug|info|notice|error|none)?
+    CUPS_ACCESS_LOG_TO_FILE: bool?
+    CUPS_ACCESS_LOG_LEVEL: list(all|actions|config)?
+  NGINX_LOGGING:
+    NGINX_ERROR_LOG_TO_FILE: bool?
+    NGINX_ACCESS_LOG_TO_FILE: bool?
+    NGINX_LOG_LEVEL: list(warn|error|crit|alert|emerg)?

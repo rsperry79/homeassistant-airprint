@@ -66,50 +66,46 @@ configuration:
         name: Add an additional package
         description: >-
           Additional Debian apt packages to be installed at startup.
-  LOGGING:
-    name: Logging Settings
+  CUPS_LOGGING:
+    name: CUPS Log Levels
+    fields:
+      CUPS_FATAL_ERROR_LEVEL:
+        name: Cups Fatal Errors
+        description: >-
+          Specifies which errors are fatal, causing the scheduler to exit.
+      CUPS_LOG_TO_FILE:
+        name: Write Error Log to file?
+        description: >-
+          Do you want to Log to a file (/addon_configs/{repo_id}_airprint/cups/log/cups.log)?
+      CUPS_LOG_LEVEL:
+        name: Cups Log Level
+        description: >+
+          Defines the log level for CUPS error logging
+      CUPS_ACCESS_LOG_TO_FILE:
+        name: Write Access Log to file?
+        description: >+
+          Do you want to Log to a file (/addon_configs/{repo_id}_airprint/cups/log/access.log)?
+      CUPS_ACCESS_LOG_LEVEL:
+        name: Cups Access Log Level
+        description: >+
+          Defines the access log level for CUPS access logging
+  NGINX_LOGGING:
+    name: Sidebar Logging
     description: >-
-      Settings for the logging of the addon. This includes both CUPS and NGINX logging.
-    CUPS_LOGGING:
-      name: CUPS Log Levels
-      fields:
-        CUPS_FATAL_ERROR_LEVEL:
-          name: Cups Fatal Errors
-          description: >-
-            Specifies which errors are fatal, causing the scheduler to exit.
-        CUPS_LOG_TO_FILE:
-          name: Write Error Log to file?
-          description: >-
-            Do you want to Log to a file (/addon_configs/{repo_id}_airprint/cups/log/cups.log)?
-        CUPS_LOG_LEVEL:
-          name: Cups Log Level
-          description: >+
-            Defines the log level for CUPS error logging
-        CUPS_ACCESS_LOG_TO_FILE:
-          name: Write Access Log to file?
-          description: >+
-            Do you want to Log to a file (/addon_configs/{repo_id}_airprint/cups/log/access.log)?
-        CUPS_ACCESS_LOG_LEVEL:
-          name: Cups Access Log Level
-          description: >+
-            Defines the access log level for CUPS access logging
-    NGINX_LOGGING:
-      name: Sidebar Logging
-      description: >-
-        Settings for the Sidebar NGINX Server. This allows the admin portal to be displayed in HomeAssistant
-      fields:
-        NGINX_ERROR_LOG_TO_FILE:
-          name: Write Error Log to a file?
-          description: >-
-            Do you want to Log errors to a file (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
-        NGINX_ACCESS_LOG_TO_FILE:
-          name: Write Access Log to a file?
-          description: >-
-            Do you want the Access Log to a file (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
-        NGINX_LOG_LEVEL:
-          name: Log Level
-          description: >-
-            Defines the log level for NGINX error logging.
+      Settings for the Sidebar NGINX Server. This allows the admin portal to be displayed in HomeAssistant
+    fields:
+      NGINX_ERROR_LOG_TO_FILE:
+        name: Write Error Log to a file?
+        description: >-
+          Do you want to Log errors to a file (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
+      NGINX_ACCESS_LOG_TO_FILE:
+        name: Write Access Log to a file?
+        description: >-
+          Do you want the Access Log to a file (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
+      NGINX_LOG_LEVEL:
+        name: Log Level
+        description: >-
+          Defines the log level for NGINX error logging.
 
 network:
   631/tcp: IPP printer port TCP
