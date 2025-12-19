@@ -55,16 +55,6 @@
         </div>
     </div>
     <div class="cups-footer">Copyright &copy; 2021-2025 OpenPrinting. All rights reserved.</div>
-<<<<<<< HEAD
-=======
-
-
-    <script>
-        function changeContent(page) {
-            window.location.replace(page)
-        }
-    </script>
->>>>>>> refs/remotes/origin/main
 </body>
 
 </html>
