@@ -17,6 +17,9 @@ function load_sources() {
     # shellcheck source="./helpers/cups-host-helpers.sh"
     source "/opt/cups/helpers/cups-host-helpers.sh"
 
+    # shellcheck source="../common/ha-helpers.sh"
+    source "/opt/common/ha-helpers.sh"
+
     # shellcheck source="./helpers/cups-ssl-helpers.sh"
     source "/opt/cups/helpers/cups-ssl-helpers.sh"
 
@@ -82,7 +85,7 @@ function get_settings() {
     fi
 
     CUPS_SELF_SIGN=false
-    if [ "$(ha_is_secure)" == "false" ]; then
+    if [ "$(ha_is_secure)" == false ]; then
         CUPS_SELF_SIGN=true
     fi
 

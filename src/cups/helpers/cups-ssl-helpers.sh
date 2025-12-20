@@ -117,7 +117,7 @@ function setup_ssl_private() {
 function convert_private_key() {
     local to_convert=${1}
     local output_file=${2}
-
+    bashio::log.info "Converting Private Key: $to_convert to $output_file"
     rm -f "$output_file"
     if openssl rsa -in "$to_convert" -out "$output_file" 2>&1; then
         chown "$SVC_ACCT":"$SVC_GROUP" "$output_file"
@@ -132,6 +132,7 @@ function convert_public_key() {
     local to_convert=${1}
     local output_file=${2}
 
+    bashio::log.info "Converting Public Key: $to_convert to $output_file"
     rm -f "$output_file"
     if openssl x509 -in "$to_convert" -out "$output_file" 2>&1; then
         chown "$SVC_ACCT":"$SVC_GROUP" "$output_file"
