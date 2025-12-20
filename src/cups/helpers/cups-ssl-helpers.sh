@@ -90,19 +90,20 @@ function setup_ssl_public() {
         CUPS_SELF_SIGN="true"
         return
     fi
-
-    CUPS_HOST_ALIAS=$(get_cn_name "$_pubkey")
-    # TODO HIDE?
     CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.crt"
     CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.key"
 
-    if [ ! -e "$_pubkey" ]; then
+    CUPS_HOST_ALIAS=$(get_cn_name "$CUPS_PUBLIC_KEY")
+    # TODO HIDE?
+
+
+    if [ ! -e "$CUPS_PUBLIC_KEY" ]; then
         bashio::log.notice "SSL Public key does not exist at given path"
     else
-        update_hosts "$_pubkey"
+        update_hosts "$CUPS_PUBLIC_KEY"
 
         #cp "$_pubkey" "$CUPS_PUBLIC_KEY"
-        convert_public_key "$_pubkey" "$CUPS_PUBLIC_KEY"
+        convert_public_key "$CUPS_PUBLIC_KEY" "$CUPS_PUBLIC_KEY"
     fi
 
 }
