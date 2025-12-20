@@ -33,13 +33,15 @@ function setup_ssl() {
     }
 
     if [ "$CUPS_ENCRYPTION" = "Never" ]; then
+        bashio::log.info "CUPS_ENCRYPTION is set to Never, disabling SSL"
         disable_ssl_config
     else
         if [ "$CUPS_SELF_SIGN" == "false" ]; then
-            bashio::log.info "Self sign is off"
+            bashio::log.info "CUPS_SELF_SIGN is set to false, using provided SSL certificates"
             if [ -d "$cups_ssl_path" ]; then
                 rm -f "$cups_ssl_path/*"
             fi
+
             setup_ssl_public
             setup_ssl_private
         fi
@@ -55,6 +57,7 @@ function setup_ssl_private() {
     local _privkey
 
     if [ "$CUPS_SELF_SIGN" = false ]; then
+         bashio::log.info "Using $HA_SSL_KEY for SSL Private Key"
         _privkey=$HA_SSL_KEY
     elif [ -e "/ssl/privkey.pem" ]; then
         _privkey="/ssl/privkey.pem"
@@ -77,6 +80,8 @@ function setup_ssl_public() {
 
    if [ "$CUPS_SELF_SIGN" = "false" ]; then
         get_ha_certs
+        bashio::log.info "Using $HA_SSL_CERT for SSL Public Key"
+
         _pubkey=$HA_SSL_CERT
     elif [ -e "/ssl/fullchain.pem" ]; then
         _pubkey="/ssl/fullchain.pem"
