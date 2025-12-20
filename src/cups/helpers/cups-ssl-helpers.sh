@@ -42,6 +42,7 @@ function setup_ssl() {
                 rm -f "$cups_ssl_path/*"
             fi
 
+
             setup_ssl_public
             setup_ssl_private
         fi
@@ -52,15 +53,47 @@ function setup_ssl() {
     fi
 }
 
-function setup_ssl_private() {
+function setup_ssl_public() {
 
+    local _pubkey
+
+   if [ "$CUPS_SELF_SIGN" = "false" ]; then
+        get_ha_certs
+        bashio::log.info "Using $HA_SSL_CERT for SSL Public Key"
+        _pubkey=$HA_SSL_CERT
+    elif [ -e "/ssl/fullchain.pem" ]; then
+        _pubkey="/ssl/fullchain.pem"
+    else
+        bashio::log.info "Unable to find SSL Cert, setting Self-Sign on"
+        CUPS_SELF_SIGN="true"
+        return
+    fi
+
+    CUPS_HOST_ALIAS=$(get_cn_name "$_pubkey")
+    CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.crt"
+    CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.key"
+
+    if [ ! -e "$CUPS_PUBLIC_KEY" ]; then
+        bashio::log.notice "SSL Public key does not exist at given path"
+    else
+        update_hosts "$_pubkey"
+        convert_public_key "$_pubkey" "$CUPS_PUBLIC_KEY"
+    fi
+
+    export CUPS_HOST_ALIAS
+    export CUPS_PUBLIC_KEY
+    export CUPS_PRIVATE_KEY
+}
+
+function setup_ssl_private() {
     local _privkey
 
-    if [ "$CUPS_SELF_SIGN" = false ]; then
+    if [ "$CUPS_SELF_SIGN" = "false" ]; then
          bashio::log.info "Using $HA_SSL_KEY for SSL Private Key"
         _privkey=$HA_SSL_KEY
     elif [ -e "/ssl/privkey.pem" ]; then
         _privkey="/ssl/privkey.pem"
+         bashio::log.info "Using default key $_privkey for SSL Private Key"
     else
         bashio::log.info "Unable to find SSL key, setting Self-Sign on"
         CUPS_SELF_SIGN="true"
@@ -72,40 +105,6 @@ function setup_ssl_private() {
     else
         convert_private_key "$_privkey" "$CUPS_PRIVATE_KEY"
     fi
-}
-
-function setup_ssl_public() {
-
-    local _pubkey
-
-   if [ "$CUPS_SELF_SIGN" = "false" ]; then
-        get_ha_certs
-        bashio::log.info "Using $HA_SSL_CERT for SSL Public Key"
-
-        _pubkey=$HA_SSL_CERT
-    elif [ -e "/ssl/fullchain.pem" ]; then
-        _pubkey="/ssl/fullchain.pem"
-    else
-        bashio::log.info "Unable to find SSL Cert, setting Self-Sign on"
-        CUPS_SELF_SIGN="true"
-        return
-    fi
-    CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.crt"
-    CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.key"
-
-    CUPS_HOST_ALIAS=$(get_cn_name "$CUPS_PUBLIC_KEY")
-    # TODO HIDE?
-
-
-    if [ ! -e "$CUPS_PUBLIC_KEY" ]; then
-        bashio::log.notice "SSL Public key does not exist at given path"
-    else
-        update_hosts "$CUPS_PUBLIC_KEY"
-
-        #cp "$_pubkey" "$CUPS_PUBLIC_KEY"
-        convert_public_key "$CUPS_PUBLIC_KEY" "$CUPS_PUBLIC_KEY"
-    fi
-
 }
 
 function convert_private_key() {
