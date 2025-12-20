@@ -80,8 +80,8 @@ function setup_ssl_public() {
     CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.crt"
     CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.key"
 
-    if [ ! -e "$CUPS_PUBLIC_KEY" ]; then
-        bashio::log.notice "SSL Public key does not exist at given path"
+    if [ ! -e "$_pubkey" ]; then
+        bashio::log.notice "SSL Public key does not exist at given path: $_pubkey, unable to convert"
     else
         update_hosts "$_pubkey"
         convert_public_key "$_pubkey" "$CUPS_PUBLIC_KEY"
