@@ -79,13 +79,14 @@ function setup_ssl_public() {
     CUPS_HOST_ALIAS=$(get_cn_name "$_pubkey")
     CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.crt"
     CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.key"
+    update_hosts "$_pubkey"
+    convert_public_key "$_pubkey" "$CUPS_PUBLIC_KEY"
 
-    if [ ! -e "$_pubkey" ]; then
-        bashio::log.notice "SSL Public key does not exist at given path: $_pubkey, unable to convert"
-    else
-        update_hosts "$_pubkey"
-        convert_public_key "$_pubkey" "$CUPS_PUBLIC_KEY"
-    fi
+    # if [ ! -e "$_pubkey" ]; then
+    #     bashio::log.notice "SSL Public key does not exist at given path: $_pubkey, unable to convert"
+    # else
+
+    # fi
 
     export CUPS_HOST_ALIAS
     export CUPS_PUBLIC_KEY
@@ -107,11 +108,12 @@ function setup_ssl_private() {
         return
     fi
 
-    if [ ! -e "$_privkey" ]; then
-        bashio::log.notice "SSL Private key does not exist at given path: $_privkey, unable to convert"
-    else
-        convert_private_key "$_privkey" "$CUPS_PRIVATE_KEY"
-    fi
+    convert_private_key "$_privkey" "$CUPS_PRIVATE_KEY"
+
+    # if [ ! -e "$_privkey" ]; then
+    #     bashio::log.notice "SSL Private key does not exist at given path: $_privkey, unable to convert"
+    # else
+    # fi
 }
 
 function convert_private_key() {
