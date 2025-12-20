@@ -1,21 +1,28 @@
 #!/usr/bin/with-contenv bashio
+# shellcheck disable=SC2154
 
 function load_sources() {
+    # shellcheck disable=SC1091
     # shellcheck source="./common/paths/common-paths.sh"
     source "/opt/common/paths/common-paths.sh"
 
+    # shellcheck disable=SC1091
     # shellcheck source="./cups/helpers/cups-host-helpers.sh"
     source "/opt/cups/helpers/cups-host-helpers.sh"
 
+    # shellcheck disable=SC1091
     # shellcheck source="./common/network-common.sh"
     source "/opt/common/network-common.sh"
 
+    # shellcheck disable=SC1091
     # shellcheck source="./common/ha-helpers.sh"
     source "/opt/common/ha-helpers.sh"
 
+    # shellcheck disable=SC1091
     # shellcheck source="./cups/helpers/cups-ssl-helpers.sh"
     source "/opt/cups/helpers/cups-ssl-helpers.sh"
 
+    # shellcheck disable=SC1091
     # shellcheck source="./cups/helpers/cups-config-helpers.sh"
     source "/opt/cups/helpers/cups-config-helpers.sh"
 }

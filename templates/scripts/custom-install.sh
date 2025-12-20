@@ -1,4 +1,5 @@
 #!/command/with-contend bashio
+# shellcheck disable=SC1091,SC2154
 # This script is used to install custom packages and run custom scripts for the HomeAssistant Addon..
 # All custom packages and scripts should be placed in the /config/packages directory.
 export package_dir=/config/packages

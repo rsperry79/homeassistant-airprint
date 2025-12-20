@@ -1,30 +1,37 @@
 #!/command/with-contend bashio
+# shellcheck disable=SC2154
 
-function load_sources () {
+function load_sources() {
+    # shellcheck disable=SC1091
     # shellcheck source="../../common/settings.sh"
     source "/opt/common/settings.sh"
 
+    # shellcheck disable=SC1091
     # shellcheck source="../../common/ha-helpers.sh"
     source "/opt/common/ha-helpers.sh"
 
+    # shellcheck disable=SC1091
     # shellcheck source="../../common/paths/cups-paths.sh"
     source "/opt/common/paths/cups-paths.sh"
 
+    # shellcheck disable=SC1091
     # shellcheck source="../../common/settings/cups-settings.sh"
     source "/opt/common/settings/cups-settings.sh"
 
+    # shellcheck disable=SC1091
     # shellcheck source="./cups-config-helpers.sh"
     source "/opt/cups/helpers/cups-config-helpers.sh"
 
+    # shellcheck disable=SC1091
     # shellcheck source="./cups-host-helpers.sh"
     source "/opt/cups/helpers/cups-host-helpers.sh"
 }
 
-function lint () {
+function lint() {
+    # shellcheck disable=SC1091
     # shellcheck source="../../../lint/cups-settings.lint"
     source "../../../lint/cups-settings.lint"
 }
-
 
 function setup_ssl() {
     load_sources || {
@@ -42,7 +49,6 @@ function setup_ssl() {
                 rm -f "$cups_ssl_path/*"
             fi
 
-
             setup_ssl_public
             setup_ssl_private
         fi
@@ -57,7 +63,7 @@ function setup_ssl_public() {
 
     local _pubkey
 
-   if [ "$CUPS_SELF_SIGN" = "false" ]; then
+    if [ "$CUPS_SELF_SIGN" = "false" ]; then
         get_ha_certs
         bashio::log.info "Using $HA_SSL_CERT for SSL Public Key"
         _pubkey=$HA_SSL_CERT
@@ -89,11 +95,11 @@ function setup_ssl_private() {
     local _privkey
 
     if [ "$CUPS_SELF_SIGN" = "false" ]; then
-         bashio::log.info "Using $HA_SSL_KEY for SSL Private Key"
+        bashio::log.info "Using $HA_SSL_KEY for SSL Private Key"
         _privkey=$HA_SSL_KEY
     elif [ -e "/ssl/privkey.pem" ]; then
         _privkey="/ssl/privkey.pem"
-         bashio::log.info "Using default key $_privkey for SSL Private Key"
+        bashio::log.info "Using default key $_privkey for SSL Private Key"
     else
         bashio::log.info "Unable to find SSL key, setting Self-Sign on"
         CUPS_SELF_SIGN="true"
@@ -111,15 +117,13 @@ function convert_private_key() {
     local to_convert=${1}
     local output_file=${2}
 
-    rm -f "$CUPS_PRIVATE_KEY"
-    msg=$(openssl rsa -in "$to_convert" -out "$CUPS_PRIVATE_KEY")
-    # shellcheck disable=SC2181
-    if [ $? -eq 0 ]; then
-        chown "$SVC_ACCT":"$SVC_GROUP" "$CUPS_PRIVATE_KEY"
-        chmod "$SVC_FILE_PERMS" "$CUPS_PRIVATE_KEY"
-        bashio::log.debug "SSL Private Key exists. $CUPS_PRIVATE_KEY"
+    rm -f "$output_file"
+    if openssl rsa -in "$to_convert" -out "$output_file" 2>&1; then
+        chown "$SVC_ACCT":"$SVC_GROUP" "$output_file"
+        chmod "$SVC_FILE_PERMS" "$output_file"
+        bashio::log.debug "SSL Private Key exists. $output_file"
     else
-        bashio::log.error "Private key is not valid. $msg"
+        bashio::log.error "Private key is not valid."
     fi
 }
 
@@ -128,13 +132,11 @@ function convert_public_key() {
     local output_file=${2}
 
     rm -f "$output_file"
-    msg=$(openssl x509 -in "$to_convert" -out "$output_file")
-    # shellcheck disable=SC2181
-    if [ $? -eq 0 ]; then
+    if openssl x509 -in "$to_convert" -out "$output_file" 2>&1; then
         chown "$SVC_ACCT":"$SVC_GROUP" "$output_file"
         chmod "$SVC_FILE_PERMS" "$output_file"
         bashio::log.debug "SSL Public Key exists. $output_file"
     else
-        bashio::log.error "Public key is not valid. $msg"
+        bashio::log.error "Public key is not valid."
     fi
 }

@@ -1,4 +1,5 @@
 #!/command/with-contend bashio
+# shellcheck disable=SC1091,SC2154
 # shellcheck source="../common/settings.sh"
 source "/opt/common/settings.sh"
 

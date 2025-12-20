@@ -1,17 +1,27 @@
 #!/command/with-contend bashio
+# shellcheck disable=SC1091,SC2154
 
-function load_sources () {
+function load_sources() {
     # shellcheck source="../common/paths/avahi-paths.sh"
-    source "/opt/common/paths/avahi-paths.sh" || { echo "Failed to load avahi-paths.sh" >&2; exit 1; }
+    source "/opt/common/paths/avahi-paths.sh" || {
+        echo "Failed to load avahi-paths.sh" >&2
+        exit 1
+    }
 
     # shellcheck source="./helpers/avahi-config-helpers.sh"
-    source "/opt/avahi/helpers/avahi-config-helpers.sh" || { echo "Failed to load avahi-config-helper.sh" >&2; exit 1; }
+    source "/opt/avahi/helpers/avahi-config-helpers.sh" || {
+        echo "Failed to load avahi-config-helper.sh" >&2
+        exit 1
+    }
 
     # shellcheck source="../common/network-common.sh"
-    source "/opt/common/network-common.sh" || { echo "Failed to load network-common.sh" >&2; exit 1; }
+    source "/opt/common/network-common.sh" || {
+        echo "Failed to load network-common.sh" >&2
+        exit 1
+    }
 }
 
-function linter () {
+function linter() {
     # shellcheck source="../../lint/avahi-settings.lint"
     source "../../lint/avahi-settings.lint"
 }

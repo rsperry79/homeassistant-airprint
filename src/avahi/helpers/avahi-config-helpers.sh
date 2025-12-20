@@ -1,5 +1,6 @@
 #!/command/with-contend bashio
-# shellcheck disable=SC2181
+# shellcheck disable=SC1091,SC2154
+# shellcheck disable=SC2181,SC1091,SC2154
 # shellcheck source="../../common/settings/avahi-settings.sh"
 source "/opt/common/settings/avahi-settings.sh"
 
@@ -19,7 +20,7 @@ function update_reflectors() {
     sed -i "s/^.*reflect\-ipv=.*/reflect\-ipv\=${AVAHI_REFLECTOR_IPV}/" "$avahi_config_path/$avahi_daemon"
 }
 
-function setup_reflector () {
+function setup_reflector() {
     if bashio::config.has_value 'AVAHI_SETTINGS.AVAHI_REFLECTOR'; then
         AVAHI_REFLECTOR_FLAG=$(bashio::config 'AVAHI_SETTINGS.AVAHI_REFLECTOR')
 
@@ -36,7 +37,7 @@ function setup_reflector () {
     export AVAHI_REFLECTOR
 }
 
-function setup_ipv_reflector () {
+function setup_ipv_reflector() {
     if bashio::config.has_value 'AVAHI_SETTINGS.AVAHI_REFLECTOR_IPV'; then
         AVAHI_REFLECTOR_FLAG=$(bashio::config 'AVAHI_SETTINGS.AVAHI_REFLECTOR_IPV')
     else
@@ -52,7 +53,7 @@ function setup_ipv_reflector () {
     export AVAHI_REFLECTOR_IPV
 }
 
-function setup_ipv6 () {
+function setup_ipv6() {
     if bashio::config.has_value 'AVAHI_SETTINGS.AVAHI_USE_IPV6'; then
         ipv6_flag=$(bashio::config 'AVAHI_SETTINGS.AVAHI_USE_IPV6')
     else

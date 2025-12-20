@@ -1,12 +1,13 @@
 #!/command/with-contend bashio
+# shellcheck disable=SC1091,SC2154
 # shellcheck disable=SC2181
 
-function linter () {
+function linter() {
     # shellcheck source="../../lint/cups-settings.lint"
     source "../../lint/cups-settings.lint"
 }
 
-function load_sources () {
+function load_sources() {
     # shellcheck source="../common/paths/cups-paths.sh"
     source "/opt/common/paths/cups-paths.sh"
 
@@ -64,7 +65,6 @@ function run() {
         update_index
     fi
 
-
     if [ ! -e "$real_cups_path/$cups_client" ] && [ "$CUPS_ENCRYPTION" != "Never" ]; then
         autoconf_client
     else
@@ -72,17 +72,17 @@ function run() {
     fi
 }
 
-function get_settings () {
+function get_settings() {
     CUPS_HOST_ALIAS="localhost"
 
     if bashio::config.has_value 'CUPS_SSL.CUPS_ENCRYPTION'; then
-         CUPS_ENCRYPTION=$(bashio::config 'CUPS_SSL.CUPS_ENCRYPTION')
+        CUPS_ENCRYPTION=$(bashio::config 'CUPS_SSL.CUPS_ENCRYPTION')
     else
         CUPS_ENCRYPTION=$CUPS_DEFAULT_ENCRYPTION
     fi
 
     CUPS_SELF_SIGN=false
-    if  [ "$(ha_is_secure)" == "false" ]; then
+    if [ "$(ha_is_secure)" == "false" ]; then
         CUPS_SELF_SIGN=true
     fi
 
@@ -95,7 +95,7 @@ function get_settings () {
 function autoconf_setup() {
     # Used by autoconf
     config=$(
-        jq  \
+        jq \
             --arg host_name "$HOSTNAME" \
             --arg CUPS_HOST_ALIAS "$CUPS_HOST_ALIAS" \
             --arg CUPS_SELF_SIGN "$CUPS_SELF_SIGN" \

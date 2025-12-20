@@ -1,6 +1,7 @@
 #!/command/with-contend bashio
+# shellcheck disable=SC1091,SC2154
 
-function load_sources () {
+function load_sources() {
     # shellcheck source="../common/paths/nginx-paths.sh"
     source "/opt/common/paths/nginx-paths.sh"
 
@@ -17,12 +18,12 @@ function load_sources () {
     source "/opt/common/network-common.sh"
 }
 
-function linter () {
+function linter() {
     # shellcheck source="../../lint/nginx-settings.lint"
     source "../../lint/nginx-settings.lint"
 }
 
-function log_info () {
+function log_info() {
     ingress=$(bashio::addon.ingress)
     bashio::log.info "ingress $ingress"
 
@@ -88,7 +89,7 @@ function setup() {
     #setup_nginx_ssl
 }
 
-function setup_autoconf () {
+function setup_autoconf() {
     config=$(
         jq \
             --arg host_name "$HOSTNAME" \

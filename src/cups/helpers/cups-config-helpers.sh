@@ -1,5 +1,6 @@
 #!/command/with-contend bashio
-# shellcheck disable=SC2181
+# shellcheck disable=SC1091,SC2154
+# shellcheck disable=SC2181,SC1091,SC2154
 
 # shellcheck source="../../common/paths/cups-paths.sh"
 source "/opt/common/paths/cups-paths.sh"
@@ -29,7 +30,7 @@ function update_access_log_level() {
 
 function update_web_root() {
     local setting=${1}
-    bashio::log.debug update_access_log_level
+    bashio::log.debug update_web_root
     if [ -e "$real_cups_path/$cups_files" ]; then
         sed -i "s#^.*DocumentRoot .*#DocumentRoot ${setting}/#" "$real_cups_path/$cups_files"
     fi
@@ -45,7 +46,7 @@ function update_log_level() {
 
 function update_access_log_location() {
     local setting=${1}
-    bashio::log.debug update_log_level
+    bashio::log.debug update_access_log_location
     if [ -e "$real_cups_path/$cups_files" ]; then
         sed -i "s#^.*AccessLog .*#AccessLog ${setting}#" "$real_cups_path/$cups_files"
     fi
@@ -53,7 +54,7 @@ function update_access_log_location() {
 
 function update_log_location() {
     local setting=${1}
-    bashio::log.debug update_log_level
+    bashio::log.debug update_log_location
     if [ -e "$real_cups_path/$cups_files" ]; then
         sed -i "s#^.*ErrorLog .*#ErrorLog ${setting}#" "$real_cups_path/$cups_files"
     fi

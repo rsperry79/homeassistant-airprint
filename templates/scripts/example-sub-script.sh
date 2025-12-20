@@ -1,7 +1,7 @@
 #!/command/with-contend bashio
 export package_dir=/config/packages
 
-function run () {
+function run() {
     install_9970
 }
 

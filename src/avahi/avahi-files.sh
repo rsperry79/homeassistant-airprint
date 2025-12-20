@@ -1,4 +1,5 @@
 #!/command/with-contend bashio
+# shellcheck disable=SC1091,SC2154
 # shellcheck source="../common/paths/avahi-paths.sh"
 source "/opt/common/paths/avahi-paths.sh"
 

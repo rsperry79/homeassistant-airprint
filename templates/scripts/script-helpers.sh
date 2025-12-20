@@ -24,14 +24,13 @@ function wget_install() {
     fi
 }
 
-function setup_custom_install () {
+function setup_custom_install() {
     cd "$package_dir" || bashio::"exit.nok" "Failed to set working directory to $package_dir"
     # more custom setup could be added here ie;
     # apt_setup
 }
 
-function apt_setup () {
+function apt_setup() {
     bashio::log.debug "Setting up apt"
     apt-get update
 }
-
