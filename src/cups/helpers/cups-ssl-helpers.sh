@@ -1,5 +1,7 @@
 #!/command/with-contend bashio
 # shellcheck disable=SC2154
+CUPS_PUBLIC_KEY_HA_PATH=""
+CUPS_PRIVATE_KEY_HA_PATH=""
 
 function load_sources() {
     # shellcheck disable=SC1091
@@ -43,78 +45,73 @@ function setup_ssl() {
         bashio::log.info "CUPS_ENCRYPTION is set to Never, disabling SSL"
         disable_ssl_config
     else
-        if [ "$CUPS_SELF_SIGN" == "false" ]; then
-            bashio::log.info "CUPS_SELF_SIGN is set to false, using provided SSL certificates"
-            if [ -d "$cups_ssl_path" ]; then
-                rm -f "$cups_ssl_path/*"
-            fi
-
-            setup_ssl_public
-            setup_ssl_private
+        bashio::log.info "CUPS_SELF_SIGN is set to false, using provided SSL certificates"
+        if [ -d "$cups_ssl_path" ]; then
+            rm -f "$cups_ssl_path/*"
         fi
-        if [ "$CUPS_SELF_SIGN" == "true" ]; then
+
+        get_keys
+
+        if [ "$CUPS_SELF_SIGN" = "false" ]; then
+            setup_ssl_public "$CUPS_PUBLIC_KEY_HA_PATH" "CUPS_PUBLIC_KEY"
+            convert_private_key "$CUPS_PRIVATE_KEY_HA_PATH" "$CUPS_PRIVATE_KEY"
+        else
             bashio::log.info "Using self-signed certificate"
             CUPS_HOST_ALIAS="$(hostname -f)"
         fi
     fi
 }
 
-function setup_ssl_public() {
-
-    local _pubkey
+function get_keys () {
 
     if [ "$CUPS_SELF_SIGN" = "false" ]; then
         get_ha_certs
-        bashio::log.info "Using $HA_SSL_CERT for SSL Public Key"
-        _pubkey=$HA_SSL_CERT
-    # elif [ -e "/ssl/fullchain.pem" ]; then
-    #     _pubkey="/ssl/fullchain.pem"
-    #     bashio::log.info "Using default $_pubkey for SSL Public Key"
+        # public key
+        if [ ! -e "$HA_SSL_CERT" ]; then
+            bashio::log.error "SSL Public Key does not exist at discovered path: $_pubkey"
+            CUPS_SELF_SIGN="true"
+        else
+            bashio::log.info "SSL Public Key was discovered at $_pubkey"
+            _pubkey=$HA_SSL_CERT
+
+            # private key
+            if [ ! -e "$HA_SSL_KEY" ]; then
+                bashio::log.error "SSL Private Key does not exist at given path: $HA_SSL_KEY"
+                CUPS_SELF_SIGN="true"
+            else
+                bashio::log.info "SSL Private Key was discovered at $_privkey"
+                _privkey=$HA_SSL_KEY
+
+
+                CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
+                CUPS_PRIVATE_KEY_HA_PATH="$_pubkey"
+                CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.crt"
+                CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.key"
+
+                export CUPS_PUBLIC_KEY
+                export CUPS_PRIVATE_KEY
+            fi
+        fi
     else
         bashio::log.info "Unable to find SSL Cert, setting Self-Sign on"
         CUPS_SELF_SIGN="true"
         return
     fi
 
-    CUPS_HOST_ALIAS=$(get_cn_name "$_pubkey")
-    CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.crt"
-    CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.key"
-    update_hosts "$_pubkey"
-    convert_public_key "$_pubkey" "$CUPS_PUBLIC_KEY"
+}
 
-    # if [ ! -e "$_pubkey" ]; then
-    #     bashio::log.notice "SSL Public key does not exist at given path: $_pubkey, unable to convert"
-    # else
 
-    # fi
+function setup_ssl_public() {
+    local pubkey=${1}
+    local output_file=${2}
 
+    convert_public_key "$pubkey" "$output_file"
+
+    CUPS_HOST_ALIAS=$(get_cn_name "$pubkey")
+    update_hosts "$pubkey"
     export CUPS_HOST_ALIAS
-    export CUPS_PUBLIC_KEY
-    export CUPS_PRIVATE_KEY
 }
 
-function setup_ssl_private() {
-    local _privkey
-
-    if [ "$CUPS_SELF_SIGN" = "false" ]; then
-        bashio::log.info "Using $HA_SSL_KEY for SSL Private Key"
-        _privkey=$HA_SSL_KEY
-    # elif [ -e "/ssl/privkey.pem" ]; then
-    #     _privkey="/ssl/privkey.pem"
-    #     bashio::log.info "Using default key $_privkey for SSL Private Key"
-    else
-        bashio::log.info "Unable to find SSL key, setting Self-Sign on"
-        CUPS_SELF_SIGN="true"
-        return
-    fi
-
-    convert_private_key "$_privkey" "$CUPS_PRIVATE_KEY"
-
-    # if [ ! -e "$_privkey" ]; then
-    #     bashio::log.notice "SSL Private key does not exist at given path: $_privkey, unable to convert"
-    # else
-    # fi
-}
 
 function convert_private_key() {
     local to_convert=${1}

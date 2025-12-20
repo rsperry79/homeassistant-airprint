@@ -17,7 +17,6 @@ host_network: true
 ports:
   631/tcp: 631
   631/udp: 631
-  # 5150/tcp: 5150
   5353/udp: 5353
 map:
   - type: addon_config
