@@ -1,0 +1,113 @@
+---
+configuration:
+  LOGINS:
+    name: Servergebruikers
+    description: >-
+      Gebruikers die kunnen beheren of printen. SuperUsers hebben addon sudo permissies.
+    list:
+      USERNAME:
+        name: Gebruikersnaam
+        description: >-
+          De gebruikersnaam gebruikt voor login.
+      PASSWORD:
+        name: Wachtwoord
+        description: >-
+          Het wachtwoord van de gebruiker.
+      USER_LEVEL:
+        name: Toegangsniveau.
+        description: >-
+          De toegangsrechten van de gebruiker.
+  AVAHI_SETTINGS:
+    name: Avahi Configuratie
+    description: >-
+      Instellingen voor de Avahi service
+    fields:
+      AVAHI_DEBUG:
+        name: Avahi Debug
+        description: >-
+          Wilt u Avahi logging instellen op verbose?
+      AVAHI_REFLECTOR:
+        name: Avahi Reflectie
+        description: >-
+          Wilt u Avahi Reflectie inschakelen?
+      AVAHI_REFLECTOR_IPV:
+        name: Avahi IPV Reflectie
+        description: >-
+          Wilt u Avahi IPV Reflectie inschakelen?
+      AVAHI_USE_IPV6:
+        name: IPV6 Ondersteuning
+        description: >-
+          Wilt u IPV6 inschakelen?
+  CUPS_SETTINGS:
+    name: CUPS Instellingen
+    description: >-
+      Instellingen voor de CUPS server
+    fields:
+      CUPS_ENCRYPTION:
+        name: Encryptie gebruiken?
+        description: >-
+          Wanneer wilt u SSL gebruiken?
+  CUSTOM_PACKAGES:
+    name: Aangepaste Installatie Instellingen
+    fields:
+      INSTALL_RECOMMENDS:
+        name: Aanbevolen pakketten installeren voor de extra pakketten
+        description: >+
+          Aanbevolen pakketten zijn mogelijk niet nodig en kunnen problemen of beveiligingszorgen veroorzaken.
+      PACKAGE_DEBUG:
+        name: Eén pakket per keer installeren?
+        description: >+
+          Eén pakket per keer installeren kan helpen een slecht pakket te vinden maar is ongelooflijk inefficiënt.
+      RUN_CUSTOM_INST_SCRIPT:
+        name: Het aangepaste installatiescript uitvoeren?
+        description: >+
+          Wilt u het script /config/packages/custom-install.sh bij opstarten uitvoeren om aangepaste drivers, etc te installeren?
+      PACKAGES:
+        name: Een extra pakket toevoegen
+        description: >-
+          Extra Debian apt pakketten om bij opstarten te installeren.
+  CUPS_LOGGING:
+    name: CUPS Logging Instellingen
+    fields:
+      CUPS_FATAL_ERROR_LEVEL:
+        name: Cups Fatale Fouten
+        description: >-
+          Specificeert welke fouten fataal zijn, waardoor de planner afsluit.
+      CUPS_LOG_TO_FILE:
+        name: Foutenlog naar bestand schrijven?
+        description: >-
+          Wilt u loggen naar een bestand (/addon_configs/{repo_id}_airprint/cups/log/cups.log)?
+      CUPS_LOG_LEVEL:
+        name: Cups Log Niveau
+        description: >+
+          Definieert het log niveau voor CUPS fouten logging
+      CUPS_ACCESS_LOG_TO_FILE:
+        name: Toegangslog naar bestand schrijven?
+        description: >+
+          Wilt u loggen naar een bestand (/addon_configs/{repo_id}_airprint/cups/log/access.log)?
+      CUPS_ACCESS_LOG_LEVEL:
+        name: Cups Toegangslog Niveau
+        description: >+
+          Definieert het toegangslog niveau voor CUPS toegangs logging
+  NGINX_LOGGING:
+    name: Zijbalk Logging
+    description: >-
+      Instellingen voor de Zijbalk NGINX Server. Dit stelt het beheerportaal in staat om te worden weergegeven in HomeAssistant
+    fields:
+      NGINX_ERROR_LOG_TO_FILE:
+        name: Foutenlog naar een bestand schrijven?
+        description: >-
+          Wilt u fouten loggen naar een bestand (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
+      NGINX_ACCESS_LOG_TO_FILE:
+        name: Toegangslog naar een bestand schrijven?
+        description: >-
+          Wilt u de toegangslog naar een bestand (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
+      NGINX_LOG_LEVEL:
+        name: Log Niveau
+        description: >-
+          Definieert het log niveau voor NGINX fouten logging.
+
+network:
+  631/tcp: IPP printer poort TCP
+  631/udp: IPP printer poort UDP
+  5353/udp: Avahi Advertenties

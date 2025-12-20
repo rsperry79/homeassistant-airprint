@@ -1,0 +1,113 @@
+---
+configuration:
+  LOGINS:
+    name: مستخدمو الخادم
+    description: >-
+      المستخدمون الذين يمكنهم الإدارة أو الطباعة. المستخدمون الفائقون لديهم صلاحيات sudo للإضافة.
+    list:
+      USERNAME:
+        name: اسم المستخدم
+        description: >-
+          اسم المستخدم المستخدم لتسجيل الدخول.
+      PASSWORD:
+        name: كلمة المرور
+        description: >-
+          كلمة مرور المستخدم.
+      USER_LEVEL:
+        name: مستوى الوصول.
+        description: >-
+          حقوق الوصول للمستخدم.
+  AVAHI_SETTINGS:
+    name: تكوين Avahi
+    description: >-
+      إعدادات خدمة Avahi
+    fields:
+      AVAHI_DEBUG:
+        name: تصحيح Avahi
+        description: >-
+          هل تريد تعيين تسجيل Avahi إلى مفصل؟
+      AVAHI_REFLECTOR:
+        name: انعكاس Avahi
+        description: >-
+          هل تريد تمكين انعكاس Avahi؟
+      AVAHI_REFLECTOR_IPV:
+        name: انعكاس IPV Avahi
+        description: >-
+          هل تريد تمكين انعكاس IPV Avahi؟
+      AVAHI_USE_IPV6:
+        name: دعم IPV6
+        description: >-
+          هل تريد تمكين IPV6؟
+  CUPS_SETTINGS:
+    name: إعدادات CUPS
+    description: >-
+      إعدادات خادم CUPS
+    fields:
+      CUPS_ENCRYPTION:
+        name: استخدام التشفير؟
+        description: >-
+          متى تريد استخدام SSL؟
+  CUSTOM_PACKAGES:
+    name: إعدادات التثبيت المخصص
+    fields:
+      INSTALL_RECOMMENDS:
+        name: تثبيت الحزم الموصى بها للحزم الإضافية
+        description: >+
+          الحزم الموصى بها قد لا تكون مطلوبة وقد تسبب مشاكل أو مخاوف أمنية.
+      PACKAGE_DEBUG:
+        name: تثبيت حزمة واحدة في كل مرة؟
+        description: >+
+          تثبيت حزمة واحدة في كل مرة يمكن أن يساعد في العثور على حزمة سيئة لكنها غير فعالة بشكل لا يصدق.
+      RUN_CUSTOM_INST_SCRIPT:
+        name: تشغيل سكريبت التثبيت المخصص؟
+        description: >+
+          هل تريد تشغيل السكريبت /config/packages/custom-install.sh عند التشغيل لتثبيت برامج تشغيل مخصصة إلخ؟
+      PACKAGES:
+        name: إضافة حزمة إضافية
+        description: >-
+          حزم apt إضافية لـ Debian لتثبيتها عند التشغيل.
+  CUPS_LOGGING:
+    name: إعدادات تسجيل CUPS
+    fields:
+      CUPS_FATAL_ERROR_LEVEL:
+        name: أخطاء قاتلة Cups
+        description: >-
+          يحدد الأخطاء التي تكون قاتلة، مما يسبب خروج المجدول.
+      CUPS_LOG_TO_FILE:
+        name: كتابة سجل الأخطاء إلى ملف؟
+        description: >-
+          هل تريد التسجيل إلى ملف (/addon_configs/{repo_id}_airprint/cups/log/cups.log)؟
+      CUPS_LOG_LEVEL:
+        name: مستوى سجل Cups
+        description: >+
+          يحدد مستوى التسجيل لتسجيل أخطاء CUPS
+      CUPS_ACCESS_LOG_TO_FILE:
+        name: كتابة سجل الوصول إلى ملف؟
+        description: >+
+          هل تريد التسجيل إلى ملف (/addon_configs/{repo_id}_airprint/cups/log/access.log)؟
+      CUPS_ACCESS_LOG_LEVEL:
+        name: مستوى سجل الوصول Cups
+        description: >+
+          يحدد مستوى سجل الوصول لتسجيل وصول CUPS
+  NGINX_LOGGING:
+    name: تسجيل الشريط الجانبي
+    description: >-
+      إعدادات خادم NGINX للشريط الجانبي. هذا يسمح بعرض بوابة الإدارة في HomeAssistant
+    fields:
+      NGINX_ERROR_LOG_TO_FILE:
+        name: كتابة سجل الأخطاء إلى ملف؟
+        description: >-
+          هل تريد تسجيل الأخطاء إلى ملف (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)؟
+      NGINX_ACCESS_LOG_TO_FILE:
+        name: كتابة سجل الوصول إلى ملف؟
+        description: >-
+          هل تريد سجل الوصول إلى ملف (/addon_configs/{repo_id}_airprint/nginx/log/access.log)؟
+      NGINX_LOG_LEVEL:
+        name: مستوى التسجيل
+        description: >-
+          يحدد مستوى التسجيل لتسجيل أخطاء NGINX.
+
+network:
+  631/tcp: منفذ طابعة IPP TCP
+  631/udp: منفذ طابعة IPP UDP
+  5353/udp: إعلانات Avahi

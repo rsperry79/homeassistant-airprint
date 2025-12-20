@@ -1,0 +1,113 @@
+---
+configuration:
+  LOGINS:
+    name: 服务器用户
+    description: >-
+      可以管理或打印的用户。超级用户具有插件 sudo 权限。
+    list:
+      USERNAME:
+        name: 用户名
+        description: >-
+          用于登录的用户名。
+      PASSWORD:
+        name: 密码
+        description: >-
+          用户的密码。
+      USER_LEVEL:
+        name: 访问级别。
+        description: >-
+          用户的访问权限。
+  AVAHI_SETTINGS:
+    name: Avahi 配置
+    description: >-
+      Avahi 服务的设置
+    fields:
+      AVAHI_DEBUG:
+        name: Avahi 调试
+        description: >-
+          您是否要将 Avahi 日志设置为详细？
+      AVAHI_REFLECTOR:
+        name: Avahi 反射
+        description: >-
+          您是否要启用 Avahi 反射？
+      AVAHI_REFLECTOR_IPV:
+        name: Avahi IPV 反射
+        description: >-
+          您是否要启用 Avahi IPV 反射？
+      AVAHI_USE_IPV6:
+        name: IPV6 支持
+        description: >-
+          您是否要启用 IPV6？
+  CUPS_SETTINGS:
+    name: CUPS 设置
+    description: >-
+      CUPS 服务器的设置
+    fields:
+      CUPS_ENCRYPTION:
+        name: 使用加密？
+        description: >-
+          您何时要使用 SSL？
+  CUSTOM_PACKAGES:
+    name: 自定义安装设置
+    fields:
+      INSTALL_RECOMMENDS:
+        name: 为附加包安装推荐包
+        description: >+
+          推荐包可能不需要，并且可能导致问题或安全问题。
+      PACKAGE_DEBUG:
+        name: 一次安装一个包？
+        description: >+
+          一次安装一个包可以帮助找到坏包，但非常低效。
+      RUN_CUSTOM_INST_SCRIPT:
+        name: 运行自定义安装脚本？
+        description: >+
+          您是否要在启动时运行 /config/packages/custom-install.sh 脚本以安装自定义驱动程序等？
+      PACKAGES:
+        name: 添加一个附加包
+        description: >-
+          启动时要安装的附加 Debian apt 包。
+  CUPS_LOGGING:
+    name: CUPS 日志设置
+    fields:
+      CUPS_FATAL_ERROR_LEVEL:
+        name: Cups 致命错误
+        description: >-
+          指定哪些错误是致命的，导致调度程序退出。
+      CUPS_LOG_TO_FILE:
+        name: 将错误日志写入文件？
+        description: >-
+          您是否要记录到文件 (/addon_configs/{repo_id}_airprint/cups/log/cups.log)？
+      CUPS_LOG_LEVEL:
+        name: Cups 日志级别
+        description: >+
+          定义 CUPS 错误日志的日志级别
+      CUPS_ACCESS_LOG_TO_FILE:
+        name: 将访问日志写入文件？
+        description: >+
+          您是否要记录到文件 (/addon_configs/{repo_id}_airprint/cups/log/access.log)？
+      CUPS_ACCESS_LOG_LEVEL:
+        name: Cups 访问日志级别
+        description: >+
+          定义 CUPS 访问日志的访问日志级别
+  NGINX_LOGGING:
+    name: 侧边栏日志
+    description: >-
+      侧边栏 NGINX 服务器的设置。这允许在 HomeAssistant 中显示管理门户
+    fields:
+      NGINX_ERROR_LOG_TO_FILE:
+        name: 将错误日志写入文件？
+        description: >-
+          您是否要将错误记录到文件 (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)？
+      NGINX_ACCESS_LOG_TO_FILE:
+        name: 将访问日志写入文件？
+        description: >-
+          您是否要访问日志到文件 (/addon_configs/{repo_id}_airprint/nginx/log/access.log)？
+      NGINX_LOG_LEVEL:
+        name: 日志级别
+        description: >-
+          定义 NGINX 错误日志的日志级别。
+
+network:
+  631/tcp: IPP 打印机端口 TCP
+  631/udp: IPP 打印机端口 UDP
+  5353/udp: Avahi 广告

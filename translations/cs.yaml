@@ -1,0 +1,113 @@
+---
+configuration:
+  LOGINS:
+    name: Uživatelé Serveru
+    description: >-
+      Uživatelé, kteří mohou spravovat nebo tisknout. SuperUsers mají oprávnění sudo addon.
+    list:
+      USERNAME:
+        name: Uživatelské Jméno
+        description: >-
+          Uživatelské jméno používané pro přihlášení.
+      PASSWORD:
+        name: Heslo
+        description: >-
+          Heslo uživatele.
+      USER_LEVEL:
+        name: Úroveň přístupu.
+        description: >-
+          Přístupová práva uživatele.
+  AVAHI_SETTINGS:
+    name: Konfigurace Avahi
+    description: >-
+      Nastavení pro službu Avahi
+    fields:
+      AVAHI_DEBUG:
+        name: Ladění Avahi
+        description: >-
+          Chcete nastavit protokolování Avahi na podrobné?
+      AVAHI_REFLECTOR:
+        name: Reflexe Avahi
+        description: >-
+          Chcete povolit Reflexi Avahi?
+      AVAHI_REFLECTOR_IPV:
+        name: IPV Reflexe Avahi
+        description: >-
+          Chcete povolit IPV Reflexi Avahi?
+      AVAHI_USE_IPV6:
+        name: Podpora IPV6
+        description: >-
+          Chcete povolit IPV6?
+  CUPS_SETTINGS:
+    name: Nastavení CUPS
+    description: >-
+      Nastavení pro server CUPS
+    fields:
+      CUPS_ENCRYPTION:
+        name: Použít šifrování?
+        description: >-
+          Kdy chcete použít SSL?
+  CUSTOM_PACKAGES:
+    name: Nastavení Vlastní Instalace
+    fields:
+      INSTALL_RECOMMENDS:
+        name: Nainstalovat doporučené balíčky pro další balíčky
+        description: >+
+          Doporučené balíčky nemusí být potřeba a mohou způsobit problémy nebo bezpečnostní obavy.
+      PACKAGE_DEBUG:
+        name: Instalovat jeden balíček najednou?
+        description: >+
+          Instalace jednoho balíčku najednou může pomoci najít špatný balíček, ale je neuvěřitelně neefektivní.
+      RUN_CUSTOM_INST_SCRIPT:
+        name: Spustit vlastní instalační skript?
+        description: >+
+          Chcete spustit skript /config/packages/custom-install.sh při spuštění pro instalaci vlastních ovladačů atd.?
+      PACKAGES:
+        name: Přidat další balíček
+        description: >-
+          Další balíčky Debian apt k instalaci při spuštění.
+  CUPS_LOGGING:
+    name: Nastavení Protokolování CUPS
+    fields:
+      CUPS_FATAL_ERROR_LEVEL:
+        name: Fatální Chyby Cups
+        description: >-
+          Určuje, které chyby jsou fatální, způsobující ukončení plánovače.
+      CUPS_LOG_TO_FILE:
+        name: Zapsat protokol chyb do souboru?
+        description: >-
+          Chcete protokolovat do souboru (/addon_configs/{repo_id}_airprint/cups/log/cups.log)?
+      CUPS_LOG_LEVEL:
+        name: Úroveň Protokolování Cups
+        description: >+
+          Definuje úroveň protokolování pro protokolování chyb CUPS
+      CUPS_ACCESS_LOG_TO_FILE:
+        name: Zapsat protokol přístupu do souboru?
+        description: >+
+          Chcete protokolovat do souboru (/addon_configs/{repo_id}_airprint/cups/log/access.log)?
+      CUPS_ACCESS_LOG_LEVEL:
+        name: Úroveň Protokolování Přístupu Cups
+        description: >+
+          Definuje úroveň protokolování přístupu pro protokolování přístupu CUPS
+  NGINX_LOGGING:
+    name: Protokolování Postranního Panelu
+    description: >-
+      Nastavení pro Server NGINX Postranního Panelu. To umožňuje zobrazení administračního portálu v HomeAssistant
+    fields:
+      NGINX_ERROR_LOG_TO_FILE:
+        name: Zapsat protokol chyb do souboru?
+        description: >-
+          Chcete protokolovat chyby do souboru (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
+      NGINX_ACCESS_LOG_TO_FILE:
+        name: Zapsat protokol přístupu do souboru?
+        description: >-
+          Chcete protokol přístupu do souboru (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
+      NGINX_LOG_LEVEL:
+        name: Úroveň Protokolování
+        description: >-
+          Definuje úroveň protokolování pro protokolování chyb NGINX.
+
+network:
+  631/tcp: Port tiskárny IPP TCP
+  631/udp: Port tiskárny IPP UDP
+  5353/udp: Reklamy Avahi

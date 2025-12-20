@@ -1,0 +1,113 @@
+---
+configuration:
+  LOGINS:
+    name: Пользователи сервера
+    description: >-
+      Пользователи, которые могут администрировать или печатать. Суперпользователи имеют права sudo аддона.
+    list:
+      USERNAME:
+        name: Имя пользователя
+        description: >-
+          Имя пользователя, используемое для входа.
+      PASSWORD:
+        name: Пароль
+        description: >-
+          Пароль пользователя.
+      USER_LEVEL:
+        name: Уровень доступа.
+        description: >-
+          Права доступа пользователя.
+  AVAHI_SETTINGS:
+    name: Конфигурация Avahi
+    description: >-
+      Настройки для службы Avahi
+    fields:
+      AVAHI_DEBUG:
+        name: Отладка Avahi
+        description: >-
+          Хотите ли вы установить ведение журнала Avahi в подробный режим?
+      AVAHI_REFLECTOR:
+        name: Отражение Avahi
+        description: >-
+          Хотите ли вы включить Отражение Avahi?
+      AVAHI_REFLECTOR_IPV:
+        name: IPV Отражение Avahi
+        description: >-
+          Хотите ли вы включить IPV Отражение Avahi?
+      AVAHI_USE_IPV6:
+        name: Поддержка IPV6
+        description: >-
+          Хотите ли вы включить IPV6?
+  CUPS_SETTINGS:
+    name: Настройки CUPS
+    description: >-
+      Настройки для сервера CUPS
+    fields:
+      CUPS_ENCRYPTION:
+        name: Использовать шифрование?
+        description: >-
+          Когда вы хотите использовать SSL?
+  CUSTOM_PACKAGES:
+    name: Настройки пользовательской установки
+    fields:
+      INSTALL_RECOMMENDS:
+        name: Установить рекомендуемые пакеты для дополнительных пакетов
+        description: >+
+          Рекомендуемые пакеты могут быть не нужны и могут вызвать проблемы или проблемы безопасности.
+      PACKAGE_DEBUG:
+        name: Устанавливать по одному пакету?
+        description: >+
+          Установка по одному пакету может помочь найти плохой пакет, но это невероятно неэффективно.
+      RUN_CUSTOM_INST_SCRIPT:
+        name: Запустить пользовательский скрипт установки?
+        description: >+
+          Хотите ли вы запустить скрипт /config/packages/custom-install.sh при загрузке для установки пользовательских драйверов и т.д.?
+      PACKAGES:
+        name: Добавить дополнительный пакет
+        description: >-
+          Дополнительные пакеты Debian apt для установки при запуске.
+  CUPS_LOGGING:
+    name: Настройки ведения журнала CUPS
+    fields:
+      CUPS_FATAL_ERROR_LEVEL:
+        name: Фатальные ошибки Cups
+        description: >-
+          Указывает, какие ошибки являются фатальными, вызывая выход планировщика.
+      CUPS_LOG_TO_FILE:
+        name: Записывать журнал ошибок в файл?
+        description: >-
+          Хотите ли вы вести журнал в файл (/addon_configs/{repo_id}_airprint/cups/log/cups.log)?
+      CUPS_LOG_LEVEL:
+        name: Уровень журнала Cups
+        description: >+
+          Определяет уровень ведения журнала для ведения журнала ошибок CUPS
+      CUPS_ACCESS_LOG_TO_FILE:
+        name: Записывать журнал доступа в файл?
+        description: >+
+          Хотите ли вы вести журнал в файл (/addon_configs/{repo_id}_airprint/cups/log/access.log)?
+      CUPS_ACCESS_LOG_LEVEL:
+        name: Уровень журнала доступа Cups
+        description: >+
+          Определяет уровень журнала доступа для ведения журнала доступа CUPS
+  NGINX_LOGGING:
+    name: Ведение журнала боковой панели
+    description: >-
+      Настройки для сервера NGINX боковой панели. Это позволяет отображать портал администрирования в HomeAssistant
+    fields:
+      NGINX_ERROR_LOG_TO_FILE:
+        name: Записывать журнал ошибок в файл?
+        description: >-
+          Хотите ли вы вести журнал ошибок в файл (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
+      NGINX_ACCESS_LOG_TO_FILE:
+        name: Записывать журнал доступа в файл?
+        description: >-
+          Хотите ли вы журнал доступа в файл (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
+      NGINX_LOG_LEVEL:
+        name: Уровень журнала
+        description: >-
+          Определяет уровень ведения журнала для ведения журнала ошибок NGINX.
+
+network:
+  631/tcp: Порт принтера IPP TCP
+  631/udp: Порт принтера IPP UDP
+  5353/udp: Реклама Avahi

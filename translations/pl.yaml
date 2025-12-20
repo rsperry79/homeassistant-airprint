@@ -1,0 +1,113 @@
+---
+configuration:
+  LOGINS:
+    name: Użytkownicy Serwera
+    description: >-
+      Użytkownicy, którzy mogą administrować lub drukować. SuperUsers mają uprawnienia sudo dodatku.
+    list:
+      USERNAME:
+        name: Nazwa Użytkownika
+        description: >-
+          Nazwa użytkownika używana do logowania.
+      PASSWORD:
+        name: Hasło
+        description: >-
+          Hasło użytkownika.
+      USER_LEVEL:
+        name: Poziom dostępu.
+        description: >-
+          Prawa dostępu użytkownika.
+  AVAHI_SETTINGS:
+    name: Konfiguracja Avahi
+    description: >-
+      Ustawienia dla usługi Avahi
+    fields:
+      AVAHI_DEBUG:
+        name: Debugowanie Avahi
+        description: >-
+          Czy chcesz ustawić logowanie Avahi na szczegółowe?
+      AVAHI_REFLECTOR:
+        name: Odbicie Avahi
+        description: >-
+          Czy chcesz włączyć Odbicie Avahi?
+      AVAHI_REFLECTOR_IPV:
+        name: Odbicie IPV Avahi
+        description: >-
+          Czy chcesz włączyć Odbicie IPV Avahi?
+      AVAHI_USE_IPV6:
+        name: Wsparcie IPV6
+        description: >-
+          Czy chcesz włączyć IPV6?
+  CUPS_SETTINGS:
+    name: Ustawienia CUPS
+    description: >-
+      Ustawienia dla serwera CUPS
+    fields:
+      CUPS_ENCRYPTION:
+        name: Używać szyfrowania?
+        description: >-
+          Kiedy chcesz używać SSL?
+  CUSTOM_PACKAGES:
+    name: Ustawienia Instalacji Niestandardowej
+    fields:
+      INSTALL_RECOMMENDS:
+        name: Zainstalować zalecane pakiety dla dodatkowych pakietów
+        description: >+
+          Zalecane pakiety mogą nie być potrzebne i mogą powodować problemy lub obawy bezpieczeństwa.
+      PACKAGE_DEBUG:
+        name: Instalować jeden pakiet na raz?
+        description: >+
+          Instalowanie jednego pakietu na raz może pomóc znaleźć zły pakiet, ale jest niesamowicie nieefektywne.
+      RUN_CUSTOM_INST_SCRIPT:
+        name: Uruchomić niestandardowy skrypt instalacji?
+        description: >+
+          Czy chcesz uruchomić skrypt /config/packages/custom-install.sh przy starcie, aby zainstalować niestandardowe sterowniki itp.?
+      PACKAGES:
+        name: Dodać dodatkowy pakiet
+        description: >-
+          Dodatkowe pakiety Debian apt do zainstalowania przy starcie.
+  CUPS_LOGGING:
+    name: Ustawienia Logowania CUPS
+    fields:
+      CUPS_FATAL_ERROR_LEVEL:
+        name: Błędy Krytyczne Cups
+        description: >-
+          Określa, które błędy są krytyczne, powodując wyjście harmonogramu.
+      CUPS_LOG_TO_FILE:
+        name: Zapisać dziennik błędów do pliku?
+        description: >-
+          Czy chcesz logować do pliku (/addon_configs/{repo_id}_airprint/cups/log/cups.log)?
+      CUPS_LOG_LEVEL:
+        name: Poziom Logowania Cups
+        description: >+
+          Definiuje poziom logowania dla logowania błędów CUPS
+      CUPS_ACCESS_LOG_TO_FILE:
+        name: Zapisać dziennik dostępu do pliku?
+        description: >+
+          Czy chcesz logować do pliku (/addon_configs/{repo_id}_airprint/cups/log/access.log)?
+      CUPS_ACCESS_LOG_LEVEL:
+        name: Poziom Logowania Dostępu Cups
+        description: >+
+          Definiuje poziom logowania dostępu dla logowania dostępu CUPS
+  NGINX_LOGGING:
+    name: Logowanie Paska Bocznego
+    description: >-
+      Ustawienia dla Serwera NGINX Paska Bocznego. To pozwala na wyświetlanie portalu administracyjnego w HomeAssistant
+    fields:
+      NGINX_ERROR_LOG_TO_FILE:
+        name: Zapisać dziennik błędów do pliku?
+        description: >-
+          Czy chcesz logować błędy do pliku (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
+      NGINX_ACCESS_LOG_TO_FILE:
+        name: Zapisać dziennik dostępu do pliku?
+        description: >-
+          Czy chcesz dziennik dostępu do pliku (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
+      NGINX_LOG_LEVEL:
+        name: Poziom Logowania
+        description: >-
+          Definiuje poziom logowania dla logowania błędów NGINX.
+
+network:
+  631/tcp: Port drukarki IPP TCP
+  631/udp: Port drukarki IPP UDP
+  5353/udp: Reklamy Avahi

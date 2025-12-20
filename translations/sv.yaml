@@ -1,0 +1,113 @@
+---
+configuration:
+  LOGINS:
+    name: Serveranvändare
+    description: >-
+      Användare som kan administrera eller skriva ut. SuperUsers har addon sudo-behörigheter.
+    list:
+      USERNAME:
+        name: Användarnamn
+        description: >-
+          Användarnamnet som används för inloggning.
+      PASSWORD:
+        name: Lösenord
+        description: >-
+          Användarens lösenord.
+      USER_LEVEL:
+        name: Åtkomstnivå.
+        description: >-
+          Användarens åtkomsträttigheter.
+  AVAHI_SETTINGS:
+    name: Avahi Konfiguration
+    description: >-
+      Inställningar för Avahi-tjänsten
+    fields:
+      AVAHI_DEBUG:
+        name: Avahi Felsökning
+        description: >-
+          Vill du ställa in Avahi-loggning till verbose?
+      AVAHI_REFLECTOR:
+        name: Avahi Reflektion
+        description: >-
+          Vill du aktivera Avahi Reflektion?
+      AVAHI_REFLECTOR_IPV:
+        name: Avahi IPV Reflektion
+        description: >-
+          Vill du aktivera Avahi IPV Reflektion?
+      AVAHI_USE_IPV6:
+        name: IPV6 Support
+        description: >-
+          Vill du aktivera IPV6?
+  CUPS_SETTINGS:
+    name: CUPS Inställningar
+    description: >-
+      Inställningar för CUPS-servern
+    fields:
+      CUPS_ENCRYPTION:
+        name: Använda kryptering?
+        description: >-
+          När vill du använda SSL?
+  CUSTOM_PACKAGES:
+    name: Anpassade Installationsinställningar
+    fields:
+      INSTALL_RECOMMENDS:
+        name: Installera rekommenderade paket för de extra paketen
+        description: >+
+          Rekommenderade paket kanske inte behövs och kan orsaka problem eller säkerhetsproblem.
+      PACKAGE_DEBUG:
+        name: Installera ett paket åt gången?
+        description: >+
+          Att installera ett paket åt gången kan hjälpa till att hitta ett dåligt paket men är otroligt ineffektivt.
+      RUN_CUSTOM_INST_SCRIPT:
+        name: Köra det anpassade installationsskriptet?
+        description: >+
+          Vill du köra skriptet /config/packages/custom-install.sh vid uppstart för att installera anpassade drivrutiner etc?
+      PACKAGES:
+        name: Lägga till ett extra paket
+        description: >-
+          Extra Debian apt-paket att installera vid uppstart.
+  CUPS_LOGGING:
+    name: CUPS Loggningsinställningar
+    fields:
+      CUPS_FATAL_ERROR_LEVEL:
+        name: Cups Fatala Fel
+        description: >-
+          Anger vilka fel som är fatala, vilket orsakar att schemaläggaren avslutar.
+      CUPS_LOG_TO_FILE:
+        name: Skriva fellogg till fil?
+        description: >-
+          Vill du logga till en fil (/addon_configs/{repo_id}_airprint/cups/log/cups.log)?
+      CUPS_LOG_LEVEL:
+        name: Cups Loggnivå
+        description: >+
+          Definierar loggnivån för CUPS felloggning
+      CUPS_ACCESS_LOG_TO_FILE:
+        name: Skriva åtkomstlogg till fil?
+        description: >+
+          Vill du logga till en fil (/addon_configs/{repo_id}_airprint/cups/log/access.log)?
+      CUPS_ACCESS_LOG_LEVEL:
+        name: Cups Åtkomstloggnivå
+        description: >+
+          Definierar åtkomstloggnivån för CUPS åtkomstloggning
+  NGINX_LOGGING:
+    name: Sidofält Loggning
+    description: >-
+      Inställningar för Sidofält NGINX Server. Detta tillåter att administrationsportalen visas i HomeAssistant
+    fields:
+      NGINX_ERROR_LOG_TO_FILE:
+        name: Skriva fellogg till en fil?
+        description: >-
+          Vill du logga fel till en fil (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
+      NGINX_ACCESS_LOG_TO_FILE:
+        name: Skriva åtkomstlogg till en fil?
+        description: >-
+          Vill du åtkomstloggen till en fil (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
+      NGINX_LOG_LEVEL:
+        name: Loggnivå
+        description: >-
+          Definierar loggnivån för NGINX felloggning.
+
+network:
+  631/tcp: IPP skrivarport TCP
+  631/udp: IPP skrivarport UDP
+  5353/udp: Avahi Annonser

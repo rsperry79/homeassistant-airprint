@@ -1,0 +1,113 @@
+---
+configuration:
+  LOGINS:
+    name: Sunucu Kullanıcıları
+    description: >-
+      Yönetebilen veya yazdırabilen kullanıcılar. Süper Kullanıcılar addon sudo izinlerine sahiptir.
+    list:
+      USERNAME:
+        name: Kullanıcı Adı
+        description: >-
+          Giriş için kullanılan kullanıcı adı.
+      PASSWORD:
+        name: Şifre
+        description: >-
+          Kullanıcının şifresi.
+      USER_LEVEL:
+        name: Erişim seviyesi.
+        description: >-
+          Kullanıcının erişim hakları.
+  AVAHI_SETTINGS:
+    name: Avahi Yapılandırması
+    description: >-
+      Avahi servisi için ayarlar
+    fields:
+      AVAHI_DEBUG:
+        name: Avahi Hata Ayıklama
+        description: >-
+          Avahi günlüklemesini ayrıntılı olarak ayarlamak istiyor musunuz?
+      AVAHI_REFLECTOR:
+        name: Avahi Yansıma
+        description: >-
+          Avahi Yansımayı etkinleştirmek istiyor musunuz?
+      AVAHI_REFLECTOR_IPV:
+        name: Avahi IPV Yansıma
+        description: >-
+          Avahi IPV Yansımayı etkinleştirmek istiyor musunuz?
+      AVAHI_USE_IPV6:
+        name: IPV6 Desteği
+        description: >-
+          IPV6'yi etkinleştirmek istiyor musunuz?
+  CUPS_SETTINGS:
+    name: CUPS Ayarları
+    description: >-
+      CUPS sunucusu için ayarlar
+    fields:
+      CUPS_ENCRYPTION:
+        name: Şifreleme kullan?
+        description: >-
+          SSL'yi ne zaman kullanmak istiyorsunuz?
+  CUSTOM_PACKAGES:
+    name: Özel Kurulum Ayarları
+    fields:
+      INSTALL_RECOMMENDS:
+        name: Ek paketler için önerilen paketleri yükle
+        description: >+
+          Önerilen paketler gerekli olmayabilir ve sorunlara veya güvenlik endişelerine neden olabilir.
+      PACKAGE_DEBUG:
+        name: Bir seferde bir paket yükle?
+        description: >+
+          Bir seferde bir paket yüklemek kötü bir paket bulmaya yardımcı olabilir ama inanılmaz derecede verimsizdir.
+      RUN_CUSTOM_INST_SCRIPT:
+        name: Özel kurulum betiğini çalıştır?
+        description: >+
+          Özel sürücüler vb. yüklemek için başlangıçta /config/packages/custom-install.sh betiğini çalıştırmak istiyor musunuz?
+      PACKAGES:
+        name: Ek bir paket ekle
+        description: >-
+          Başlangıçta yüklenecek ek Debian apt paketleri.
+  CUPS_LOGGING:
+    name: CUPS Günlükleme Ayarları
+    fields:
+      CUPS_FATAL_ERROR_LEVEL:
+        name: Cups Ölümcül Hatalar
+        description: >-
+          Zamanlayıcının çıkmasına neden olan ölümcül hataları belirtir.
+      CUPS_LOG_TO_FILE:
+        name: Hata günlüğünü dosyaya yaz?
+        description: >-
+          Bir dosyaya günlüklemek istiyor musunuz (/addon_configs/{repo_id}_airprint/cups/log/cups.log)?
+      CUPS_LOG_LEVEL:
+        name: Cups Günlük Seviyesi
+        description: >+
+          CUPS hata günlüklemesi için günlük seviyesini tanımlar
+      CUPS_ACCESS_LOG_TO_FILE:
+        name: Erişim günlüğünü dosyaya yaz?
+        description: >+
+          Bir dosyaya günlüklemek istiyor musunuz (/addon_configs/{repo_id}_airprint/cups/log/access.log)?
+      CUPS_ACCESS_LOG_LEVEL:
+        name: Cups Erişim Günlük Seviyesi
+        description: >+
+          CUPS erişim günlüklemesi için erişim günlük seviyesini tanımlar
+  NGINX_LOGGING:
+    name: Kenar Çubuğu Günlükleme
+    description: >-
+      Kenar Çubuğu NGINX Sunucusu için ayarlar. Bu, yönetim portalının HomeAssistant'te görüntülenmesine izin verir
+    fields:
+      NGINX_ERROR_LOG_TO_FILE:
+        name: Hata günlüğünü bir dosyaya yaz?
+        description: >-
+          Hataları bir dosyaya günlüklemek istiyor musunuz (/addon_configs/{repo_id}_airprint/nginx/log/nginx.log)?
+      NGINX_ACCESS_LOG_TO_FILE:
+        name: Erişim günlüğünü bir dosyaya yaz?
+        description: >-
+          Erişim günlüğünü bir dosyaya istiyor musunuz (/addon_configs/{repo_id}_airprint/nginx/log/access.log)?
+      NGINX_LOG_LEVEL:
+        name: Günlük Seviyesi
+        description: >-
+          NGINX hata günlüklemesi için günlük seviyesini tanımlar.
+
+network:
+  631/tcp: IPP yazıcı bağlantı noktası TCP
+  631/udp: IPP yazıcı bağlantı noktası UDP
+  5353/udp: Avahi Reklamları
