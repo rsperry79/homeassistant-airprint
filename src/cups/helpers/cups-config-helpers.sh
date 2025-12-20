@@ -1,6 +1,5 @@
 #!/command/with-contend bashio
-# shellcheck disable=SC1091,SC2154
-# shellcheck disable=SC2181,SC1091,SC2154
+# shellcheck disable=SC1091,SC2154,SC2181
 
 # shellcheck source="../../common/paths/cups-paths.sh"
 source "/opt/common/paths/cups-paths.sh"

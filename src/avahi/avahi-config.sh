@@ -10,7 +10,7 @@ function load_sources() {
 
     # shellcheck source="./helpers/avahi-config-helpers.sh"
     source "/opt/avahi/helpers/avahi-config-helpers.sh" || {
-        echo "Failed to load avahi-config-helper.sh" >&2
+        echo "Failed to load avahi-config-helpers.sh" >&2
         exit 1
     }
 

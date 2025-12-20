@@ -1,5 +1,5 @@
 #!/command/with-contend bashio
-# shellcheck disable=SC1091,SC2154
+# shellcheck disable=SC1091
 # shellcheck disable=SC2181
 
 # shellcheck source="../common/settings.sh"
@@ -13,6 +13,7 @@ function update_interfaces() {
 function get_ha_certs() {
     if [ "$(ha_is_secure)" == true ]; then
 
+        # shellcheck disable=SC2154
         if yq . "${HA_CONFIG_PATH}" >/dev/null; then
             # https://www.home-assistant.io/integrations/http/#http-configuration-variables
             HA_SSL_KEY=$(yq ".http.ssl_key" "${HA_CONFIG_PATH}")
@@ -31,6 +32,8 @@ function get_ha_certs() {
 
 # returns a bool
 function ha_is_secure() {
+    ha_ssl="false"
+    # shellcheck disable=SC2154
     if yq . "${HA_CONFIG_PATH}" >/dev/null; then
         # https://www.home-assistant.io/integrations/http/#http-configuration-variables
         ha_ssl=$(yq '.http | (has("ssl_certificate") and has("ssl_key"))' "${HA_CONFIG_PATH}")

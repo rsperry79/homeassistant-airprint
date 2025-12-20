@@ -1,4 +1,4 @@
-#!/command/with-contend bashio
+#!/command/with-contenv bashio
 # shellcheck disable=SC1091,SC2154
 
 # shellcheck source="./base.sh"

@@ -1,4 +1,4 @@
-#!/command/with-contend bashio
+#!/command/with-contenv bashio
 export package_dir=/config/packages
 
 function run() {
