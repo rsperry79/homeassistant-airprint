@@ -153,7 +153,7 @@ function autoconf_browsed() {
 function update_daemon() {
     update_log_level "$CUPS_LOG_LEVEL"
     update_server_alias "$CUPS_SERVER_ALIAS"
-    update_server_name "$HOSTNAME"
+    # update_server_name "$(hostname -f)"
 }
 
 function autoconf_files() {
