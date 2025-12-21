@@ -64,10 +64,10 @@ function get_keys () {
         get_ha_certs
             bashio::log.error "SSL Public Key does not exist at discovered path: $HA_SSL_CERT"
         if [ ! -e "$HA_SSL_CERT" ]; then
-            bashio::log.error "SSL Public Key does not exist at discovered path: $_pubkey"
+            bashio::log.error "SSL Public Key does not exist at discovered path: $HA_SSL_CERT"
             CUPS_SELF_SIGN="true"
         else
-            bashio::log.info "SSL Public Key was discovered at $_pubkey"
+            bashio::log.info "SSL Public Key was discovered at $HA_SSL_CERT"
             _pubkey=$HA_SSL_CERT
 
             # private key
