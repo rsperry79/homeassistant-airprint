@@ -62,13 +62,13 @@ function get_keys () {
 
     if [ "$CUPS_SELF_SIGN" = "false" ]; then
         get_ha_certs
-         if [ -h "$HA_SSL_CERT" ]; then
+         if [ -s "$HA_SSL_CERT" ]; then
 
             bashio::log.info "SSL Public Key was discovered at $_pubkey"
             _pubkey=$HA_SSL_CERT
 
             # private key
-            if [ -h "$HA_SSL_KEY" ]; then
+            if [ -s "$HA_SSL_KEY" ]; then
                 bashio::log.info "SSL Private Key was discovered at $HA_SSL_KEY"
                 _privkey=$HA_SSL_KEY
                 # get the CN name from the public key
