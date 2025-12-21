@@ -10,7 +10,7 @@ source "/opt/cups/helpers/cups-config-helpers.sh"
 
 function update_hosts() {
     local pubkey="${1}"
-    CUPS_HOST_ALIAS=$(get_cn_name "$pubkey")
+    CUPS_SERVER_ALIAS=$(get_cn_name "$pubkey")
     add_sans "$pubkey"
 }
 
@@ -19,11 +19,11 @@ function get_cn_name() {
     cn=$(openssl x509 -noout -subject -in "$pubkey" -nameopt multiline | awk -F' = ' '/commonName/ {print $2}')
 
     trimmed_cn="${cn#"${cn%%[![:space:]]*}"}"
-    add_host_name_to_hosts "$trimmed_cn"
+    add_host_name_to_hosts_file "$trimmed_cn"
     echo "$trimmed_cn"
 }
 
-function add_host_name_to_hosts() {
+function add_host_name_to_hosts_file() {
     local to_check=${1}
 
     if ! grep -q "$to_check 127.0.0.1" /etc/hosts; then
@@ -45,16 +45,16 @@ function add_sans() {
 
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
-        append_host_alias "$to_check"
-        add_host_name_to_hosts "$to_check"
+        append_CUPS_HOST_ALIAS "$to_check"
+        add_host_name_to_hosts_file "$to_check"
     done
 }
 
-function append_host_alias() {
+function append_CUPS_HOST_ALIAS() {
     local to_check=${1}
 
-    if ! echo "$CUPS_HOST_ALIAS" | grep -q "$to_check"; then
-        CUPS_HOST_ALIAS+=" $to_check"
+    if ! echo "$CUPS_SERVER_ALIAS" | grep -q "$to_check"; then
+        CUPS_SERVER_ALIAS+=" $to_check"
     fi
 }
 

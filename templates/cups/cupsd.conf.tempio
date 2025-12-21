@@ -32,8 +32,8 @@ DefaultAuthType basic
 DefaultEncryption Never
 
 # Host header validation
-ServerAlias {{.CUPS_HOST_ALIAS}}
-ServerName {{.host_name}}
+ServerAlias {{.CUPS_SERVER_ALIAS}}
+ServerName {{.CUPS_SERVER_NAME}}
 
 # Web interface setting...
 WebInterface Yes

@@ -53,7 +53,7 @@ function setup_ssl() {
             convert_private_key "$CUPS_PRIVATE_KEY_HA_PATH" "$CUPS_PRIVATE_KEY"
         else
             bashio::log.info "Using self-signed certificate"
-            CUPS_HOST_ALIAS="$(hostname -f)"
+            CUPS_SERVER_ALIAS="$(hostname -f)"
         fi
     fi
 }
@@ -73,15 +73,17 @@ function get_keys () {
                 bashio::log.info "SSL Private Key was discovered at $HA_SSL_KEY"
                 _privkey=$HA_SSL_KEY
                 # get the CN name from the public key
-                CUPS_HOST_ALIAS=$(get_cn_name "$_pubkey")
+
+                CUPS_SERVER_NAME=$(get_cn_name "$_pubkey")
                 CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
                 CUPS_PRIVATE_KEY_HA_PATH="$_privkey"
-                CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.crt"
-                CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.key"
+                CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_SERVER_ALIAS.crt"
+                CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_SERVER_ALIAS.key"
 
                 export CUPS_PUBLIC_KEY
                 export CUPS_PRIVATE_KEY
-                export CUPS_HOST_ALIAS
+                export CUPS_SERVER_ALIAS
+                export CUPS_SERVER_NAME
             else
                 bashio::log.error "SSL Private Key does not exist at given path: $HA_SSL_KEY"
             fi
@@ -103,7 +105,7 @@ function setup_ssl_public() {
 
     convert_public_key "$pubkey" "$output_file"
     update_hosts "$pubkey"
-    export CUPS_HOST_ALIAS
+    export CUPS_SERVER_ALIAS
 }
 
 function convert_private_key() {

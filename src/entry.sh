@@ -40,7 +40,7 @@ function update_cups_conf() {
     internal=$(bashio::jq "$result" '.internal_url' | cut -d'/' -f3 | cut -d':' -f1)
 
     # update files
-    add_host_name_to_hosts "$internal"
+    add_host_name_to_hosts_file "$internal"
     append_existing_host_alias "$internal"
 }
 

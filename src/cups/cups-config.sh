@@ -76,8 +76,7 @@ function run() {
 }
 
 function get_settings() {
-    CUPS_HOST_ALIAS="localhost"
-
+    CUPS_SERVER_NAME="$(hostname -f)"
     if bashio::config.has_value 'CUPS_SSL.CUPS_ENCRYPTION'; then
         CUPS_ENCRYPTION=$(bashio::config 'CUPS_SSL.CUPS_ENCRYPTION')
     else
@@ -89,7 +88,7 @@ function get_settings() {
         CUPS_SELF_SIGN=true
     fi
 
-    export CUPS_HOST_ALIAS
+    export CUPS_SERVER_ALIAS
     export CUPS_ENCRYPTION
     export CUPS_SELF_SIGN
 }
@@ -97,11 +96,11 @@ function get_settings() {
 # Gets current settings from HA
 function autoconf_setup() {
     # Used by autoconf
-                     append_host_alias "$()"
+                     append_CUPS_HOST_ALIAS "$()"
     config=$(
         jq \
-            --arg host_name "$(hostname -f)" \
-            --arg CUPS_HOST_ALIAS "$CUPS_HOST_ALIAS" \
+            --arg CUPS_SERVER_NAME "$CUPS_SERVER_NAME" \
+            --arg CUPS_SERVER_ALIAS "$CUPS_SERVER_ALIAS" \
             --arg CUPS_SELF_SIGN "$CUPS_SELF_SIGN" \
             --arg CUPS_ENCRYPTION "$CUPS_ENCRYPTION" \
             --arg cups_ssl_path "$cups_ssl_path" \
@@ -112,8 +111,8 @@ function autoconf_setup() {
             --arg CUPS_LOG_TO_FILE "$CUPS_LOG_TO_FILE" \
             --arg CUPS_ACCESS_LOG_TO_FILE "$CUPS_ACCESS_LOG_TO_FILE" \
             '{
-                host_name: $host_name,
-                CUPS_HOST_ALIAS: $CUPS_HOST_ALIAS,
+                CUPS_SERVER_NAME: $CUPS_SERVER_NAME,
+                CUPS_SERVER_ALIAS: $CUPS_SERVER_ALIAS,
                 CUPS_SELF_SIGN: $CUPS_SELF_SIGN,
                 CUPS_ENCRYPTION: $CUPS_ENCRYPTION,
                 cups_ssl_path: $cups_ssl_path,
@@ -154,7 +153,7 @@ function autoconf_browsed() {
 
 function update_daemon() {
     update_log_level "$CUPS_LOG_LEVEL"
-    update_server_alias "$CUPS_HOST_ALIAS"
+    update_server_alias "$CUPS_SERVER_ALIAS"
     update_server_name "$HOSTNAME"
 }
 
