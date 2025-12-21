@@ -45,17 +45,16 @@ function setup_ssl() {
         bashio::log.info "CUPS_ENCRYPTION is set to Never, disabling SSL"
         disable_ssl_config
     else
-        bashio::log.info "CUPS_SELF_SIGN is set to false, using provided SSL certificates"
+        bashio::log.info "Setting up SSL certificates"
         if [ -d "$cups_ssl_path" ]; then
-            rm -f "$cups_ssl_path/*"
+            rm -rf "${cups_ssl_path:?}"/*
         fi
 
         get_keys
 
         if [ "$CUPS_SELF_SIGN" = "false" ]; then
             bashio::log.info "Using HomeAssistant's certificates"
-            CUPS_HOST_ALIAS=$(get_cn_name "$CUPS_PUBLIC_KEY_HA_PATH")
-            setup_ssl_public "$CUPS_PUBLIC_KEY_HA_PATH" "CUPS_PUBLIC_KEY"
+            setup_ssl_public "$CUPS_PUBLIC_KEY_HA_PATH" "$CUPS_PUBLIC_KEY"
             convert_private_key "$CUPS_PRIVATE_KEY_HA_PATH" "$CUPS_PRIVATE_KEY"
         else
             bashio::log.info "Using self-signed certificate"
@@ -68,7 +67,7 @@ function get_keys () {
 
     if [ "$CUPS_SELF_SIGN" = "false" ]; then
         get_ha_certs
-        # public key
+            bashio::log.error "SSL Public Key does not exist at discovered path: $HA_SSL_CERT"
         if [ ! -e "$HA_SSL_CERT" ]; then
             bashio::log.error "SSL Public Key does not exist at discovered path: $_pubkey"
             CUPS_SELF_SIGN="true"
@@ -79,12 +78,11 @@ function get_keys () {
             # private key
             if [ ! -e "$HA_SSL_KEY" ]; then
                 bashio::log.error "SSL Private Key does not exist at given path: $HA_SSL_KEY"
-                CUPS_SELF_SIGN="true"
             else
                 bashio::log.info "SSL Private Key was discovered at $HA_SSL_KEY"
                 _privkey=$HA_SSL_KEY
-
-
+                # get the CN name from the public key
+                CUPS_HOST_ALIAS=$(get_cn_name "$_pubkey")
                 CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
                 CUPS_PRIVATE_KEY_HA_PATH="$_pubkey"
                 CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.crt"
