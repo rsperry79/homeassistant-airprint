@@ -75,7 +75,7 @@ function get_keys () {
                 # get the CN name from the public key
                 CUPS_HOST_ALIAS=$(get_cn_name "$_pubkey")
                 CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
-                CUPS_PRIVATE_KEY_HA_PATH="$_pubkey"
+                CUPS_PRIVATE_KEY_HA_PATH="$_privkey"
                 CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.crt"
                 CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_HOST_ALIAS.key"
 
