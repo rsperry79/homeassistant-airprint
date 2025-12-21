@@ -58,22 +58,23 @@ function setup_ssl() {
     fi
 }
 
+
+         if [ ! -e "$HA_SSL_CERT" ]; then
+         echo x
+         fi
+
+
 function get_keys () {
 
     if [ "$CUPS_SELF_SIGN" = "false" ]; then
         get_ha_certs
-            bashio::log.error "SSL Public Key does not exist at discovered path: $HA_SSL_CERT"
-        if [ ! -e "$HA_SSL_CERT" ]; then
-            bashio::log.error "SSL Public Key does not exist at discovered path: $HA_SSL_CERT"
-            CUPS_SELF_SIGN="true"
-        else
-            bashio::log.info "SSL Public Key was discovered at $HA_SSL_CERT"
+         if [ -e "$HA_SSL_CERT" ]; then
+
+            bashio::log.info "SSL Public Key was discovered at $_pubkey"
             _pubkey=$HA_SSL_CERT
 
             # private key
-            if [ ! -e "$HA_SSL_KEY" ]; then
-                bashio::log.error "SSL Private Key does not exist at given path: $HA_SSL_KEY"
-            else
+            if [ -e "$HA_SSL_KEY" ]; then
                 bashio::log.info "SSL Private Key was discovered at $HA_SSL_KEY"
                 _privkey=$HA_SSL_KEY
                 # get the CN name from the public key
@@ -85,7 +86,12 @@ function get_keys () {
 
                 export CUPS_PUBLIC_KEY
                 export CUPS_PRIVATE_KEY
+            else
+                bashio::log.error "SSL Private Key does not exist at given path: $HA_SSL_KEY"
             fi
+        else
+            bashio::log.error "SSL Public Key does not exist at discovered path: $HA_SSL_CERT"
+            CUPS_SELF_SIGN="true"
         fi
     else
         bashio::log.info "Unable to find SSL Cert, setting Self-Sign on"
