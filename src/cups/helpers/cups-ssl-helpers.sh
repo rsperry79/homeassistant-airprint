@@ -65,7 +65,7 @@ function get_keys () {
 
          if [ -s "$(realpath "$HA_SSL_CERT")" ]; then
 
-            bashio::log.info "SSL Public Key was discovered at $_pubkey"
+            bashio::log.info "SSL Public Key was discovered at $HA_SSL_CERT"
             _pubkey=$HA_SSL_CERT
 
             # private key
