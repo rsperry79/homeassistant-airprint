@@ -96,7 +96,6 @@ function get_settings() {
 # Gets current settings from HA
 function autoconf_setup() {
     # Used by autoconf
-                     append_CUPS_HOST_ALIAS "$()"
     config=$(
         jq \
             --arg CUPS_SERVER_NAME "$CUPS_SERVER_NAME" \

@@ -45,12 +45,12 @@ function add_sans() {
 
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
-        append_CUPS_HOST_ALIAS "$to_check"
+        append_host_alias "$to_check"
         add_host_name_to_hosts_file "$to_check"
     done
 }
 
-function append_CUPS_HOST_ALIAS() {
+function append_host_alias() {
     local to_check=${1}
 
     if ! echo "$CUPS_SERVER_ALIAS" | grep -q "$to_check"; then
