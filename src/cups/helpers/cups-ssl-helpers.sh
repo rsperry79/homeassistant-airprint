@@ -81,7 +81,7 @@ function get_keys () {
                 bashio::log.error "SSL Private Key does not exist at given path: $HA_SSL_KEY"
                 CUPS_SELF_SIGN="true"
             else
-                bashio::log.info "SSL Private Key was discovered at $_privkey"
+                bashio::log.info "SSL Private Key was discovered at $HA_SSL_KEY"
                 _privkey=$HA_SSL_KEY
 
 
