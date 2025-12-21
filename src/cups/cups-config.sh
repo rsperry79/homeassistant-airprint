@@ -83,6 +83,18 @@ function get_settings() {
         CUPS_ENCRYPTION=$CUPS_DEFAULT_ENCRYPTION
     fi
 
+    if bashio::config.has_value 'CUPS_SETTINGS.CUPS_SNMP_COMMUNITY'; then
+        CUPS_SNMP_COMMUNITY=$(bashio::config 'CUPS_SETTINGS.CUPS_SNMP_COMMUNITY')
+    else
+        CUPS_SNMP_COMMUNITY=$CUPS_DEFAULT_SNMP_COMMUNITY
+    fi
+
+    if bashio::config.has_value 'CUPS_SETTINGS.CUPS_SNMP_ADDRESS'; then
+        CUPS_SNMP_ADDRESS=$(bashio::config 'CUPS_SETTINGS.CUPS_DEFAULT_SNMP_ADDRESS')
+    else
+        CUPS_SNMP_ADDRESS=$CUPS_DEFAULT_SNMP_ADDRESS
+    fi
+
     CUPS_SELF_SIGN=false
     if [ "$(ha_is_secure)" == false ]; then
         CUPS_SELF_SIGN=true
@@ -109,8 +121,8 @@ function autoconf_setup() {
             --arg CUPS_ACCESS_LOG_LEVEL "$CUPS_ACCESS_LOG_LEVEL" \
             --arg CUPS_LOG_TO_FILE "$CUPS_LOG_TO_FILE" \
             --arg CUPS_ACCESS_LOG_TO_FILE "$CUPS_ACCESS_LOG_TO_FILE" \
-            --arg CUPS_SNMP_ADDRESS "$(bashio::config 'CUPS_SNMP.CUPS_SNMP_ADDRESS')" \
-            --arg CUPS_SNMP_COMMUNITY "$(bashio::config 'CUPS_SNMP.CUPS_SNMP_COMMUNITY')" \
+            --arg CUPS_SNMP_ADDRESS "$CUPS_SNMP_ADDRESS" \
+            --arg CUPS_SNMP_COMMUNITY "$CUPS_SNMP_COMMUNITY" \
             '{
                 CUPS_SERVER_NAME: $CUPS_SERVER_NAME,
                 CUPS_SERVER_ALIAS: $CUPS_SERVER_ALIAS,
@@ -122,7 +134,7 @@ function autoconf_setup() {
                 CUPS_FATAL_ERROR_LEVEL: $CUPS_FATAL_ERROR_LEVEL,
                 CUPS_ACCESS_LOG_LEVEL: $CUPS_ACCESS_LOG_LEVEL,
                 CUPS_LOG_TO_FILE: $CUPS_LOG_TO_FILE,
-                CUPS_ACCESS_LOG_TO_FILE: $CUPS_ACCESS_LOG_TO_FILE
+                CUPS_ACCESS_LOG_TO_FILE: $CUPS_ACCESS_LOG_TO_FILE,
                 CUPS_SNMP_ADDRESS: $CUPS_SNMP_ADDRESS,
                 CUPS_SNMP_COMMUNITY: $CUPS_SNMP_COMMUNITY,
             }' /data/options.json
@@ -146,12 +158,6 @@ function autoconf_daemon() {
     echo "$config" | tempio \
         -template "$cups_templates_path/$cups_daemon_cfg" \
         -out "$real_cups_path/$cups_daemon"
-}
-
-function autoconf_browsed() {
-    echo "$config" | tempio \
-        -template "$cups_templates_path/$cups_browsed_cfg" \
-        -out "$real_cups_path/$cups_browsed"
 }
 
 function update_daemon() {
@@ -205,6 +211,7 @@ function autoconf_snmp() {
 
 function update_snmp() {
     true
+    # TODO
 }
 
 run

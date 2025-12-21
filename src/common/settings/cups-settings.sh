@@ -8,6 +8,7 @@ export CUPS_DEFAULT_ACCESS_LOG_TO_FILE="false"
 
 # SSL
 export CUPS_DEFAULT_ENCRYPTION="IfRequested"
-# export CUPS_SELF_SIGN="false"
-# export CUPS_ENCRYPTION
-# export CUPS_SELF_SIGN
+
+# SNMP
+export CUPS_DEFAULT_SNMP_COMMUNITY="public"
+export CUPS_DEFAULT_SNMP_ADDRESS="@LOCAL"
