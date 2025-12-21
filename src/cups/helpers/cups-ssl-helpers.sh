@@ -85,6 +85,7 @@ function get_keys () {
             fi
         else
             bashio::log.error "SSL Public Key does not exist at discovered path: $HA_SSL_CERT"
+            bashio::log.error "/ssl: $(ls -la /ssl)"
             CUPS_SELF_SIGN="true"
         fi
     else
