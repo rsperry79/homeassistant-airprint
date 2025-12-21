@@ -109,6 +109,8 @@ function autoconf_setup() {
             --arg CUPS_ACCESS_LOG_LEVEL "$CUPS_ACCESS_LOG_LEVEL" \
             --arg CUPS_LOG_TO_FILE "$CUPS_LOG_TO_FILE" \
             --arg CUPS_ACCESS_LOG_TO_FILE "$CUPS_ACCESS_LOG_TO_FILE" \
+            --arg CUPS_SNMP_ADDRESS "$(bashio::config 'CUPS_SNMP.CUPS_SNMP_ADDRESS')" \
+            --arg CUPS_SNMP_COMMUNITY "$(bashio::config 'CUPS_SNMP.CUPS_SNMP_COMMUNITY')" \
             '{
                 CUPS_SERVER_NAME: $CUPS_SERVER_NAME,
                 CUPS_SERVER_ALIAS: $CUPS_SERVER_ALIAS,
@@ -121,6 +123,8 @@ function autoconf_setup() {
                 CUPS_ACCESS_LOG_LEVEL: $CUPS_ACCESS_LOG_LEVEL,
                 CUPS_LOG_TO_FILE: $CUPS_LOG_TO_FILE,
                 CUPS_ACCESS_LOG_TO_FILE: $CUPS_ACCESS_LOG_TO_FILE
+                CUPS_SNMP_ADDRESS: $CUPS_SNMP_ADDRESS,
+                CUPS_SNMP_COMMUNITY: $CUPS_SNMP_COMMUNITY,
             }' /data/options.json
     )
 }

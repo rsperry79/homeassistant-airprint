@@ -3,6 +3,5 @@
 # description of this file.
 #
 
-Address @LOCAL
-Community public
-DebugLevel 0
+Address {{.CUPS_SNMP_ADDRESS}}
+Community {{.CUPS_SNMP_COMMUNITY}}

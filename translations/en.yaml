@@ -47,6 +47,14 @@ configuration:
         name: Use encryption?
         description: >-
           When do you want ssl used?
+      CUPS_SNMP_COMMUNITY:
+        name: SNMP Community
+        description: >-
+          The SNMP community string for CUPS.
+      CUPS_SNMP_ADDRESS:
+        name: SNMP Address
+        description: >-
+          The SNMP address for CUPS.
   CUSTOM_PACKAGES:
     name: Custom Install Settings
     fields:

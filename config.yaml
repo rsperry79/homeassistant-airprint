@@ -69,6 +69,8 @@ schema:
     AVAHI_USE_IPV6: bool?
   CUPS_SETTINGS:
     CUPS_ENCRYPTION: list(IfRequested|Required|Never)?
+    CUPS_SNMP_COMMUNITY: str?
+    CUPS_SNMP_ADDRESS: str?
   CUSTOM_PACKAGES:
     RUN_CUSTOM_INST_SCRIPT: bool?
     INSTALL_RECOMMENDS: bool?
