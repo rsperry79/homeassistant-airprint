@@ -11,7 +11,6 @@ source "/opt/cups/helpers/cups-config-helpers.sh"
 function update_hosts() {
     local pubkey="${1}"
     CUPS_HOST_ALIAS=$(get_cn_name "$pubkey")
-    append_CUPS_HOST_ALIAS "$(hostname -f)"
     add_sans "$pubkey"
 }
 
@@ -46,12 +45,12 @@ function add_sans() {
 
     for index in "${!names[@]}"; do
         to_check="${names[index]}"
-        append_CUPS_HOST_ALIAS "$to_check"
+        append_host_alias "$to_check"
         add_host_name_to_hosts "$to_check"
     done
 }
 
-function append_CUPS_HOST_ALIAS() {
+function append_host_alias() {
     local to_check=${1}
 
     if ! echo "$CUPS_HOST_ALIAS" | grep -q "$to_check"; then

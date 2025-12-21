@@ -97,9 +97,10 @@ function get_settings() {
 # Gets current settings from HA
 function autoconf_setup() {
     # Used by autoconf
+                     append_host_alias "$()"
     config=$(
         jq \
-            --arg host_name "$HOSTNAME" \
+            --arg host_name "$(hostname -f)" \
             --arg CUPS_HOST_ALIAS "$CUPS_HOST_ALIAS" \
             --arg CUPS_SELF_SIGN "$CUPS_SELF_SIGN" \
             --arg CUPS_ENCRYPTION "$CUPS_ENCRYPTION" \

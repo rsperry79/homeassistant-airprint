@@ -81,6 +81,7 @@ function get_keys () {
 
                 export CUPS_PUBLIC_KEY
                 export CUPS_PRIVATE_KEY
+                export CUPS_HOST_ALIAS
             else
                 bashio::log.error "SSL Private Key does not exist at given path: $HA_SSL_KEY"
             fi

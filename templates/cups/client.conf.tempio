@@ -2,7 +2,7 @@
 # FILE IS PARTIALLY OVERWRITTEN AT Startup
 ###########################################
 
-ServerName localhost:631
+#ServerName localhost:631
 AllowAnyRoot Yes
 AllowExpiredCerts Yes
 Encryption {{.CUPS_ENCRYPTION}}
