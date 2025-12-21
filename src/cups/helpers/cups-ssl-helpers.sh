@@ -58,12 +58,6 @@ function setup_ssl() {
     fi
 }
 
-
-         if [ ! -e "$HA_SSL_CERT" ]; then
-         echo x
-         fi
-
-
 function get_keys () {
 
     if [ "$CUPS_SELF_SIGN" = "false" ]; then
