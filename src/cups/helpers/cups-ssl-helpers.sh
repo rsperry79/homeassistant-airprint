@@ -5,32 +5,27 @@ CUPS_PRIVATE_KEY_HA_PATH=""
 
 function load_sources() {
     # shellcheck disable=SC1091
+
     # shellcheck source="../../common/settings.sh"
     source "/opt/common/settings.sh"
 
-    # shellcheck disable=SC1091
     # shellcheck source="../../common/ha-helpers.sh"
     source "/opt/common/ha-helpers.sh"
 
-    # shellcheck disable=SC1091
     # shellcheck source="../../common/paths/cups-paths.sh"
     source "/opt/common/paths/cups-paths.sh"
 
-    # shellcheck disable=SC1091
     # shellcheck source="../../common/settings/cups-settings.sh"
     source "/opt/common/settings/cups-settings.sh"
 
-    # shellcheck disable=SC1091
     # shellcheck source="./cups-config-helpers.sh"
     source "/opt/cups/helpers/cups-config-helpers.sh"
 
-    # shellcheck disable=SC1091
     # shellcheck source="./cups-host-helpers.sh"
     source "/opt/cups/helpers/cups-host-helpers.sh"
 }
 
 function lint() {
-    # shellcheck disable=SC1091
     # shellcheck source="../../../lint/cups-settings.lint"
     source "../../../lint/cups-settings.lint"
 }
@@ -97,21 +92,16 @@ function get_keys () {
         CUPS_SELF_SIGN="true"
         return
     fi
-
 }
-
 
 function setup_ssl_public() {
     local pubkey=${1}
     local output_file=${2}
 
     convert_public_key "$pubkey" "$output_file"
-
-
     update_hosts "$pubkey"
     export CUPS_HOST_ALIAS
 }
-
 
 function convert_private_key() {
     local to_convert=${1}
