@@ -16,8 +16,11 @@ function get_ha_certs() {
         # shellcheck disable=SC2154
         if yq . "${HA_CONFIG_PATH}" >/dev/null; then
             # https://www.home-assistant.io/integrations/http/#http-configuration-variables
-            HA_SSL_KEY=$(yq ".http.ssl_key" "${HA_CONFIG_PATH}")
-            HA_SSL_CERT=$(yq ".http.ssl_certificate" "${HA_CONFIG_PATH}")
+            temp_key=$(yq ".http.ssl_key" "${HA_CONFIG_PATH}")
+            HA_SSL_KEY=${temp_key//\"/}
+
+            temp_cert=$(yq ".http.ssl_certificate" "${HA_CONFIG_PATH}")
+            HA_SSL_CERT=${temp_cert//\"/}
 
             bashio::log.info "HA_SSL_KEY: ${HA_SSL_KEY}"
             bashio::log.info "HA_SSL_CERT: ${HA_SSL_CERT}"
