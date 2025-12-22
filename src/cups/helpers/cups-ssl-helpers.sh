@@ -36,11 +36,12 @@ function setup_ssl() {
         return 1
     }
 
-    CUPS_SERVER_ALIAS="$(hostname -f)"
-    export CUPS_SERVER_ALIAS
+
+
 
     if [ "$CUPS_ENCRYPTION" = "Never" ]; then
         bashio::log.info "CUPS_ENCRYPTION is set to Never, disabling SSL"
+        CUPS_SERVER_ALIAS="$(hostname -f)"
         disable_ssl_config
     else
         bashio::log.info "Setting up SSL certificates"
@@ -78,8 +79,8 @@ function get_keys () {
                 CUPS_SERVER_NAME=$(get_cn_name "$_pubkey")
                 CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
                 CUPS_PRIVATE_KEY_HA_PATH="$_privkey"
-                CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_SERVER_ALIAS.crt"
-                CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_SERVER_ALIAS.key"
+                CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_SERVER_NAME.crt"
+                CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_SERVER_NAME.key"
 
                 export CUPS_PUBLIC_KEY
                 export CUPS_PRIVATE_KEY
