@@ -46,7 +46,9 @@ function setup_ssl() {
         fi
 
         get_keys
+
         CUPS_SERVER_ALIAS="$(hostname -f)"
+        export CUPS_SERVER_ALIAS
 
         if [ "$CUPS_SELF_SIGN" = "false" ]; then
             bashio::log.info "Using HomeAssistant's certificates"
@@ -54,7 +56,6 @@ function setup_ssl() {
             convert_private_key "$CUPS_PRIVATE_KEY_HA_PATH" "$CUPS_PRIVATE_KEY"
         else
             bashio::log.info "Using self-signed certificate"
-
         fi
     fi
 }
@@ -65,7 +66,6 @@ function get_keys () {
         get_ha_certs
 
          if [ -s "$(realpath "$HA_SSL_CERT")" ]; then
-
             bashio::log.info "SSL Public Key was discovered at $HA_SSL_CERT"
             _pubkey=$HA_SSL_CERT
 
