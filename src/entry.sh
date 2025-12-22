@@ -41,7 +41,8 @@ function update_cups_conf() {
 
     # update files
     add_host_name_to_hosts_file "$internal"
-    append_existing_host_alias "$internal"
+    update_server_name "$internal"
+
 }
 
 function run_custom_script() {

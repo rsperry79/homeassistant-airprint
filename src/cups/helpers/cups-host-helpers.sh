@@ -26,7 +26,7 @@ function get_cn_name() {
 function add_host_name_to_hosts_file() {
     local to_check=${1}
 
-    if ! grep -q "$to_check 127.0.0.1" /etc/hosts; then
+    if ! grep -q "127.0.0.1 $to_check" /etc/hosts; then
         bashio::log.debug "Adding host: $to_check to /etc/hosts"
         echo "127.0.0.1 $to_check" >>/etc/hosts
     else
@@ -64,5 +64,15 @@ function append_existing_host_alias() {
     current=$(grep "ServerAlias" "$real_cups_path/$cups_daemon")
     if ! echo "$current" | grep "$to_add"; then
         sed -i "s/^.*ServerAlias .*/$current $to_add/" "$real_cups_path/$cups_daemon"
+    fi
+}
+
+
+
+function update_server_name() {
+    local setting=${1}
+    bashio::log.debug update_server_name
+    if [ -e "$real_cups_path/$cups_daemon" ]; then
+        sed -i "s/^.*ServerName .*/ServerName ${setting}/" "$real_cups_path/$cups_daemon"
     fi
 }
