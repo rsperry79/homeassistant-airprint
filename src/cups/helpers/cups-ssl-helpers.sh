@@ -36,6 +36,9 @@ function setup_ssl() {
         return 1
     }
 
+    CUPS_SERVER_ALIAS="$(hostname -f)"
+    export CUPS_SERVER_ALIAS
+
     if [ "$CUPS_ENCRYPTION" = "Never" ]; then
         bashio::log.info "CUPS_ENCRYPTION is set to Never, disabling SSL"
         disable_ssl_config
@@ -46,9 +49,6 @@ function setup_ssl() {
         fi
 
         get_keys
-
-        CUPS_SERVER_ALIAS="$(hostname -f)"
-        export CUPS_SERVER_ALIAS
 
         if [ "$CUPS_SELF_SIGN" = "false" ]; then
             bashio::log.info "Using HomeAssistant's certificates"
