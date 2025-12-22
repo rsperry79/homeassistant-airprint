@@ -36,8 +36,7 @@ function setup_ssl() {
         return 1
     }
 
-
-
+    CUPS_SERVER_NAME=$(bashio::addon.dns)
 
     if [ "$CUPS_ENCRYPTION" = "Never" ]; then
         bashio::log.info "CUPS_ENCRYPTION is set to Never, disabling SSL"
@@ -76,7 +75,7 @@ function get_keys () {
                 _privkey=$HA_SSL_KEY
                 # get the CN name from the public key
 
-                CUPS_SERVER_NAME=$(get_cn_name "$_pubkey")
+                CUPS_SERVER_ALIAS=$(get_cn_name "$_pubkey")
                 CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
                 CUPS_PRIVATE_KEY_HA_PATH="$_privkey"
                 CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_SERVER_NAME.crt"

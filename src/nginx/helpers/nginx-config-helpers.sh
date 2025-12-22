@@ -7,6 +7,12 @@ source "/opt/common/paths/nginx-paths.sh"
 # shellcheck source="../../common/settings/nginx-settings.sh"
 source "/opt/common/settings/nginx-settings.sh"
 
+function setup_nginx_logging() {
+    setup_error_logging
+    setup_error_log_level
+    setup_access_logging
+}
+
 function update_error_log() {
     local location=${1}
     local level=${2}
@@ -24,12 +30,6 @@ function update_access_log() {
     if [ -e "$nginx_config_path/$nginx_conf" ]; then
         sed -i "s#^.*access_log .*#access_log ${location};#" "$nginx_config_path/$nginx_conf"
     fi
-}
-
-function setup_nginx_logging() {
-    setup_error_logging
-    setup_error_log_level
-    setup_access_logging
 }
 
 function setup_error_logging() {
