@@ -37,6 +37,7 @@ function setup_ssl() {
     }
 
     CUPS_SERVER_NAME=$(bashio::addon.dns)
+    add_host_name_to_hosts_file "$CUPS_SERVER_NAME"
 
     if [ "$CUPS_ENCRYPTION" = "Never" ]; then
         bashio::log.info "CUPS_ENCRYPTION is set to Never, disabling SSL"
