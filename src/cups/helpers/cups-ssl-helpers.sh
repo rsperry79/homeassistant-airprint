@@ -38,7 +38,6 @@ function setup_ssl() {
 
     CUPS_SERVER_NAME=$(bashio::addon.dns)
     add_host_name_to_hosts_file "$CUPS_SERVER_NAME"
-    CUPS_SELF_SIGN=true
     CUPS_SERVER_ALIAS="$(hostname -f)"
 
     if [ "$CUPS_ENCRYPTION" = "Never" ]; then
