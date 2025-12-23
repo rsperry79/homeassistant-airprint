@@ -45,20 +45,27 @@ function setup_ssl() {
         CUPS_SERVER_ALIAS="$(hostname -f)"
         disable_ssl_config
     else
-        bashio::log.info "Setting up SSL certificates"
-        if [ -d "$cups_ssl_path" ]; then
-            rm -rf "${cups_ssl_path:?}"/*
-        fi
+            if [ "$CUPS_SELF_SIGN" = "true" ]; then
+                CUPS_SERVER_NAME=$(bashio::addon.dns)
+                add_host_name_to_hosts_file "$CUPS_SERVER_NAME"
+                CUPS_SERVER_ALIAS="$(hostname -f)"
+            else
+                bashio::log.info "Setting up SSL certificates"
+                if [ -d "$cups_ssl_path" ]; then
+                    rm -rf "${cups_ssl_path:?}"/*
+                fi
+            fi
 
-        get_keys
+            get_keys
 
-        if [ "$CUPS_SELF_SIGN" = "false" ]; then
-            bashio::log.info "Using HomeAssistant's certificates"
-            setup_ssl_public "$CUPS_PUBLIC_KEY_HA_PATH" "$CUPS_PUBLIC_KEY"
-            convert_private_key "$CUPS_PRIVATE_KEY_HA_PATH" "$CUPS_PRIVATE_KEY"
-        else
-            bashio::log.info "Using self-signed certificate"
-        fi
+            if [ "$CUPS_SELF_SIGN" = "false" ]; then
+                bashio::log.info "Using HomeAssistant's certificates"
+                setup_ssl_public "$CUPS_PUBLIC_KEY_HA_PATH" "$CUPS_PUBLIC_KEY"
+                convert_private_key "$CUPS_PRIVATE_KEY_HA_PATH" "$CUPS_PRIVATE_KEY"
+            else
+                bashio::log.info "Using self-signed certificate"
+            fi
+
     fi
 }
 
@@ -77,7 +84,7 @@ function get_keys () {
                 _privkey=$HA_SSL_KEY
                 # get the CN name from the public key
 
-                CUPS_SERVER_ALIAS=$(get_cn_name "$_pubkey")
+                CUPS_SERVER_NAME=$(get_cn_name "$_pubkey")
                 CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
                 CUPS_PRIVATE_KEY_HA_PATH="$_privkey"
                 CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_SERVER_NAME.crt"
@@ -85,7 +92,6 @@ function get_keys () {
 
                 export CUPS_PUBLIC_KEY
                 export CUPS_PRIVATE_KEY
-                export CUPS_SERVER_ALIAS
                 export CUPS_SERVER_NAME
             else
                 bashio::log.error "SSL Private Key does not exist at given path: $HA_SSL_KEY"
