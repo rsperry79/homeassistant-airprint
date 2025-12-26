@@ -85,10 +85,7 @@ function get_keys () {
                 # get the CN name from the public key
 
 
-                result=$(bashio::api.supervisor GET /core/api/config true || true)
-                internal=$(bashio::jq "$result" '.internal_url' | cut -d'/' -f3 | cut -d':' -f1)
-
-                CUPS_SERVER_NAME=$internal #$(get_cn_name "$_pubkey")
+                CUPS_SERVER_NAME=airprint-server.localdomain #$(get_cn_name "$_pubkey")
                 CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
                 CUPS_PRIVATE_KEY_HA_PATH="$_privkey"
                 # TODO Use internal name

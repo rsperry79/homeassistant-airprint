@@ -223,7 +223,8 @@ RUN chmod +x /opt/*/*.sh /opt/entry.sh /etc/s6-overlay/s6-rc.d/*/run \
     && useradd  ColorManager \
     && usermod -aG lpadmin lp_service \
     && useradd lpinfo -g lp \
-    && usermod -aG root _apt
+    && usermod -aG root _apt \
+    && echo "airprint-server.localdomain" > /etc/hostname
 
 LABEL io.hass.version="1.0" io.hass.type="addon" io.hass.arch="aarch64|amd64"
 WORKDIR /config
