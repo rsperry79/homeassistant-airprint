@@ -82,15 +82,11 @@ function get_keys () {
             if [ -s "$(realpath "$HA_SSL_KEY")" ]; then
                 bashio::log.info "SSL Private Key was discovered at $HA_SSL_KEY"
                 _privkey=$HA_SSL_KEY
-                # get the CN name from the public key
-
-                # CUPS_SERVER_NAME=$(get_cn_name "$_pubkey")
-
                 CUPS_SERVER_NAME=$(hostname --all-fqdns | awk '{print $1}')
 
                 CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
                 CUPS_PRIVATE_KEY_HA_PATH="$_privkey"
-                # TODO
+
                 CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_SERVER_NAME.crt"
                 CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_SERVER_NAME.key"
 
