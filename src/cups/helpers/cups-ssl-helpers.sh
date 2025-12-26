@@ -84,9 +84,14 @@ function get_keys () {
                 _privkey=$HA_SSL_KEY
                 # get the CN name from the public key
 
-                CUPS_SERVER_NAME=$(get_cn_name "$_pubkey")
+
+                result=$(bashio::api.supervisor GET /core/api/config true || true)
+                internal=$(bashio::jq "$result" '.internal_url' | cut -d'/' -f3 | cut -d':' -f1)
+
+                CUPS_SERVER_NAME=$internal #$(get_cn_name "$_pubkey")
                 CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
                 CUPS_PRIVATE_KEY_HA_PATH="$_privkey"
+                # TODO Use internal name
                 CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_SERVER_NAME.crt"
                 CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_SERVER_NAME.key"
 
