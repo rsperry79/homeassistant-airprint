@@ -84,11 +84,13 @@ function get_keys () {
                 _privkey=$HA_SSL_KEY
                 # get the CN name from the public key
 
+                CUPS_SERVER_NAME=$(get_cn_name "$_pubkey")
+                echo "$CUPS_SERVER_NAME" > /etc/hostname
 
-                CUPS_SERVER_NAME=airprint-server.localdomain #$(get_cn_name "$_pubkey")
+
                 CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
                 CUPS_PRIVATE_KEY_HA_PATH="$_privkey"
-                # TODO Use internal name
+                # TODO
                 CUPS_PUBLIC_KEY="$cups_ssl_path/$CUPS_SERVER_NAME.crt"
                 CUPS_PRIVATE_KEY="$cups_ssl_path/$CUPS_SERVER_NAME.key"
 
