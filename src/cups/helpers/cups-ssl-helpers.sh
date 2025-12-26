@@ -84,9 +84,8 @@ function get_keys () {
                 _privkey=$HA_SSL_KEY
                 # get the CN name from the public key
 
-                CUPS_SERVER_NAME=$(get_cn_name "$_pubkey")
-                echo "$CUPS_SERVER_NAME" > /etc/hostname
-
+                # CUPS_SERVER_NAME=$(get_cn_name "$_pubkey")
+                CUPS_SERVER_NAME=homeassistant
 
                 CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
                 CUPS_PRIVATE_KEY_HA_PATH="$_privkey"
