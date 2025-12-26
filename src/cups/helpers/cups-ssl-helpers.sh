@@ -85,7 +85,8 @@ function get_keys () {
                 # get the CN name from the public key
 
                 # CUPS_SERVER_NAME=$(get_cn_name "$_pubkey")
-                CUPS_SERVER_NAME=homeassistant
+
+                CUPS_SERVER_NAME=$(hostname --all-fqdns | awk '{print $1}')
 
                 CUPS_PUBLIC_KEY_HA_PATH="$_pubkey"
                 CUPS_PRIVATE_KEY_HA_PATH="$_privkey"
