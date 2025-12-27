@@ -2,9 +2,9 @@
 # FILE IS PARTIALLY OVERWRITTEN AT Startup
 ###########################################
 
-#ServerName localhost:631
 AllowAnyRoot Yes
 AllowExpiredCerts Yes
+# The following line is OVERWRITTEN
 Encryption {{.CUPS_ENCRYPTION}}
 SSLOptions AllowRC4 AllowSSL3
 TrustOnFirstUse Yes

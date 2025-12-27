@@ -6,6 +6,7 @@ ulimit -n 524288
 
 debug_flag="false"
 if bashio::config.has_value 'AVAHI_SETTINGS.AVAHI_DEBUG'; then
+    bashio::log.info "Setting Avahi debug flag"
     debug_flag=$(bashio::config 'AVAHI_SETTINGS.AVAHI_DEBUG')
 else
     debug_flag="false"

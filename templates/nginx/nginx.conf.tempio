@@ -28,13 +28,6 @@ http {
 	default_type application/octet-stream;
 
 	##
-	# SSL Settings
-	##
-
-	# ssl_protocols TLSv1.2 TLSv1.3; # Dropping SSLv3 (POODLE), TLS 1.0, 1.1
-	# ssl_prefer_server_ciphers off; # Don't force server cipher order.
-
-	##
 	# Logging Settings
 	##
 	access_log  {{.nginx_access_log_location}};
@@ -43,11 +36,6 @@ http {
 	# Gzip Settings
 	##
 	gzip on;
-
-	# gzip_vary on;
-	# gzip_proxied any;
-	# gzip_comp_level 6;
-	# gzip_buffers 16 8k;
     gzip_http_version 1.1;
 	gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 

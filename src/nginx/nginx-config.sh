@@ -23,43 +23,9 @@ function linter() {
     source "../../lint/nginx-settings.lint"
 }
 
-function log_info() {
-    ingress=$(bashio::addon.ingress)
-    bashio::log.info "ingress $ingress"
-
-    ingress_entry=$(bashio::addon.ingress_entry)
-    bashio::log.info "ingress_entry $ingress_entry"
-
-    ingress_url=$(bashio::addon.ingress_url)
-    bashio::log.info "ingress_url $ingress_url"
-
-    ingress_port=$(bashio::addon.ingress_port)
-    bashio::log.info "ingress_port $ingress_port"
-
-    addon_name=$(bashio::addon.name)
-    bashio::log.info "addon_name $addon_name"
-
-    addon_url=$(bashio::addon.url)
-    bashio::log.info "addon_url $addon_url"
-
-    addon_hostname=$(bashio::addon.hostname)
-    bashio::log.info "addon_hostname $addon_hostname"
-
-    addon_dns=$(bashio::addon.dns)
-    bashio::log.info "addon_dns $addon_dns"
-
-    addon_repository=$(bashio::addon.repository)
-    bashio::log.info "addon_repository $addon_repository"
-
-    addon_ip_address=$(bashio::addon.ip_address)
-    bashio::log.info "addon_ip_address $addon_ip_address"
-}
-
 function run() {
     load_sources
-    log_info
     setup
-
     setup_autoconf
 
     if [ ! -e "$nginx_config_path/$nginx_conf" ]; then
@@ -83,10 +49,6 @@ function setup() {
     ingress_port=$(bashio::addon.ingress_port)
 
     setup_nginx_logging
-    NGINX_PROTO=""
-    nginx_ssl_cert=""
-    nginx_ssl_key=""
-    #setup_nginx_ssl
 }
 
 function setup_autoconf() {
@@ -98,10 +60,7 @@ function setup_autoconf() {
             --arg ingress_port "$ingress_port" \
             --arg nginx_log_location "$NGINX_ERROR_LOG_LOCATION" \
             --arg nginx_log_level "$NGINX_LOG_LEVEL_SETTING" \
-            --arg nginx_proto "$NGINX_PROTO" \
             --arg nginx_access_log_location "$NGINX_ACCESS_LOG_LOCATION" \
-            --arg nginx_ssl_cert "$nginx_ssl_cert" \
-            --arg nginx_ssl_key "$nginx_ssl_key" \
             '{
                 host_name: $host_name,
                 ingress_entry: $ingress_entry,
@@ -109,10 +68,7 @@ function setup_autoconf() {
                 ingress_port: $ingress_port,
                 nginx_log_location: $nginx_log_location,
                 nginx_log_level: $nginx_log_level,
-                nginx_access_log_location: $nginx_access_log_location,
-                nginx_proto : $nginx_proto,
-                nginx_ssl_cert: $nginx_ssl_cert,
-                nginx_ssl_key: $nginx_ssl_key
+                nginx_access_log_location: $nginx_access_log_location
             }' /data/options.json
     )
 }
