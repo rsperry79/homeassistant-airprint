@@ -25,7 +25,6 @@ map:
   - type: share
     read_only: false
     path: /share
-
   - type: homeassistant_config
     read_only: true
     path: /homeassistant
@@ -36,7 +35,7 @@ map:
 # Backup settings
 backup_exclude:
   - "/config/apt-cache"
-  - "**/*.log"
+  - "/config/**/*.log"
 
 # HA API
 hassio_role: default
