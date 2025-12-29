@@ -14,11 +14,10 @@ startup: system
 usb: true
 init: false
 host_dbus: true
-host_network: true
+host_network: false
 ports:
   631/tcp: 631
   631/udp: 631
-  5353/udp: 5353
 map:
   - type: addon_config
     read_only: false
