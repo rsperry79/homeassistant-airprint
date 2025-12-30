@@ -57,6 +57,30 @@ options:
     - USERNAME: print
       PASSWORD: "print"
       USER_LEVEL: superuser
+  AVAHI_SETTINGS:
+    AVAHI_DEBUG: false
+    AVAHI_REFLECTOR: true
+    AVAHI_REFLECTOR_IPV: false
+    AVAHI_USE_IPV6: true
+  CUPS_SETTINGS:
+    CUPS_ENCRYPTION: IfRequested
+    CUPS_SNMP_COMMUNITY: public
+  CUSTOM_PACKAGES:
+    RUN_CUSTOM_INST_SCRIPT: true
+    INSTALL_RECOMMENDS: false
+    PACKAGES: []
+    PACKAGE_DEBUG: false
+  CUPS_LOGGING:
+    CUPS_FATAL_ERROR_LEVEL: permissions
+    CUPS_LOG_TO_FILE: false
+    CUPS_LOG_LEVEL: error
+    CUPS_ACCESS_LOG_TO_FILE: false
+    CUPS_ACCESS_LOG_LEVEL: all
+  NGINX_LOGGING:
+    NGINX_ERROR_LOG_TO_FILE: false
+    NGINX_ACCESS_LOG_TO_FILE: false
+    NGINX_LOG_LEVEL: error
+
 schema:
   LOGINS:
     - USERNAME: str
