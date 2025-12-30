@@ -1,5 +1,7 @@
 #!/command/with-contenv bashio
 export package_dir=/config/packages
+# shellcheck source="./script-helpers.sh"
+source "/config/packages/script-helpers.sh"
 
 function run() {
     install_9970
