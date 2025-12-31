@@ -61,7 +61,7 @@ options:
     AVAHI_DEBUG: false
     AVAHI_REFLECTOR: true
     AVAHI_REFLECTOR_IPV: false
-    AVAHI_USE_IPV6: true
+    AVAHI_USE_IPV6: false
   CUPS_SETTINGS:
     CUPS_ENCRYPTION: IfRequested
     CUPS_SNMP_COMMUNITY: public
