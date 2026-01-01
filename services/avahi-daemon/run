@@ -12,6 +12,11 @@ else
     debug_flag="false"
 fi
 
+until [ -e  /run/dbus/system_bus_socket ]; do
+    bashio::log.info "Waiting for dbus daemon before installing custom script"
+    sleep 10s
+done
+
 bashio::log.info "Starting Avahi daemon from S6"
 if [ "$debug_flag" == "true" ]; then
     avahi-daemon --debug --file="$avahi_config_path"/"$avahi_daemon"
