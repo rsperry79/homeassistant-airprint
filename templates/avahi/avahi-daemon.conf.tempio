@@ -43,6 +43,7 @@ enable-dbus=no
 #entries-per-entry-group-max=32
 ratelimit-interval-usec=1000000
 ratelimit-burst=1000
+check-response-ttl=no
 
 [wide-area]
 enable-wide-area=yes
