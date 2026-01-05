@@ -9,7 +9,8 @@ source "/opt/common/paths/avahi-paths.sh"
 
 function update_interfaces() {
     local bcast_interfaces=${1}
-    sed -i "s/^.*allow-interfaces=.*/allow-interfaces=${bcast_interfaces}/" "$avahi_config_path/$avahi_daemon"
+    # TODO: re-enable interface restriction if needed
+    # sed -i "s/^.*allow-interfaces=.*/allow-interfaces=${bcast_interfaces}/" "$avahi_config_path/$avahi_daemon"
 }
 
 function update_reflectors() {
