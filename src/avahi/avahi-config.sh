@@ -50,8 +50,9 @@ function setup() {
 
 # Uses the template to regenerate the configuration file. Ensures a clean file.
 function autoconf_config() {
+    server_fqdn="$(hostname -f)"
     config=$(jq \
-        --arg host_name "$host" \
+        --arg host_name "$server_fqdn" \
         --arg AVAHI_USE_IPV6 "$AVAHI_USE_IPV6" \
         --arg AVAHI_REFLECTOR "$AVAHI_REFLECTOR_FLAG" \
         --arg AVAHI_REFLECTOR_IPV "$AVAHI_REFLECTOR_IPV" \
